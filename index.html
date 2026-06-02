@@ -79,14 +79,13 @@ const ANONS = ['하노이 출신','호치민 출신','다낭 출신','제조업 
 const AVATAR_COLORS = ['bg-blue-500','bg-green-500','bg-purple-500','bg-orange-500','bg-teal-500','bg-pink-500','bg-red-500','bg-indigo-500'];
 
 function genAuthor() {
-  const nickname = window.userNickname || localStorage.getItem('user_nickname');
-  console.log('🎯 genAuthor() 호출 - nickname:', nickname);
+  const nickname = window.userNickname;
   if (nickname) {
-    console.log('✅ 닉네임 사용:', nickname);
+    console.log('✅ genAuthor - 닉네임 사용:', nickname);
     return nickname;
   }
   const anonymous = `${ANONS[Math.floor(Math.random()*ANONS.length)]} #${Math.floor(Math.random()*900)+100}`;
-  console.log('❌ 익명 사용:', anonymous);
+  console.log('⚪ genAuthor - 익명 사용:', anonymous);
   return anonymous;
 }
 function genColor()  { return AVATAR_COLORS[Math.floor(Math.random()*AVATAR_COLORS.length)]; }
@@ -3858,18 +3857,18 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
     if (!id) { id = String(Math.floor(Math.random()*900)+100); localStorage.setItem('vb_anon_id', id); }
     return id;
   });
-  const savedNickname = window.userNickname || localStorage.getItem('user_nickname');
+  const [refreshKey, setRefreshKey] = useState(0);
+  const savedNickname = window.userNickname;
 
   const handleNicknameSave = () => {
     if (nicknameInput.trim()) {
       const nickname = nicknameInput.trim();
-      console.log('💾 닉네임 저장:', nickname);
       window.userNickname = nickname;
       localStorage.setItem('user_nickname', nickname);
-      console.log('✅ 저장 완료 - window.userNickname:', window.userNickname);
+      console.log('✅ 닉네임 저장:', window.userNickname);
       setShowNicknameModal(false);
       setNicknameInput('');
-      window.location.reload();
+      setRefreshKey(k => k + 1);
     }
   };
 
