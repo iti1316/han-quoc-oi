@@ -360,6 +360,7 @@ function PwModal({ lang, onConfirm, onCancel }) {
 function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateComment, deviceId }) {
   const L = LANG[lang];
   const comments = post.commentsData || [];
+  console.log('CommentSection - deviceId:', deviceId, 'comments:', comments);
 
   const [body, setBody]       = useState('');
   const [delModal, setDelModal] = useState(null); // comment object to delete
