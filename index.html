@@ -562,17 +562,13 @@ function PostCard({ post, lang = 'vi', onDelete, onEdit, onAddComment, onDeleteC
     setAct(same ? null : type);
   }
 
-  function handlePwConfirm(pw, onFail) {
-    if (!post.pw || pw !== post.pw) { onFail(); return; }
+  function handleAction() {
     if (modal === 'delete') {
       setModal(null);
       onDelete && onDelete(post.id);
     } else if (modal === 'edit') {
       setModal(null);
       onEdit && onEdit(post);
-    } else if (modal === 'view') {
-      setModal(null);
-      setUnlocked(true);
     }
   }
 
@@ -633,15 +629,9 @@ function PostCard({ post, lang = 'vi', onDelete, onEdit, onAddComment, onDeleteC
               <p className="text-[10px] text-gray-400">{post.date}</p>
             </div>
             {post.isNew && <span className="text-[9px] font-black text-white bg-red-500 px-1.5 py-0.5 rounded-full">NEW</span>}
-            {/* 수정/삭제 버튼 — 비밀번호가 있는 글만 표시 */}
-            {post.pw && (
+            {/* 수정/삭제 버튼 — 자신의 글일 때만 표시 (deviceId 확인) */}
+            {post.deviceId === deviceId && (
               <div className="flex gap-1 ml-1">
-                {unlocked && (
-                  <button onClick={() => setUnlocked(false)}
-                    className="text-[10px] text-gray-400 hover:text-gray-600 border border-gray-200 px-2 py-0.5 rounded-lg tap transition">
-                    🔒
-                  </button>
-                )}
                 <button onClick={() => setModal('edit')}
                   className="text-[10px] text-blue-400 hover:text-blue-600 border border-blue-100 hover:border-blue-300 px-2 py-0.5 rounded-lg tap transition">
                   {L.editBtn}
@@ -690,12 +680,27 @@ function PostCard({ post, lang = 'vi', onDelete, onEdit, onAddComment, onDeleteC
           deviceId={deviceId} />
       )}
 
-      {/* 비밀번호 모달 */}
-      {modal && (
-        <PwModal lang={lang}
-          onConfirm={handlePwConfirm}
-          onCancel={() => setModal(null)} />
+      {/* 삭제 확인 모달 */}
+      {modal === 'delete' && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-end justify-center fade-in" onClick={() => setModal(null)}>
+          <div className="bg-white rounded-t-3xl w-full max-w-lg px-6 pt-6 pb-10 shadow-2xl" onClick={e=>e.stopPropagation()}>
+            <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5"></div>
+            <p className="text-sm font-black text-gray-800 mb-3">{lang==='vi'?'Xóa bài viết?':'글을 삭제하시겠어요?'}</p>
+            <p className="text-xs text-gray-500 mb-4">{lang==='vi'?'이 작업은 되돌릴 수 없습니다':'Hành động này không thể được hoàn tác'}</p>
+            <div className="grid grid-cols-2 gap-2">
+              <button onClick={() => setModal(null)}
+                className="py-3.5 border border-gray-200 rounded-2xl text-sm font-bold text-gray-500 bg-white tap transition">
+                {lang==='vi'?'Hủy':'취소'}
+              </button>
+              <button onClick={handleAction}
+                className="py-3.5 bg-red-600 text-white rounded-2xl text-sm font-black tap transition">
+                {lang==='vi'?'Xóa':'삭제'}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
+      {modal === 'edit' && handleAction()}
     </>
   );
 }
