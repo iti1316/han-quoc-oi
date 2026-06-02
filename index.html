@@ -416,14 +416,14 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
     };
     setComments([...comments, newComment]);
     setBody('');
-    onAddComment(newComment);
+    onAddComment(post.id, newComment);
   }
 
   function handleDelete(c) {
     if (c.deviceId !== localDeviceId) { alert(lang==='vi'?'Chỉ có thể xóa bình luận của chính bạn':'자신의 댓글만 삭제할 수 있습니다'); return; }
     const newComments = comments.filter(cmt => cmt.id !== c.id);
     setComments(newComments);
-    onDeleteComment(c.id);
+    onDeleteComment(post.id, c.id);
   }
 
   function handleEditStart(c) {
@@ -438,7 +438,7 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
       c.id === editModal.id ? { ...c, body: editBody.trim() } : c
     );
     setComments(newComments);
-    onUpdateComment(editModal.id, { body: editBody.trim() });
+    onUpdateComment(post.id, editModal.id, { body: editBody.trim() });
     setEditModal(null);
     setEditBody('');
   }
