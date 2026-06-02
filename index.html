@@ -4829,6 +4829,7 @@ function App() {
   function toggleLang() { setLang(l => l === 'vi' ? 'ko' : 'vi'); }
 
   const shared = { nav, posts, lang, onAddPost:addPost, onDeletePost:deletePost, onUpdatePost:updatePost, onAddComment:addComment, onDeleteComment:deleteComment, onUpdateComment:updateComment, deviceId };
+  console.log('shared object:', shared);
 
   switch (route.page) {
     case 'guide':     return <GuidePage     type={route.param}     onBack={()=>nav({page:'home'})} lang={lang} />;
