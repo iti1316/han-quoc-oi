@@ -4830,6 +4830,7 @@ function App() {
 
   const shared = { nav, posts, lang, onAddPost:addPost, onDeletePost:deletePost, onUpdatePost:updatePost, onAddComment:addComment, onDeleteComment:deleteComment, onUpdateComment:updateComment, deviceId };
   console.log('shared object:', shared);
+  console.log('shared.deviceId:', shared.deviceId);
 
   switch (route.page) {
     case 'guide':     return <GuidePage     type={route.param}     onBack={()=>nav({page:'home'})} lang={lang} />;
