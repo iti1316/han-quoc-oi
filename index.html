@@ -255,11 +255,34 @@ function usePosts() {
     }
     catch { return defaultPosts(); }
   });
-  const save = (next) => { setPosts(next); localStorage.setItem(BOARD_STORE, JSON.stringify(next)); };
+  const save = (next) => {
+    setPosts(next);
+    localStorage.setItem(BOARD_STORE, JSON.stringify(next));
+    // Firebase Realtime Database에 저장
+    if (window.database) {
+      window.database.ref('posts').set(next).catch(e => console.error('Firebase save error:', e));
+    }
+  };
   const addPost    = (p)         => save([p, ...posts]);
   const deletePost = (id)        => save(posts.filter(p => p.id !== id));
   const updatePost = (id, edits) => save(posts.map(p => p.id === id ? { ...p, ...edits } : p));
   const canEditPost = (p) => p.deviceId === deviceId;
+
+  // Firebase에서 데이터 불러오기
+  useEffect(() => {
+    if (window.database) {
+      window.database.ref('posts').on('value', (snapshot) => {
+        const firebaseData = snapshot.val();
+        if (firebaseData) {
+          const postsArray = Array.isArray(firebaseData) ? firebaseData : Object.values(firebaseData);
+          setPosts(postsArray);
+          localStorage.setItem(BOARD_STORE, JSON.stringify(postsArray));
+        }
+      }, (error) => {
+        console.error('Firebase load error:', error);
+      });
+    }
+  }, []);
 
   function addComment(postId, comment) {
     save(posts.map(p => {
