@@ -78,6 +78,19 @@ const BOARD_STORE = 'vb_posts_v2';
 const ANONS = ['하노이 출신','호치민 출신','다낭 출신','제조업 종사자','비자 도전 중','서류 준비 중','D-9 유저','출입국 단골','익명의 버디','베트남 멤버','비자 준비 중','출입국 도전자'];
 const AVATAR_COLORS = ['bg-blue-500','bg-green-500','bg-purple-500','bg-orange-500','bg-teal-500','bg-pink-500','bg-red-500','bg-indigo-500'];
 
+/* 페이지 로드 시 localStorage에서 닉네임 복원 */
+(function() {
+  try {
+    const saved = localStorage.getItem('user_nickname');
+    if (saved) {
+      window.userNickname = saved;
+      console.log('🔄 페이지 로드: localStorage에서 닉네임 복원:', saved);
+    }
+  } catch (e) {
+    console.log('💡 localStorage 사용 불가 (file:// 프로토콜)');
+  }
+})();
+
 function genAuthor() {
   const nickname = window.userNickname;
   if (nickname) {
@@ -3914,7 +3927,14 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
     if (nicknameInput.trim()) {
       const nickname = nicknameInput.trim();
       window.userNickname = nickname;
-      console.log('✅ 닉네임 저장됨:', nickname, '- genAuthor() 테스트:', genAuthor());
+      // localStorage에도 저장 (새로고침 후에도 유지하기 위해)
+      try {
+        localStorage.setItem('user_nickname', nickname);
+        console.log('✅ 닉네임 저장됨 (localStorage):', nickname);
+      } catch (e) {
+        console.warn('⚠️ localStorage 저장 실패 (file:// 프로토콜):', e.message);
+      }
+      console.log('✅ window.userNickname 설정됨:', nickname, '- genAuthor() 테스트:', genAuthor());
       setShowNicknameModal(false);
       setNicknameInput('');
       setRefreshKey(k => k + 1);
