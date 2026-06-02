@@ -414,29 +414,16 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
       body:   body.trim(),
       deviceId: localDeviceId,
     };
-    const newComments = [...comments, newComment];
-    setComments(newComments);
+    setComments([...comments, newComment]);
     setBody('');
-
-    // localStorage 업데이트
-    const posts = JSON.parse(localStorage.getItem('vb_posts_v2') || '[]');
-    const updated = posts.map(p =>
-      p.id === post.id ? { ...p, commentsData: newComments } : p
-    );
-    localStorage.setItem('vb_posts_v2', JSON.stringify(updated));
+    onAddComment(newComment);
   }
 
   function handleDelete(c) {
     if (c.deviceId !== localDeviceId) { alert(lang==='vi'?'Chỉ có thể xóa bình luận của chính bạn':'자신의 댓글만 삭제할 수 있습니다'); return; }
     const newComments = comments.filter(cmt => cmt.id !== c.id);
     setComments(newComments);
-
-    // localStorage 업데이트
-    const posts = JSON.parse(localStorage.getItem('vb_posts_v2') || '[]');
-    const updated = posts.map(p =>
-      p.id === post.id ? { ...p, commentsData: newComments } : p
-    );
-    localStorage.setItem('vb_posts_v2', JSON.stringify(updated));
+    onDeleteComment(c.id);
   }
 
   function handleEditStart(c) {
@@ -447,25 +434,13 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
 
   function handleEditSave() {
     if (!editModal || !editBody.trim()) return;
-    try {
-      const newComments = comments.map(c =>
-        c.id === editModal.id ? { ...c, body: editBody.trim() } : c
-      );
-      setComments(newComments);
-
-      // localStorage 업데이트
-      const posts = JSON.parse(localStorage.getItem('vb_posts_v2') || '[]');
-      const updated = posts.map(p =>
-        p.id === post.id ? { ...p, commentsData: newComments } : p
-      );
-      localStorage.setItem('vb_posts_v2', JSON.stringify(updated));
-
-      setEditModal(null);
-      setEditBody('');
-    } catch (e) {
-      console.error('Edit error:', e);
-      alert('댓글 수정에 실패했습니다');
-    }
+    const newComments = comments.map(c =>
+      c.id === editModal.id ? { ...c, body: editBody.trim() } : c
+    );
+    setComments(newComments);
+    onUpdateComment(editModal.id, { body: editBody.trim() });
+    setEditModal(null);
+    setEditBody('');
   }
 
   return (
