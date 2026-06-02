@@ -79,8 +79,8 @@ const ANONS = ['하노이 출신','호치민 출신','다낭 출신','제조업 
 const AVATAR_COLORS = ['bg-blue-500','bg-green-500','bg-purple-500','bg-orange-500','bg-teal-500','bg-pink-500','bg-red-500','bg-indigo-500'];
 
 function genAuthor() {
-  const nickname = localStorage.getItem('user_nickname');
-  console.log('🎯 genAuthor() 호출 - localStorage.user_nickname:', nickname);
+  const nickname = window.userNickname || localStorage.getItem('user_nickname');
+  console.log('🎯 genAuthor() 호출 - nickname:', nickname);
   if (nickname) {
     console.log('✅ 닉네임 사용:', nickname);
     return nickname;
@@ -3849,13 +3849,15 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
     if (!id) { id = String(Math.floor(Math.random()*900)+100); localStorage.setItem('vb_anon_id', id); }
     return id;
   });
-  const savedNickname = localStorage.getItem('user_nickname');
+  const savedNickname = window.userNickname || localStorage.getItem('user_nickname');
 
   const handleNicknameSave = () => {
     if (nicknameInput.trim()) {
-      console.log('💾 닉네임 저장 시작:', nicknameInput.trim());
-      localStorage.setItem('user_nickname', nicknameInput.trim());
-      console.log('✅ localStorage에 저장됨:', localStorage.getItem('user_nickname'));
+      const nickname = nicknameInput.trim();
+      console.log('💾 닉네임 저장:', nickname);
+      window.userNickname = nickname;
+      localStorage.setItem('user_nickname', nickname);
+      console.log('✅ 저장 완료 - window.userNickname:', window.userNickname);
       setShowNicknameModal(false);
       setNicknameInput('');
       window.location.reload();
