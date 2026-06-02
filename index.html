@@ -298,9 +298,13 @@ function usePosts() {
       .then(res => res.json())
       .then(data => {
         if (data && Array.isArray(data)) {
-          setPosts(data);
-          localStorage.setItem(BOARD_STORE, JSON.stringify(data));
-          console.log('✅ Firebase load success');
+          setPosts(prev => {
+            const localOnly = prev.filter(p => !data.some(fb => fb.id === p.id));
+            const merged = [...localOnly, ...data];
+            localStorage.setItem(BOARD_STORE, JSON.stringify(merged));
+            console.log('✅ Firebase load success - merged:', localOnly.length, 'local posts preserved');
+            return merged;
+          });
         }
       })
       .catch(e => console.error('❌ Firebase load error:', e));
