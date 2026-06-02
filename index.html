@@ -2762,6 +2762,23 @@ function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDe
                 <p className="text-xs font-bold text-gray-700">{safeAuthor(post)}</p>
                 <p className="text-[10px] text-gray-400">{post.date}</p>
               </div>
+              {post.deviceId === deviceId && (
+                <div className="flex gap-1 ml-2 flex-shrink-0">
+                  <button onClick={() => nav({ page:'write', param:post.cat, editPost:post })}
+                    className="text-[10px] text-blue-400 hover:text-blue-600 border border-blue-100 hover:border-blue-300 px-2 py-0.5 rounded tap transition">
+                    {lang==='vi'?'Sửa':'수정'}
+                  </button>
+                  <button onClick={() => {
+                    if (confirm(lang==='vi'?'Xóa bài viết?':'글을 삭제하시겠어요?')) {
+                      onDeletePost(post.id);
+                      nav({page:'classicBoard', param:boardKey});
+                    }
+                  }}
+                    className="text-[10px] text-red-400 hover:text-red-600 border border-red-100 hover:border-red-300 px-2 py-0.5 rounded tap transition">
+                    {lang==='vi'?'Xóa':'삭제'}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
