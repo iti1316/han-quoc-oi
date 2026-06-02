@@ -101,6 +101,15 @@ function getDeviceId() {
   return deviceId;
 }
 
+/* 페이지 로드 시 localStorage에서 닉네임 복원 */
+if (typeof window !== 'undefined') {
+  const saved = localStorage.getItem('user_nickname');
+  if (saved) {
+    window.userNickname = saved;
+    console.log('🔄 닉네임 복원됨:', window.userNickname);
+  }
+}
+
 /* ────────────────────────────────────────────────────────────
    🔒 렌더 레이어 익명화 — 2중 보안
    저장된 author 값이 허용 패턴과 다르면 (예: 실제 이름·ID가
