@@ -3104,7 +3104,7 @@ function HotFeed({ posts, nav, lang }) {
 
   /* 실시간 랭킹: 참여도 × 시간 가중치 */
   const hotItems = [...posts]
-    .filter(p => p.isPublic !== false)
+    .filter(p => p.isPublic !== false && p.title && p.id && p.cat)
     .map(p => {
       const d   = ageDays(p);
       const eng = (p.likes||0)+(p.hearts||0)+(p.wows||0) + (p.commentsData?.length||p.comments||0)*2;
@@ -3113,7 +3113,10 @@ function HotFeed({ posts, nav, lang }) {
     })
     .sort((a,b) => b._sc - a._sc)
     .slice(0, 10)
-    .map(p => ({ post: p, ...(BOARD_LOOKUP[p.cat] || BOARD_HOT_CFG[2]) }));
+    .map(p => {
+      const boardInfo = BOARD_LOOKUP[p.cat] || BOARD_HOT_CFG[2];
+      return { post: p, ...boardInfo };
+    });
 
   return (
     <section className="mt-3 px-3">
@@ -3185,8 +3188,12 @@ function HotFeed({ posts, nav, lang }) {
 /* ── 최신글 피드 ── */
 function LatestFeed({ posts, nav, lang }) {
   const latestPosts = [...posts]
-    .filter(p => p.isPublic !== false)
-    .sort((a, b) => (b.date||'').localeCompare(a.date||''))
+    .filter(p => p.isPublic !== false && p.title && p.id)
+    .sort((a, b) => {
+      const aDate = (a.date||'').replace(/\./g, '-');
+      const bDate = (b.date||'').replace(/\./g, '-');
+      return new Date(bDate).getTime() - new Date(aDate).getTime();
+    })
     .slice(0, 5);
 
   return (
