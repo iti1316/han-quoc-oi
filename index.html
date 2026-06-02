@@ -259,8 +259,16 @@ function usePosts() {
     setPosts(next);
     localStorage.setItem(BOARD_STORE, JSON.stringify(next));
     // Firebase Realtime Database에 저장
-    if (window.database) {
-      window.database.ref('posts').set(next).catch(e => console.error('Firebase save error:', e));
+    try {
+      if (window.database) {
+        window.database.ref('posts').set(next)
+          .then(() => console.log('Firebase save success'))
+          .catch(e => console.error('Firebase save error:', e));
+      } else {
+        console.warn('Firebase database not initialized yet');
+      }
+    } catch (e) {
+      console.error('Firebase save exception:', e);
     }
   };
   const addPost    = (p)         => save([p, ...posts]);
