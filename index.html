@@ -279,23 +279,37 @@ function usePosts() {
     console.log('🟢 Total saves:', window.postsSaved);
 
     setPosts(next);
-    localStorage.setItem(BOARD_STORE, JSON.stringify(next));
-    console.log('💾 LocalStorage saved - 첫 글 author:', next[0]?.author);
 
-    // Firebase REST API로 저장
+    // localStorage 사용 (fallback용, file:// 프로토콜에서는 제한될 수 있음)
+    try {
+      localStorage.setItem(BOARD_STORE, JSON.stringify(next));
+      console.log('💾 LocalStorage saved - 첫 글 author:', next[0]?.author);
+    } catch (e) {
+      console.warn('⚠️ LocalStorage 사용 불가:', e.message);
+    }
+
+    // Firebase REST API로 저장 (메인 저장소)
     const firebaseUrl = 'https://han-quoc-oi-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json';
     console.log('🌐 Sending to Firebase...');
     fetch(firebaseUrl, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(next)
+      body: JSON.stringify(next),
+      timeout: 10000
     })
       .then(res => {
         console.log('📡 Firebase response:', res.status);
-        if (res.ok) console.log('✅ Firebase save success');
-        else console.error('❌ Firebase error:', res.statusText);
+        if (res.ok) {
+          console.log('✅ Firebase save success');
+          return res.json();
+        } else {
+          throw new Error(`Firebase error: ${res.statusText}`);
+        }
       })
-      .catch(e => console.error('❌ Firebase fetch error:', e));
+      .catch(e => {
+        console.error('❌ Firebase save failed:', e.message);
+        console.warn('⚠️ 로컬 데이터는 저장됨. 다음 새로고침 시 firebase와 동기화됨.');
+      });
   };
   const addPost    = (p)         => {
     console.log('📌 addPost 호출 - 저장할 글:', { id: p.id, author: p.author, title: p.title });
@@ -308,20 +322,47 @@ function usePosts() {
   // Firebase REST API에서 데이터 불러오기
   useEffect(() => {
     const firebaseUrl = 'https://han-quoc-oi-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json';
-    fetch(firebaseUrl)
+    fetch(firebaseUrl, { timeout: 10000 })
       .then(res => res.json())
       .then(data => {
-        if (data && Array.isArray(data)) {
-          setPosts(prev => {
-            const localOnly = prev.filter(p => !data.some(fb => fb.id === p.id));
-            const merged = [...localOnly, ...data];
-            localStorage.setItem(BOARD_STORE, JSON.stringify(merged));
-            console.log('✅ Firebase load success - merged:', localOnly.length, 'local posts preserved');
-            return merged;
-          });
+        // 데이터 검증: null 체크, 배열 확인, 각 항목 검증
+        if (!data) {
+          console.log('✅ Firebase: 데이터 없음 (초기 상태)');
+          return;
         }
+
+        if (!Array.isArray(data)) {
+          console.warn('⚠️ Firebase 데이터가 배열이 아님:', typeof data);
+          return;
+        }
+
+        // 각 항목 검증 (id와 author 필수)
+        const validData = data.filter(p => p && p.id != null && p.author);
+        console.log(`✅ Firebase load: ${data.length}개 중 ${validData.length}개 유효`);
+
+        setPosts(prev => {
+          // id를 string으로 정규화해서 비교 (안전성 향상)
+          const localOnly = prev.filter(p =>
+            !validData.some(fb => String(fb.id) === String(p.id))
+          );
+
+          const merged = [...localOnly, ...validData];
+          console.log('✅ Firebase load success - merged:', localOnly.length, 'local posts preserved');
+
+          // localStorage 업데이트 시도 (실패해도 괜찮음)
+          try {
+            localStorage.setItem(BOARD_STORE, JSON.stringify(merged));
+          } catch (e) {
+            console.warn('⚠️ Firebase로드 후 localStorage 업데이트 실패');
+          }
+
+          return merged;
+        });
       })
-      .catch(e => console.error('❌ Firebase load error:', e));
+      .catch(e => {
+        console.error('❌ Firebase load error:', e.message);
+        console.log('💡 로컬 데이터 사용 중. 다음 저장 시 firebase와 동기화됩니다.');
+      });
   }, []);
 
   function addComment(postId, comment) {
@@ -4687,9 +4728,18 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
   const [author, setAuthor] = useState(() => genAuthor());
 
   useEffect(() => {
+    // WritePage 마운트 시 author 설정
     const latest = genAuthor();
     setAuthor(latest);
-    console.log('🔄 WritePage: author 업데이트:', latest);
+    console.log('🔄 WritePage: author 초기 설정:', latest);
+
+    // 주기적으로 최신 nickname 확인 (1초마다)
+    const interval = setInterval(() => {
+      const current = genAuthor();
+      setAuthor(current);
+    }, 1000);
+
+    return () => clearInterval(interval);
   }, []);
   /* 지역 선택 (travel/market/house) */
   const [sido,    setSido]    = useState(editPost?.location?.sido    || '');
