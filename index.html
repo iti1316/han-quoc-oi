@@ -80,8 +80,14 @@ const AVATAR_COLORS = ['bg-blue-500','bg-green-500','bg-purple-500','bg-orange-5
 
 function genAuthor() {
   const nickname = localStorage.getItem('user_nickname');
-  if (nickname) return nickname;
-  return `${ANONS[Math.floor(Math.random()*ANONS.length)]} #${Math.floor(Math.random()*900)+100}`;
+  console.log('🎯 genAuthor() 호출 - localStorage.user_nickname:', nickname);
+  if (nickname) {
+    console.log('✅ 닉네임 사용:', nickname);
+    return nickname;
+  }
+  const anonymous = `${ANONS[Math.floor(Math.random()*ANONS.length)]} #${Math.floor(Math.random()*900)+100}`;
+  console.log('❌ 익명 사용:', anonymous);
+  return anonymous;
 }
 function genColor()  { return AVATAR_COLORS[Math.floor(Math.random()*AVATAR_COLORS.length)]; }
 
@@ -3847,7 +3853,9 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
 
   const handleNicknameSave = () => {
     if (nicknameInput.trim()) {
+      console.log('💾 닉네임 저장 시작:', nicknameInput.trim());
       localStorage.setItem('user_nickname', nicknameInput.trim());
+      console.log('✅ localStorage에 저장됨:', localStorage.getItem('user_nickname'));
       setShowNicknameModal(false);
       setNicknameInput('');
       window.location.reload();
@@ -4712,8 +4720,10 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
         ...(imgs ? { images: imgs }  : {}),
       });
     } else {
+      const author = genAuthor();
+      console.log('📝 WritePage: 새 글 작성 - author:', author);
       onAddPost({
-        id: Date.now(), cat, author: genAuthor(), deviceId,
+        id: Date.now(), cat, author, deviceId,
         date: new Date().toLocaleDateString('ko-KR'),
         title: title.trim(), body: body.trim(),
         likes:0, hearts:0, wows:0, comments:0, isNew:true,
