@@ -498,6 +498,7 @@ function SkeletonRow() {
 
 /* 게시글 카드 */
 function PostCard({ post, lang = 'vi', onDelete, onEdit, onAddComment, onDeleteComment, onUpdateComment, deviceId }) {
+  console.log('PostCard - deviceId:', deviceId);
   const [r, setR]           = useState({ likes:post.likes, hearts:post.hearts, wows:post.wows });
   const [act, setAct]       = useState(null);
   const [modal, setModal]   = useState(null); // 'edit' | 'delete' | 'view' | null
@@ -4356,6 +4357,7 @@ function DocsPage({ onBack, lang }) {
    페이지: 게시판 전체보기
 ================================================================ */
 function BoardPage({ cat, nav, posts, lang = 'vi', onDeletePost, onUpdatePost, onAddComment, onDeleteComment, onUpdateComment, deviceId }) {
+  console.log('BoardPage - deviceId:', deviceId);
   const m = BOARD_META[cat];
   const filtered = posts.filter(p=>p.cat===cat);
   const L = LANG[lang];
