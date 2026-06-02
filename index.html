@@ -373,6 +373,7 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
       author: genAuthor(),
       date:   new Date().toLocaleDateString('ko-KR'),
       body:   body.trim(),
+      deviceId: deviceId,
     });
     setBody('');
   }
