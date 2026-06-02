@@ -2698,7 +2698,7 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
 }
 
 /* ── 게시글 상세 페이지 ── */
-function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDeleteComment }) {
+function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDeleteComment, onUpdateComment, onDeletePost, onEditPost, deviceId }) {
   const post = posts.find(p => p.id === postId || p.id === Number(postId));
   const cfg  = CLASSIC_BOARD_CFG[boardKey];
 
@@ -2822,7 +2822,7 @@ function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDe
 
           {/* 댓글 */}
           <CommentSection post={post} lang={lang}
-            onAddComment={onAddComment} onDeleteComment={onDeleteComment} />
+            onAddComment={onAddComment} onDeleteComment={onDeleteComment} onUpdateComment={onUpdateComment} deviceId={deviceId} />
         </div>
 
         <button onClick={()=>nav({page:'classicBoard', param:boardKey})}
