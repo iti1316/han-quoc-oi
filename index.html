@@ -256,19 +256,21 @@ function usePosts() {
     catch { return defaultPosts(); }
   });
   const save = (next) => {
+    console.log('Save function called', { hasFirebase: !!window.database, postsCount: next.length });
     setPosts(next);
     localStorage.setItem(BOARD_STORE, JSON.stringify(next));
     // Firebase Realtime Database에 저장
     try {
       if (window.database) {
+        console.log('Firebase database exists, saving...');
         window.database.ref('posts').set(next)
-          .then(() => console.log('Firebase save success'))
-          .catch(e => console.error('Firebase save error:', e));
+          .then(() => console.log('✅ Firebase save success'))
+          .catch(e => console.error('❌ Firebase save error:', e));
       } else {
-        console.warn('Firebase database not initialized yet');
+        console.warn('⚠️ Firebase database not initialized');
       }
     } catch (e) {
-      console.error('Firebase save exception:', e);
+      console.error('❌ Firebase save exception:', e);
     }
   };
   const addPost    = (p)         => save([p, ...posts]);
