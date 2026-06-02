@@ -100,15 +100,6 @@ function getDeviceId() {
   return deviceId;
 }
 
-/* 페이지 로드 시 localStorage에서 닉네임 복원 */
-if (typeof window !== 'undefined') {
-  const saved = localStorage.getItem('user_nickname');
-  if (saved) {
-    window.userNickname = saved;
-    console.log('🔄 닉네임 복원됨:', window.userNickname);
-  }
-}
-
 /* ────────────────────────────────────────────────────────────
    🔒 렌더 레이어 익명화 — 2중 보안
    저장된 author 값이 허용 패턴과 다르면 (예: 실제 이름·ID가
@@ -3864,8 +3855,7 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
     if (nicknameInput.trim()) {
       const nickname = nicknameInput.trim();
       window.userNickname = nickname;
-      localStorage.setItem('user_nickname', nickname);
-      console.log('✅ 닉네임 저장:', window.userNickname);
+      console.log('✅ 닉네임 저장됨:', nickname, '- genAuthor() 테스트:', genAuthor());
       setShowNicknameModal(false);
       setNicknameInput('');
       setRefreshKey(k => k + 1);
