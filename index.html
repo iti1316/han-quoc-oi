@@ -256,16 +256,24 @@ function usePosts() {
     catch { return defaultPosts(); }
   });
   const save = (next) => {
+    console.log('🔵 SAVE CALLED:', next.length, 'posts');
+    window.postsSaved = (window.postsSaved || 0) + 1;
+    console.log('🟢 Total saves:', window.postsSaved);
+
     setPosts(next);
     localStorage.setItem(BOARD_STORE, JSON.stringify(next));
+    console.log('💾 LocalStorage saved');
+
     // Firebase REST API로 저장
     const firebaseUrl = 'https://han-quoc-oi-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json';
+    console.log('🌐 Sending to Firebase...');
     fetch(firebaseUrl, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(next)
     })
       .then(res => {
+        console.log('📡 Firebase response:', res.status);
         if (res.ok) console.log('✅ Firebase save success');
         else console.error('❌ Firebase error:', res.statusText);
       })
