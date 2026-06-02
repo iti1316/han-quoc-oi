@@ -78,76 +78,69 @@ const BOARD_STORE = 'vb_posts_v2';
 const ANONS = ['하노이 출신','호치민 출신','다낭 출신','제조업 종사자','비자 도전 중','서류 준비 중','D-9 유저','출입국 단골','익명의 버디','베트남 멤버','비자 준비 중','출입국 도전자'];
 const AVATAR_COLORS = ['bg-blue-500','bg-green-500','bg-purple-500','bg-orange-500','bg-teal-500','bg-pink-500','bg-red-500','bg-indigo-500'];
 
-/* 닉네임 저장소 (IndexedDB) — file:// 프로토콜에서도 작동 */
+/* 닉네임 저장소 (Firebase — 영구 보관) */
 const NicknameDB = {
-  dbName: 'VB_Nickname',
-  dbVersion: 1,
-  storeName: 'nicknames',
+  firebaseUrl: 'https://han-quoc-oi-default-rtdb.asia-southeast1.firebasedatabase.app/userProfiles',
 
-  init: async () => {
-    return new Promise((resolve, reject) => {
-      const req = indexedDB.open(NicknameDB.dbName, NicknameDB.dbVersion);
-      req.onerror = () => reject(req.error);
-      req.onsuccess = () => resolve(req.result);
-      req.onupgradeneeded = (e) => {
-        const db = e.target.result;
-        if (!db.objectStoreNames.contains(NicknameDB.storeName)) {
-          db.createObjectStore(NicknameDB.storeName);
-        }
-      };
-    });
-  },
-
-  save: async (nickname) => {
+  save: async (deviceId, nickname) => {
     try {
-      const db = await NicknameDB.init();
-      return new Promise((resolve, reject) => {
-        const tx = db.transaction(NicknameDB.storeName, 'readwrite');
-        const store = tx.objectStore(NicknameDB.storeName);
-        store.put(nickname, 'user_nickname');
-        tx.oncomplete = () => {
-          console.log('✅ IndexedDB 저장 성공:', nickname);
-          resolve();
-        };
-        tx.onerror = () => reject(tx.error);
+      const response = await fetch(`${NicknameDB.firebaseUrl}/${deviceId}.json`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nickname: nickname,
+          updatedAt: new Date().toISOString()
+        }),
+        timeout: 10000
       });
+      if (response.ok) {
+        console.log('✅ Firebase 닉네임 저장 성공:', nickname);
+        return true;
+      } else {
+        console.warn('⚠️ Firebase 닉네임 저장 실패:', response.statusText);
+        return false;
+      }
     } catch (e) {
-      console.warn('⚠️ IndexedDB 저장 실패:', e.message);
+      console.error('❌ Firebase 닉네임 저장 오류:', e.message);
+      return false;
     }
   },
 
-  load: async () => {
+  load: async (deviceId) => {
     try {
-      const db = await NicknameDB.init();
-      return new Promise((resolve, reject) => {
-        const tx = db.transaction(NicknameDB.storeName, 'readonly');
-        const store = tx.objectStore(NicknameDB.storeName);
-        const req = store.get('user_nickname');
-        req.onsuccess = () => {
-          const nickname = req.result;
-          if (nickname) {
-            console.log('✅ IndexedDB 로드 성공:', nickname);
-            resolve(nickname);
-          } else {
-            console.log('💡 IndexedDB: 저장된 닉네임 없음');
-            resolve(null);
-          }
-        };
-        req.onerror = () => reject(req.error);
+      const response = await fetch(`${NicknameDB.firebaseUrl}/${deviceId}.json`, {
+        timeout: 10000
       });
+      const data = await response.json();
+      if (data && data.nickname) {
+        console.log('✅ Firebase 닉네임 로드 성공:', data.nickname);
+        return data.nickname;
+      } else {
+        console.log('💡 Firebase: 저장된 닉네임 없음');
+        return null;
+      }
     } catch (e) {
-      console.warn('⚠️ IndexedDB 로드 실패:', e.message);
+      console.error('❌ Firebase 닉네임 로드 오류:', e.message);
       return null;
     }
   }
 };
 
-/* 페이지 로드 시 IndexedDB에서 닉네임 복원 */
+/* 페이지 로드 시 Firebase에서 닉네임 복원 */
 (async function() {
-  const saved = await NicknameDB.load();
-  if (saved) {
-    window.userNickname = saved;
-    console.log('🔄 페이지 로드: IndexedDB에서 닉네임 복원:', saved);
+  try {
+    let deviceId = localStorage.getItem('vb_device_id');
+    if (!deviceId) {
+      deviceId = 'dev_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('vb_device_id', deviceId);
+    }
+    const saved = await NicknameDB.load(deviceId);
+    if (saved) {
+      window.userNickname = saved;
+      console.log('🔄 페이지 로드: Firebase에서 닉네임 복원:', saved);
+    }
+  } catch (e) {
+    console.warn('⚠️ Firebase 닉네임 로드 중 오류:', e.message);
   }
 })();
 
@@ -3987,9 +3980,14 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
     if (nicknameInput.trim()) {
       const nickname = nicknameInput.trim();
       window.userNickname = nickname;
-      // IndexedDB에 저장 (파일:// 프로토콜에서도 작동)
-      await NicknameDB.save(nickname);
-      console.log('✅ window.userNickname 설정됨:', nickname, '- genAuthor() 테스트:', genAuthor());
+      // Firebase에 영구 저장 (deviceId 기반)
+      const deviceId = getDeviceId();
+      const saved = await NicknameDB.save(deviceId, nickname);
+      if (saved) {
+        console.log('✅ window.userNickname 설정됨:', nickname, '- genAuthor() 테스트:', genAuthor());
+      } else {
+        console.warn('⚠️ Firebase 저장에 실패했지만, 현재 세션에서는 사용 가능:', nickname);
+      }
       setShowNicknameModal(false);
       setNicknameInput('');
       setRefreshKey(k => k + 1);
