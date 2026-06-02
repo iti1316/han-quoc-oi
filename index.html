@@ -392,12 +392,24 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
 
   function handleEditSave() {
     if (!editModal || !editBody.trim()) return;
-    // onUpdateComment가 React 상태와 localStorage를 모두 업데이트합니다
-    if (onUpdateComment) {
-      onUpdateComment(post.id, editModal.id, { body: editBody.trim() });
+    try {
+      const posts = JSON.parse(localStorage.getItem('vb_posts_v2') || '[]');
+      const updated = posts.map(p => {
+        if (p.id !== post.id) return p;
+        const newComments = (p.commentsData || []).map(c =>
+          c.id === editModal.id ? { ...c, body: editBody.trim() } : c
+        );
+        return { ...p, commentsData: newComments };
+      });
+      localStorage.setItem('vb_posts_v2', JSON.stringify(updated));
+      setEditModal(null);
+      setEditBody('');
+      // 페이지 새로고침해서 업데이트된 데이터 로드
+      setTimeout(() => window.location.reload(), 300);
+    } catch (e) {
+      console.error('Edit error:', e);
+      alert('댓글 수정에 실패했습니다');
     }
-    setEditModal(null);
-    setEditBody('');
   }
 
   return (
