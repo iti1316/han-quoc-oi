@@ -4612,8 +4612,9 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
         ...(loc  ? { location: loc } : {}),
         ...(imgs ? { images: imgs }  : {}),
       });
+      setTimeout(() => navToBoard(cat), 0);
     }
-    navToBoard(cat);
+    if (isEdit) navToBoard(cat);
   }
 
   function goBack() {
