@@ -4354,7 +4354,7 @@ function DocsPage({ onBack, lang }) {
 /* ================================================================
    페이지: 게시판 전체보기
 ================================================================ */
-function BoardPage({ cat, nav, posts, lang = 'vi', onDeletePost, onUpdatePost, onAddComment, onDeleteComment }) {
+function BoardPage({ cat, nav, posts, lang = 'vi', onDeletePost, onUpdatePost, onAddComment, onDeleteComment, onUpdateComment, deviceId }) {
   const m = BOARD_META[cat];
   const filtered = posts.filter(p=>p.cat===cat);
   const L = LANG[lang];
