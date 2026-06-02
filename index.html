@@ -256,42 +256,39 @@ function usePosts() {
     catch { return defaultPosts(); }
   });
   const save = (next) => {
-    console.log('Save function called', { hasFirebase: !!window.database, postsCount: next.length });
     setPosts(next);
     localStorage.setItem(BOARD_STORE, JSON.stringify(next));
-    // Firebase Realtime Database에 저장
-    try {
-      if (window.database) {
-        console.log('Firebase database exists, saving...');
-        window.database.ref('posts').set(next)
-          .then(() => console.log('✅ Firebase save success'))
-          .catch(e => console.error('❌ Firebase save error:', e));
-      } else {
-        console.warn('⚠️ Firebase database not initialized');
-      }
-    } catch (e) {
-      console.error('❌ Firebase save exception:', e);
-    }
+    // Firebase REST API로 저장
+    const firebaseUrl = 'https://han-quoc-oi-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json';
+    fetch(firebaseUrl, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(next)
+    })
+      .then(res => {
+        if (res.ok) console.log('✅ Firebase save success');
+        else console.error('❌ Firebase error:', res.statusText);
+      })
+      .catch(e => console.error('❌ Firebase fetch error:', e));
   };
   const addPost    = (p)         => save([p, ...posts]);
   const deletePost = (id)        => save(posts.filter(p => p.id !== id));
   const updatePost = (id, edits) => save(posts.map(p => p.id === id ? { ...p, ...edits } : p));
   const canEditPost = (p) => p.deviceId === deviceId;
 
-  // Firebase에서 데이터 불러오기
+  // Firebase REST API에서 데이터 불러오기
   useEffect(() => {
-    if (window.database) {
-      window.database.ref('posts').on('value', (snapshot) => {
-        const firebaseData = snapshot.val();
-        if (firebaseData) {
-          const postsArray = Array.isArray(firebaseData) ? firebaseData : Object.values(firebaseData);
-          setPosts(postsArray);
-          localStorage.setItem(BOARD_STORE, JSON.stringify(postsArray));
+    const firebaseUrl = 'https://han-quoc-oi-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json';
+    fetch(firebaseUrl)
+      .then(res => res.json())
+      .then(data => {
+        if (data && Array.isArray(data)) {
+          setPosts(data);
+          localStorage.setItem(BOARD_STORE, JSON.stringify(data));
+          console.log('✅ Firebase load success');
         }
-      }, (error) => {
-        console.error('Firebase load error:', error);
-      });
-    }
+      })
+      .catch(e => console.error('❌ Firebase load error:', e));
   }, []);
 
   function addComment(postId, comment) {
