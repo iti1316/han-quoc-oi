@@ -359,12 +359,12 @@ function PwModal({ lang, onConfirm, onCancel }) {
 ================================================================ */
 function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateComment, deviceId }) {
   const L = LANG[lang];
-  const comments = post.commentsData || [];
   const localDeviceId = localStorage.getItem('vb_device_id') || deviceId;
 
+  const [comments, setComments] = useState(post.commentsData || []);
   const [body, setBody]       = useState('');
-  const [delModal, setDelModal] = useState(null); // comment object to delete
-  const [editModal, setEditModal] = useState(null); // comment object to edit (text edit modal)
+  const [delModal, setDelModal] = useState(null);
+  const [editModal, setEditModal] = useState(null);
   const [editBody, setEditBody] = useState('');
 
   function submit() {
@@ -393,19 +393,20 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
   function handleEditSave() {
     if (!editModal || !editBody.trim()) return;
     try {
+      const newComments = comments.map(c =>
+        c.id === editModal.id ? { ...c, body: editBody.trim() } : c
+      );
+      setComments(newComments);
+
+      // localStorage 업데이트
       const posts = JSON.parse(localStorage.getItem('vb_posts_v2') || '[]');
-      const updated = posts.map(p => {
-        if (p.id !== post.id) return p;
-        const newComments = (p.commentsData || []).map(c =>
-          c.id === editModal.id ? { ...c, body: editBody.trim() } : c
-        );
-        return { ...p, commentsData: newComments };
-      });
+      const updated = posts.map(p =>
+        p.id === post.id ? { ...p, commentsData: newComments } : p
+      );
       localStorage.setItem('vb_posts_v2', JSON.stringify(updated));
+
       setEditModal(null);
       setEditBody('');
-      // 페이지 새로고침해서 업데이트된 데이터 로드
-      setTimeout(() => window.location.reload(), 300);
     } catch (e) {
       console.error('Edit error:', e);
       alert('댓글 수정에 실패했습니다');
