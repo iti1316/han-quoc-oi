@@ -4800,6 +4800,7 @@ function App() {
   const [route,    setRoute]    = useState({ page:'home', param:null });
   const [lang,     setLang]     = useState('vi');
   const { posts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId } = usePosts();
+  console.log('App - deviceId:', deviceId);
 
   /* route 변경 시 browser history에 저장 */
   useEffect(() => {
