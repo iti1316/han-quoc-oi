@@ -246,11 +246,9 @@ function usePosts() {
     try {
       const stored = JSON.parse(localStorage.getItem(BOARD_STORE));
       if (!stored) return defaultPosts();
-      // 구버전 마이그레이션: deviceId 없는 글 → 현재 기기 ID로 설정
       return stored.map(p => ({
         ...p,
-        isPublic: p.isPublic !== undefined ? p.isPublic : true,
-        deviceId: p.deviceId || deviceId
+        isPublic: p.isPublic !== undefined ? p.isPublic : true
       }));
     }
     catch { return defaultPosts(); }
@@ -2423,7 +2421,7 @@ const LOCKED_CAT_INFO = {
 };
 
 /* ── 클래식 테이블 게시판 ── */
-function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteComment }) {
+function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteComment, onUpdateComment, onDeletePost, deviceId }) {
   const cfg = CLASSIC_BOARD_CFG[boardKey];
   if (!cfg) { nav({page:'home'}); return null; }
 
