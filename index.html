@@ -396,7 +396,7 @@ function PwModal({ lang, onConfirm, onCancel }) {
 function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateComment, deviceId }) {
   const L = LANG[lang];
   const localDeviceId = localStorage.getItem('vb_device_id') || deviceId;
-  const SHOW_INITIAL = 5; // 초기에 보여줄 댓글 개수
+  const SHOW_INITIAL = 10; // 초기에 보여줄 댓글 개수
 
   const [comments, setComments] = useState(post.commentsData || []);
   const [body, setBody]       = useState('');
