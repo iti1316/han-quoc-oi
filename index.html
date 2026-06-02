@@ -264,12 +264,15 @@ function usePosts() {
   });
   const save = (next) => {
     console.log('🔵 SAVE CALLED:', next.length, 'posts');
+    if (next.length > 0) {
+      console.log('📌 첫 번째 글:', { id: next[0].id, author: next[0].author, title: next[0].title?.substring(0,20) });
+    }
     window.postsSaved = (window.postsSaved || 0) + 1;
     console.log('🟢 Total saves:', window.postsSaved);
 
     setPosts(next);
     localStorage.setItem(BOARD_STORE, JSON.stringify(next));
-    console.log('💾 LocalStorage saved');
+    console.log('💾 LocalStorage saved - 첫 글 author:', next[0]?.author);
 
     // Firebase REST API로 저장
     const firebaseUrl = 'https://han-quoc-oi-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json';
@@ -286,7 +289,10 @@ function usePosts() {
       })
       .catch(e => console.error('❌ Firebase fetch error:', e));
   };
-  const addPost    = (p)         => save([p, ...posts]);
+  const addPost    = (p)         => {
+    console.log('📌 addPost 호출 - 저장할 글:', { id: p.id, author: p.author, title: p.title });
+    save([p, ...posts]);
+  };
   const deletePost = (id)        => save(posts.filter(p => p.id !== id));
   const updatePost = (id, edits) => save(posts.map(p => p.id === id ? { ...p, ...edits } : p));
   const canEditPost = (p) => p.deviceId === deviceId;
