@@ -4725,22 +4725,6 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
   const [body, setBody]   = useState(editPost?.body  || '');
   const [vis, setVis]     = useState(editPost ? (editPost.isPublic ? 'public' : 'private') : 'public');
   const [toast, setToast] = useState(null);
-  const [author, setAuthor] = useState(() => genAuthor());
-
-  useEffect(() => {
-    // WritePage 마운트 시 author 설정
-    const latest = genAuthor();
-    setAuthor(latest);
-    console.log('🔄 WritePage: author 초기 설정:', latest);
-
-    // 주기적으로 최신 nickname 확인 (1초마다)
-    const interval = setInterval(() => {
-      const current = genAuthor();
-      setAuthor(current);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
   /* 지역 선택 (travel/market/house) */
   const [sido,    setSido]    = useState(editPost?.location?.sido    || '');
   const [sigungu, setSigungu] = useState(editPost?.location?.sigungu || '');
@@ -4798,9 +4782,10 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
         ...(imgs ? { images: imgs }  : {}),
       });
     } else {
-      console.log('📝 WritePage: 새 글 작성 - author state:', author);
+      const finalAuthor = genAuthor();
+      console.log('📝 WritePage: 새 글 작성 - 최종 author (genAuthor 직접 호출):', finalAuthor);
       onAddPost({
-        id: Date.now(), cat, author, deviceId,
+        id: Date.now(), cat, author: finalAuthor, deviceId,
         date: new Date().toLocaleDateString('ko-KR'),
         title: title.trim(), body: body.trim(),
         likes:0, hearts:0, wows:0, comments:0, isNew:true,
