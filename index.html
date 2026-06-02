@@ -4676,6 +4676,13 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
   const [body, setBody]   = useState(editPost?.body  || '');
   const [vis, setVis]     = useState(editPost ? (editPost.isPublic ? 'public' : 'private') : 'public');
   const [toast, setToast] = useState(null);
+  const [author, setAuthor] = useState(() => genAuthor());
+
+  useEffect(() => {
+    const latest = genAuthor();
+    setAuthor(latest);
+    console.log('🔄 WritePage: author 업데이트:', latest);
+  }, []);
   /* 지역 선택 (travel/market/house) */
   const [sido,    setSido]    = useState(editPost?.location?.sido    || '');
   const [sigungu, setSigungu] = useState(editPost?.location?.sigungu || '');
@@ -4733,8 +4740,7 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
         ...(imgs ? { images: imgs }  : {}),
       });
     } else {
-      const author = genAuthor();
-      console.log('📝 WritePage: 새 글 작성 - author:', author);
+      console.log('📝 WritePage: 새 글 작성 - author state:', author);
       onAddPost({
         id: Date.now(), cat, author, deviceId,
         date: new Date().toLocaleDateString('ko-KR'),
