@@ -369,19 +369,36 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
 
   function submit() {
     if (!body.trim()) return;
-    onAddComment(post.id, {
+    const newComment = {
       id:     Date.now(),
       author: genAuthor(),
       date:   new Date().toLocaleDateString('ko-KR'),
       body:   body.trim(),
-      deviceId: deviceId,
-    });
+      deviceId: localDeviceId,
+    };
+    const newComments = [...comments, newComment];
+    setComments(newComments);
     setBody('');
+
+    // localStorage 업데이트
+    const posts = JSON.parse(localStorage.getItem('vb_posts_v2') || '[]');
+    const updated = posts.map(p =>
+      p.id === post.id ? { ...p, commentsData: newComments } : p
+    );
+    localStorage.setItem('vb_posts_v2', JSON.stringify(updated));
   }
 
   function handleDelete(c) {
     if (c.deviceId !== localDeviceId) { alert(lang==='vi'?'Chỉ có thể xóa bình luận của chính bạn':'자신의 댓글만 삭제할 수 있습니다'); return; }
-    onDeleteComment(post.id, c.id);
+    const newComments = comments.filter(cmt => cmt.id !== c.id);
+    setComments(newComments);
+
+    // localStorage 업데이트
+    const posts = JSON.parse(localStorage.getItem('vb_posts_v2') || '[]');
+    const updated = posts.map(p =>
+      p.id === post.id ? { ...p, commentsData: newComments } : p
+    );
+    localStorage.setItem('vb_posts_v2', JSON.stringify(updated));
   }
 
   function handleEditStart(c) {
