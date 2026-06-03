@@ -1186,7 +1186,7 @@ function VisaBoardSection({ posts, nav, lang, onDeletePost, onUpdatePost, onAddC
             <p className="text-[10px] text-white/70">{L.visaBoardSub}</p>
           </div>
         </div>
-        <button onClick={() => nav({ page:'write', param:'hall' })}
+        <button onClick={() => nav({ page:'write', param:'hall', fromPage:'visaHub' })}
           className="text-[11px] font-bold text-white bg-black/10 hover:bg-black/20 px-3 py-1.5 rounded-full transition tap">
           {L.visaBoardWrite}
         </button>
@@ -4803,9 +4803,9 @@ const CAT_LABELS_VI = {
   talk:   { vi:'Góc Tán Gẫu',         desc_vi:'Tán gẫu tự do, không liên quan visa' },
 };
 
-function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePost, deviceId }) {
+function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePost, deviceId, fromPage }) {
   // 디버깅: props 확인
-  console.log('🔍 WritePage Props:', { onAddPost: typeof onAddPost, deviceId, nav: typeof nav, lang });
+  console.log('🔍 WritePage Props:', { onAddPost: typeof onAddPost, deviceId, nav: typeof nav, lang, fromPage });
 
   const isEdit   = !!editPost;
   const activeCat = editPost?.cat || initCat;
@@ -4847,6 +4847,14 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
   const CAT_BOARD = { hall:'d9', sos:'d9', bamboo:'bamboo', talk:'bamboo', travel:'travel', market:'market', house:'house', horror:'horror' };
 
   function navToBoard(useCat) {
+    // 원래 페이지로 돌아가기
+    if (fromPage === 'visaHub') {
+      console.log('✅ visaHub으로 돌아감');
+      nav({ page:'visaHub' });
+      return;
+    }
+
+    // 기본: classicBoard로 이동
     const bk = CAT_BOARD[useCat || cat];
     if (bk) nav({ page:'classicBoard', param:bk });
     else nav({ page:'home' });
@@ -5166,7 +5174,7 @@ function App() {
     case 'classicBoard': return <ClassicBoardPage boardKey={route.param} {...shared} />;
     case 'postDetail':   return <PostDetailPage   boardKey={route.boardKey} postId={route.postId} {...shared} />;
     case 'visaHub':      return <VisaHubPage      nav={nav} lang={lang} posts={posts} />;
-    case 'write':        return <WritePage        initCat={route.param}  editPost={route.editPost} {...shared} />;
+    case 'write':        return <WritePage        initCat={route.param}  editPost={route.editPost} fromPage={route.fromPage} {...shared} />;
     default:             return <HomePage         {...shared} toggleLang={toggleLang} />;
   }
 }
