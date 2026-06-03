@@ -1149,7 +1149,7 @@ function VisaBoardSection({ posts, nav, lang, onDeletePost, onUpdatePost, onAddC
     { v:'bamboo', label: L.visaFilterBamboo },
   ];
 
-  const visaPosts    = posts.filter(p => ['hall','sos','bamboo'].includes(p.cat));
+  const visaPosts    = posts.filter(p => ['hall','sos'].includes(p.cat));
   const displayPosts = filter === 'all' ? visaPosts : visaPosts.filter(p => p.cat === filter);
 
   function doReport(id) {
@@ -1861,14 +1861,38 @@ const OFFICE_REGIONS = [
   { key:'jeju',         label:'제주',     vi:'Jeju' },
 ];
 
+const EMBASSIES = [
+  /* ── 한국 내 베트남 대사관·영사관 ── */
+  { region:'seoul',       name:'주(駐)대한민국 베트남 대사관',      addr:'서울 강남구 테헤란로 330 (역삼동)',       tel:'02-3430-8400', book:'https://www.vietnamembassy.or.kr' },
+  { region:'busan',       name:'주(駐)대한민국 베트남 총영사관',    addr:'부산 수영구 오륜로 57 (수영동)',          tel:'051-740-5280', book:'' },
+];
+
+const MOFA = [
+  /* ── 한국 외교부 ── */
+  { region:'seoul',       name:'대한민국 외교부',                addr:'서울 종로구 세종대로 110',               tel:'02-2100-8114', book:'https://www.mofa.go.kr' },
+  { region:'seoul',       name:'외교부 영사민원실 (비자 문의)',    addr:'서울 종로구 세종대로 110',               tel:'02-2100-8900', book:'https://www.mofa.go.kr' },
+];
+
 /* ================================================================
    🏛️ 출입국 사무소 페이지 (전국 + 지역 필터 + 검색)
 ================================================================ */
 function OfficePage({ onBack, lang }) {
+  const [tab, setTab]       = useState('immigration'); // 'immigration', 'embassy', 'mofa'
   const [region, setRegion] = useState('all');
   const [query, setQuery]   = useState('');
 
-  const filtered = OFFICES.filter(o => {
+  const dataSource = tab === 'immigration' ? OFFICES : tab === 'embassy' ? EMBASSIES : MOFA;
+
+  const regionOptions =
+    tab === 'immigration' ? OFFICE_REGIONS :
+    tab === 'embassy' ? [
+      { key:'all',    label:'전체',  vi:'Tất cả' },
+      { key:'seoul',  label:'서울',  vi:'Seoul' },
+      { key:'busan',  label:'부산',  vi:'Busan' }
+    ] :
+    [{ key:'all', label:'전체', vi:'Tất cả' }];
+
+  const filtered = dataSource.filter(o => {
     const matchRegion = region === 'all' || o.region === region;
     const q = query.trim().toLowerCase();
     const matchQuery = !q || o.name.toLowerCase().includes(q) || o.addr.toLowerCase().includes(q);
@@ -1882,13 +1906,29 @@ function OfficePage({ onBack, lang }) {
         <div className="max-w-lg mx-auto px-4 h-14 flex items-center gap-3">
           <button onClick={onBack} className="text-white text-xl tap">←</button>
           <div className="flex-1">
-            <p className="text-white font-black text-sm leading-none">🏛️ 출입국 사무소</p>
-            <p className="text-blue-200 text-[10px] mt-0.5">{lang==='ko' ? '전국 출입국 연락처 & 예약' : 'Liên hệ & Đặt lịch Cục XNC toàn quốc'}</p>
+            <p className="text-white font-black text-sm leading-none">🗂️ {lang==='ko' ? '출입국·대사관·외교부 연락처' : 'Thông tin liên hệ XNC, Đại sứ quán, Bộ Ngoại giao'}</p>
+            <p className="text-blue-200 text-[10px] mt-0.5">{lang==='ko' ? '한국 입국을 위한 기관 정보' : 'Thông tin cơ quan cần thiết cho nhập cảnh Hàn Quốc'}</p>
           </div>
         </div>
       </header>
 
       <div className="max-w-lg mx-auto px-3 pt-3 pb-24">
+
+        {/* 탭 */}
+        <div className="flex gap-2 mb-3 border-b border-gray-200">
+          <button onClick={() => { setTab('immigration'); setRegion('all'); setQuery(''); }}
+            className={`flex-1 py-2.5 text-xs font-bold text-center border-b-2 transition ${tab === 'immigration' ? 'border-blue-700 text-blue-700' : 'border-transparent text-gray-500'}`}>
+            {lang==='ko' ? '출입국청' : 'Cục XNC'}
+          </button>
+          <button onClick={() => { setTab('embassy'); setRegion('all'); setQuery(''); }}
+            className={`flex-1 py-2.5 text-xs font-bold text-center border-b-2 transition ${tab === 'embassy' ? 'border-blue-700 text-blue-700' : 'border-transparent text-gray-500'}`}>
+            {lang==='ko' ? '대사관' : 'Đại sứ quán'}
+          </button>
+          <button onClick={() => { setTab('mofa'); setRegion('all'); setQuery(''); }}
+            className={`flex-1 py-2.5 text-xs font-bold text-center border-b-2 transition ${tab === 'mofa' ? 'border-blue-700 text-blue-700' : 'border-transparent text-gray-500'}`}>
+            {lang==='ko' ? '외교부' : 'Bộ Ngoại giao'}
+          </button>
+        </div>
 
         {/* 통합 콜센터 배너 */}
         <a href="tel:1345" className="block mb-3">
@@ -1919,7 +1959,7 @@ function OfficePage({ onBack, lang }) {
 
         {/* 지역 필터 탭 (가로 스크롤) */}
         <div className="flex gap-2 overflow-x-auto pb-1 mb-3 scrollbar-hide" style={{ scrollbarWidth:'none' }}>
-          {OFFICE_REGIONS.map(r => (
+          {regionOptions.map(r => (
             <button
               key={r.key}
               onClick={() => setRegion(r.key)}
@@ -2576,7 +2616,7 @@ const VISA_GUIDE_DATA = {
    클래식 게시판 설정
 ================================================================ */
 const CLASSIC_BOARD_CFG = {
-  d9:     { ko:'📘 비자 정보공유',          vi:'Thông tin Visa',          desc_ko:'D-9 연장, E-7-4 변경 등 비자에 관한 정보공유, 질문&답변 게시판입니다.', desc_vi:'Chia sẻ thông tin visa D-9, E-7-4 và hỏi đáp.', cats:['hall','sos','bamboo'], writeParam:'hall' },
+  d9:     { ko:'📘 비자 정보공유',          vi:'Thông tin Visa',          desc_ko:'D-9 연장, E-7-4 변경 등 비자에 관한 정보공유, 질문&답변 게시판입니다.', desc_vi:'Chia sẻ thông tin visa D-9, E-7-4 và hỏi đáp.', cats:['hall','sos'], writeParam:'hall' },
   travel: { ko:'📸 여행·맛집 소개',         vi:'Du lịch & Ẩm thực',       desc_ko:'여행 정보, 맛집 소개, 주말 감성 핫플 등을 자유롭게 공유하세요.',        desc_vi:'Chia sẻ trải nghiệm du lịch, ẩm thực, địa điểm cuối tuần.',    cats:['travel'], writeParam:'travel' },
   bamboo: { ko:'🤫 대나무숲 완전 익명',     vi:'Rừng Tre Ẩn Danh',        desc_ko:'익명으로 자유롭게 이야기할 수 있는 게시판입니다. 비자 외 모든 이야기 환영.', desc_vi:'Không gian nói chuyện ẩn danh. Tất cả chủ đề đều được chào đón.',cats:['bamboo'], writeParam:'bamboo' },
   market: { ko:'🥕 당근마켓 꿀매물',        vi:'Chợ Daangn',              desc_ko:'중고거래, 나눔, 꿀매물 정보를 공유하는 게시판입니다.',                  desc_vi:'Mua bán đồ cũ, chia sẻ hàng ngon giá tốt.',                    cats:['market'], writeParam:'market' },
@@ -2589,13 +2629,14 @@ const BOARD_NOTICES = [
   { id:'n2', title:'[공지] 비방·욕설·허위정보 게시글은 즉시 삭제됩니다.',             title_vi:'[Thông báo] Bài đăng có ngôn ngữ xúc phạm hoặc thông tin sai sẽ bị xóa ngay.',    date:'25-01-23', views:20083, likes:33 },
 ];
 
-const LOCKED_CATS = ['talk', 'travel', 'market', 'house', 'horror'];
+const LOCKED_CATS = ['talk', 'travel', 'market', 'house', 'horror', 'bamboo'];
 const LOCKED_CAT_INFO = {
   talk:   { e:'🟢', ko:'자유 토크방',       vi:'Góc Tán Gẫu',           desc_ko:'비자 외 일상·자유 수다', desc_vi:'Tán gẫu tự do' },
   travel: { e:'📸', ko:'여행·맛집 소개',    vi:'Du lịch & Ẩm thực',     desc_ko:'여행 정보, 맛집 소개',   desc_vi:'Chia sẻ du lịch, ẩm thực' },
   market: { e:'🥕', ko:'당근마켓 꿀매물',   vi:'Chợ Daangn',            desc_ko:'중고거래, 나눔, 꿀매물', desc_vi:'Mua bán đồ cũ' },
   house:  { e:'🏠', ko:'집 구하기',         vi:'Tìm nhà & Share house', desc_ko:'부동산 정보, 쉐어하우스', desc_vi:'Tìm phòng, share house' },
   horror: { e:'👻', ko:'무서운 이야기 방',   vi:'Phòng Chuyện Ma',       desc_ko:'무서운 경험, 귀신 이야기', desc_vi:'Chuyện ma, trải nghiệm đáng sợ' },
+  bamboo: { e:'🤫', ko:'대나무숲 완전 익명', vi:'Rừng Tre Ẩn Danh',     desc_ko:'익명으로 자유롭게 대화', desc_vi:'Nói chuyện ẩn danh tự do' },
 };
 
 /* ── 클래식 테이블 게시판 ── */
@@ -3239,7 +3280,7 @@ function TickingAnnouncementBar({ lang }) {
 
 /* ── 게시판별 인기글 피드 ── */
 const BOARD_HOT_CFG = [
-  { key:'d9',     cats:['hall','sos','bamboo'], emoji:'📘', bg:'bg-blue-600',   ko:'비자 정보',  vi:'Visa' },
+  { key:'d9',     cats:['hall','sos'], emoji:'📘', bg:'bg-blue-600',   ko:'비자 정보',  vi:'Visa' },
   { key:'travel', cats:['travel'],              emoji:'📸', bg:'bg-pink-500',   ko:'여행·맛집',  vi:'Du lịch' },
   { key:'bamboo', cats:['bamboo'],              emoji:'🤫', bg:'bg-orange-500', ko:'대나무숲',   vi:'Rừng Tre' },
   { key:'market', cats:['market'],              emoji:'🥕', bg:'bg-orange-400', ko:'당근마켓',   vi:'Chợ' },
@@ -3638,7 +3679,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
   const steps = subRoute?.steps || route?.steps || [];
 
   /* 비자 게시판 글 (hall · sos · bamboo) */
-  const boardPosts = posts.filter(p => ['hall','sos','bamboo'].includes(p.cat) && p.isPublic !== false);
+  const boardPosts = posts.filter(p => ['hall','sos'].includes(p.cat) && p.isPublic !== false);
   const totalBoardPages = Math.max(1, Math.ceil(boardPosts.length / BOARD_PER));
   const pageBoardPosts  = boardPosts.slice((boardPage-1)*BOARD_PER, boardPage*BOARD_PER);
 
@@ -3667,11 +3708,11 @@ function VisaHubPage({ nav, lang, posts = [] }) {
         </div>
       </header>
 
-      <div className="max-w-lg mx-auto px-3 pt-3 pb-24">
+      <div className="max-w-lg mx-auto px-3 pt-3 pb-24" data-section="visaChangeMethod">
 
         {/* ── Section A: 상황 선택 카드 ── */}
         {!selectedRoute && (
-          <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-3">
+          <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-3" data-section="visaChangeMethod">
             <div className="bg-gradient-to-r from-blue-700 to-indigo-700 px-4 py-4">
               <p className="text-white font-black text-base">🗺️ {lang==='vi'?'Tìm lộ trình visa của bạn':'당신의 K-비자 여정을 찾아보세요'}</p>
               <p className="text-blue-200 text-[10px] mt-1">{lang==='vi'?'Chọn tình trạng để xem từng bước':'당신의 상황에 맞는 경로를 선택하세요'}</p>
@@ -3845,7 +3886,8 @@ function VisaHubPage({ nav, lang, posts = [] }) {
           );
         })()}
 
-        {/* ── Section D: 유용한 도구 (E-7-4일 때 점수 계산기 표시) ── */}
+        {/* ── Section D: 유용한 도구 (경로 선택 후 표시) ── */}
+        {selectedRoute && selectedStep && (
         <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-3">
           <div className="px-4 py-3 border-b border-gray-100">
             <p className="text-sm font-black text-gray-800">🔧 {lang==='vi'?'Công cụ hữu ích':'유용한 도구'}</p>
@@ -3857,7 +3899,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
               ...(selectedStep === 'f5' || selectedStep === 'f5_veteran' || selectedStep === 'f5_marriage' ? [{ e:'📊', ko:'F-5 점수 계산기',   vi:'Tính điểm F-5',      bg:'bg-rose-500',   act:()=>nav({page:'checklist', param:'score_f5', prevPage:'visaHub'}) }] : []),
               { e:'💰', ko:'서류 준비 체크리스트', vi:'Danh sách hồ sơ',       bg:'bg-green-600',   act:()=>nav({page:'checklist', param:'sales', prevPage:'visaHub'}) },
               { e:'📋', ko:'필수 서류 다운로드',   vi:'Tải hồ sơ cần thiết',   bg:'bg-red-600',     act:()=>nav({page:'docs',      param:null}) },
-              { e:'🗂️', ko:'출입국 예약·연락처',  vi:'Đặt lịch Cục XNC',      bg:'bg-violet-600',  act:()=>nav({page:'office',    param:null}) },
+              { e:'🗂️', ko:'출입국·대사관·외교부 연락처',  vi:'Thông tin liên hệ XNC, Đại sứ quán, Bộ Ngoại giao',      bg:'bg-violet-600',  act:()=>nav({page:'office',    param:null}) },
             ].map((t,i)=>(
               <button key={i} onClick={t.act}
                 className={`${t.bg} rounded-xl px-3 py-3.5 flex items-center gap-2 tap transition`}>
@@ -3867,9 +3909,10 @@ function VisaHubPage({ nav, lang, posts = [] }) {
             ))}
           </div>
         </div>
+        )}
 
         {/* ── Section E: 비자 커뮤니티 게시판 ── */}
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden" data-section="visaBoardSection">
           {/* 헤더 */}
           <div className="px-4 py-4 flex items-center justify-between border-b border-gray-100">
             <div className="flex items-center gap-3">
@@ -3965,7 +4008,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
                   )}
                 </div>
                 {/* 글쓰기 */}
-                <button onClick={()=>nav({page:'write', param:'hall'})}
+                <button onClick={()=>nav({page:'write', param:'hall', fromPage:'visaHub'})}
                   className="bg-blue-700 text-white text-[11px] font-black px-3 py-1.5 rounded-lg tap">
                   {lang==='vi'?'✏️ Viết bài':'✏️ 글쓰기'}
                 </button>
@@ -4819,7 +4862,7 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
   const [cat, setCat] = useState(activeCat || 'hall');
   const [title, setTitle] = useState(editPost?.title || '');
   const [body, setBody]   = useState(editPost?.body  || '');
-  const [vis, setVis]     = useState(editPost ? (editPost.isPublic ? 'public' : 'private') : 'public');
+  // ❌ 비밀글 기능 삭제됨 - 모든 글은 공개글로만 저장됨
   const [toast, setToast] = useState(null);
   /* 지역 선택 (travel/market/house) */
   const [sido,    setSido]    = useState(editPost?.location?.sido    || '');
@@ -4852,18 +4895,18 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
   const CAT_BOARD = { hall:'d9', sos:'d9', bamboo:'bamboo', talk:'bamboo', travel:'travel', market:'market', house:'house', horror:'horror' };
 
   function navToBoard(useCat) {
-    // window.__currentRoute에서 최신 fromPage 확인
-    const actualFromPage = (window.__currentRoute || currentRoute)?.fromPage;
-
     console.log('🔴 [navToBoard] 호출됨');
-    console.log('🔴 [navToBoard] actualFromPage (from window):', actualFromPage);
-    console.log('🔴 [navToBoard] fromPage (from props):', fromPage);
+    console.log('🔴 [navToBoard] fromPage (WritePage local):', fromPage);
     console.log('🔴 [navToBoard] useCat:', useCat);
 
     // 원래 페이지로 돌아가기
-    if (actualFromPage === 'visaHub') {
+    if (fromPage === 'visaHub') {
       console.log('✅✅✅ visaHub으로 돌아감!');
       nav({ page:'visaHub' });
+      // VisaHub으로 이동 후 맨 위로 스크롤
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
       return;
     }
 
@@ -4885,7 +4928,7 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
     const imgs = images.length > 0 ? images : undefined;
     if (isEdit) {
       onUpdatePost(editPost.id, {
-        cat, title: title.trim(), body: body.trim(), isPublic: vis === 'public',
+        cat, title: title.trim(), body: body.trim(), isPublic: true,
         ...(loc  ? { location: loc } : {}),
         ...(imgs ? { images: imgs }  : {}),
       });
@@ -4900,18 +4943,45 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
         date: new Date().toLocaleDateString('ko-KR'),
         title: title.trim(), body: body.trim(),
         likes:0, hearts:0, wows:0, comments:0, isNew:true,
-        isPublic: vis === 'public',
+        isPublic: true,
         ...(loc  ? { location: loc } : {}),
         ...(imgs ? { images: imgs }  : {}),
       };
       console.log('🟡 [WritePage Submit] 전송할 post 데이터:', postData);
+      console.log('📋 상세 필드 확인:', {
+        isPublic: postData.isPublic,
+        images: postData.images ? `${postData.images.length}개 사진` : '없음',
+        location: postData.location ? `${postData.location.sido} ${postData.location.sigungu}` : '없음'
+      });
 
       onAddPost(postData);
       console.log('🟡 [WritePage Submit] onAddPost 호출 완료');
 
-      setTimeout(() => navToBoard(cat), 0);
+      // fromPage 체크하여 올바른 페이지로 이동
+      if (fromPage === 'visaHub') {
+        console.log('✅ fromPage가 visaHub이므로 VisaHub으로 이동');
+        setTimeout(() => {
+          nav({ page:'visaHub' });
+          setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }, 100);
+        }, 0);
+      } else {
+        setTimeout(() => navToBoard(cat), 0);
+      }
     }
-    if (isEdit) navToBoard(cat);
+
+    // 수정 완료 시
+    if (isEdit) {
+      if (fromPage === 'visaHub') {
+        nav({ page:'visaHub' });
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 100);
+      } else {
+        navToBoard(cat);
+      }
+    }
   }
 
   function goBack() {
@@ -5087,20 +5157,7 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
           </p>
         </div>
 
-        {/* 공개 설정 */}
-        <div className="bg-white rounded-2xl shadow-sm px-4 py-4 mb-3 fade-in">
-          <p className="text-xs font-black text-gray-500 mb-3">{L.visLabel}</p>
-          <div className="grid grid-cols-2 gap-2">
-            {[['public', L.visPublic, L.visPublicDesc,'border-blue-300 bg-blue-50 text-blue-700'],
-              ['private', L.visPrivate, L.visPrivateDesc,'border-gray-400 bg-gray-100 text-gray-700']].map(([v,l,d,sel])=>(
-              <button key={v} onClick={()=>setVis(v)}
-                className={`py-3 rounded-xl border-2 text-center transition tap ${vis===v?sel:'border-gray-200 text-gray-400'}`}>
-                <p className="text-sm font-bold">{l}</p>
-                <p className="text-[10px] mt-0.5 opacity-70">{d}</p>
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* ❌ 공개 설정 삭제됨 - 모든 글은 공개글로만 저장됨 */}
 
         {/* 🔒 개인정보 보호 경고 */}
         <div className="bg-red-50 border border-red-200 rounded-2xl px-4 py-3 mb-3 fade-in">
@@ -5170,7 +5227,19 @@ function App() {
     window.__currentRoute = r; // 최신 route를 window에 저장
     console.log('🟣 [App nav] 현재 route 저장:', r);
     setRoute(r);
-    window.scrollTo({ top:0, behavior:'instant' });
+
+    // scrollTarget이 지정되면, 해당 요소로 스크롤
+    if (r.scrollTarget) {
+      setTimeout(() => {
+        const target = document.querySelector(`[data-section="${r.scrollTarget}"]`);
+        if (target) {
+          console.log(`✅ ${r.scrollTarget} 섹션으로 스크롤`);
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 200);
+    } else {
+      window.scrollTo({ top:0, behavior:'instant' });
+    }
   }
   function toggleLang() { setLang(l => l === 'vi' ? 'ko' : 'vi'); }
 
