@@ -5242,7 +5242,7 @@ function App() {
   const shared = { nav, posts, lang, onAddPost:addPost, onDeletePost:deletePost, onUpdatePost:updatePost, onAddComment:addComment, onDeleteComment:deleteComment, onUpdateComment:updateComment, deviceId };
 
   switch (route.page) {
-    case 'guide':     return <GuidePage     type={route.param}     onBack={()=>nav({page:'home'})} lang={lang} />;
+    case 'guide':     return <GuidePage     type={route.param}     onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
     case 'checklist':
       if (route.param==='sales') return <SalesPage onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
       if (route.param==='score_e74') return <ScorePage type='e74' onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
@@ -5250,8 +5250,8 @@ function App() {
       if (route.param==='score_f5') return <ScorePage type='f5' onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
       if (route.param==='score') return <ScorePage type='e74' onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
       return null;
-    case 'docs':         return <DocsPage         onBack={()=>nav({page:'home'})} lang={lang} />;
-    case 'office':       return <OfficePage       onBack={()=>nav({page:'home'})} lang={lang} />;
+    case 'docs':         return <DocsPage         onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
+    case 'office':       return <OfficePage       onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
     case 'board':        return <BoardPage        cat={route.param}      {...shared} />;
     case 'classicBoard': return <ClassicBoardPage boardKey={route.param} {...shared} />;
     case 'postDetail':   return <PostDetailPage   boardKey={route.boardKey} postId={route.postId} {...shared} />;
