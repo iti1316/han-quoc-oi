@@ -2693,11 +2693,7 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
               className="w-7 h-7 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500 text-xl leading-none tap">‹</button>
             <p className="text-sm font-black text-gray-800">{title}</p>
           </div>
-          <button
-            onClick={()=>{ try{ navigator.clipboard.writeText(window.location.href); } catch(e){} }}
-            className="text-[11px] text-blue-500 flex items-center gap-1 hover:underline tap">
-            🔗 {lang==='vi'?'Sao chép':'주소 복사'}
-          </button>
+          {/* ❌ 주소 복사 버튼 제거됨 (게시글에서만 사용) */}
         </div>
       </header>
 
