@@ -191,12 +191,14 @@ function safeAuthor(post) {
 }
 /** 아바타 문자: author 첫 글자 대신 post.id 기반으로 고정 */
 function safeAvatarChar(post) {
-  const seed = Math.abs(typeof post.id === 'number' ? post.id : parseInt(post.id, 10) || 1);
+  const author = safeAuthor(post);
+  const seed = Math.abs((author.charCodeAt(0) || 0) + (author.charCodeAt(1) || 0));
   return ['익','D','V','하','H','버','A','B'][seed % 8];
 }
-/** 아바타 색상: post.id 기반 결정론적 색상 */
+/** 아바타 색상: author(닉네임) 기반 결정론적 색상 (같은 닉네임은 항상 같은 색상) */
 function safeAvatarColor(post) {
-  const seed = Math.abs(typeof post.id === 'number' ? post.id : parseInt(post.id, 10) || 1);
+  const author = safeAuthor(post);
+  const seed = Math.abs((author.charCodeAt(0) || 0) + (author.charCodeAt(1) || 0));
   return AVATAR_COLORS[seed % AVATAR_COLORS.length];
 }
 
