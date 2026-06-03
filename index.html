@@ -371,8 +371,12 @@ function usePosts() {
       });
   };
   const addPost    = (p)         => {
-    console.log('📌 addPost 호출 - 저장할 글:', { id: p.id, author: p.author, title: p.title });
-    save([p, ...posts]);
+    console.log('🟢 [addPost] 받은 post:', p);
+    console.log('🟢 [addPost] post.author:', p.author);
+    console.log('🟢 [addPost] 현재 posts 배열 길이:', posts.length);
+    const newPostsArray = [p, ...posts];
+    console.log('🟢 [addPost] 새 배열의 첫 번째 글:', newPostsArray[0]);
+    save(newPostsArray);
   };
   const deletePost = (id)        => save(posts.filter(p => p.id !== id));
   const updatePost = (id, edits) => save(posts.map(p => p.id === id ? { ...p, ...edits } : p));
@@ -3986,11 +3990,17 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
     if (nicknameInput.trim()) {
       const nickname = nicknameInput.trim();
       window.userNickname = nickname;
-      // Firebase에 영구 저장 (deviceId 기반)
+      console.log('🔴 [Step 1] window.userNickname 직접 설정:', nickname);
+      console.log('🔴 [Step 1-B] window.userNickname 현재값:', window.userNickname);
+
       const deviceId = getDeviceId();
       const saved = await NicknameDB.save(deviceId, nickname);
+      console.log('🔴 [Step 2] Firebase 저장 완료:', saved);
+
       if (saved) {
-        console.log('✅ window.userNickname 설정됨:', nickname, '- genAuthor() 테스트:', genAuthor());
+        const testAuthor = genAuthor();
+        console.log('🔴 [Step 3] genAuthor() 테스트 결과:', testAuthor);
+        console.log('🔴 [Step 3-B] window.userNickname 다시 확인:', window.userNickname);
       } else {
         console.warn('⚠️ Firebase 저장에 실패했지만, 현재 세션에서는 사용 가능:', nickname);
       }
@@ -4794,6 +4804,9 @@ const CAT_LABELS_VI = {
 };
 
 function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePost, deviceId }) {
+  // 디버깅: props 확인
+  console.log('🔍 WritePage Props:', { onAddPost: typeof onAddPost, deviceId, nav: typeof nav, lang });
+
   const isEdit   = !!editPost;
   const activeCat = editPost?.cat || initCat;
   const isTalk    = LOCKED_CATS.includes(activeCat);
@@ -4854,9 +4867,12 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
         ...(imgs ? { images: imgs }  : {}),
       });
     } else {
+      console.log('🟡 [WritePage Submit] window.userNickname 확인:', window.userNickname);
       const finalAuthor = genAuthor();
-      console.log('📝 WritePage: 새 글 작성 - 최종 author (genAuthor 직접 호출):', finalAuthor);
-      onAddPost({
+      console.log('🟡 [WritePage Submit] genAuthor() 결과:', finalAuthor);
+      console.log('🟡 [WritePage Submit] onAddPost 타입:', typeof onAddPost);
+
+      const postData = {
         id: Date.now(), cat, author: finalAuthor, deviceId,
         date: new Date().toLocaleDateString('ko-KR'),
         title: title.trim(), body: body.trim(),
@@ -4864,7 +4880,12 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
         isPublic: vis === 'public',
         ...(loc  ? { location: loc } : {}),
         ...(imgs ? { images: imgs }  : {}),
-      });
+      };
+      console.log('🟡 [WritePage Submit] 전송할 post 데이터:', postData);
+
+      onAddPost(postData);
+      console.log('🟡 [WritePage Submit] onAddPost 호출 완료');
+
       setTimeout(() => navToBoard(cat), 0);
     }
     if (isEdit) navToBoard(cat);
