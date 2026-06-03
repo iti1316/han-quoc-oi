@@ -4804,9 +4804,13 @@ const CAT_LABELS_VI = {
 };
 
 function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePost, deviceId, route }) {
-  // 디버깅: props 확인
-  const fromPage = route?.fromPage;
-  console.log('🔍 WritePage Props:', { onAddPost: typeof onAddPost, deviceId, nav: typeof nav, lang, route: route?.page, fromPage });
+  // window.__currentRoute에서 최신 route 정보 가져오기
+  const currentRoute = window.__currentRoute || route;
+  const fromPage = currentRoute?.fromPage;
+
+  console.log('🔍 WritePage Props:', { lang, route: route?.page, fromPage });
+  console.log('🔍 WritePage window.__currentRoute:', window.__currentRoute);
+  console.log('🔍 WritePage extracted fromPage:', fromPage);
 
   const isEdit   = !!editPost;
   const activeCat = editPost?.cat || initCat;
@@ -4848,13 +4852,16 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
   const CAT_BOARD = { hall:'d9', sos:'d9', bamboo:'bamboo', talk:'bamboo', travel:'travel', market:'market', house:'house', horror:'horror' };
 
   function navToBoard(useCat) {
+    // window.__currentRoute에서 최신 fromPage 확인
+    const actualFromPage = (window.__currentRoute || currentRoute)?.fromPage;
+
     console.log('🔴 [navToBoard] 호출됨');
-    console.log('🔴 [navToBoard] fromPage 값:', fromPage);
+    console.log('🔴 [navToBoard] actualFromPage (from window):', actualFromPage);
+    console.log('🔴 [navToBoard] fromPage (from props):', fromPage);
     console.log('🔴 [navToBoard] useCat:', useCat);
-    console.log('🔴 [navToBoard] cat:', cat);
 
     // 원래 페이지로 돌아가기
-    if (fromPage === 'visaHub') {
+    if (actualFromPage === 'visaHub') {
       console.log('✅✅✅ visaHub으로 돌아감!');
       nav({ page:'visaHub' });
       return;
@@ -5160,6 +5167,8 @@ function App() {
   }, []);
 
   function nav(r) {
+    window.__currentRoute = r; // 최신 route를 window에 저장
+    console.log('🟣 [App nav] 현재 route 저장:', r);
     setRoute(r);
     window.scrollTo({ top:0, behavior:'instant' });
   }
