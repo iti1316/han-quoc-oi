@@ -522,7 +522,7 @@ function PwModal({ lang, onConfirm, onCancel }) {
 function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateComment, deviceId }) {
   const L = LANG[lang];
   const localDeviceId = localStorage.getItem('vb_device_id') || deviceId;
-  const SHOW_INITIAL = 10; // 초기에 보여줄 댓글 개수
+  const SHOW_INITIAL = 10;
 
   const [comments, setComments] = useState(post.commentsData || []);
   const [body, setBody]       = useState('');
@@ -530,6 +530,11 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
   const [editModal, setEditModal] = useState(null);
   const [editBody, setEditBody] = useState('');
   const [showAllComments, setShowAllComments] = useState(false);
+
+  // post.commentsData 변경 시 동기화
+  useEffect(() => {
+    setComments(post.commentsData || []);
+  }, [post.id, post.commentsData?.length]);
 
   function submit() {
     if (!body.trim()) return;
@@ -685,10 +690,15 @@ function SkeletonRow() {
 function PostCard({ post, lang = 'vi', onDelete, onEdit, onAddComment, onDeleteComment, onUpdateComment, deviceId }) {
   const [r, setR]           = useState({ likes:post.likes, hearts:post.hearts, wows:post.wows });
   const [act, setAct]       = useState(null);
-  const [modal, setModal]   = useState(null); // 'edit' | 'delete' | 'view' | null
+  const [modal, setModal]   = useState(null);
   const [unlocked, setUnlocked] = useState(false);
   const [showCmt, setShowCmt]   = useState(false);
   const L = LANG[lang];
+
+  // post 반응 카운트 동기화
+  useEffect(() => {
+    setR({ likes: post.likes||0, hearts: post.hearts||0, wows: post.wows||0 });
+  }, [post.id, post.likes, post.hearts, post.wows]);
 
   function react(type) {
     const same = act === type;
@@ -850,6 +860,11 @@ function PostCard({ post, lang = 'vi', onDelete, onEdit, onAddComment, onDeleteC
 function TalkReaction({ post, lang }) {
   const [r, setR]   = useState({ likes:post.likes||0, hearts:post.hearts||0, wows:post.wows||0 });
   const [act, setAct] = useState(null);
+
+  // post 반응 카운트 동기화
+  useEffect(() => {
+    setR({ likes: post.likes||0, hearts: post.hearts||0, wows: post.wows||0 });
+  }, [post.id, post.likes, post.hearts, post.wows]);
   const ITEMS = [
     { t:'likes',  i:'👍', vi:'Thích',    ko:'좋아요',  on:'text-blue-600' },
     { t:'hearts', i:'❤️', vi:'Tuyệt',    ko:'최고예요', on:'text-red-500' },
@@ -2864,8 +2879,15 @@ function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDe
 
   const [r,        setR]        = useState({ likes:post?.likes||0, hearts:post?.hearts||0, wows:post?.wows||0 });
   const [act,      setAct]      = useState(null);
-  const [lightbox, setLightbox] = useState(null); // 라이트박스 현재 이미지 index
+  const [lightbox, setLightbox] = useState(null);
   const lbTouchX = useRef(null);
+
+  // post 변경 시 반응수 동기화
+  useEffect(() => {
+    if (post) {
+      setR({ likes: post.likes||0, hearts: post.hearts||0, wows: post.wows||0 });
+    }
+  }, [post?.id, post?.likes, post?.hearts, post?.wows]);
 
   if (!post) return (
     <div className="flex items-center justify-center min-h-screen">
