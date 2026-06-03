@@ -77,14 +77,15 @@ const { useState, useEffect, useCallback, useRef } = React;
 const BOARD_STORE = 'vb_posts_v2';
 const ANONS = ['하노이 출신','호치민 출신','다낭 출신','제조업 종사자','비자 도전 중','서류 준비 중','D-9 유저','출입국 단골','익명의 버디','베트남 멤버','비자 준비 중','출입국 도전자'];
 const AVATAR_COLORS = ['bg-blue-500','bg-green-500','bg-purple-500','bg-orange-500','bg-teal-500','bg-pink-500','bg-red-500','bg-indigo-500'];
+const FIREBASE_BASE = 'https://han-quoc-oi-default-rtdb.asia-southeast1.firebasedatabase.app';
+const FIREBASE_POSTS_URL = `${FIREBASE_BASE}/posts.json`;
+const FIREBASE_PROFILES_URL = `${FIREBASE_BASE}/userProfiles`;
 
 /* 닉네임 저장소 (Firebase — 영구 보관) */
 const NicknameDB = {
-  firebaseUrl: 'https://han-quoc-oi-default-rtdb.asia-southeast1.firebasedatabase.app/userProfiles',
-
   save: async (deviceId, nickname) => {
     try {
-      const response = await fetch(`${NicknameDB.firebaseUrl}/${deviceId}.json`, {
+      const response = await fetch(`${FIREBASE_PROFILES_URL}/${deviceId}.json`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -108,7 +109,7 @@ const NicknameDB = {
 
   load: async (deviceId) => {
     try {
-      const response = await fetch(`${NicknameDB.firebaseUrl}/${deviceId}.json`, {
+      const response = await fetch(`${FIREBASE_PROFILES_URL}/${deviceId}.json`, {
         timeout: 10000
       });
       const data = await response.json();
@@ -154,7 +155,6 @@ function genAuthor() {
   console.log('⚪ genAuthor - 익명 사용:', anonymous);
   return anonymous;
 }
-function genColor()  { return AVATAR_COLORS[Math.floor(Math.random()*AVATAR_COLORS.length)]; }
 
 /* 기기별 고유 ID (회원가입 전 게시물/댓글 식별용) */
 function getDeviceId() {
@@ -337,12 +337,6 @@ function usePosts() {
     catch { return defaultPosts(); }
   });
   const save = (next) => {
-    console.log('🔵 SAVE CALLED:', next.length, 'posts');
-    if (next.length > 0) {
-      console.log('📌 첫 번째 글:', { id: next[0].id, author: next[0].author, title: next[0].title?.substring(0,20) });
-    }
-    window.postsSaved = (window.postsSaved || 0) + 1;
-    console.log('🟢 Total saves:', window.postsSaved);
 
     setPosts(next);
 
@@ -355,9 +349,8 @@ function usePosts() {
     }
 
     // Firebase REST API로 저장 (메인 저장소)
-    const firebaseUrl = 'https://han-quoc-oi-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json';
     console.log('🌐 Sending to Firebase...');
-    fetch(firebaseUrl, {
+    fetch(FIREBASE_POSTS_URL, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(next),
@@ -387,8 +380,7 @@ function usePosts() {
 
   // Firebase REST API에서 데이터 불러오기
   useEffect(() => {
-    const firebaseUrl = 'https://han-quoc-oi-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json';
-    fetch(firebaseUrl, { timeout: 10000 })
+    fetch(FIREBASE_POSTS_URL, { timeout: 10000 })
       .then(res => res.json())
       .then(data => {
         // 데이터 검증: null 체크, 배열 확인, 각 항목 검증
@@ -3968,13 +3960,6 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
   const [searchQuery, setSearchQuery] = useState('');
   const [showNicknameModal, setShowNicknameModal] = useState(false);
   const [nicknameInput, setNicknameInput] = useState('');
-  const [anonId] = useState(() => {
-    let id = localStorage.getItem('vb_anon_id');
-    if (!id) { id = String(Math.floor(Math.random()*900)+100); localStorage.setItem('vb_anon_id', id); }
-    return id;
-  });
-  const [refreshKey, setRefreshKey] = useState(0);
-  const savedNickname = window.userNickname;
 
   const handleNicknameSave = async () => {
     if (nicknameInput.trim()) {
@@ -3990,7 +3975,6 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
       }
       setShowNicknameModal(false);
       setNicknameInput('');
-      setRefreshKey(k => k + 1);
     }
   };
 
@@ -4014,7 +3998,7 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
           }}>
             <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-[12px] flex-shrink-0">👤</div>
             <span className="text-[11px] font-bold text-gray-600">
-              {savedNickname ? savedNickname : `익명 #${anonId}`}
+              {window.userNickname || '익명'}
             </span>
           </div>
         </div>
@@ -4824,12 +4808,6 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
     e.target.value = '';
   }
   function removeImage(i) { setImages(prev => prev.filter((_,idx) => idx !== i)); }
-
-  const CAT_LABELS = {
-    hall:   { vi:'Bảng Vàng', ko:'합격 명예의 전당', desc_vi:'Chia sẻ kết quả đậu', desc_ko:'합격 인증, 점수 스펙 공유' },
-    sos:    { vi:'Cứu Trợ Khẩn Cấp',  ko:'비자 119 SOS',     desc_vi:'Câu hỏi khẩn về hồ sơ/thủ tục', desc_ko:'긴급 서류·절차 질문' },
-    bamboo: { vi:'Kinh nghiệm Thực tế', ko:'출입국 참교육방',  desc_vi:'Trải nghiệm bị từ chối', desc_ko:'반려·실패담, 출입국 썰' },
-  };
 
   /* cat → classicBoard 키 매핑 */
   const CAT_BOARD = { hall:'d9', sos:'d9', bamboo:'bamboo', talk:'bamboo', travel:'travel', market:'market', house:'house', horror:'horror' };
