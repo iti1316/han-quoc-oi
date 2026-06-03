@@ -521,7 +521,6 @@ function PwModal({ lang, onConfirm, onCancel }) {
 ================================================================ */
 function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateComment, deviceId }) {
   const L = LANG[lang];
-  const localDeviceId = localStorage.getItem('vb_device_id') || deviceId;
   const SHOW_INITIAL = 10;
 
   const [comments, setComments] = useState(post.commentsData || []);
@@ -543,7 +542,7 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
       author: genAuthor(),
       date:   new Date().toLocaleDateString('ko-KR'),
       body:   body.trim(),
-      deviceId: localDeviceId,
+      deviceId: deviceId,
     };
     setComments([...comments, newComment]);
     setBody('');
@@ -551,14 +550,14 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
   }
 
   function handleDelete(c) {
-    if (c.deviceId !== localDeviceId) { alert(lang==='vi'?'Chỉ có thể xóa bình luận của chính bạn':'자신의 댓글만 삭제할 수 있습니다'); return; }
+    if (c.deviceId !== deviceId) { alert(lang==='vi'?'Chỉ có thể xóa bình luận của chính bạn':'자신의 댓글만 삭제할 수 있습니다'); return; }
     const newComments = comments.filter(cmt => cmt.id !== c.id);
     setComments(newComments);
     onDeleteComment(post.id, c.id);
   }
 
   function handleEditStart(c) {
-    if (c.deviceId !== localDeviceId) { alert(lang==='vi'?'Chỉ có thể sửa bình luận của chính bạn':'자신의 댓글만 수정할 수 있습니다'); return; }
+    if (c.deviceId !== deviceId) { alert(lang==='vi'?'Chỉ có thể sửa bình luận của chính bạn':'자신의 댓글만 수정할 수 있습니다'); return; }
     setEditModal(c);
     setEditBody(c.body);
   }
@@ -594,7 +593,7 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
                   <div className="flex items-center gap-2 mb-0.5">
                     <p className="text-[11px] font-bold text-gray-700">{c.author}</p>
                     <p className="text-[10px] text-gray-400">{c.date}</p>
-                    {c.deviceId === localDeviceId && (
+                    {c.deviceId === deviceId && (
                       <div className="ml-auto flex gap-1">
                         <button onClick={() => handleEditStart(c)}
                           className="text-[10px] text-blue-400 hover:text-blue-600 border border-blue-100 hover:border-blue-300 px-1.5 py-0.5 rounded tap transition">
