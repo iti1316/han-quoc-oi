@@ -1169,7 +1169,7 @@ function VisaBoardSection({ posts, nav, lang, onDeletePost, onUpdatePost, onAddC
       if (selected === post.id) setSelected(null);
       onDeletePost && onDeletePost(post.id);
     } else if (action === 'edit') {
-      nav({ page:'write', param:post.cat, editPost:post });
+      nav({ page:'write', param:post.cat, editPost:post, fromPage:'visaHub' });
     } else if (action === 'view') {
       setViewUnlocked(prev => [...prev, post.id]);
     }
