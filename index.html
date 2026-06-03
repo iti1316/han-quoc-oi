@@ -4803,9 +4803,10 @@ const CAT_LABELS_VI = {
   talk:   { vi:'Góc Tán Gẫu',         desc_vi:'Tán gẫu tự do, không liên quan visa' },
 };
 
-function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePost, deviceId, fromPage }) {
+function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePost, deviceId, route }) {
   // 디버깅: props 확인
-  console.log('🔍 WritePage Props:', { onAddPost: typeof onAddPost, deviceId, nav: typeof nav, lang, fromPage });
+  const fromPage = route?.fromPage;
+  console.log('🔍 WritePage Props:', { onAddPost: typeof onAddPost, deviceId, nav: typeof nav, lang, route: route?.page, fromPage });
 
   const isEdit   = !!editPost;
   const activeCat = editPost?.cat || initCat;
@@ -5181,7 +5182,7 @@ function App() {
     case 'classicBoard': return <ClassicBoardPage boardKey={route.param} {...shared} />;
     case 'postDetail':   return <PostDetailPage   boardKey={route.boardKey} postId={route.postId} {...shared} />;
     case 'visaHub':      return <VisaHubPage      nav={nav} lang={lang} posts={posts} />;
-    case 'write':        return <WritePage        initCat={route.param}  editPost={route.editPost} fromPage={route.fromPage} {...shared} />;
+    case 'write':        return <WritePage        initCat={route.param}  editPost={route.editPost} route={route} {...shared} />;
     default:             return <HomePage         {...shared} toggleLang={toggleLang} />;
   }
 }
