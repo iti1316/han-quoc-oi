@@ -2117,14 +2117,18 @@ function VisaTypeSelector({ lang, onSelect, posts, nav, openBoard, activeBoard, 
   return (
     <div className="fixed inset-0 z-50 flex flex-col overflow-y-auto" style={{background:'linear-gradient(160deg,#1e3a8a 0%,#1e40af 100%)'}}>
       <div className="flex-1 px-4 pt-12 pb-10 max-w-lg mx-auto w-full">
-        {/* 언어 토글 */}
-        <div className="flex justify-end mb-4">
+        {/* 언어 토글 & 관리자 */}
+        <div className="flex justify-end gap-2 mb-4">
           <button onClick={toggleLang}
             className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/15 border border-white/30 tap transition">
             <span className="text-base leading-none">{lang === 'vi' ? '🇻🇳' : '🇰🇷'}</span>
             <span className="text-[10px] font-black text-white">{lang === 'vi' ? 'VN' : 'KR'}</span>
             <span className="text-[9px] text-white/50">→</span>
             <span className="text-[10px] font-bold text-white/60">{lang === 'vi' ? 'KR' : 'VN'}</span>
+          </button>
+          <button onClick={()=>nav && nav({page:'admin'})}
+            className="flex items-center justify-center w-10 h-9 rounded-full bg-white/15 border border-white/30 tap transition text-lg" title="관리자">
+            ⚙️
           </button>
         </div>
         <div className="text-center mb-8">
@@ -4193,6 +4197,11 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
         </div>
       </header>
 
+      {/* 🔥 실시간 핫라인 */}
+      <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-4 py-2 text-center text-sm font-bold overflow-hidden">
+        <div className="animate-pulse">{sessionStorage.getItem('hotline') || '🔥 최신 공지를 확인하세요!'}</div>
+      </div>
+
       <main className="max-w-lg mx-auto pb-nav">
 
         {/* ── 검색바 (항상 표시) ── */}
@@ -4963,10 +4972,49 @@ const CAT_LABELS_VI = {
 
 /* ── 관리자 페이지 ── */
 function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
   const [notices, setNotices] = useState(BOARD_NOTICES);
+  const [hotline, setHotline] = useState(sessionStorage.getItem('hotline') || '🔥 최신 공지를 확인하세요!');
   const [selectedBoard, setSelectedBoard] = useState('market');
   const [noticeForm, setNoticeForm] = useState({ id:'', title:'', date:'' });
   const [isAddingNotice, setIsAddingNotice] = useState(false);
+
+  const handleLogin = () => {
+    if (password === '88888888') {
+      setIsAuthenticated(true);
+      setPassword('');
+    } else {
+      alert('비밀번호가 틀렸습니다!');
+      setPassword('');
+    }
+  };
+
+  const handleHotlineUpdate = () => {
+    sessionStorage.setItem('hotline', hotline);
+    alert('전광판이 업데이트되었습니다!');
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div style={{background:'#F5F6F8', minHeight:'100vh'}} className="flex items-center justify-center">
+        <div className="bg-white rounded-lg p-8 w-full max-w-sm mx-4 text-center">
+          <p className="text-2xl mb-4">🔐</p>
+          <p className="font-black text-gray-800 mb-6">관리자 인증</p>
+          <input
+            type="password"
+            placeholder="비밀번호"
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
+            onKeyPress={(e)=>e.key==='Enter' && handleLogin()}
+            className="w-full border-2 border-gray-300 rounded p-3 mb-4 text-center font-bold"
+            autoFocus
+          />
+          <button onClick={handleLogin} className="w-full bg-blue-600 text-white py-3 rounded font-bold">입장</button>
+        </div>
+      </div>
+    );
+  }
 
   const boardPosts = posts.filter(p => p.cat === selectedBoard && !p.isPublic === false).slice(0, 10);
 
@@ -5011,6 +5059,19 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
             <p className="text-2xl font-black">{new Set(posts.map(p=>p.deviceId)).size}</p>
             <p className="text-xs">활동 사용자</p>
           </div>
+        </div>
+
+        {/* 🔥 실시간 핫라인 */}
+        <div className="bg-white rounded-lg p-4 mb-4">
+          <p className="font-black text-gray-800 mb-3">🔥 실시간 핫라인</p>
+          <textarea
+            value={hotline}
+            onChange={(e)=>setHotline(e.target.value)}
+            className="w-full border-2 border-gray-300 rounded p-2 text-sm mb-2"
+            rows="2"
+            placeholder="실시간 공지 내용"
+          />
+          <button onClick={handleHotlineUpdate} className="w-full bg-red-600 text-white py-2 rounded font-bold text-sm">📢 업데이트</button>
         </div>
 
         {/* 공지사항 관리 */}
