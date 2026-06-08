@@ -5289,12 +5289,18 @@ function App() {
   /* 페이지 로드 시 해시에서 route 파싱 */
   useEffect(() => {
     const hash = window.location.hash.slice(1); // '#' 제거
+    if (!hash) return; // 해시 없으면 기본 페이지로
+
     if (hash.startsWith('/postDetail/')) {
       const parts = hash.split('/');
-      setRoute({ page:'postDetail', boardKey:parts[2], postId:parts[3] });
+      if (parts[2] && parts[3]) {
+        setRoute({ page:'postDetail', boardKey:parts[2], postId:parts[3] });
+      }
     } else if (hash.startsWith('/')) {
       const parts = hash.slice(1).split('/');
-      setRoute({ page:parts[0], param:parts[1] || null });
+      if (parts[0]) {
+        setRoute({ page:parts[0], param:parts[1] || null });
+      }
     }
   }, []);
 
