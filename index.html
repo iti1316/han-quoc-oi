@@ -3169,7 +3169,7 @@ function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDe
 
               <button
                 onClick={() => {
-                  const shareUrl = `${window.location.origin}${window.location.pathname}?page=postDetail&boardKey=${boardKey}&postId=${postId}`;
+                  const shareUrl = `${window.location.origin}${window.location.pathname}#/postDetail/${boardKey}/${postId}`;
                   navigator.clipboard.writeText(shareUrl);
                   setShareMsg(true);
                   setTimeout(() => setShareMsg(false), 2000);
@@ -5279,21 +5279,22 @@ function App() {
   useEffect(() => {
     let url = '/';
     if (route.page === 'postDetail') {
-      url = `?page=postDetail&boardKey=${route.boardKey}&postId=${route.postId}`;
+      url = `#/postDetail/${route.boardKey}/${route.postId}`;
     } else if (route.page !== 'home') {
-      url = `?page=${route.page}&param=${route.param || ''}`;
+      url = `#/${route.page}/${route.param || ''}`.replace(/\/$/, '');
     }
     window.history.pushState(route, '', url);
   }, [route]);
 
-  /* 페이지 로드 시 URL에서 route 파싱 */
+  /* 페이지 로드 시 해시에서 route 파싱 */
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const page = params.get('page');
-    if (page === 'postDetail') {
-      setRoute({ page:'postDetail', boardKey:params.get('boardKey'), postId:params.get('postId') });
-    } else if (page) {
-      setRoute({ page, param:params.get('param') || null });
+    const hash = window.location.hash.slice(1); // '#' 제거
+    if (hash.startsWith('/postDetail/')) {
+      const parts = hash.split('/');
+      setRoute({ page:'postDetail', boardKey:parts[2], postId:parts[3] });
+    } else if (hash.startsWith('/')) {
+      const parts = hash.slice(1).split('/');
+      setRoute({ page:parts[0], param:parts[1] || null });
     }
   }, []);
 
