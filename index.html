@@ -3770,22 +3770,16 @@ function VisaHubPage({ nav, lang, posts = [] }) {
 
             {/* 서브경로 선택 (유학생인 경우만) */}
             {route.subRoutes && (
-              <>
-                <div className="px-4 py-3 bg-blue-50 border-b border-blue-100 flex gap-2">
-                  {route.subRoutes.map(sr => (
-                    <button key={sr.key} onClick={()=>{ setSelectedSubRoute(sr.key); setSelectedStep(sr.steps[0].key); }}
-                      className={`flex-1 px-3 py-2 rounded-lg font-black text-[10px] tap transition
-                        ${selectedSubRoute===sr.key ? 'bg-blue-600 text-white' : 'bg-white text-blue-900 border-2 border-blue-400'}`}>
-                      {sr.emoji} {lang==='vi'?sr.vi:sr.ko}
-                    </button>
-                  ))}
-                </div>
-                {subRoute && (
-                  <div className="px-4 py-2 bg-blue-100 border-b border-blue-200">
-                    <p className="text-[10px] text-blue-700 font-semibold word-keep">{T(subRoute.desc)}</p>
-                  </div>
-                )}
-              </>
+              <div className="px-4 py-3 space-y-2 bg-blue-50 border-b border-blue-100">
+                {route.subRoutes.map(sr => (
+                  <button key={sr.key} onClick={()=>{ setSelectedSubRoute(sr.key); setSelectedStep(sr.steps[0].key); }}
+                    className={`w-full text-left px-4 py-3 rounded-lg tap transition border-2
+                      ${selectedSubRoute===sr.key ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white border-blue-300 text-gray-800'}`}>
+                    <p className="font-black text-[11px] mb-1">{sr.emoji} {lang==='vi'?sr.vi:sr.ko}</p>
+                    <p className={`text-[9px] font-semibold word-keep ${selectedSubRoute===sr.key ? 'text-blue-100' : 'text-blue-700'}`}>{T(sr.desc)}</p>
+                  </button>
+                ))}
+              </div>
             )}
 
             <div className="px-4 py-3 overflow-x-auto flex items-center gap-2">
