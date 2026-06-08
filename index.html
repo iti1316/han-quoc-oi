@@ -34,6 +34,17 @@
                 background-size: 200% 100%; animation: shimmer 1.4s infinite; }
     @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
   </style>
+  <!-- GitHub Pages SPA 리다이렉트 복구 -->
+  <script>
+    // 404에서 저장한 리다이렉트 URL 복구
+    const redirectUrl = sessionStorage.getItem('redirectUrl');
+    if (redirectUrl) {
+      sessionStorage.removeItem('redirectUrl');
+      if (redirectUrl !== window.location.pathname + window.location.search) {
+        window.history.replaceState(null, null, redirectUrl);
+      }
+    }
+  </script>
   <!-- Firebase SDK (Compat version for CDN) -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
