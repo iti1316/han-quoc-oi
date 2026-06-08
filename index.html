@@ -5271,7 +5271,22 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
    루트 App — 상태 기반 라우터
 ================================================================ */
 function App() {
-  const [route,    setRoute]    = useState({ page:'home', param:null });
+  /* 초기 route를 해시에서 파싱 */
+  const [route,    setRoute]    = useState(() => {
+    const hash = window.location.hash.slice(1);
+    if (hash.startsWith('/postDetail/')) {
+      const parts = hash.split('/');
+      if (parts[2] && parts[3]) {
+        return { page:'postDetail', boardKey:parts[2], postId:parts[3] };
+      }
+    } else if (hash.startsWith('/')) {
+      const parts = hash.slice(1).split('/');
+      if (parts[0]) {
+        return { page:parts[0], param:parts[1] || null };
+      }
+    }
+    return { page:'home', param:null };
+  });
   const [lang,     setLang]     = useState('vi');
   const { posts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId } = usePosts();
 
