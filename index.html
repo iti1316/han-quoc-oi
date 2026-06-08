@@ -2922,6 +2922,8 @@ function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDe
   const [r,        setR]        = useState({ likes:post?.likes||0, hearts:post?.hearts||0, wows:post?.wows||0 });
   const [act,      setAct]      = useState(null);
   const [lightbox, setLightbox] = useState(null);
+  const [shareModal, setShareModal] = useState(false);
+  const [shareMsg, setShareMsg] = useState('');
   const lbTouchX = useRef(null);
 
   // post 변경 시 반응수 동기화
@@ -3044,17 +3046,7 @@ function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDe
             ))}
             {/* 공유 버튼 */}
             <button
-              onClick={async ()=>{
-                const text = `[Hàn Quốc Ơi]\n${post.title}\n\n${post.body.slice(0,120)}${post.body.length>120?'...':''}`;
-                if (navigator.share) {
-                  try { await navigator.share({ title: post.title, text }); } catch(e) {}
-                } else {
-                  try {
-                    await navigator.clipboard.writeText(text);
-                    alert(lang==='vi'?'클립보드에 복사됐어요!':'클립보드에 복사됐어요! 📋');
-                  } catch(e) {}
-                }
-              }}
+              onClick={() => setShareModal(true)}
               className="ml-auto flex items-center gap-1 px-3 py-1.5 rounded-full border text-xs font-bold tap transition text-gray-500 border-gray-200 hover:bg-gray-50">
               <span>📤</span>
               <span>{lang==='vi'?'Chia sẻ':'공유'}</span>
@@ -3143,6 +3135,48 @@ function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDe
               ))}
             </div>
           )}
+        </div>
+      )}
+
+      {/* 공유하기 모달 */}
+      {shareModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-end z-50">
+          <div className="w-full bg-white rounded-t-2xl animate-slideUp">
+            <div className="p-4 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <p className="text-lg font-black text-gray-800">{lang==='vi'?'Chia sẻ':'공유하기'}</p>
+                <button onClick={() => setShareModal(false)} className="text-2xl text-gray-400">✕</button>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">{lang==='vi'?'Chia sẻ trang này':'이 페이지를 공유하세요'}</p>
+            </div>
+
+            <div className="p-4">
+              <div className="bg-gray-50 rounded-lg p-3 mb-3">
+                <p className="text-xs text-gray-500 mb-2">{lang==='vi'?'URL':'주소'}</p>
+                <p className="text-sm font-semibold text-gray-700 break-all">{window.location.href}</p>
+              </div>
+
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(window.location.href);
+                  setShareMsg(true);
+                  setTimeout(() => setShareMsg(false), 2000);
+                }}
+                className="w-full bg-blue-600 text-white font-bold py-3 rounded-lg tap transition hover:bg-blue-700 mb-2">
+                {lang==='vi'?'Sao chép URL':'URL 복사'}
+              </button>
+
+              {shareMsg && (
+                <p className="text-center text-sm text-blue-600 font-semibold">{lang==='vi'?'URL đã sao chép!':'주소가 복사되었습니다!'}</p>
+              )}
+
+              <button
+                onClick={() => setShareModal(false)}
+                className="w-full text-gray-600 font-bold py-3 rounded-lg tap transition hover:bg-gray-100">
+                {lang==='vi'?'Đóng':'닫기'}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
