@@ -2497,9 +2497,9 @@ const VISA_GUIDE_DATA = {
   f6: {
     code:'F-6', icon:'💑', color:'bg-pink-600',
     name:      { ko:'결혼이민비자 (F-6-1/2/3)',                  vi:'Visa nhập cư hôn nhân (F-6-1/2/3)' },
-    summary:   { ko:'한국인과 혼인한 외국인 배우자 또는 자녀 양육자 — 2026년 가구별 소득 기준 상향 + 임신/자녀 시 전면 면제', vi:'Vợ/chồng người Hàn hoặc người chăm sóc con — 2026 nâng tiêu chuẩn lương + miễn toàn bộ nếu có thai/con' },
+    summary:   { ko:'한국인과 혼인한 외국인 배우자 또는 자녀 양육자. 2가지 경로: ①국적시험 합격 시 바로 귀화 신청 ②국적시험 미합격 시 F-5-2(2년) → 귀화', vi:'Vợ/chồng người Hàn hoặc người chăm sóc con. 2 đường: ①Đỗ kì thi quốc tịch → xin nhập tịch ngay ②Trượt → F-5-2(2 năm) → nhập tịch' },
     maxStay:   { ko:'최초 90일 → 조기적응프로그램 후 2년 (반복 연장 가능, F-5 또는 귀화까지)', vi:'Ban đầu 90 ngày → sau chương trình thích nghi sớm → 2 năm (lặp lại đến F-5 hoặc nhập tịch)' },
-    target:    { ko:'배우자와 함께 한국 정착 → 2년 후 F-5 영주권 or 3년 후 귀화 신청 가능',        vi:'Định cư cùng vợ/chồng → 2 năm lấy F-5 hoặc 3 năm xin nhập tịch' },
+    target:    { ko:'배우자와 함께 한국 정착 → 국적시험 합격 시 바로 귀화(3년) / 미합격 시 F-5-2(2년) → 귀화(총 5년)',        vi:'Định cư cùng vợ/chồng → Đỗ kì thi → nhập tịch 3 năm / Trượt → F-5-2 2 năm → nhập tịch (tổng 5 năm)' },
     steps: [
       { ko:'[2026년 가구별 최소 소득 기준] 한국인 배우자의 연간 소득(소득금액증명원 기준) 반드시 충족 필수: 2인 가구(부부) 25,195,752원 / 3인(부부+자녀1) 32,154,216원 / 4인(부부+자녀2) 38,968,428원 / 추가 1인당 +5,775,188원. 전년도 대비 약 160만원 상향됨', vi:'[Tiêu chuẩn lương tối thiểu 2026 theo số người] Thu nhập vợ/chồng Hàn (xác nhận từ cục thuế): 2 người 25.1 triệu won / 3 người 32.1 triệu / 4 người 39 triệu / thêm 1 người +5.77 triệu. Tăng ~1.6 triệu so với năm trước' },
       { ko:'[소득 산정 및 구제책] 소득금액증명원상 근로·사업·임대·이자 소득 합산액만 인정. 소득 미달 시 구제책: ①6개월 이상 보유 순자산의 5%를 연소득으로 환산하여 합산 가능 ②주민등록 세대를 같이하는 직계가족(부모 등) 소득 합산 가능! (자산+가족 소득으로 기준 충족 가능)', vi:'[Cách tính lương & cách cứu] Chỉ chấp nhận "xác nhận thu nhập" từ cục thuế (lương+kinh doanh+cho thuê+lãi). Nếu thiếu: ①Tài sản >6 tháng, lấy 5%/năm cộng vào ②Cộng thu nhập cha mẹ cùng hộ khẩu! (tài sản + gia đình = đủ được)' },
@@ -2515,7 +2515,7 @@ const VISA_GUIDE_DATA = {
   naturalization: {
     code:'귀화', icon:'🇰🇷', color:'bg-red-700',
     name:      { ko:'대한민국 국적 취득 (혼인귀화)',                  vi:'Nhập quốc tịch Hàn Quốc (qua hôn nhân)' },
-    summary:   { ko:'F-6 결혼이민 → 3년 후 국적 신청 가능 — 베트남 국적 유지 + 한국 국적 동시 보유 (복수국적) 가능', vi:'Sau F-6 3 năm → xin quốc tịch Hàn — Giữ quốc tịch Việt + Hàn cùng lúc (song quốc tịch) có được' },
+    summary:   { ko:'2가지 경로: ①F-6에서 국적시험 합격 후 바로 신청(3년) ②F-6 미합격 시 F-5-2 거쳐서 신청(총5년) — 베트남 국적 유지 가능', vi:'2 đường: ①F-6 + đỗ kì thi → xin ngay (3 năm) ②F-6 + trượt → F-5-2 → xin (5 năm) — giữ quốc tịch Việt được' },
     maxStay:   { ko:'무기한 (국적 취득 후 한국 정착)',          vi:'Vô thời hạn (định cư vĩnh viễn sau nhập tịch)' },
     target:    { ko:'결혼이민의 최종 목표 🇰🇷 — 한국 국민이 되어 정치·경제 모든 활동 완전 자유',        vi:'Mục tiêu cuối cùng kết hôn 🇰🇷 — Thành công dân Hàn, tự do tuyệt đối' },
     steps: [
