@@ -5265,10 +5265,25 @@ function App() {
 
   /* route 변경 시 browser history에 저장 */
   useEffect(() => {
-    if (route.page !== 'home') {
-      window.history.pushState(route, '');
+    let url = '/';
+    if (route.page === 'postDetail') {
+      url = `?page=postDetail&boardKey=${route.boardKey}&postId=${route.postId}`;
+    } else if (route.page !== 'home') {
+      url = `?page=${route.page}&param=${route.param || ''}`;
     }
+    window.history.pushState(route, '', url);
   }, [route]);
+
+  /* 페이지 로드 시 URL에서 route 파싱 */
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get('page');
+    if (page === 'postDetail') {
+      setRoute({ page:'postDetail', boardKey:params.get('boardKey'), postId:params.get('postId') });
+    } else if (page) {
+      setRoute({ page, param:params.get('param') || null });
+    }
+  }, []);
 
   /* 모바일 뒤로가기 처리 */
   useEffect(() => {
