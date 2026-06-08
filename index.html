@@ -3158,7 +3158,8 @@ function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDe
 
               <button
                 onClick={() => {
-                  navigator.clipboard.writeText(window.location.href);
+                  const shareUrl = `${window.location.origin}${window.location.pathname}?page=postDetail&boardKey=${boardKey}&postId=${postId}`;
+                  navigator.clipboard.writeText(shareUrl);
                   setShareMsg(true);
                   setTimeout(() => setShareMsg(false), 2000);
                 }}
