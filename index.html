@@ -3792,6 +3792,9 @@ function VisaHubPage({ nav, lang, posts = [] }) {
                   <span className={`text-lg`}>{guide.icon}</span>
                   <p className="text-sm font-black text-gray-800">{T(guide.name)}</p>
                 </div>
+                {guide.summary && (
+                  <p className="text-xs text-gray-600 mt-2 word-keep leading-relaxed">{T(guide.summary)}</p>
+                )}
               </div>
 
               <div className="px-4 py-4">
