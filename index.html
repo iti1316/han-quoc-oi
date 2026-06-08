@@ -2944,6 +2944,44 @@ function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDe
     }
   }, [post?.id, post?.likes, post?.hearts, post?.wows]);
 
+  // Open Graph 메타 태그 설정
+  useEffect(() => {
+    if (post) {
+      const title = post.title || '게시글';
+      const description = (post.body || '').substring(0, 150).replace(/<[^>]*>/g, '') || cfg?.ko || '';
+      const url = `${window.location.origin}${window.location.pathname}#/postDetail/${boardKey}/${postId}`;
+
+      document.title = title;
+
+      // og:title
+      let ogTitle = document.querySelector('meta[property="og:title"]');
+      if (!ogTitle) {
+        ogTitle = document.createElement('meta');
+        ogTitle.setAttribute('property', 'og:title');
+        document.head.appendChild(ogTitle);
+      }
+      ogTitle.setAttribute('content', title);
+
+      // og:description
+      let ogDesc = document.querySelector('meta[property="og:description"]');
+      if (!ogDesc) {
+        ogDesc = document.createElement('meta');
+        ogDesc.setAttribute('property', 'og:description');
+        document.head.appendChild(ogDesc);
+      }
+      ogDesc.setAttribute('content', description);
+
+      // og:url
+      let ogUrl = document.querySelector('meta[property="og:url"]');
+      if (!ogUrl) {
+        ogUrl = document.createElement('meta');
+        ogUrl.setAttribute('property', 'og:url');
+        document.head.appendChild(ogUrl);
+      }
+      ogUrl.setAttribute('content', url);
+    }
+  }, [post?.id, post?.title, post?.body, boardKey, postId]);
+
   if (!post) return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="text-center px-6">
