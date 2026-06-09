@@ -2670,8 +2670,9 @@ function loadBoardNotices(cat = 'market') {
   return allNotices[cat] || [];
 }
 
-const LOCKED_CATS = ['travel', 'market', 'house', 'horror', 'bamboo'];
+const LOCKED_CATS = ['travel', 'market', 'house', 'horror', 'bamboo', 'talk'];
 const LOCKED_CAT_INFO = {
+  talk:   { e:'💬', ko:'출입국 참교육방',    vi:'Kinh nghiệm Thực tế',   desc_ko:'반려·실패담, 출입국 썰', desc_vi:'Trải nghiệm bị từ chối' },
   travel: { e:'📸', ko:'여행·맛집 소개',    vi:'Du lịch & Ẩm thực',     desc_ko:'여행 정보, 맛집 소개',   desc_vi:'Chia sẻ du lịch, ẩm thực' },
   market: { e:'🥕', ko:'당근마켓 꿀매물',   vi:'Chợ Daangn',            desc_ko:'중고거래, 나눔, 꿀매물', desc_vi:'Mua bán đồ cũ' },
   house:  { e:'🏠', ko:'집 구하기',         vi:'Tìm nhà & Share house', desc_ko:'부동산 정보, 쉐어하우스', desc_vi:'Tìm phòng, share house' },
@@ -3397,6 +3398,7 @@ const BOARD_HOT_CFG = [
 const CAT_BOARD_MAP = {
   hall:   { key:'d9',     emoji:'📘', bg:'bg-blue-600',   ko:'비자 정보',   vi:'Visa' },
   sos:    { key:'d9',     emoji:'📘', bg:'bg-blue-600',   ko:'비자 정보',   vi:'Visa' },
+  talk:   { key:'d9',     emoji:'📘', bg:'bg-blue-600',   ko:'비자 정보',   vi:'Visa' },
   bamboo: { key:'bamboo', emoji:'🤫', bg:'bg-orange-500', ko:'대나무숲',    vi:'Rừng Tre' },
   travel: { key:'travel', emoji:'📸', bg:'bg-pink-500',   ko:'여행·맛집',   vi:'Du lịch' },
   market: { key:'market', emoji:'🥕', bg:'bg-orange-400', ko:'당근마켓',    vi:'Chợ' },
@@ -5380,13 +5382,15 @@ function compressImage(file) {
 const CAT_OPTS = [
   { v:'hall',   e:'🏆', label:'합격 명예의 전당', desc:'합격 인증, 점수 스펙 공유',  sel:'border-yellow-300 bg-yellow-50', t:'text-yellow-700', d:'text-yellow-500' },
   { v:'sos',    e:'🚨', label:'비자 119 SOS',     desc:'긴급 서류·절차 질문',        sel:'border-red-300 bg-red-50',       t:'text-red-700',    d:'text-red-500' },
-  { v:'bamboo', e:'💬', label:'출입국 참교육방',  desc:'반려·실패담, 출입국 썰',      sel:'border-orange-300 bg-orange-50', t:'text-orange-700', d:'text-orange-500' },
+  { v:'talk',   e:'💬', label:'출입국 참교육방',  desc:'반려·실패담, 출입국 썰',      sel:'border-orange-300 bg-orange-50', t:'text-orange-700', d:'text-orange-500' },
+  { v:'bamboo', e:'🤫', label:'대나무숲 완전 익명', desc:'익명으로 자유롭게 대화',    sel:'border-orange-300 bg-orange-50', t:'text-orange-700', d:'text-orange-500' },
 ];
 
 const CAT_LABELS_VI = {
   hall:   { vi:'Bảng Vàng',           desc_vi:'Chia sẻ kết quả đậu' },
   sos:    { vi:'Cứu Trợ Khẩn Cấp',   desc_vi:'Câu hỏi khẩn về hồ sơ/thủ tục' },
-  bamboo: { vi:'Kinh nghiệm Thực tế', desc_vi:'Trải nghiệm bị từ chối' },
+  talk:   { vi:'Kinh nghiệm Thực tế', desc_vi:'Trải nghiệm bị từ chối' },
+  bamboo: { vi:'Rừng Tre Ẩn Danh',   desc_vi:'Nói chuyện ẩn danh tự do' },
 };
 
 /* ── 관리자 페이지 ── */
