@@ -4263,7 +4263,7 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
       {/* ── 하단 네비게이션 바 ── */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 safe-bottom"
         style={{paddingBottom:'env(safe-area-inset-bottom,0px)'}}>
-        <div className="max-w-lg mx-auto grid grid-cols-5 h-14">
+        <div className="max-w-lg mx-auto grid grid-cols-4 h-14">
 
           {/* 홈 */}
           <button onClick={()=>{ setSearchQuery(''); window.scrollTo({top:0,behavior:'smooth'}); }}
@@ -4599,7 +4599,7 @@ function ScorePage({ type='e74', onBack, lang }) {
 
   // 비자별 배점 설정
   const VISA_SETTINGS = {
-    e74: { maxScore:300, passScore:200, title:lang==='vi'?'📊 Kiểm tra điểm E-7-4':'📊 E-7-4 점수 체크', BASE:10 },
+    e74: { maxScore:300, passScore:200, title:lang==='vi'?'📊 Kiểm tra điểm E-7-4':'📊 E-7-4 점수 체크', BASE:20 },
     f27: { maxScore:170, passScore:80,  title:lang==='vi'?'📊 Kiểm tra điểm F-2-7':'📊 F-2-7 점수 체크', BASE:0 },
     f5:  { maxScore:100, passScore:60,  title:lang==='vi'?'📊 Kiểm tra điểm F-5':'📊 F-5 점수 체크',   BASE:0 },
   };
@@ -4648,15 +4648,15 @@ function ScorePage({ type='e74', onBack, lang }) {
         {/* 입력 항목 */}
         <div className="flex flex-col gap-3">
           {(lang==='vi' ? [
-            ['① Độ tuổi', age, setAge, [['0','Chọn'],['16','18~24 tuổi (16đ)'],['18','25~29 tuổi (18đ)'],['17','30~34 tuổi (17đ)'],['14','35~39 tuổi (14đ)'],['10','40~44 tuổi (10đ)'],['6','45~49 tuổi (6đ)'],['2','Từ 50 tuổi (2đ)']]],
-            ['② Tiếng Hàn', kor, setKor, [['0','Chọn'],['0','TOPIK cấp 1 (0đ)'],['10','TOPIK cấp 2 (10đ)'],['18','TOPIK cấp 3 (18đ)'],['24','TOPIK cấp 4 (24đ)'],['30','TOPIK cấp 5~6 (30đ)'],['30','KIP giai đoạn 5 (30đ)']]],
-            ['③ Học vấn', edu, setEdu, [['0','Chọn / Không có (0đ)'],['10','Cao đẳng trong nước (10đ)'],['18','Đại học trong nước (18đ)'],['22','Thạc sĩ+ trong nước (22đ)'],['10','Đại học nước ngoài (10đ)'],['14','Thạc sĩ+ nước ngoài (14đ)']]],
-            ['④ Thu nhập (lương thực nhận/tháng)', inc, setInc, [['0','Chọn'],['0','Dưới 1x lương tối thiểu (0đ)'],['10','1x~1.5x (10đ)'],['20','1.5x~2x (20đ)'],['30','2x~2.5x (30đ)'],['40','Từ 2.5x trở lên (40đ)']]],
+            ['① Độ tuổi', age, setAge, [['0','Chọn'],['25','18~24 tuổi (25đ)'],['30','25~29 tuổi (30đ)'],['28','30~34 tuổi (28đ)'],['20','35~39 tuổi (20đ)'],['15','40~44 tuổi (15đ)'],['8','45~49 tuổi (8đ)'],['3','Từ 50 tuổi (3đ)']]],
+            ['② Tiếng Hàn', kor, setKor, [['0','Chọn'],['0','TOPIK cấp 1 (0đ)'],['20','TOPIK cấp 2 (20đ)'],['35','TOPIK cấp 3 (35đ)'],['45','TOPIK cấp 4 (45đ)'],['50','TOPIK cấp 5~6 (50đ)'],['50','KIP giai đoạn 5 (50đ)']]],
+            ['③ Học vấn', edu, setEdu, [['0','Chọn / Không có (0đ)'],['15','Cao đẳng trong nước (15đ)'],['30','Đại học trong nước (30đ)'],['40','Thạc sĩ+ trong nước (40đ)'],['15','Đại học nước ngoài (15đ)'],['25','Thạc sĩ+ nước ngoài (25đ)']]],
+            ['④ Thu nhập (lương thực nhận/tháng)', inc, setInc, [['0','Chọn'],['0','Dưới 1x lương tối thiểu (0đ)'],['20','1x~1.5x (20đ)'],['35','1.5x~2x (35đ)'],['50','2x~2.5x (50đ)'],['60','Từ 2.5x trở lên (60đ)']]],
           ] : [
-            ['① 연령', age, setAge, [['0','선택하세요'],['16','18~24세 (16점)'],['18','25~29세 (18점)'],['17','30~34세 (17점)'],['14','35~39세 (14점)'],['10','40~44세 (10점)'],['6','45~49세 (6점)'],['2','50세 이상 (2점)']]],
-            ['② 한국어 능력', kor, setKor, [['0','선택하세요'],['0','토픽 1급 (0점)'],['10','토픽 2급 (10점)'],['18','토픽 3급 (18점)'],['24','토픽 4급 (24점)'],['30','토픽 5~6급 (30점)'],['30','사회통합프로그램 5단계 (30점)']]],
-            ['③ 학력', edu, setEdu, [['0','선택하세요 / 해당없음 (0점)'],['10','국내 전문학사 (10점)'],['18','국내 학사 (18점)'],['22','국내 석사 이상 (22점)'],['10','해외 학사 (10점)'],['14','해외 석사 이상 (14점)']]],
-            ['④ 소득 (월 실수령액 기준)', inc, setInc, [['0','선택하세요'],['0','최저임금 1배 미만 (0점)'],['10','1배 이상 1.5배 미만 (10점)'],['20','1.5배 이상 2배 미만 (20점)'],['30','2배 이상 2.5배 미만 (30점)'],['40','2.5배 이상 (40점)']]],
+            ['① 연령', age, setAge, [['0','선택하세요'],['25','18~24세 (25점)'],['30','25~29세 (30점)'],['28','30~34세 (28점)'],['20','35~39세 (20점)'],['15','40~44세 (15점)'],['8','45~49세 (8점)'],['3','50세 이상 (3점)']]],
+            ['② 한국어 능력', kor, setKor, [['0','선택하세요'],['0','토픽 1급 (0점)'],['20','토픽 2급 (20점)'],['35','토픽 3급 (35점)'],['45','토픽 4급 (45점)'],['50','토픽 5~6급 (50점)'],['50','사회통합프로그램 5단계 (50점)']]],
+            ['③ 학력', edu, setEdu, [['0','선택하세요 / 해당없음 (0점)'],['15','국내 전문학사 (15점)'],['30','국내 학사 (30점)'],['40','국내 석사 이상 (40점)'],['15','해외 학사 (15점)'],['25','해외 석사 이상 (25점)']]],
+            ['④ 소득 (월 실수령액 기준)', inc, setInc, [['0','선택하세요'],['0','최저임금 1배 미만 (0점)'],['20','1배 이상 1.5배 미만 (20점)'],['35','1.5배 이상 2배 미만 (35점)'],['50','2배 이상 2.5배 미만 (50점)'],['60','2.5배 이상 (60점)']]],
           ]).map(([label, val, setter, opts]) => (
             <div key={label} className="bg-white rounded-2xl shadow-sm px-4 py-3 fade-in">
               <label className="block text-xs font-black text-gray-600 mb-2">{label}</label>
@@ -4973,6 +4973,24 @@ const DOCS = [
     id:'주무부처추천', icon:'🏛️', name:'주무부처 고용추천서', vi_name:'Thư giới thiệu từ bộ chính phủ',
     badge:'권장', desc:'심사 기간 단축 및 승인율 극대화',
     vi_desc:'Giảm thời gian xét duyệt (E-7-1용)',
+    fileName:null, driveId:null, official:null,
+  },
+  {
+    id:'소득금액증명원', icon:'📊', name:'소득금액증명원 (최근 2년 연평균)', vi_name:'Chứng minh thu nhập bình quân',
+    badge:'필수', desc:'지난 2년간 연평균 소득 (국세청 발급)',
+    vi_desc:'Thu nhập bình quân 2 năm qua (cấp từ Cục Thuế)',
+    fileName:null, driveId:null, official:null,
+  },
+  {
+    id:'원천징수신고', icon:'📑', name:'원천징수이행상황신고서', vi_name:'Biểu kê nộp thuế',
+    badge:'필수', desc:'근로소득 원천징수 이행 확인 (연중 계속)',
+    vi_desc:'Xác nhận nộp thuế từ lương (hàng năm)',
+    fileName:null, driveId:null, official:null,
+  },
+  {
+    id:'세금완납증명', icon:'✅', name:'세금·보험료 완납증명', vi_name:'Chứng minh nộp đủ thuế & bảo hiểm',
+    badge:'필수', desc:'소득세·지방소득세·고용보험료 완납',
+    vi_desc:'Hoàn tất thuế thu nhập & bảo hiểm lao động',
     fileName:null, driveId:null, official:null,
   },
 ];
