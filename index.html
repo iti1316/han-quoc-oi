@@ -4771,18 +4771,84 @@ const DOCS = [
     vi_desc:'Giấy ngoại kiều còn hạn bắt buộc',
     fileName:null, driveId:null, official:null,
   },
+  {
+    id:'고용계약서', icon:'📋', name:'고용계약서', vi_name:'Hợp đồng lao động',
+    badge:'필수', desc:'고용주 서명, 근무 기간·임금 명시',
+    vi_desc:'Có chữ ký chủ, ghi rõ thời gian làm việc & lương',
+    fileName:null, driveId:null, official:null,
+  },
+  {
+    id:'건강검진증명', icon:'🏥', name:'건강검진증명서', vi_name:'Chứng minh khám sức khỏe',
+    badge:'필수', desc:'한국 지정 병원에서 발급한 검진증명',
+    vi_desc:'Cấp từ bệnh viện được chỉ định tại Hàn',
+    fileName:null, driveId:null, official:null,
+  },
+  {
+    id:'학위증명서', icon:'🎓', name:'학위증명서', vi_name:'Bằng cấp học vấn',
+    badge:'필수', desc:'대학/전문학교 졸업증명서 (공증 필수)',
+    vi_desc:'Bằng tốt nghiệp đại học/cao đẳng (công chứng)',
+    fileName:null, driveId:null, official:null,
+  },
+  {
+    id:'취업계약서', icon:'💼', name:'취업계약서 (E-7-1용)', vi_name:'Hợp đồng lao động chuyên môn',
+    badge:'필수', desc:'E-7-1 변경용 취업계약서 (임금 기준 충족)',
+    vi_desc:'Hợp đồng cho chuyên gia (lương đạt tiêu chuẩn)',
+    fileName:null, driveId:null, official:null,
+  },
+  {
+    id:'입학허가서', icon:'📩', name:'입학허가서', vi_name:'Thư nhập học',
+    badge:'필수', desc:'한국 대학·어학원의 입학허가서',
+    vi_desc:'Thư nhập học từ trường Hàn',
+    fileName:null, driveId:null, official:null,
+  },
+  {
+    id:'혼인증명서', icon:'💒', name:'혼인증명서 (공증)', vi_name:'Giấy chứng thực hôn nhân',
+    badge:'필수', desc:'베트남 발급 + 한국 공증 필수',
+    vi_desc:'Cấp từ Việt Nam + công chứng tại Hàn',
+    fileName:null, driveId:null, official:null,
+  },
 ];
 
-/* 비자별 필요 서류 매핑 */
+/* ========== 비자별 필수 서류 (꼼꼼하게 정리) ========== */
 const REQUIRED_DOCS_BY_VISA = {
-  e9: ['통합신청서', '여권', '외국인등록증'],
+  /* E-9: 비전문취업 */
+  e9: ['고용계약서', '건강검진증명', '여권', '외국인등록증'],
+
+  /* E-7-4: 숙련기능인력 */
   e74: ['통합신청서', '고용사유서', '고용주추천서', '재직확인서', '임금대장', '부가가치세', '소득세', '여권', '외국인등록증'],
+
+  /* E-7-1: 전문기술인력 */
+  e71: ['통합신청서', '취업계약서', '학위증명서', '여권', '외국인등록증'],
+
+  /* D-9: 무역·주재 */
   d9: ['통합신청서', '여권', '외국인등록증', '사업자등록증'],
-  e7: ['여권', '외국인등록증'],
-  f27: ['여권', '외국인등록증'],
-  f5: ['여권', '외국인등록증'],
-  d2d4: ['여권', '외국인등록증'],
+
+  /* D-8: 법인 기업투자 */
+  d8: ['통합신청서', '사업자등록증', '여권', '외국인등록증'],
+
+  /* D-4: 어학연수 */
+  d2d4: ['입학허가서', '여권', '외국인등록증'],
+
+  /* D-2: 유학 */
+  d2: ['입학허가서', '학위증명서', '여권', '외국인등록증'],
+
+  /* D-10: 구직활동 */
   d10: ['여권', '외국인등록증'],
+
+  /* E-7: 특정활동 */
+  e7: ['취업계약서', '여권', '외국인등록증'],
+
+  /* F-2-7: 거주비자 (점수제) */
+  f27: ['여권', '외국인등록증'],
+  f27_e71: ['여권', '외국인등록증'],
+
+  /* F-5: 영주권 */
+  f5: ['여권', '외국인등록증'],
+  f5_veteran: ['여권', '외국인등록증'],
+  f5_marriage: ['여권', '외국인등록증'],
+
+  /* F-6: 결혼이민 */
+  f6: ['혼인증명서', '여권', '외국인등록증'],
 };
 
 function DocsPage({ onBack, lang }) {
