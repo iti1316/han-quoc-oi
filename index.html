@@ -4179,7 +4179,6 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={()=>nav({page:'admin'})} className="text-lg tap transition" title="관리자">⚙️</button>
             <button onClick={toggleLang} className="text-lg tap transition" title="언어">{lang==='vi'?'🇻🇳':'🇰🇷'}</button>
             <div className="flex items-center gap-1.5 tap cursor-pointer" onClick={() => {
               console.log('✅ 프로필 클릭! setShowNicknameModal(true) 호출');
