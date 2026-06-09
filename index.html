@@ -3775,7 +3775,6 @@ function VisaHubPage({ nav, lang, posts = [] }) {
   const [selectedSubRoute, setSelectedSubRoute] = useState(null);
   const [selectedStep,     setSelectedStep]     = useState(null);
   const [boardPage,        setBoardPage]        = useState(1);
-  const [showDocsChecklist, setShowDocsChecklist] = useState(false);
   const BOARD_PER = 10;
   const route = VISA_ROUTES.find(r => r.key === selectedRoute);
   const subRoute = route?.subRoutes?.find(sr => sr.key === selectedSubRoute);
@@ -4010,7 +4009,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
               ...(selectedStep === 'e74' ? [{ e:'📊', ko:'E-7-4 점수 계산기',   vi:'Tính điểm E-7-4',      bg:'bg-amber-500',   act:()=>nav({page:'checklist', param:'score_e74', prevPage:'visaHub'}) }] : []),
               ...(selectedStep === 'f27' || selectedStep === 'f27_e71' ? [{ e:'📊', ko:'F-2-7 점수 계산기',   vi:'Tính điểm F-2-7',      bg:'bg-purple-500',   act:()=>nav({page:'checklist', param:'score_f27', prevPage:'visaHub'}) }] : []),
               ...(selectedStep === 'f5' || selectedStep === 'f5_veteran' || selectedStep === 'f5_marriage' ? [{ e:'📊', ko:'F-5 점수 계산기',   vi:'Tính điểm F-5',      bg:'bg-rose-500',   act:()=>nav({page:'checklist', param:'score_f5', prevPage:'visaHub'}) }] : []),
-              { e:'📋', ko:'필수 서류 준비',   vi:'Danh sách hồ sơ',       bg:'bg-green-600',   act:()=>setShowDocsChecklist(!showDocsChecklist) },
+              { e:'📋', ko:'필수 서류 준비',   vi:'Danh sách hồ sơ',       bg:'bg-green-600',   act:()=>nav({page:'docsChecklist', param:selectedStep}) },
               { e:'🗂️', ko:'출입국·대사관·외교부 연락처',  vi:'Thông tin liên hệ XNC, Đại sứ quán, Bộ Ngoại giao',      bg:'bg-violet-600',  act:()=>nav({page:'office',    param:null}) },
             ].map((t,i)=>(
               <button key={i} onClick={t.act}
@@ -4019,59 +4018,6 @@ function VisaHubPage({ nav, lang, posts = [] }) {
                 <p className="text-[11px] font-black text-white word-keep leading-tight text-left">{lang==='vi'?t.vi:t.ko}</p>
               </button>
             ))}
-          </div>
-        </div>
-        )}
-
-        {/* ── Section D-2: 필수 서류 준비 (합친 모델) ── */}
-        {selectedRoute && selectedStep && showDocsChecklist && (
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-3 animate-slideDown">
-          <div className="px-4 py-3 border-b border-gray-100">
-            <p className="text-sm font-black text-gray-800">📋 {lang==='vi'?'Danh sách hồ sơ cần thiết':'필수 서류 준비 체크리스트'}</p>
-            <p className="text-xs text-gray-500 mt-1">{lang==='vi'?'Đánh dấu ✓ khi đã chuẩn bị':'✓ 표시하며 준비하세요'}</p>
-          </div>
-          <div className="divide-y divide-gray-100">
-            {(() => {
-              const requiredIds = REQUIRED_DOCS_BY_VISA[selectedStep] || [];
-              const requiredDocs = requiredIds.map(id => DOCS.find(d => d.id === id)).filter(Boolean);
-              return requiredDocs.length === 0
-                ? <div className="px-4 py-4 text-center text-sm text-gray-400">{lang==='vi'?'서류가 필요하지 않습니다':'Không cần hồ sơ'}</div>
-                : requiredDocs.map((doc, idx) => (
-                    <div key={idx} className="px-4 py-3 flex items-start gap-3">
-                      <input type="checkbox"
-                        defaultChecked={false}
-                        className="w-4 h-4 mt-1 flex-shrink-0 rounded border-gray-300 tap cursor-pointer"/>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-lg flex-shrink-0">{doc.icon}</span>
-                          <div className="flex-1">
-                            <p className="text-sm font-bold text-gray-800">{lang==='vi'?doc.vi_name:doc.name}</p>
-                            <p className="text-xs text-gray-500 mt-0.5 word-keep">{lang==='vi'?doc.vi_desc:doc.desc}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex gap-1.5 flex-shrink-0 flex-col">
-                        {doc.driveId && (
-                          <a href={`https://drive.google.com/uc?export=download&id=${doc.driveId}`}
-                            download={doc.fileName}
-                            className="w-8 h-8 flex items-center justify-center bg-red-50 text-red-600 rounded-lg tap transition hover:bg-red-100 text-sm font-black"
-                            title={lang==='vi'?'Tải xuống':'다운로드'}>
-                            📥
-                          </a>
-                        )}
-                        {doc.official && (
-                          <a href={doc.official}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-8 h-8 flex items-center justify-center bg-blue-50 text-blue-600 rounded-lg tap transition hover:bg-blue-100 text-sm font-black"
-                            title={lang==='vi'?'Trang chính thức':'공식 사이트'}>
-                            🔗
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  ));
-            })()}
           </div>
         </div>
         )}
@@ -4929,6 +4875,113 @@ function DocsPage({ onBack, lang }) {
 }
 
 /* ================================================================
+   페이지: 필수 서류 준비 (비자별 맞춤)
+================================================================ */
+function DocsChecklistPage({ visaStep, onBack, lang }) {
+  const [checkedDocs, setCheckedDocs] = React.useState({});
+
+  const requiredIds = REQUIRED_DOCS_BY_VISA[visaStep] || [];
+  const requiredDocs = requiredIds.map(id => DOCS.find(d => d.id === id)).filter(Boolean);
+
+  const handleToggle = (id) => {
+    setCheckedDocs(prev => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  return (
+    <div style={{ background:'#F0F2F5' }} className="min-h-screen">
+      <BackHeader title={lang==='vi' ? '📋 Danh sách hồ sơ cần thiết' : '📋 필수 서류 준비 체크리스트'} onBack={onBack} />
+      <div className="max-w-lg mx-auto px-4 py-4 pb-12">
+
+        {/* 안내 배너 */}
+        <div className="bg-green-50 border border-green-200 rounded-2xl px-4 py-3 mb-4 fade-in">
+          <p className="text-xs font-black text-green-800 mb-1">✓ {lang==='vi' ? 'Cách sử dụng' : '사용 방법'}</p>
+          <p className="text-xs text-green-700 word-keep">
+            {lang==='vi'
+              ? '☑️ Đánh dấu ✓ khi đã chuẩn bị từng hồ sơ • 📥 Tải file từ Google Drive • 🔗 Truy cập trang chính thức'
+              : '☑️ 각 서류를 준비할 때마다 ✓ 표시 • 📥 필요한 파일 다운로드 • 🔗 공식 사이트에서 신청'}
+          </p>
+        </div>
+
+        {/* 서류 목록 */}
+        {requiredDocs.length === 0 ? (
+          <div className="bg-white rounded-2xl shadow-sm p-8 text-center text-gray-400">
+            {lang==='vi' ? '서류가 필요하지 않습니다' : 'Không cần hồ sơ'}
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {requiredDocs.map((doc, idx) => (
+              <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden fade-in">
+                <div className="px-4 py-3 flex items-start gap-3">
+                  {/* 체크박스 */}
+                  <input
+                    type="checkbox"
+                    checked={checkedDocs[doc.id] || false}
+                    onChange={() => handleToggle(doc.id)}
+                    className="w-5 h-5 mt-0.5 flex-shrink-0 rounded border-gray-300 tap cursor-pointer accent-green-600"
+                  />
+                  {/* 서류 정보 */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start gap-2.5">
+                      <span className="text-2xl flex-shrink-0">{doc.icon}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <p className="text-sm font-black text-gray-800">{lang==='vi' ? doc.vi_name : doc.name}</p>
+                          {doc.badge && (
+                            <span className="text-[10px] font-black bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">
+                              {doc.badge}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1 word-keep">{lang==='vi' ? doc.vi_desc : doc.desc}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* 다운로드 & 링크 버튼 */}
+                <div className="px-4 pb-3 flex gap-2">
+                  {doc.driveId && !doc.driveId.includes('PLACEHOLDER') && (
+                    <a
+                      href={`https://drive.google.com/uc?export=download&id=${doc.driveId}`}
+                      download={doc.fileName}
+                      className="flex-1 bg-red-50 border border-red-200 text-red-600 font-bold text-xs py-2.5 rounded-xl tap transition hover:bg-red-100 flex items-center justify-center gap-1.5">
+                      📥 {lang==='vi' ? 'Tải xuống' : '다운로드'}
+                    </a>
+                  )}
+                  {doc.official && (
+                    <a
+                      href={doc.official}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`flex-1 border border-blue-200 text-blue-600 font-bold text-xs py-2.5 rounded-xl tap transition hover:bg-blue-50 flex items-center justify-center gap-1.5 ${!doc.driveId || doc.driveId.includes('PLACEHOLDER') ? 'bg-blue-50' : 'bg-white'}`}>
+                      🔗 {lang==='vi' ? 'Trang chính thức' : '공식 사이트'}
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 안내 메시지 */}
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 mt-4 fade-in">
+          <p className="text-xs text-amber-700 word-keep">
+            {lang==='vi'
+              ? '⚠️ Mỗi Cục XNC có thể yêu cầu thêm hồ sơ. Hãy gọi điện xác nhận trước khi đến.'
+              : '⚠️ 관할 출입국마다 추가 서류를 요구할 수 있습니다. 방문 전 반드시 전화로 확인하세요.'}
+          </p>
+        </div>
+
+        <button
+          onClick={onBack}
+          className="mt-6 w-full bg-green-600 text-white font-black py-4 rounded-2xl text-sm tap transition hover:bg-green-700">
+          {lang==='vi' ? '← Về trang chính' : '← 메인으로 돌아가기'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ================================================================
    페이지: 게시판 전체보기
 ================================================================ */
 function BoardPage({ cat, nav, posts, lang = 'vi', onDeletePost, onUpdatePost, onAddComment, onDeleteComment, onUpdateComment, deviceId }) {
@@ -5676,6 +5729,7 @@ function App() {
       if (route.param==='score') return <ScorePage type='e74' onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
       return null;
     case 'docs':         return <DocsPage         onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
+    case 'docsChecklist': return <DocsChecklistPage visaStep={route.param} onBack={()=>nav({page:route.prevPage || 'visaHub'})} lang={lang} />;
     case 'office':       return <OfficePage       onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
     case 'board':        return <BoardPage        cat={route.param}      {...shared} />;
     case 'classicBoard': return <ClassicBoardPage boardKey={route.param} {...shared} />;
