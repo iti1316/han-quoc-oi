@@ -3803,15 +3803,15 @@ function VisaHubPage({ nav, lang, posts = [] }) {
   const subRoute = route?.subRoutes?.find(sr => sr.key === selectedSubRoute);
   const steps = subRoute?.steps || route?.steps || [];
 
-  /* 비자 게시판 글 (hall · sos · bamboo) */
-  const boardPosts = posts.filter(p => ['hall','sos'].includes(p.cat) && p.isPublic !== false);
+  /* 비자 게시판 글 (hall · sos · talk · bamboo) */
+  const boardPosts = posts.filter(p => ['hall','sos','talk'].includes(p.cat) && p.isPublic !== false);
   const totalBoardPages = Math.max(1, Math.ceil(boardPosts.length / BOARD_PER));
   const pageBoardPosts  = boardPosts.slice((boardPage-1)*BOARD_PER, boardPage*BOARD_PER);
 
   const CAT_BADGE = {
     hall:   { emoji:'🏆', ko:'합격',  vi:'Đậu',  bg:'bg-amber-100',  text:'text-amber-700' },
     sos:    { emoji:'🚨', ko:'SOS',   vi:'SOS',  bg:'bg-red-100',    text:'text-red-600' },
-    bamboo: { emoji:'💬', ko:'참교육', vi:'KN',   bg:'bg-orange-100', text:'text-orange-600' },
+    talk:   { emoji:'💬', ko:'참교육', vi:'KN',   bg:'bg-orange-100', text:'text-orange-600' },
   };
 
   function fmtDate(d) { return (d||'').replace(/^20(\d\d)\.(\d\d)\.(\d\d)$/, '$1-$2-$3'); }
