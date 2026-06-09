@@ -4009,7 +4009,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
               ...(selectedStep === 'e74' ? [{ e:'📊', ko:'E-7-4 점수 계산기',   vi:'Tính điểm E-7-4',      bg:'bg-amber-500',   act:()=>nav({page:'checklist', param:'score_e74', prevPage:'visaHub'}) }] : []),
               ...(selectedStep === 'f27' || selectedStep === 'f27_e71' ? [{ e:'📊', ko:'F-2-7 점수 계산기',   vi:'Tính điểm F-2-7',      bg:'bg-purple-500',   act:()=>nav({page:'checklist', param:'score_f27', prevPage:'visaHub'}) }] : []),
               ...(selectedStep === 'f5' || selectedStep === 'f5_veteran' || selectedStep === 'f5_marriage' ? [{ e:'📊', ko:'F-5 점수 계산기',   vi:'Tính điểm F-5',      bg:'bg-rose-500',   act:()=>nav({page:'checklist', param:'score_f5', prevPage:'visaHub'}) }] : []),
-              { e:'📋', ko:'필수 서류 준비',   vi:'Danh sách hồ sơ',       bg:'bg-green-600',   act:()=>nav({page:'docsChecklist', param:selectedStep}) },
+              { e:'📋', ko:'필수 서류 준비',   vi:'Danh sách hồ sơ',       bg:'bg-green-600',   act:()=>nav({page:'docsChecklist', param:selectedStep, prevPage:'visaHub'}) },
               { e:'🗂️', ko:'출입국·대사관·외교부 연락처',  vi:'Thông tin liên hệ XNC, Đại sứ quán, Bộ Ngoại giao',      bg:'bg-violet-600',  act:()=>nav({page:'office',    param:null}) },
             ].map((t,i)=>(
               <button key={i} onClick={t.act}
@@ -4878,7 +4878,7 @@ function DocsPage({ onBack, lang }) {
    페이지: 필수 서류 준비 (비자별 맞춤)
 ================================================================ */
 function DocsChecklistPage({ visaStep, onBack, lang }) {
-  const [checkedDocs, setCheckedDocs] = React.useState({});
+  const [checkedDocs, setCheckedDocs] = useState({});
 
   const requiredIds = REQUIRED_DOCS_BY_VISA[visaStep] || [];
   const requiredDocs = requiredIds.map(id => DOCS.find(d => d.id === id)).filter(Boolean);
