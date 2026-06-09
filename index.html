@@ -2046,13 +2046,6 @@ function OfficePage({ onBack, lang }) {
           </p>
         </div>
 
-        {/* 메인으로 돌아가기 */}
-        <button
-          onClick={onBack}
-          className="mt-4 w-full bg-blue-700 text-white font-black py-3.5 rounded-2xl tap shadow"
-        >
-          {lang==='ko' ? '← 메인으로 돌아가기' : '← Về trang chính'}
-        </button>
       </div>
     </div>
   );
@@ -4491,9 +4484,6 @@ function GuidePage({ type, onBack, lang }) {
             </div>
           ))}
         </div>
-        <button onClick={onBack} className={`mt-6 w-full ${d.color} text-white font-black py-4 rounded-2xl text-sm tap transition`}>
-          {L==='vi' ? '← Về trang chính' : '← 메인으로 돌아가기'}
-        </button>
       </div>
     </div>
   );
@@ -4576,10 +4566,6 @@ function SalesPage({ onBack, lang }) {
             ))}
           </ul>
         </div>
-        <button onClick={onBack}
-          className="mt-6 w-full bg-green-600 text-white font-black py-4 rounded-2xl text-sm tap transition">
-          {lang==='vi' ? '← Về trang chính' : '← 메인으로 돌아가기'}
-        </button>
       </div>
     </div>
   );
@@ -4691,10 +4677,6 @@ function ScorePage({ type='e74', onBack, lang }) {
         <p className="text-[10px] text-center text-gray-400 mt-5 word-keep">
           {lang==='vi' ? '⚠️ Chỉ để tham khảo. Kết quả thực tế có thể khác.' : '⚠️ 참고용 계산기입니다. 실제 심사 결과와 다를 수 있습니다.'}
         </p>
-        <button onClick={onBack}
-          className="mt-6 w-full bg-amber-500 text-white font-black py-4 rounded-2xl text-sm tap transition">
-          {lang==='vi' ? '← Về trang chính' : '← 메인으로 돌아가기'}
-        </button>
       </div>
     </div>
   );
@@ -5128,10 +5110,6 @@ function DocsPage({ onBack, lang }) {
               : '⚠️ 관할 출입국마다 추가 서류를 요구할 수 있습니다. 방문 전 반드시 전화로 확인하세요.'}
           </p>
         </div>
-        <button onClick={onBack}
-          className="mt-6 w-full bg-red-600 text-white font-black py-4 rounded-2xl text-sm tap transition">
-          {lang==='vi' ? '← Về trang chính' : '← 메인으로 돌아가기'}
-        </button>
       </div>
     </div>
   );
@@ -5213,11 +5191,6 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
           </p>
         </div>
 
-        <button
-          onClick={onBack}
-          className="mt-6 w-full bg-green-600 text-white font-black py-4 rounded-2xl text-sm tap transition hover:bg-green-700">
-          {lang==='vi' ? '← Về trang chính' : '← 메인으로 돌아가기'}
-        </button>
       </div>
     </div>
   );
@@ -5894,6 +5867,7 @@ function App() {
     }
     return { page:'home', param:null };
   });
+  const [prevRoute, setPrevRoute] = useState({ page:'home', param:null });
   const [lang,     setLang]     = useState('vi');
   const { posts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId } = usePosts();
 
@@ -5940,8 +5914,9 @@ function App() {
   }, []);
 
   function nav(r) {
+    setPrevRoute(route);
     window.__currentRoute = r; // 최신 route를 window에 저장
-    console.log('🟣 [App nav] 현재 route 저장:', r);
+    console.log('🟣 [App nav] 현재 route 저장:', r, '이전 route:', route);
     setRoute(r);
 
     // scrollTarget이 지정되면, 해당 요소로 스크롤
@@ -5957,22 +5932,25 @@ function App() {
       window.scrollTo({ top:0, behavior:'instant' });
     }
   }
+  function goBack() {
+    nav(prevRoute);
+  }
   function toggleLang() { setLang(l => l === 'vi' ? 'ko' : 'vi'); }
 
   const shared = { nav, posts, lang, onAddPost:addPost, onDeletePost:deletePost, onUpdatePost:updatePost, onAddComment:addComment, onDeleteComment:deleteComment, onUpdateComment:updateComment, deviceId };
 
   switch (route.page) {
-    case 'guide':     return <GuidePage     type={route.param}     onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
+    case 'guide':     return <GuidePage     type={route.param}     onBack={goBack} lang={lang} />;
     case 'checklist':
-      if (route.param==='sales') return <SalesPage onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
-      if (route.param==='score_e74') return <ScorePage type='e74' onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
-      if (route.param==='score_f27') return <ScorePage type='f27' onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
-      if (route.param==='score_f5') return <ScorePage type='f5' onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
-      if (route.param==='score') return <ScorePage type='e74' onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
+      if (route.param==='sales') return <SalesPage onBack={goBack} lang={lang} />;
+      if (route.param==='score_e74') return <ScorePage type='e74' onBack={goBack} lang={lang} />;
+      if (route.param==='score_f27') return <ScorePage type='f27' onBack={goBack} lang={lang} />;
+      if (route.param==='score_f5') return <ScorePage type='f5' onBack={goBack} lang={lang} />;
+      if (route.param==='score') return <ScorePage type='e74' onBack={goBack} lang={lang} />;
       return null;
-    case 'docs':         return <DocsPage         onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
-    case 'docsChecklist': return <DocsChecklistPage visaStep={route.param} onBack={()=>nav({page:route.prevPage || 'visaHub'})} lang={lang} />;
-    case 'office':       return <OfficePage       onBack={()=>nav({page:route.prevPage || 'home'})} lang={lang} />;
+    case 'docs':         return <DocsPage         onBack={goBack} lang={lang} />;
+    case 'docsChecklist': return <DocsChecklistPage visaStep={route.param} onBack={goBack} lang={lang} />;
+    case 'office':       return <OfficePage       onBack={goBack} lang={lang} />;
     case 'board':        return <BoardPage        cat={route.param}      {...shared} />;
     case 'classicBoard': return <ClassicBoardPage boardKey={route.param} {...shared} />;
     case 'postDetail':   return <PostDetailPage   boardKey={route.boardKey} postId={route.postId} {...shared} />;
