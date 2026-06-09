@@ -4201,9 +4201,11 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
       </header>
 
       {/* 🔥 실시간 핫라인 */}
-      <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-4 py-2 text-center text-sm font-bold overflow-hidden">
-        <div className="animate-pulse">{sessionStorage.getItem('hotline') || '🔥 최신 공지를 확인하세요!'}</div>
-      </div>
+      {sessionStorage.getItem('hotline') && (
+        <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-4 py-2 text-center text-sm font-bold overflow-hidden">
+          <div className="animate-pulse">{sessionStorage.getItem('hotline')}</div>
+        </div>
+      )}
 
       <main className="max-w-lg mx-auto pb-nav">
 
