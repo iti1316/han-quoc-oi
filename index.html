@@ -5152,18 +5152,8 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
 
   return (
     <div style={{ background:'#F0F2F5' }} className="min-h-screen">
-      <BackHeader title={lang==='vi' ? '📋 Danh sách hồ sơ cần thiết' : '📋 필수 서류 준비 체크리스트'} onBack={onBack} />
+      <BackHeader title={lang==='vi' ? '📋 Danh sách hồ sơ cần thiết' : '📋 필수 서류 준비'} onBack={onBack} />
       <div className="max-w-lg mx-auto px-4 py-4 pb-12">
-
-        {/* 안내 배너 */}
-        <div className="bg-green-50 border border-green-200 rounded-2xl px-4 py-3 mb-4 fade-in">
-          <p className="text-xs font-black text-green-800 mb-1">✓ {lang==='vi' ? 'Cách sử dụng' : '사용 방법'}</p>
-          <p className="text-xs text-green-700 word-keep">
-            {lang==='vi'
-              ? '☑️ Đánh dấu ✓ từng hồ sơ khi đã chuẩn bị • 🔴 Hồ sơ bắt buộc • 🔵 Hồ sơ được khuyến cáo'
-              : '☑️ 각 서류를 준비하며 ✓ 표시 • 🔴 필수 서류 • 🔵 권장 서류'}
-          </p>
-        </div>
 
         {/* ── 필수 서류 섹션 ── */}
         {requiredDocs.length > 0 && (
