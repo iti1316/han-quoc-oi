@@ -5400,7 +5400,8 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
   const [notices, setNotices] = useState(() => loadNotices());
   const [hotline, setHotline] = useState(localStorage.getItem('hotline') || '🔥 최신 공지를 확인하세요!');
   const [boardNoticesByCategory, setBoardNoticesByCategory] = useState(() => loadBoardNoticesByCat());
-  const [selectedBoard, setSelectedBoard] = useState('market');
+  const [selectedBoardForNotices, setSelectedBoardForNotices] = useState('market');
+  const [selectedBoardForPosts, setSelectedBoardForPosts] = useState('market');
   const [noticeForm, setNoticeForm] = useState({ ko:'', vi:'', date:'' });
   const [isAddingNotice, setIsAddingNotice] = useState(false);
   const [boardNoticeForm, setBoardNoticeForm] = useState({ title:'', title_vi:'' });
@@ -5442,8 +5443,6 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
     );
   }
 
-  const boardPosts = posts.filter(p => p.cat === selectedBoard && p.isPublic !== false).slice(0, 10);
-
   const handleAddNotice = () => {
     if (!noticeForm.ko.trim() && !noticeForm.vi.trim()) return;
     const newNotice = {
@@ -5467,7 +5466,7 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
 
   const handleAddBoardNotice = () => {
     if (!boardNoticeForm.title.trim() && !boardNoticeForm.title_vi.trim()) return;
-    const catNotices = boardNoticesByCategory[selectedBoard] || [];
+    const catNotices = boardNoticesByCategory[selectedBoardForNotices] || [];
     const newNotice = {
       id: 'b' + (Math.max(...catNotices.map(n => parseInt(n.id.substring(1))||0), 0) + 1),
       title: boardNoticeForm.title,
@@ -5476,17 +5475,17 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
       views: 0,
       likes: 0
     };
-    const updated = { ...boardNoticesByCategory, [selectedBoard]: [...catNotices, newNotice] };
+    const updated = { ...boardNoticesByCategory, [selectedBoardForNotices]: [...catNotices, newNotice] };
     setBoardNoticesByCategory(updated);
     saveBoardNoticesByCat(updated);
     setBoardNoticeForm({ title:'', title_vi:'' });
     setIsAddingBoardNotice(false);
-    alert('✅ ' + selectedBoard + ' 게시판 공지가 추가되었습니다!');
+    alert('✅ 공지가 추가되었습니다!');
   };
 
   const handleDeleteBoardNotice = (id) => {
-    const catNotices = boardNoticesByCategory[selectedBoard] || [];
-    const updated = { ...boardNoticesByCategory, [selectedBoard]: catNotices.filter(n => n.id !== id) };
+    const catNotices = boardNoticesByCategory[selectedBoardForNotices] || [];
+    const updated = { ...boardNoticesByCategory, [selectedBoardForNotices]: catNotices.filter(n => n.id !== id) };
     setBoardNoticesByCategory(updated);
     saveBoardNoticesByCat(updated);
   };
@@ -5578,7 +5577,7 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
           <p className="font-black text-gray-800 mb-3">📌 게시판 공지사항 관리</p>
 
           <div className="mb-3">
-            <select value={selectedBoard} onChange={(e)=>setSelectedBoard(e.target.value)} className="w-full border-2 border-gray-300 rounded p-2 text-sm">
+            <select value={selectedBoardForNotices} onChange={(e)=>setSelectedBoardForNotices(e.target.value)} className="w-full border-2 border-gray-300 rounded p-2 text-sm">
               <option value="market">🏪 중고장터</option>
               <option value="house">🏠 주택</option>
               <option value="travel">✈️ 여행</option>
@@ -5591,7 +5590,7 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
           </div>
 
           <div className="space-y-2 max-h-64 overflow-y-auto mb-3">
-            {(boardNoticesByCategory[selectedBoard] || []).map(notice => (
+            {(boardNoticesByCategory[selectedBoardForNotices] || []).map(notice => (
               <div key={notice.id} className="flex justify-between items-start gap-2 bg-blue-50 border border-blue-200 p-2 rounded text-sm">
                 <div className="flex-1">
                   <p className="font-bold text-gray-800">🔔 {notice.title}</p>
@@ -5633,7 +5632,7 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
           <p className="font-black text-gray-800 mb-3">📝 최근 글</p>
 
           <div className="mb-3">
-            <select value={selectedBoard} onChange={(e)=>setSelectedBoard(e.target.value)} className="w-full border-2 border-gray-300 rounded p-2 text-sm">
+            <select value={selectedBoardForPosts} onChange={(e)=>setSelectedBoardForPosts(e.target.value)} className="w-full border-2 border-gray-300 rounded p-2 text-sm">
               <option value="market">🏪 중고장터</option>
               <option value="house">🏠 주택</option>
               <option value="travel">✈️ 여행</option>
@@ -5645,7 +5644,7 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
           </div>
 
           <div className="space-y-2 max-h-96 overflow-y-auto">
-            {boardPosts.map(post => (
+            {posts.filter(p => p.cat === selectedBoardForPosts && p.isPublic !== false).slice(0, 10).map(post => (
               <div key={post.id} className="flex justify-between items-start bg-gray-50 border border-gray-200 p-2 rounded text-sm">
                 <div className="flex-1 min-w-0">
                   <p className="font-bold text-gray-800 truncate">{post.title}</p>
