@@ -4809,46 +4809,57 @@ const DOCS = [
   },
 ];
 
-/* ========== 비자별 필수 서류 (꼼꼼하게 정리) ========== */
+/* ========== 비자별 필수·권장 서류 (완벽 정리) ========== */
 const REQUIRED_DOCS_BY_VISA = {
   /* E-9: 비전문취업 */
-  e9: ['고용계약서', '건강검진증명', '여권', '외국인등록증'],
-
-  /* E-7-4: 숙련기능인력 */
-  e74: ['통합신청서', '고용사유서', '고용주추천서', '재직확인서', '임금대장', '부가가치세', '소득세', '여권', '외국인등록증'],
-
-  /* E-7-1: 전문기술인력 */
-  e71: ['통합신청서', '취업계약서', '학위증명서', '여권', '외국인등록증'],
-
-  /* D-9: 무역·주재 */
-  d9: ['통합신청서', '여권', '외국인등록증', '사업자등록증'],
-
-  /* D-8: 법인 기업투자 */
-  d8: ['통합신청서', '사업자등록증', '여권', '외국인등록증'],
-
-  /* D-4: 어학연수 */
-  d2d4: ['입학허가서', '여권', '외국인등록증'],
+  e9: ['통합신청서', '여권', '외국인등록증', '고용허가서', '사업자등록증', '고용주신분증', '고용보험가입명부', '기숙사확인서'],
 
   /* D-2: 유학 */
-  d2: ['입학허가서', '학위증명서', '여권', '외국인등록증'],
+  d2: ['통합신청서', '여권', '외국인등록증', '재학증명서', '등록금납입증명', '재정능력증명', '기숙사확인서'],
 
   /* D-10: 구직활동 */
-  d10: ['여권', '외국인등록증'],
+  d10: ['통합신청서', '여권', '외국인등록증', '학위증명서', '구직계획서', '구직점수표', '재정능력증명'],
 
-  /* E-7: 특정활동 */
-  e7: ['취업계약서', '여권', '외국인등록증'],
+  /* E-7-1: 전문기술인력 */
+  e71: ['통합신청서', '여권', '외국인등록증', '고용사유서', '취업계약서', '학위증명서', '회사인프라증빙', '고용보험가입명부', '신원보증서'],
+
+  /* D-8: 법인 기업투자 */
+  d8: ['통합신청서', '여권', '외국인등록증', '투자기업등록증', '외화매입증명', '법인등기부등본', '회사인프라증빙'],
+
+  /* D-9: 무역·주재 */
+  d9: ['통합신청서', '여권', '외국인등록증', '무역업고유번호증', '외화매입증명', '법인등기부등본', '회사인프라증빙', '기업매출증빙'],
+
+  /* E-7-4: 숙련기능인력 */
+  e74: ['통합신청서', '여권', '외국인등록증', '고용사유서', '고용주추천서', '재직확인서', '임금대장', '부가가치세', '소득세', '소득금액증명원', '원천징수신고', 'TOPIK', 'KIIP', '신원보증서', '세금완납증명'],
 
   /* F-2-7: 거주비자 (점수제) */
-  f27: ['여권', '외국인등록증'],
-  f27_e71: ['여권', '외국인등록증'],
+  f27: ['여권', '외국인등록증', '재정능력증명', '학위증명서', '구직점수표'],
+  f27_e71: ['여권', '외국인등록증', '재정능력증명', '학위증명서', '구직점수표'],
 
   /* F-5: 영주권 */
   f5: ['여권', '외국인등록증'],
   f5_veteran: ['여권', '외국인등록증'],
-  f5_marriage: ['여권', '외국인등록증'],
+  f5_marriage: ['여권', '외국인등록증', '혼인관계증명서', '가족관계증명서', '기본증명서', '주민등록등본', '범죄경력증명'],
 
   /* F-6: 결혼이민 */
-  f6: ['혼인증명서', '여권', '외국인등록증'],
+  f6: ['혼인증명서', '여권', '외국인등록증', '신원보증서'],
+};
+
+/* 비자별 권장·가산점 서류 */
+const ADDITIONAL_DOCS_BY_VISA = {
+  e9: ['TOPIK', 'KIIP'],
+  d2: ['TOPIK'],
+  d10: ['인턴십계약'],
+  e71: ['주무부처추천'],
+  d8: ['세금완납증명'],
+  d9: ['세금완납증명'],
+  e74: [],
+  f27: [],
+  f27_e71: [],
+  f5: [],
+  f5_veteran: [],
+  f5_marriage: [],
+  f6: [],
 };
 
 function DocsPage({ onBack, lang }) {
@@ -4947,11 +4958,34 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
   const [checkedDocs, setCheckedDocs] = useState({});
 
   const requiredIds = REQUIRED_DOCS_BY_VISA[visaStep] || [];
+  const additionalIds = ADDITIONAL_DOCS_BY_VISA[visaStep] || [];
+
   const requiredDocs = requiredIds.map(id => DOCS.find(d => d.id === id)).filter(Boolean);
+  const additionalDocs = additionalIds.map(id => DOCS.find(d => d.id === id)).filter(Boolean);
 
   const handleToggle = (id) => {
     setCheckedDocs(prev => ({ ...prev, [id]: !prev[id] }));
   };
+
+  const DocCard = ({ doc, isAdditional }) => (
+    <div className="bg-white rounded-2xl shadow-sm overflow-hidden fade-in">
+      <div className="px-4 py-3 flex items-start gap-3">
+        <input
+          type="checkbox"
+          checked={checkedDocs[doc.id] || false}
+          onChange={() => handleToggle(doc.id)}
+          className={`w-5 h-5 mt-0.5 flex-shrink-0 rounded border-gray-300 tap cursor-pointer ${isAdditional ? 'accent-blue-600' : 'accent-red-600'}`}
+        />
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-2xl flex-shrink-0">{doc.icon}</span>
+            <p className="text-sm font-black text-gray-800">{lang==='vi' ? doc.vi : doc.ko}</p>
+            {isAdditional && <span className="text-[9px] font-black bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">권장</span>}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div style={{ background:'#F0F2F5' }} className="min-h-screen">
@@ -4963,73 +4997,44 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
           <p className="text-xs font-black text-green-800 mb-1">✓ {lang==='vi' ? 'Cách sử dụng' : '사용 방법'}</p>
           <p className="text-xs text-green-700 word-keep">
             {lang==='vi'
-              ? '☑️ Đánh dấu ✓ khi đã chuẩn bị từng hồ sơ • 📥 Tải file từ Google Drive • 🔗 Truy cập trang chính thức'
-              : '☑️ 각 서류를 준비할 때마다 ✓ 표시 • 📥 필요한 파일 다운로드 • 🔗 공식 사이트에서 신청'}
+              ? '☑️ Đánh dấu ✓ từng hồ sơ khi đã chuẩn bị • 🔴 Hồ sơ bắt buộc • 🔵 Hồ sơ được khuyến cáo'
+              : '☑️ 각 서류를 준비하며 ✓ 표시 • 🔴 필수 서류 • 🔵 권장 서류'}
           </p>
         </div>
 
-        {/* 서류 목록 */}
-        {requiredDocs.length === 0 ? (
-          <div className="bg-white rounded-2xl shadow-sm p-8 text-center text-gray-400">
-            {lang==='vi' ? '서류가 필요하지 않습니다' : 'Không cần hồ sơ'}
+        {/* ── 필수 서류 섹션 ── */}
+        {requiredDocs.length > 0 && (
+          <div className="mb-6">
+            <div className="px-3 py-2 bg-red-50 border-l-4 border-red-600 mb-3 rounded-sm">
+              <p className="text-sm font-black text-red-700">🔴 {lang==='vi' ? 'Hồ sơ bắt buộc' : '필수 서류'} ({requiredDocs.length})</p>
+            </div>
+            <div className="space-y-2">
+              {requiredDocs.map((doc, idx) => <DocCard key={idx} doc={doc} isAdditional={false} />)}
+            </div>
           </div>
-        ) : (
-          <div className="space-y-3">
-            {requiredDocs.map((doc, idx) => (
-              <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden fade-in">
-                <div className="px-4 py-3 flex items-start gap-3">
-                  {/* 체크박스 */}
-                  <input
-                    type="checkbox"
-                    checked={checkedDocs[doc.id] || false}
-                    onChange={() => handleToggle(doc.id)}
-                    className="w-5 h-5 mt-0.5 flex-shrink-0 rounded border-gray-300 tap cursor-pointer accent-green-600"
-                  />
-                  {/* 서류 정보 */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start gap-2.5">
-                      <span className="text-2xl flex-shrink-0">{doc.icon}</span>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <p className="text-sm font-black text-gray-800">{lang==='vi' ? doc.vi_name : doc.name}</p>
-                          {doc.badge && (
-                            <span className="text-[10px] font-black bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">
-                              {doc.badge}
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-xs text-gray-500 mt-1 word-keep">{lang==='vi' ? doc.vi_desc : doc.desc}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* 다운로드 & 링크 버튼 */}
-                <div className="px-4 pb-3 flex gap-2">
-                  {doc.driveId && !doc.driveId.includes('PLACEHOLDER') && (
-                    <a
-                      href={`https://drive.google.com/uc?export=download&id=${doc.driveId}`}
-                      download={doc.fileName}
-                      className="flex-1 bg-red-50 border border-red-200 text-red-600 font-bold text-xs py-2.5 rounded-xl tap transition hover:bg-red-100 flex items-center justify-center gap-1.5">
-                      📥 {lang==='vi' ? 'Tải xuống' : '다운로드'}
-                    </a>
-                  )}
-                  {doc.official && (
-                    <a
-                      href={doc.official}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`flex-1 border border-blue-200 text-blue-600 font-bold text-xs py-2.5 rounded-xl tap transition hover:bg-blue-50 flex items-center justify-center gap-1.5 ${!doc.driveId || doc.driveId.includes('PLACEHOLDER') ? 'bg-blue-50' : 'bg-white'}`}>
-                      🔗 {lang==='vi' ? 'Trang chính thức' : '공식 사이트'}
-                    </a>
-                  )}
-                </div>
-              </div>
-            ))}
+        )}
+
+        {/* ── 권장 서류 섹션 ── */}
+        {additionalDocs.length > 0 && (
+          <div className="mb-6">
+            <div className="px-3 py-2 bg-blue-50 border-l-4 border-blue-600 mb-3 rounded-sm">
+              <p className="text-sm font-black text-blue-700">🔵 {lang==='vi' ? 'Hồ sơ được khuyến cáo' : '권장 서류'} ({additionalDocs.length})</p>
+            </div>
+            <div className="space-y-2">
+              {additionalDocs.map((doc, idx) => <DocCard key={idx} doc={doc} isAdditional={true} />)}
+            </div>
+          </div>
+        )}
+
+        {/* 비어있는 경우 */}
+        {requiredDocs.length === 0 && additionalDocs.length === 0 && (
+          <div className="bg-white rounded-2xl shadow-sm p-8 text-center text-gray-400">
+            {lang==='vi' ? 'Không cần hồ sơ' : '서류가 필요하지 않습니다'}
           </div>
         )}
 
         {/* 안내 메시지 */}
-        <div className="bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 mt-4 fade-in">
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 mt-6 fade-in">
           <p className="text-xs text-amber-700 word-keep">
             {lang==='vi'
               ? '⚠️ Mỗi Cục XNC có thể yêu cầu thêm hồ sơ. Hãy gọi điện xác nhận trước khi đến.'
