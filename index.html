@@ -4009,8 +4009,6 @@ function VisaHubPage({ nav, lang, posts = [] }) {
               ...(selectedStep === 'e74' ? [{ e:'📊', ko:'E-7-4 점수 계산기',   vi:'Tính điểm E-7-4',      bg:'bg-amber-500',   act:()=>nav({page:'checklist', param:'score_e74', prevPage:'visaHub'}) }] : []),
               ...(selectedStep === 'f27' || selectedStep === 'f27_e71' ? [{ e:'📊', ko:'F-2-7 점수 계산기',   vi:'Tính điểm F-2-7',      bg:'bg-purple-500',   act:()=>nav({page:'checklist', param:'score_f27', prevPage:'visaHub'}) }] : []),
               ...(selectedStep === 'f5' || selectedStep === 'f5_veteran' || selectedStep === 'f5_marriage' ? [{ e:'📊', ko:'F-5 점수 계산기',   vi:'Tính điểm F-5',      bg:'bg-rose-500',   act:()=>nav({page:'checklist', param:'score_f5', prevPage:'visaHub'}) }] : []),
-              { e:'💰', ko:'서류 준비 체크리스트', vi:'Danh sách hồ sơ',       bg:'bg-green-600',   act:()=>nav({page:'checklist', param:'sales', prevPage:'visaHub'}) },
-              { e:'📋', ko:'필수 서류 다운로드',   vi:'Tải hồ sơ cần thiết',   bg:'bg-red-600',     act:()=>nav({page:'docs',      param:null}) },
               { e:'🗂️', ko:'출입국·대사관·외교부 연락처',  vi:'Thông tin liên hệ XNC, Đại sứ quán, Bộ Ngoại giao',      bg:'bg-violet-600',  act:()=>nav({page:'office',    param:null}) },
             ].map((t,i)=>(
               <button key={i} onClick={t.act}
@@ -4019,6 +4017,59 @@ function VisaHubPage({ nav, lang, posts = [] }) {
                 <p className="text-[11px] font-black text-white word-keep leading-tight text-left">{lang==='vi'?t.vi:t.ko}</p>
               </button>
             ))}
+          </div>
+        </div>
+        )}
+
+        {/* ── Section D-2: 필수 서류 준비 (합친 모델) ── */}
+        {selectedRoute && selectedStep && (
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-3">
+          <div className="px-4 py-3 border-b border-gray-100">
+            <p className="text-sm font-black text-gray-800">📋 {lang==='vi'?'Danh sách hồ sơ cần thiết':'필수 서류 준비 체크리스트'}</p>
+            <p className="text-xs text-gray-500 mt-1">{lang==='vi'?'Đánh dấu ✓ khi đã chuẩn bị':'✓ 표시하며 준비하세요'}</p>
+          </div>
+          <div className="divide-y divide-gray-100">
+            {(() => {
+              const requiredIds = REQUIRED_DOCS_BY_VISA[selectedStep] || [];
+              const requiredDocs = requiredIds.map(id => DOCS.find(d => d.id === id)).filter(Boolean);
+              return requiredDocs.length === 0
+                ? <div className="px-4 py-4 text-center text-sm text-gray-400">{lang==='vi'?'서류가 필요하지 않습니다':'Không cần hồ sơ'}</div>
+                : requiredDocs.map((doc, idx) => (
+                    <div key={idx} className="px-4 py-3 flex items-start gap-3">
+                      <input type="checkbox"
+                        defaultChecked={false}
+                        className="w-4 h-4 mt-1 flex-shrink-0 rounded border-gray-300 tap cursor-pointer"/>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-lg flex-shrink-0">{doc.icon}</span>
+                          <div className="flex-1">
+                            <p className="text-sm font-bold text-gray-800">{lang==='vi'?doc.vi_name:doc.name}</p>
+                            <p className="text-xs text-gray-500 mt-0.5 word-keep">{lang==='vi'?doc.vi_desc:doc.desc}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex gap-1.5 flex-shrink-0 flex-col">
+                        {doc.driveId && (
+                          <a href={`https://drive.google.com/uc?export=download&id=${doc.driveId}`}
+                            download={doc.fileName}
+                            className="w-8 h-8 flex items-center justify-center bg-red-50 text-red-600 rounded-lg tap transition hover:bg-red-100 text-sm font-black"
+                            title={lang==='vi'?'Tải xuống':'다운로드'}>
+                            📥
+                          </a>
+                        )}
+                        {doc.official && (
+                          <a href={doc.official}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-8 h-8 flex items-center justify-center bg-blue-50 text-blue-600 rounded-lg tap transition hover:bg-blue-100 text-sm font-black"
+                            title={lang==='vi'?'Trang chính thức':'공식 사이트'}>
+                            🔗
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  ));
+            })()}
           </div>
         </div>
         )}
@@ -4708,59 +4759,83 @@ function ScorePage({ type='e74', onBack, lang }) {
 ================================================================ */
 const DOCS = [
   {
-    icon:'📄', name:'통합신청서 (체류자격 변경·연장)', vi_name:'Đơn tổng hợp (thay đổi·gia hạn tư cách lưu trú)',
+    id:'통합신청서', icon:'📄', name:'통합신청서 (체류자격 변경·연장)', vi_name:'Đơn tổng hợp (thay đổi·gia hạn tư cách lưu trú)',
     badge:'법무부 공식', desc:'E-7-4 변경·D-9 연장 공통 양식 (HWP/PDF)',
     vi_desc:'Biểu mẫu chung cho E-7-4 và gia hạn D-9 (HWP/PDF)',
     fileName:'통합신청서_E74_변경.hwp', driveId:'1PLACEHOLDER_DRIVE_ID_통합신청서_replace_me',
     official:'https://www.hikorea.go.kr/pt/InfoDetailR_kor.pt?catSeq=2&cmsSeq=189',
   },
   {
-    icon:'📝', name:'고용사유서 양식', vi_name:'Biểu mẫu lý do tuyển dụng',
+    id:'고용사유서', icon:'📝', name:'고용사유서 양식', vi_name:'Biểu mẫu lý do tuyển dụng',
     badge:'법무부 공식', desc:'고용주 작성 — 채용 목적·업종코드 필수 기재',
     vi_desc:'Chủ sử dụng lao động điền — phải ghi mục đích tuyển dụng & mã ngành nghề',
     fileName:'고용사유서_E74.hwp', driveId:'2PLACEHOLDER_DRIVE_ID_고용사유서_replace_me',
     official:'https://www.hikorea.go.kr/pt/InfoDetailR_kor.pt?catSeq=2&cmsSeq=189',
   },
   {
-    icon:'✍️', name:'고용주 추천서 양식', vi_name:'Biểu mẫu thư giới thiệu của chủ',
+    id:'고용주추천서', icon:'✍️', name:'고용주 추천서 양식', vi_name:'Biểu mẫu thư giới thiệu của chủ',
     badge:'법무부 공식', desc:'E-7-4 가산점 30점 — 가장 중요한 서류',
     vi_desc:'Điểm cộng 30 điểm E-7-4 — hồ sơ quan trọng nhất',
     fileName:'고용주추천서_E74.hwp', driveId:'3PLACEHOLDER_DRIVE_ID_추천서_replace_me',
     official:'https://www.hikorea.go.kr/pt/InfoDetailR_kor.pt?catSeq=2&cmsSeq=189',
   },
   {
-    icon:'💼', name:'재직확인서 (표준양식)', vi_name:'Xác nhận làm việc (biểu mẫu chuẩn)',
+    id:'재직확인서', icon:'💼', name:'재직확인서 (표준양식)', vi_name:'Xác nhận làm việc (biểu mẫu chuẩn)',
     badge:'표준양식', desc:'고용주 서명·법인 도장 필수, 근무 기간 명시',
     vi_desc:'Bắt buộc có chữ ký chủ & con dấu công ty, ghi rõ thời gian làm việc',
     fileName:'재직확인서_표준.hwp', driveId:'4PLACEHOLDER_DRIVE_ID_재직확인서_replace_me',
     official:'https://www.moj.go.kr',
   },
   {
-    icon:'💰', name:'임금대장 양식 (세후 기준)', vi_name:'Biểu mẫu bảng lương (theo lương sau thuế)',
+    id:'임금대장', icon:'💰', name:'임금대장 양식 (세후 기준)', vi_name:'Biểu mẫu bảng lương (theo lương sau thuế)',
     badge:'표준양식', desc:'월별 실수령액 기재 — 세전 아님! 세후 기준',
     vi_desc:'Ghi lương thực nhận theo tháng — KHÔNG phải trước thuế! Phải sau thuế',
     fileName:'임금대장_세후기준.xlsx', driveId:'5PLACEHOLDER_DRIVE_ID_임금대장_replace_me',
     official:'https://www.moj.go.kr',
   },
   {
-    icon:'🏦', name:'부가가치세 과세표준증명원', vi_name:'Chứng minh tiêu chuẩn thuế VAT',
+    id:'부가가치세', icon:'🏦', name:'부가가치세 과세표준증명원', vi_name:'Chứng minh tiêu chuẩn thuế VAT',
     badge:'홈택스 발급', desc:'홈택스 로그인 → 민원증명 → 즉시 발급',
     vi_desc:'Đăng nhập Hometax → Xác nhận dịch vụ công → Cấp ngay',
     fileName:null, driveId:null, official:'https://www.hometax.go.kr',
   },
   {
-    icon:'📊', name:'소득세 납부확인서', vi_name:'Xác nhận nộp thuế thu nhập',
+    id:'소득세', icon:'📊', name:'소득세 납부확인서', vi_name:'Xác nhận nộp thuế thu nhập',
     badge:'홈택스 발급', desc:'홈택스 또는 세무서 방문 발급 가능',
     vi_desc:'Cấp qua Hometax hoặc đến văn phòng thuế',
     fileName:null, driveId:null, official:'https://www.hometax.go.kr',
   },
   {
-    icon:'📋', name:'사업자등록증 사본', vi_name:'Bản sao giấy đăng ký kinh doanh',
+    id:'사업자등록증', icon:'📋', name:'사업자등록증 사본', vi_name:'Bản sao giấy đăng ký kinh doanh',
     badge:'홈택스 발급', desc:'홈택스 → 사업자등록증 즉시 출력',
     vi_desc:'Hometax → In giấy đăng ký kinh doanh ngay',
     fileName:null, driveId:null, official:'https://www.hometax.go.kr',
   },
+  {
+    id:'여권', icon:'📕', name:'여권 사본', vi_name:'Bản sao hộ chiếu',
+    badge:'필수', desc:'유효기간 6개월 이상 필수',
+    vi_desc:'Hạn sử dụng ≥6 tháng bắt buộc',
+    fileName:null, driveId:null, official:null,
+  },
+  {
+    id:'외국인등록증', icon:'🆔', name:'외국인등록증 사본', vi_name:'Bản sao giấy ngoại kiều',
+    badge:'필수', desc:'유효한 외국인등록증 필수',
+    vi_desc:'Giấy ngoại kiều còn hạn bắt buộc',
+    fileName:null, driveId:null, official:null,
+  },
 ];
+
+/* 비자별 필요 서류 매핑 */
+const REQUIRED_DOCS_BY_VISA = {
+  e9: ['통합신청서', '여권', '외국인등록증'],
+  e74: ['통합신청서', '고용사유서', '고용주추천서', '재직확인서', '임금대장', '부가가치세', '소득세', '여권', '외국인등록증'],
+  d9: ['통합신청서', '여권', '외국인등록증', '사업자등록증'],
+  e7: ['여권', '외국인등록증'],
+  f27: ['여권', '외국인등록증'],
+  f5: ['여권', '외국인등록증'],
+  d2d4: ['여권', '외국인등록증'],
+  d10: ['여권', '외국인등록증'],
+};
 
 function DocsPage({ onBack, lang }) {
   return (
