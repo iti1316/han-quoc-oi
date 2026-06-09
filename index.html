@@ -3775,6 +3775,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
   const [selectedSubRoute, setSelectedSubRoute] = useState(null);
   const [selectedStep,     setSelectedStep]     = useState(null);
   const [boardPage,        setBoardPage]        = useState(1);
+  const [showDocsChecklist, setShowDocsChecklist] = useState(false);
   const BOARD_PER = 10;
   const route = VISA_ROUTES.find(r => r.key === selectedRoute);
   const subRoute = route?.subRoutes?.find(sr => sr.key === selectedSubRoute);
@@ -4009,6 +4010,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
               ...(selectedStep === 'e74' ? [{ e:'📊', ko:'E-7-4 점수 계산기',   vi:'Tính điểm E-7-4',      bg:'bg-amber-500',   act:()=>nav({page:'checklist', param:'score_e74', prevPage:'visaHub'}) }] : []),
               ...(selectedStep === 'f27' || selectedStep === 'f27_e71' ? [{ e:'📊', ko:'F-2-7 점수 계산기',   vi:'Tính điểm F-2-7',      bg:'bg-purple-500',   act:()=>nav({page:'checklist', param:'score_f27', prevPage:'visaHub'}) }] : []),
               ...(selectedStep === 'f5' || selectedStep === 'f5_veteran' || selectedStep === 'f5_marriage' ? [{ e:'📊', ko:'F-5 점수 계산기',   vi:'Tính điểm F-5',      bg:'bg-rose-500',   act:()=>nav({page:'checklist', param:'score_f5', prevPage:'visaHub'}) }] : []),
+              { e:'📋', ko:'필수 서류 준비',   vi:'Danh sách hồ sơ',       bg:'bg-green-600',   act:()=>setShowDocsChecklist(!showDocsChecklist) },
               { e:'🗂️', ko:'출입국·대사관·외교부 연락처',  vi:'Thông tin liên hệ XNC, Đại sứ quán, Bộ Ngoại giao',      bg:'bg-violet-600',  act:()=>nav({page:'office',    param:null}) },
             ].map((t,i)=>(
               <button key={i} onClick={t.act}
@@ -4022,8 +4024,8 @@ function VisaHubPage({ nav, lang, posts = [] }) {
         )}
 
         {/* ── Section D-2: 필수 서류 준비 (합친 모델) ── */}
-        {selectedRoute && selectedStep && (
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-3">
+        {selectedRoute && selectedStep && showDocsChecklist && (
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-3 animate-slideDown">
           <div className="px-4 py-3 border-b border-gray-100">
             <p className="text-sm font-black text-gray-800">📋 {lang==='vi'?'Danh sách hồ sơ cần thiết':'필수 서류 준비 체크리스트'}</p>
             <p className="text-xs text-gray-500 mt-1">{lang==='vi'?'Đánh dấu ✓ khi đã chuẩn bị':'✓ 표시하며 준비하세요'}</p>
