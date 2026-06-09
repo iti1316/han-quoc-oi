@@ -4140,6 +4140,8 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
   const [searchQuery, setSearchQuery] = useState('');
   const [showNicknameModal, setShowNicknameModal] = useState(false);
   const [nicknameInput, setNicknameInput] = useState('');
+  const [adminClickCount, setAdminClickCount] = useState(0);
+  const adminClickTimer = useRef(null);
 
   const handleNicknameSave = async () => {
     if (nicknameInput.trim()) {
@@ -4164,6 +4166,20 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
     }
   };
 
+  const handleAdminClick = () => {
+    const newCount = adminClickCount + 1;
+    setAdminClickCount(newCount);
+
+    clearTimeout(adminClickTimer.current);
+
+    if (newCount >= 5) {
+      nav({page:'admin'});
+      setAdminClickCount(0);
+    } else {
+      adminClickTimer.current = setTimeout(() => setAdminClickCount(0), 3000);
+    }
+  };
+
   return (
     <div style={{ background:'#F0F2F5', minHeight:'100vh' }}>
       {/* ── 헤더 ── */}
@@ -4179,7 +4195,7 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={()=>nav({page:'admin'})} className="text-lg tap transition opacity-0 w-6 h-6" title="관리자">⚙️</button>
+            <button onClick={handleAdminClick} className="text-lg tap transition opacity-0 w-6 h-6" title="관리자">⚙️</button>
             <button onClick={toggleLang} className="text-lg tap transition" title="언어">{lang==='vi'?'🇻🇳':'🇰🇷'}</button>
             <div className="flex items-center gap-1.5 tap cursor-pointer" onClick={() => {
               console.log('✅ 프로필 클릭! setShowNicknameModal(true) 호출');
