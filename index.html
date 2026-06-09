@@ -4205,9 +4205,9 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
       </header>
 
       {/* 🔥 실시간 핫라인 */}
-      {sessionStorage.getItem('hotline') && (
+      {localStorage.getItem('hotline') && (
         <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-4 py-2 text-center text-sm font-bold overflow-hidden">
-          <div className="animate-pulse">{sessionStorage.getItem('hotline')}</div>
+          <div className="animate-pulse">{localStorage.getItem('hotline')}</div>
         </div>
       )}
 
@@ -5036,16 +5036,16 @@ const REQUIRED_DOCS_BY_VISA = {
   e74: ['통합신청서', '여권', '외국인등록증', '고용사유서', '고용주추천서', '재직확인서', '임금대장', '부가가치세', '소득세', '소득금액증명원', '원천징수신고', 'TOPIK', 'KIIP', '신원보증서', '세금완납증명'],
 
   /* F-2-7: 거주비자 (점수제) */
-  f27: ['여권', '외국인등록증', '재학증명서', '소득금액증명원', '학위증명서', '구직점수표', '세금완납증명', 'TOPIK', 'KIIP'],
-  f27_e71: ['여권', '외국인등록증', '재학증명서', '소득금액증명원', '학위증명서', '구직점수표', '세금완납증명', 'TOPIK', 'KIIP'],
+  f27: ['여권', '외국인등록증', '재학증명서', '소득금액증명원', '학위증명서', '구직점수표', '세금완납증명', '신용정보조회서', 'TOPIK', 'KIIP'],
+  f27_e71: ['여권', '외국인등록증', '재학증명서', '소득금액증명원', '학위증명서', '구직점수표', '세금완납증명', '신용정보조회서', 'TOPIK', 'KIIP'],
 
   /* F-5: 영주권 */
-  f5: ['여권', '외국인등록증', '소득금액증명원', '세금완납증명', '범죄경력증명', '신용정보조회'],
-  f5_veteran: ['여권', '외국인등록증', '소득금액증명원', '세금완납증명', '범죄경력증명', '신용정보조회', '가족관계증명서', '주민등록등본'],
-  f5_marriage: ['여권', '외국인등록증', '혼인관계증명서', '가족관계증명서', '기본증명서', '주민등록등본', '범죄경력증명', '소득금액증명원', '신용정보조회'],
+  f5: ['여권', '외국인등록증', '소득금액증명원', '세금완납증명', '범죄경력증명', '신용정보조회서'],
+  f5_veteran: ['여권', '외국인등록증', '소득금액증명원', '세금완납증명', '범죄경력증명', '신용정보조회서', '가족관계증명서', '주민등록등본'],
+  f5_marriage: ['여권', '외국인등록증', '혼인관계증명서', '가족관계증명서', '기본증명서', '주민등록등본', '범죄경력증명', '소득금액증명원', '신용정보조회서'],
 
   /* F-6: 결혼이민 */
-  f6: ['혼인증명서', '여권', '외국인등록증', '신원보증서', '소득금액증명원', '주민등록등본', '혼인관계증명서', '가족관계증명서', '신용정보조회'],
+  f6: ['혼인증명서', '여권', '외국인등록증', '신원보증서', '소득금액증명원', '주민등록등본', '혼인관계증명서', '가족관계증명서', '신용정보조회서', 'TOPIK', 'KIIP'],
 };
 
 /* 비자별 권장·가산점 서류 */
@@ -5369,10 +5369,10 @@ const CAT_LABELS_VI = {
 function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
-  const [notices, setNotices] = useState(BOARD_NOTICES);
-  const [hotline, setHotline] = useState(sessionStorage.getItem('hotline') || '🔥 최신 공지를 확인하세요!');
+  const [notices, setNotices] = useState(() => loadNotices());
+  const [hotline, setHotline] = useState(localStorage.getItem('hotline') || '🔥 최신 공지를 확인하세요!');
   const [selectedBoard, setSelectedBoard] = useState('market');
-  const [noticeForm, setNoticeForm] = useState({ id:'', title:'', date:'' });
+  const [noticeForm, setNoticeForm] = useState({ ko:'', vi:'', date:'' });
   const [isAddingNotice, setIsAddingNotice] = useState(false);
 
   const handleLogin = () => {
@@ -5386,8 +5386,8 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
   };
 
   const handleHotlineUpdate = () => {
-    sessionStorage.setItem('hotline', hotline);
-    alert('전광판이 업데이트되었습니다!');
+    localStorage.setItem('hotline', hotline);
+    alert('✅ 실시간 핫라인이 업데이트되었습니다!');
   };
 
   if (!isAuthenticated) {
@@ -5411,23 +5411,27 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
     );
   }
 
-  const boardPosts = posts.filter(p => p.cat === selectedBoard && !p.isPublic === false).slice(0, 10);
+  const boardPosts = posts.filter(p => p.cat === selectedBoard && p.isPublic !== false).slice(0, 10);
 
   const handleAddNotice = () => {
-    if (!noticeForm.title.trim()) return;
+    if (!noticeForm.ko.trim() && !noticeForm.vi.trim()) return;
     const newNotice = {
       id: Math.max(...notices.map(n => n.id), 0) + 1,
-      title: noticeForm.title,
-      date: new Date().toISOString().split('T')[0],
-      cat: selectedBoard
+      ko: noticeForm.ko,
+      vi: noticeForm.vi,
     };
-    setNotices([...notices, newNotice]);
-    setNoticeForm({ id:'', title:'', date:'' });
+    const updated = [...notices, newNotice];
+    setNotices(updated);
+    saveNotices(updated);
+    setNoticeForm({ ko:'', vi:'', date:'' });
     setIsAddingNotice(false);
+    alert('✅ 공지가 추가되었습니다!');
   };
 
   const handleDeleteNotice = (id) => {
-    setNotices(notices.filter(n => n.id !== id));
+    const updated = notices.filter(n => n.id !== id);
+    setNotices(updated);
+    saveNotices(updated);
   };
 
   return (
@@ -5469,26 +5473,19 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
           <button onClick={handleHotlineUpdate} className="w-full bg-red-600 text-white py-2 rounded font-bold text-sm">📢 업데이트</button>
         </div>
 
-        {/* 공지사항 관리 */}
+        {/* ⚡ 실시간 핫 한 줄 전광판 관리 */}
         <div className="bg-white rounded-lg p-4 mb-4">
-          <p className="font-black text-gray-800 mb-3">📌 공지사항 관리</p>
-
-          <div className="mb-3">
-            <select value={selectedBoard} onChange={(e)=>setSelectedBoard(e.target.value)} className="w-full border-2 border-gray-300 rounded p-2 text-sm">
-              <option value="market">🏪 중고장터</option>
-              <option value="house">🏠 주택</option>
-              <option value="travel">✈️ 여행</option>
-            </select>
-          </div>
+          <p className="font-black text-gray-800 mb-3">⚡ 실시간 핫 한 줄 전광판</p>
+          <p className="text-xs text-gray-500 mb-3">메인화면 노란색 전광판에 즉시 반영됩니다</p>
 
           <div className="space-y-2 max-h-64 overflow-y-auto mb-3">
-            {notices.filter(n => !n.cat || n.cat === selectedBoard).map(notice => (
-              <div key={notice.id} className="flex justify-between items-center bg-yellow-50 border border-yellow-200 p-2 rounded text-sm">
-                <div>
-                  <p className="font-bold text-gray-800">{notice.title}</p>
-                  <p className="text-xs text-gray-500">{notice.date}</p>
+            {notices.map(notice => (
+              <div key={notice.id} className="flex justify-between items-start gap-2 bg-yellow-50 border border-yellow-200 p-2 rounded text-sm">
+                <div className="flex-1">
+                  <p className="font-bold text-gray-800">🔥 {notice.ko}</p>
+                  <p className="text-xs text-gray-600">{notice.vi}</p>
                 </div>
-                <button onClick={()=>handleDeleteNotice(notice.id)} className="text-red-500 font-bold text-xs">삭제</button>
+                <button onClick={()=>handleDeleteNotice(notice.id)} className="text-red-500 font-bold text-xs flex-shrink-0 mt-0.5">삭제</button>
               </div>
             ))}
           </div>
@@ -5497,12 +5494,19 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
             <button onClick={()=>setIsAddingNotice(true)} className="w-full bg-blue-600 text-white py-2 rounded font-bold text-sm">+ 공지 추가</button>
           ) : (
             <div className="space-y-2">
-              <input
-                type="text"
-                placeholder="공지 제목"
-                value={noticeForm.title}
-                onChange={(e)=>setNoticeForm({...noticeForm, title:e.target.value})}
+              <textarea
+                placeholder="한국어 공지"
+                value={noticeForm.ko}
+                onChange={(e)=>setNoticeForm({...noticeForm, ko:e.target.value})}
                 className="w-full border-2 border-gray-300 rounded p-2 text-sm"
+                rows="2"
+              />
+              <textarea
+                placeholder="베트남어 공지"
+                value={noticeForm.vi}
+                onChange={(e)=>setNoticeForm({...noticeForm, vi:e.target.value})}
+                className="w-full border-2 border-gray-300 rounded p-2 text-sm"
+                rows="2"
               />
               <div className="flex gap-2">
                 <button onClick={handleAddNotice} className="flex-1 bg-green-600 text-white py-2 rounded font-bold text-sm">저장</button>
@@ -5515,6 +5519,18 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
         {/* 게시글 관리 */}
         <div className="bg-white rounded-lg p-4">
           <p className="font-black text-gray-800 mb-3">📝 최근 글</p>
+
+          <div className="mb-3">
+            <select value={selectedBoard} onChange={(e)=>setSelectedBoard(e.target.value)} className="w-full border-2 border-gray-300 rounded p-2 text-sm">
+              <option value="market">🏪 중고장터</option>
+              <option value="house">🏠 주택</option>
+              <option value="travel">✈️ 여행</option>
+              <option value="hall">📘 비자정보</option>
+              <option value="sos">🆘 긴급도움</option>
+              <option value="bamboo">🤫 대나무숲</option>
+              <option value="horror">👻 무서운이야기</option>
+            </select>
+          </div>
 
           <div className="space-y-2 max-h-96 overflow-y-auto">
             {boardPosts.map(post => (
