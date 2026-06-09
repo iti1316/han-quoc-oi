@@ -3257,13 +3257,6 @@ const MASTER_BTNS = [
 function MasterGrid({ nav, lang, toggleLang, onOpenMore }) {
   return (
     <section className="bg-white px-3 pt-3 pb-4 shadow-sm">
-      <div className="flex items-center justify-between mb-2.5 px-1">
-        <span className="text-[11px] font-black text-gray-700 tracking-wider">MASTER GRID</span>
-        <button onClick={toggleLang}
-          className="w-7 h-7 bg-gray-100 rounded-full flex items-center justify-center text-sm tap transition hover:bg-gray-200">
-          🌐
-        </button>
-      </div>
       <div className="grid grid-cols-3 gap-2">
         {MASTER_BTNS.map((b, i) => {
           const label = lang==='vi' ? b.vi : b.ko;
@@ -4187,6 +4180,7 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
           </div>
           <div className="flex items-center gap-2">
             <button onClick={()=>nav({page:'admin'})} className="text-lg tap transition" title="관리자">⚙️</button>
+            <button onClick={toggleLang} className="text-lg tap transition" title="언어">{lang==='vi'?'🇻🇳':'🇰🇷'}</button>
             <div className="flex items-center gap-1.5 tap cursor-pointer" onClick={() => {
               console.log('✅ 프로필 클릭! setShowNicknameModal(true) 호출');
               setShowNicknameModal(true);
