@@ -3386,7 +3386,7 @@ function TickingAnnouncementBar({ lang }) {
 
 /* ── 게시판별 인기글 피드 ── */
 const BOARD_HOT_CFG = [
-  { key:'d9',     cats:['hall','sos'], emoji:'📘', bg:'bg-blue-600',   ko:'비자 정보',  vi:'Visa' },
+  { key:'d9',     cats:['hall','sos','talk'], emoji:'📘', bg:'bg-blue-600',   ko:'비자 정보',  vi:'Visa' },
   { key:'travel', cats:['travel'],              emoji:'📸', bg:'bg-pink-500',   ko:'여행·맛집',  vi:'Du lịch' },
   { key:'bamboo', cats:['bamboo'],              emoji:'🤫', bg:'bg-orange-500', ko:'대나무숲',   vi:'Rừng Tre' },
   { key:'market', cats:['market'],              emoji:'🥕', bg:'bg-orange-400', ko:'당근마켓',   vi:'Chợ' },
@@ -5825,7 +5825,13 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
           <div className="bg-white rounded-2xl shadow-sm px-4 py-4 mb-3 fade-in">
             <p className="text-xs font-black text-gray-500 mb-3">{L.selectBoard}</p>
             <div className="flex flex-col gap-2">
-              {CAT_OPTS.map(o => {
+              {CAT_OPTS.filter(o => {
+                // 비자 커뮤니티(hall/sos)에서는 bamboo 제외
+                if (['hall', 'sos'].includes(activeCat) && o.v === 'bamboo') return false;
+                // 대나무숲(bamboo)에서는 bamboo만 표시
+                if (activeCat === 'bamboo') return o.v === 'bamboo';
+                return true;
+              }).map(o => {
                 const cl = CAT_LABELS_VI[o.v];
                 return (
                   <button key={o.v} onClick={() => setCat(o.v)}
