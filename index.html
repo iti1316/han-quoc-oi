@@ -2640,10 +2640,23 @@ const CLASSIC_BOARD_CFG = {
   horror: { ko:'👻 무서운 이야기 방',        vi:'Phòng Chuyện Ma',         desc_ko:'무서운 경험, 귀신 이야기, 소름돋는 사연을 익명으로 공유하는 공간입니다.',  desc_vi:'Chia sẻ chuyện ma, trải nghiệm đáng sợ một cách ẩn danh.',    cats:['horror'], writeParam:'horror' },
 };
 
-const BOARD_NOTICES = [
+const DEFAULT_BOARD_NOTICES = [
   { id:'n1', title:'[공지] 개인정보 절대 입력 금지 — 닉네임은 자동 익명 생성됩니다.', title_vi:'[Thông báo] Tuyệt đối không nhập thông tin cá nhân — Biệt danh ẩn danh tự động.', date:'25-01-10', views:8820, likes:45 },
   { id:'n2', title:'[공지] 비방·욕설·허위정보 게시글은 즉시 삭제됩니다.',             title_vi:'[Thông báo] Bài đăng có ngôn ngữ xúc phạm hoặc thông tin sai sẽ bị xóa ngay.',    date:'25-01-23', views:20083, likes:33 },
 ];
+
+const BOARD_NOTICE_STORE = 'vb_board_notices';
+function loadBoardNotices() {
+  try {
+    const raw = localStorage.getItem(BOARD_NOTICE_STORE);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return DEFAULT_BOARD_NOTICES;
+}
+function saveBoardNotices(arr) {
+  localStorage.setItem(BOARD_NOTICE_STORE, JSON.stringify(arr));
+}
+const BOARD_NOTICES = loadBoardNotices();
 
 const LOCKED_CATS = ['talk', 'travel', 'market', 'house', 'horror', 'bamboo'];
 const LOCKED_CAT_INFO = {
@@ -2659,6 +2672,9 @@ const LOCKED_CAT_INFO = {
 function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteComment, onUpdateComment, onDeletePost, deviceId }) {
   const cfg = CLASSIC_BOARD_CFG[boardKey];
   if (!cfg) { nav({page:'home'}); return null; }
+
+  // 실시간으로 업데이트된 게시판 공지사항 로드
+  const boardNotices = loadBoardNotices();
 
   const [search,       setSearch]       = useState('');
   const [page,         setPage]         = useState(1);
@@ -2792,7 +2808,7 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
           </div>
 
           {/* 공지 */}
-          {BOARD_NOTICES.map(n => (
+          {boardNotices.map(n => (
             <React.Fragment key={n.id}>
               {/* 데스크탑 공지 */}
               <div className="hidden sm:grid border-b border-gray-100 px-3 py-2.5 hover:bg-gray-50 cursor-pointer transition"
@@ -4048,7 +4064,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
                 </div>
 
                 {/* 공지 2개 */}
-                {BOARD_NOTICES.map(n => (
+                {loadBoardNotices().map(n => (
                   <div key={n.id} className="grid border-b border-gray-50 px-3 py-2.5 bg-gray-50/60"
                     style={{gridTemplateColumns:'2.5rem 1.2rem 1fr 4rem 3.5rem'}}>
                     <span className="text-[9px] font-black text-gray-400 text-center self-center">공지</span>
@@ -5371,9 +5387,12 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
   const [password, setPassword] = useState('');
   const [notices, setNotices] = useState(() => loadNotices());
   const [hotline, setHotline] = useState(localStorage.getItem('hotline') || '🔥 최신 공지를 확인하세요!');
+  const [boardNotices, setBoardNotices] = useState(() => loadBoardNotices());
   const [selectedBoard, setSelectedBoard] = useState('market');
   const [noticeForm, setNoticeForm] = useState({ ko:'', vi:'', date:'' });
   const [isAddingNotice, setIsAddingNotice] = useState(false);
+  const [boardNoticeForm, setBoardNoticeForm] = useState({ title:'', title_vi:'' });
+  const [isAddingBoardNotice, setIsAddingBoardNotice] = useState(false);
 
   const handleLogin = () => {
     if (password === '88888888') {
@@ -5432,6 +5451,30 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
     const updated = notices.filter(n => n.id !== id);
     setNotices(updated);
     saveNotices(updated);
+  };
+
+  const handleAddBoardNotice = () => {
+    if (!boardNoticeForm.title.trim() && !boardNoticeForm.title_vi.trim()) return;
+    const newNotice = {
+      id: 'b' + (Math.max(...boardNotices.map(n => parseInt(n.id.substring(1))||0), 0) + 1),
+      title: boardNoticeForm.title,
+      title_vi: boardNoticeForm.title_vi,
+      date: new Date().toISOString().split('T')[0],
+      views: 0,
+      likes: 0
+    };
+    const updated = [...boardNotices, newNotice];
+    setBoardNotices(updated);
+    saveBoardNotices(updated);
+    setBoardNoticeForm({ title:'', title_vi:'' });
+    setIsAddingBoardNotice(false);
+    alert('✅ 게시판 공지가 추가되었습니다!');
+  };
+
+  const handleDeleteBoardNotice = (id) => {
+    const updated = boardNotices.filter(n => n.id !== id);
+    setBoardNotices(updated);
+    saveBoardNotices(updated);
   };
 
   return (
@@ -5511,6 +5554,49 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
               <div className="flex gap-2">
                 <button onClick={handleAddNotice} className="flex-1 bg-green-600 text-white py-2 rounded font-bold text-sm">저장</button>
                 <button onClick={()=>setIsAddingNotice(false)} className="flex-1 bg-gray-400 text-white py-2 rounded font-bold text-sm">취소</button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* 📌 게시판 공지사항 관리 */}
+        <div className="bg-white rounded-lg p-4 mb-4">
+          <p className="font-black text-gray-800 mb-3">📌 게시판 공지사항 관리</p>
+          <p className="text-xs text-gray-500 mb-3">각 게시판 상단에 표시되는 공지사항입니다</p>
+
+          <div className="space-y-2 max-h-64 overflow-y-auto mb-3">
+            {boardNotices.map(notice => (
+              <div key={notice.id} className="flex justify-between items-start gap-2 bg-blue-50 border border-blue-200 p-2 rounded text-sm">
+                <div className="flex-1">
+                  <p className="font-bold text-gray-800">🔔 {notice.title}</p>
+                  <p className="text-xs text-gray-600">{notice.title_vi}</p>
+                </div>
+                <button onClick={()=>handleDeleteBoardNotice(notice.id)} className="text-red-500 font-bold text-xs flex-shrink-0 mt-0.5">삭제</button>
+              </div>
+            ))}
+          </div>
+
+          {!isAddingBoardNotice ? (
+            <button onClick={()=>setIsAddingBoardNotice(true)} className="w-full bg-blue-600 text-white py-2 rounded font-bold text-sm">+ 공지 추가</button>
+          ) : (
+            <div className="space-y-2">
+              <textarea
+                placeholder="한국어 공지"
+                value={boardNoticeForm.title}
+                onChange={(e)=>setBoardNoticeForm({...boardNoticeForm, title:e.target.value})}
+                className="w-full border-2 border-gray-300 rounded p-2 text-sm"
+                rows="2"
+              />
+              <textarea
+                placeholder="베트남어 공지"
+                value={boardNoticeForm.title_vi}
+                onChange={(e)=>setBoardNoticeForm({...boardNoticeForm, title_vi:e.target.value})}
+                className="w-full border-2 border-gray-300 rounded p-2 text-sm"
+                rows="2"
+              />
+              <div className="flex gap-2">
+                <button onClick={handleAddBoardNotice} className="flex-1 bg-green-600 text-white py-2 rounded font-bold text-sm">저장</button>
+                <button onClick={()=>setIsAddingBoardNotice(false)} className="flex-1 bg-gray-400 text-white py-2 rounded font-bold text-sm">취소</button>
               </div>
             </div>
           )}
