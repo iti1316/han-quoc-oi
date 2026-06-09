@@ -3766,7 +3766,7 @@ const VISA_ROUTES = [
 function VisaHubPage({ nav, lang, posts = [] }) {
   const savedState = window.__visaState;
   const [selectedRoute,    setSelectedRoute]    = useState(savedState?.visaRoute || null);
-  const [selectedSubRoute, setSelectedSubRoute] = useState(null);
+  const [selectedSubRoute, setSelectedSubRoute] = useState(savedState?.visaSubRoute || null);
   const [selectedStep,     setSelectedStep]     = useState(savedState?.visaStep || null);
   const [boardPage,        setBoardPage]        = useState(1);
   const BOARD_PER = 10;
@@ -4000,11 +4000,11 @@ function VisaHubPage({ nav, lang, posts = [] }) {
           </div>
           <div className="grid grid-cols-2 gap-2 p-3">
             {[
-              ...(selectedStep === 'e74' ? [{ e:'📊', ko:'E-7-4 점수 계산기',   vi:'Tính điểm E-7-4',      bg:'bg-amber-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_e74', prevPage:'visaHub'}) } }] : []),
-              ...(selectedStep === 'f27' || selectedStep === 'f27_e71' ? [{ e:'📊', ko:'F-2-7 점수 계산기',   vi:'Tính điểm F-2-7',      bg:'bg-purple-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_f27', prevPage:'visaHub'}) } }] : []),
-              ...(selectedStep === 'f5' || selectedStep === 'f5_veteran' || selectedStep === 'f5_marriage' ? [{ e:'📊', ko:'F-5 점수 계산기',   vi:'Tính điểm F-5',      bg:'bg-rose-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_f5', prevPage:'visaHub'}) } }] : []),
-              { e:'📋', ko:'필수 서류 준비',   vi:'Danh sách hồ sơ',       bg:'bg-green-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaStep:selectedStep}; nav({page:'docsChecklist', param:selectedStep, prevPage:'visaHub'}) } },
-              { e:'🗂️', ko:'출입국·대사관·외교부 연락처',  vi:'Thông tin liên hệ XNC, Đại sứ quán, Bộ Ngoại giao',      bg:'bg-violet-600',  act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaStep:selectedStep}; nav({page:'office',    param:null, prevPage:'visaHub'}) } },
+              ...(selectedStep === 'e74' ? [{ e:'📊', ko:'E-7-4 점수 계산기',   vi:'Tính điểm E-7-4',      bg:'bg-amber-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_e74', prevPage:'visaHub'}) } }] : []),
+              ...(selectedStep === 'f27' || selectedStep === 'f27_e71' ? [{ e:'📊', ko:'F-2-7 점수 계산기',   vi:'Tính điểm F-2-7',      bg:'bg-purple-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_f27', prevPage:'visaHub'}) } }] : []),
+              ...(selectedStep === 'f5' || selectedStep === 'f5_veteran' || selectedStep === 'f5_marriage' ? [{ e:'📊', ko:'F-5 점수 계산기',   vi:'Tính điểm F-5',      bg:'bg-rose-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_f5', prevPage:'visaHub'}) } }] : []),
+              { e:'📋', ko:'필수 서류 준비',   vi:'Danh sách hồ sơ',       bg:'bg-green-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'docsChecklist', param:selectedStep, prevPage:'visaHub'}) } },
+              { e:'🗂️', ko:'출입국·대사관·외교부 연락처',  vi:'Thông tin liên hệ XNC, Đại sứ quán, Bộ Ngoại giao',      bg:'bg-violet-600',  act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'office',    param:null, prevPage:'visaHub'}) } },
             ].map((t,i)=>(
               <button key={i} onClick={t.act}
                 className={`${t.bg} rounded-xl px-3 py-3.5 flex items-center gap-2 tap transition`}>
