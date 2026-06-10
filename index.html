@@ -3434,21 +3434,9 @@ function HotFeed({ posts, nav, lang }) {
   return (
     <section className="mt-3 px-3">
       <div className="bg-white rounded-t-2xl px-4 py-3 border-b border-gray-100">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-black text-gray-800">
-              🔥 {lang==='vi' ? 'Bài viết hot' : '실시간 인기글'}
-            </p>
-            <p className="text-[10px] text-gray-400 mt-0.5">
-              {lang==='vi'
-                ? '24h mới × 3 · Tự giảm theo thời gian'
-                : '24시간 신규 글 ×3 가중 · 시간이 지날수록 자연 감소'}
-            </p>
-          </div>
-          <span className="text-[10px] font-black text-orange-500 bg-orange-50 border border-orange-200 px-2.5 py-1 rounded-full">
-            {lang==='vi' ? '🔥 LIVE' : '🔥 실시간'}
-          </span>
-        </div>
+        <p className="text-sm font-black text-gray-800">
+          🔥 {lang==='vi' ? 'Bài viết hot' : '실시간 인기글'}
+        </p>
       </div>
 
       <div className="bg-white rounded-b-2xl overflow-hidden shadow-sm">
@@ -3511,13 +3499,10 @@ function LatestFeed({ posts, nav, lang }) {
 
   return (
     <section className="mt-3 px-3 pb-4">
-      <div className="bg-white rounded-t-2xl px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+      <div className="bg-white rounded-t-2xl px-4 py-3 border-b border-gray-100">
         <p className="text-sm font-black text-gray-800">
           🆕 {lang==='vi' ? 'Bài viết mới nhất' : '최신글'}
         </p>
-        <span className="text-[10px] font-black text-blue-500 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-full">
-          NEW
-        </span>
       </div>
       <div className="bg-white rounded-b-2xl overflow-hidden shadow-sm">
         {latestPosts.length === 0 ? (
