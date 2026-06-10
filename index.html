@@ -5164,11 +5164,11 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
     setCheckedDocs(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const DocCard = ({ doc, isAdditional }) => (
+  const DocCard = ({ doc, idx, isAdditional }) => (
     <div className="bg-white rounded-2xl shadow-sm overflow-hidden fade-in">
       <div className="px-4 py-3">
         <div className="flex items-center gap-2 flex-wrap mb-1">
-          <span className="text-2xl flex-shrink-0">{doc.icon}</span>
+          <span className="text-lg font-black text-gray-600 w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">{idx + 1}</span>
           <p className="text-sm font-black text-gray-800">{lang==='vi' ? doc.vi_name : doc.name}</p>
           {isAdditional && <span className="text-[9px] font-black bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">권장</span>}
         </div>
@@ -5191,7 +5191,7 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
               <p className="text-sm font-black text-red-700">🔴 {lang==='vi' ? 'Danh sách hồ sơ cần thiết' : '필수 서류 준비'} ({requiredDocs.length})</p>
             </div>
             <div className="space-y-2">
-              {requiredDocs.map((doc, idx) => <DocCard key={idx} doc={doc} isAdditional={false} />)}
+              {requiredDocs.map((doc, idx) => <DocCard key={idx} doc={doc} idx={idx} isAdditional={false} />)}
             </div>
           </div>
         )}
@@ -5203,7 +5203,7 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
               <p className="text-sm font-black text-blue-700">🔵 {lang==='vi' ? 'Danh sách hồ sơ được khuyến cáo' : '권장 서류 준비'} ({additionalDocs.length})</p>
             </div>
             <div className="space-y-2">
-              {additionalDocs.map((doc, idx) => <DocCard key={idx} doc={doc} isAdditional={true} />)}
+              {additionalDocs.map((doc, idx) => <DocCard key={idx} doc={doc} idx={idx} isAdditional={true} />)}
             </div>
           </div>
         )}
