@@ -481,7 +481,7 @@ function usePosts() {
     }));
   }
 
-  return { posts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, canEditPost, deviceId };
+  return { posts, setPosts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, canEditPost, deviceId };
 }
 
 /* ================================================================
@@ -4139,7 +4139,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
 /* ================================================================
    페이지: 메인(Home) — 새 디자인
 ================================================================ */
-function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onAddComment, onDeleteComment, toggleLang }) {
+function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onAddComment, onDeleteComment, toggleLang, onNicknameSave }) {
   const [showMore,    setShowMore]    = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showNicknameModal, setShowNicknameModal] = useState(false);
@@ -4155,70 +4155,24 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
     }
 
     setNicknameLoading(true);
-    console.log('🔵 [Step 1] 닉네임 저장 시작...');
 
     try {
       const nickname = nicknameInput.trim();
-      const deviceId = getDeviceId();
+      console.log('📝 [HomePage] 닉네임 저장 요청:', nickname);
 
-      console.log('🔵 [Step 2] 변수 확인:', { nickname, deviceId, posts_length: posts.length });
+      // App 레벨의 함수 호출
+      const success = await onNicknameSave(nickname);
 
-      // 1단계: 새 닉네임 설정 + Firebase 저장
-      window.userNickname = nickname;
-      console.log('🔵 [Step 3] window.userNickname 설정:', nickname);
-
-      const saved = await NicknameDB.save(deviceId, nickname);
-      console.log('🔵 [Step 4] NicknameDB.save() 완료:', saved);
-
-      // 2단계: 과거 글/댓글 업데이트 (저장 성공 여부와 관계없이 실행)
-      console.log('🔵 [Step 5] 글/댓글 업데이트 시작...');
-
-      let updateCount = 0;
-      const updatedPostsList = posts.map(p => {
-        if (p.deviceId === deviceId) {
-          updateCount++;
-          console.log(`✅ 글 업데이트: "${p.title}" → ${nickname}`);
-          return { ...p, author: nickname, commentsData: (p.commentsData || []).map(c => c.deviceId === deviceId ? { ...c, author: nickname } : c) };
-        } else {
-          // 댓글만 확인
-          const hasOwnComment = p.commentsData?.some(c => c.deviceId === deviceId);
-          if (hasOwnComment) {
-            console.log(`✅ 댓글 업데이트: "${p.title}" 내 댓글 → ${nickname}`);
-            return { ...p, commentsData: p.commentsData.map(c => c.deviceId === deviceId ? { ...c, author: nickname } : c) };
-          }
-        }
-        return p;
-      });
-
-      console.log('🔵 [Step 6] 총 업데이트 개수:', updateCount);
-      console.log('🔵 [Step 7] setPosts 호출...');
-
-      // React state 업데이트
-      setPosts(updatedPostsList);
-
-      // 3단계: Firebase에도 저장
-      if (updateCount > 0) {
-        console.log('🔵 [Step 8] Firebase posts 저장 중...');
-        try {
-          const response = await fetch(FIREBASE_POSTS_URL, {
-            method: 'PUT',
-            body: JSON.stringify(updatedPostsList),
-            headers: { 'Content-Type': 'application/json' }
-          });
-          console.log('🔵 [Step 9] Firebase 저장 응답:', response.status);
-        } catch (err) {
-          console.error('❌ Firebase 저장 실패:', err.message);
-        }
+      if (success) {
+        console.log('✅ [HomePage] 저장 성공!');
+        setShowNicknameModal(false);
+        setNicknameInput('');
+      } else {
+        console.log('⚠️ [HomePage] 저장 실패');
       }
-
-      console.log('✅ [완료] 닉네임 변경 완료!');
-      setShowNicknameModal(false);
-      setNicknameInput('');
-
     } catch (err) {
-      console.error('❌ 오류 발생:', err);
+      console.error('❌ [HomePage] 오류:', err);
     } finally {
-      console.log('🔵 [Step 10] 로딩 상태 해제');
       setNicknameLoading(false);
     }
   };
@@ -6127,7 +6081,7 @@ function App() {
   });
   const [prevRoute, setPrevRoute] = useState({ page:'home', param:null });
   const [lang,     setLang]     = useState('vi');
-  const { posts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId } = usePosts();
+  const { posts, setPosts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId } = usePosts();
 
   /* route 변경 시 browser history에 저장 */
   useEffect(() => {
@@ -6195,7 +6149,65 @@ function App() {
   }
   function toggleLang() { setLang(l => l === 'vi' ? 'ko' : 'vi'); }
 
-  const shared = { nav, posts, lang, onAddPost:addPost, onDeletePost:deletePost, onUpdatePost:updatePost, onAddComment:addComment, onDeleteComment:deleteComment, onUpdateComment:updateComment, deviceId };
+  // App 레벨의 닉네임 변경 함수
+  const handleNicknameSaveApp = async (nickname) => {
+    if (!nickname?.trim()) return;
+
+    try {
+      const deviceId = getDeviceId();
+
+      console.log('🔵 [App] 닉네임 저장 시작:', nickname);
+
+      // 1단계: 새 닉네임 설정
+      window.userNickname = nickname;
+      const saved = await NicknameDB.save(deviceId, nickname);
+      console.log('🔵 [App] NicknameDB.save() 완료:', saved);
+
+      // 2단계: 과거 글/댓글 업데이트
+      let updateCount = 0;
+      const updatedPostsList = posts.map(p => {
+        if (p.deviceId === deviceId) {
+          updateCount++;
+          console.log(`✅ 글 업데이트: "${p.title}" → ${nickname}`);
+          return { ...p, author: nickname, commentsData: (p.commentsData || []).map(c => c.deviceId === deviceId ? { ...c, author: nickname } : c) };
+        } else {
+          const hasOwnComment = p.commentsData?.some(c => c.deviceId === deviceId);
+          if (hasOwnComment) {
+            console.log(`✅ 댓글 업데이트: "${p.title}"`);
+            return { ...p, commentsData: p.commentsData.map(c => c.deviceId === deviceId ? { ...c, author: nickname } : c) };
+          }
+        }
+        return p;
+      });
+
+      console.log('🔵 [App] 총 업데이트:', updateCount);
+
+      // 3단계: React state 업데이트
+      setPosts(updatedPostsList);
+
+      // 4단계: Firebase 저장
+      if (updateCount > 0) {
+        try {
+          const response = await fetch(FIREBASE_POSTS_URL, {
+            method: 'PUT',
+            body: JSON.stringify(updatedPostsList),
+            headers: { 'Content-Type': 'application/json' }
+          });
+          console.log('🔵 [App] Firebase 저장 완료:', response.status);
+        } catch (err) {
+          console.error('❌ Firebase 저장 실패:', err.message);
+        }
+      }
+
+      console.log('✅ [App] 닉네임 변경 완료!');
+      return true;
+    } catch (err) {
+      console.error('❌ [App] 오류:', err);
+      return false;
+    }
+  };
+
+  const shared = { nav, posts, lang, onAddPost:addPost, onDeletePost:deletePost, onUpdatePost:updatePost, onAddComment:addComment, onDeleteComment:deleteComment, onUpdateComment:updateComment, deviceId, onNicknameSave:handleNicknameSaveApp };
 
   switch (route.page) {
     case 'guide':     return <GuidePage     type={route.param}     onBack={goBack} lang={lang} />;
