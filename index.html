@@ -477,7 +477,7 @@ function usePosts() {
     save(posts.map(p => {
       if (p.id !== postId) return p;
       const list = (p.commentsData || []).map(c => c.id === commentId ? { ...c, ...edits } : c);
-      return { ...p, commentsData: list };
+      return { ...p, commentsData: list, comments: list.length };
     }));
   }
 
@@ -6169,12 +6169,14 @@ function App() {
         if (p.deviceId === deviceId) {
           updateCount++;
           console.log(`✅ 글 업데이트: "${p.title}" → ${nickname}`);
-          return { ...p, author: nickname, commentsData: (p.commentsData || []).map(c => c.deviceId === deviceId ? { ...c, author: nickname } : c) };
+          const updatedComments = (p.commentsData || []).map(c => c.deviceId === deviceId ? { ...c, author: nickname } : c);
+          return { ...p, author: nickname, commentsData: updatedComments, comments: updatedComments.length };
         } else {
           const hasOwnComment = p.commentsData?.some(c => c.deviceId === deviceId);
           if (hasOwnComment) {
             console.log(`✅ 댓글 업데이트: "${p.title}"`);
-            return { ...p, commentsData: p.commentsData.map(c => c.deviceId === deviceId ? { ...c, author: nickname } : c) };
+            const updatedComments = p.commentsData.map(c => c.deviceId === deviceId ? { ...c, author: nickname } : c);
+            return { ...p, commentsData: updatedComments, comments: updatedComments.length };
           }
         }
         return p;
