@@ -4153,60 +4153,65 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
       const deviceId = getDeviceId();
       const oldAuthor = window.userNickname;
 
-      console.log('📝 [닉네임 변경] 시작:', { oldAuthor, newAuthor: nickname });
+      console.log('📝 [닉네임 변경] 시작:', { oldAuthor, newNickname: nickname, deviceId });
 
       // 1단계: 새 닉네임 설정
       window.userNickname = nickname;
       const saved = await NicknameDB.save(deviceId, nickname);
 
       if (saved) {
-        // 2단계: 과거 글 데이터 업데이트 (3번 방식 - 선택적 업데이트)
+        // 2단계: 과거 글/댓글 데이터 업데이트 (3번 방식)
         console.log('🔄 [3번 방식] 과거 글/댓글 닉네임 일괄 업데이트 시작...');
 
         let updateCount = 0;
+        let updatedPostsList = posts.map(p => {
+          let postModified = false;
 
-        // 게시판별 모든 글 업데이트
-        for (const boardKey of Object.keys(boardPostsData)) {
-          const posts = boardPostsData[boardKey] || [];
-          const updatedPosts = posts.map(p => {
-            // 자신이 쓴 글 (deviceId 일치) + 이전 닉네임이면 업데이트
-            if (p.deviceId === deviceId && p.author === oldAuthor) {
-              updateCount++;
-              console.log(`  ✅ 글 업데이트: "${p.title}" (${oldAuthor} → ${nickname})`);
-              return { ...p, author: nickname };
+          // 자신이 쓴 글 (deviceId 일치)이면 업데이트
+          if (p.deviceId === deviceId && p.author) {
+            updateCount++;
+            postModified = true;
+            console.log(`  ✅ 글 업데이트: "${p.title}" → 닉네임: ${nickname}`);
+          }
+
+          // 댓글도 함께 업데이트
+          let updatedComments = p.commentsData;
+          if (p.commentsData && Array.isArray(p.commentsData)) {
+            updatedComments = p.commentsData.map(c => {
+              if (c.deviceId === deviceId && c.author) {
+                updateCount++;
+                console.log(`  ✅ 댓글 업데이트 → 닉네임: ${nickname}`);
+                return { ...c, author: nickname };
+              }
+              return c;
+            });
+            if (updatedComments !== p.commentsData) {
+              postModified = true;
             }
-            // 댓글도 함께 업데이트
-            if (p.commentsData && Array.isArray(p.commentsData)) {
-              const updatedComments = p.commentsData.map(c => {
-                if (c.deviceId === deviceId && c.author === oldAuthor) {
-                  updateCount++;
-                  return { ...c, author: nickname };
-                }
-                return c;
-              });
-              return { ...p, commentsData: updatedComments };
-            }
-            return p;
-          });
+          }
 
-          boardPostsData[boardKey] = updatedPosts;
-        }
+          return postModified ? { ...p, author: nickname, commentsData: updatedComments } : p;
+        });
 
-        // 3단계: Firebase에 업데이트된 데이터 저장
+        // React state 업데이트
+        setPosts(updatedPostsList);
+        console.log(`✅ [React State] ${updateCount}개 항목 업데이트 완료`);
+
+        // 3단계: Firebase에도 저장
         if (updateCount > 0) {
           try {
-            for (const boardKey of Object.keys(boardPostsData)) {
-              const url = `${FIREBASE_POSTS_URL}/${boardKey}.json`;
-              await fetch(url, {
-                method: 'PUT',
-                body: JSON.stringify(boardPostsData[boardKey]),
-                headers: { 'Content-Type': 'application/json' }
-              });
-            }
-            console.log(`✅ [닉네임 변경] 완료! ${updateCount}개 항목 업데이트`);
+            const url = `${FIREBASE_POSTS_URL}.json`;
+            await fetch(url, {
+              method: 'PUT',
+              body: JSON.stringify(updatedPostsList),
+              headers: { 'Content-Type': 'application/json' }
+            });
+            console.log(`✅ [Firebase] ${updateCount}개 항목 저장 완료`);
           } catch (err) {
-            console.error('⚠️ Firebase 업데이트 중 오류:', err);
+            console.error('⚠️ Firebase 저장 중 오류:', err);
           }
+        } else {
+          console.log('ℹ️ 닉네임은 변경되었으나, 기존 글/댓글이 없습니다.');
         }
 
         setShowNicknameModal(false);
