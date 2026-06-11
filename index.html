@@ -173,6 +173,19 @@ function genAuthor() {
   return anonymous;
 }
 
+/* 닉네임 표시 함수: deviceId로 현재 닉네임 조회 (3번 방식) */
+function getDisplayAuthor(savedAuthor, authorDeviceId) {
+  // authorDeviceId가 현재 사용자 deviceId와 같으면 현재 닉네임으로 표시
+  const currentDeviceId = getDeviceId();
+  if (authorDeviceId && authorDeviceId === currentDeviceId && window.userNickname) {
+    console.log('✅ getDisplayAuthor - 자신의 글, 현재 닉네임 표시:', window.userNickname);
+    return window.userNickname;
+  }
+  // 다른 사용자의 글이면 저장된 author 그대로 반환
+  console.log('⚪ getDisplayAuthor - 다른 사용자 글 또는 익명:', savedAuthor);
+  return savedAuthor;
+}
+
 /* 기기별 고유 ID (회원가입 전 게시물/댓글 식별용) */
 function getDeviceId() {
   let deviceId = localStorage.getItem('vb_device_id');
@@ -4137,23 +4150,70 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
   const handleNicknameSave = async () => {
     if (nicknameInput.trim()) {
       const nickname = nicknameInput.trim();
-      window.userNickname = nickname;
-      console.log('🔴 [Step 1] window.userNickname 직접 설정:', nickname);
-      console.log('🔴 [Step 1-B] window.userNickname 현재값:', window.userNickname);
-
       const deviceId = getDeviceId();
+      const oldAuthor = window.userNickname;
+
+      console.log('📝 [닉네임 변경] 시작:', { oldAuthor, newAuthor: nickname });
+
+      // 1단계: 새 닉네임 설정
+      window.userNickname = nickname;
       const saved = await NicknameDB.save(deviceId, nickname);
-      console.log('🔴 [Step 2] Firebase 저장 완료:', saved);
 
       if (saved) {
-        const testAuthor = genAuthor();
-        console.log('🔴 [Step 3] genAuthor() 테스트 결과:', testAuthor);
-        console.log('🔴 [Step 3-B] window.userNickname 다시 확인:', window.userNickname);
+        // 2단계: 과거 글 데이터 업데이트 (3번 방식 - 선택적 업데이트)
+        console.log('🔄 [3번 방식] 과거 글/댓글 닉네임 일괄 업데이트 시작...');
+
+        let updateCount = 0;
+
+        // 게시판별 모든 글 업데이트
+        for (const boardKey of Object.keys(boardPostsData)) {
+          const posts = boardPostsData[boardKey] || [];
+          const updatedPosts = posts.map(p => {
+            // 자신이 쓴 글 (deviceId 일치) + 이전 닉네임이면 업데이트
+            if (p.deviceId === deviceId && p.author === oldAuthor) {
+              updateCount++;
+              console.log(`  ✅ 글 업데이트: "${p.title}" (${oldAuthor} → ${nickname})`);
+              return { ...p, author: nickname };
+            }
+            // 댓글도 함께 업데이트
+            if (p.commentsData && Array.isArray(p.commentsData)) {
+              const updatedComments = p.commentsData.map(c => {
+                if (c.deviceId === deviceId && c.author === oldAuthor) {
+                  updateCount++;
+                  return { ...c, author: nickname };
+                }
+                return c;
+              });
+              return { ...p, commentsData: updatedComments };
+            }
+            return p;
+          });
+
+          boardPostsData[boardKey] = updatedPosts;
+        }
+
+        // 3단계: Firebase에 업데이트된 데이터 저장
+        if (updateCount > 0) {
+          try {
+            for (const boardKey of Object.keys(boardPostsData)) {
+              const url = `${FIREBASE_POSTS_URL}/${boardKey}.json`;
+              await fetch(url, {
+                method: 'PUT',
+                body: JSON.stringify(boardPostsData[boardKey]),
+                headers: { 'Content-Type': 'application/json' }
+              });
+            }
+            console.log(`✅ [닉네임 변경] 완료! ${updateCount}개 항목 업데이트`);
+          } catch (err) {
+            console.error('⚠️ Firebase 업데이트 중 오류:', err);
+          }
+        }
+
+        setShowNicknameModal(false);
+        setNicknameInput('');
       } else {
         console.warn('⚠️ Firebase 저장에 실패했지만, 현재 세션에서는 사용 가능:', nickname);
       }
-      setShowNicknameModal(false);
-      setNicknameInput('');
     }
   };
 
