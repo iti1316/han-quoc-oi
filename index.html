@@ -360,13 +360,14 @@ function usePosts() {
   const [posts, setPosts] = useState(() => {
     try {
       const stored = JSON.parse(localStorage.getItem(BOARD_STORE));
-      if (!stored) return defaultPosts();
+      if (!stored) return defaultPosts().map(p => ({ ...p, deviceId: 'system_default' }));
       return stored.map(p => ({
         ...p,
-        isPublic: p.isPublic !== undefined ? p.isPublic : true
+        isPublic: p.isPublic !== undefined ? p.isPublic : true,
+        deviceId: p.deviceId || 'system_default'  // 기존 데이터에 deviceId 없으면 추가
       }));
     }
-    catch { return defaultPosts(); }
+    catch { return defaultPosts().map(p => ({ ...p, deviceId: 'system_default' })); }
   });
   const save = (next) => {
 
