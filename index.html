@@ -5007,6 +5007,54 @@ const DOCS = [
     vi_desc:'Hoàn tất thuế thu nhập & bảo hiểm lao động',
     fileName:null, driveId:null, official:null,
   },
+  {
+    id:'재학증명서', icon:'📚', name:'재학중임을 나타내는 증명서 및 성적표', vi_name:'Giấy xác nhận đang học & bảng điểm',
+    badge:'필수', desc:'한국 대학에서 발급',
+    vi_desc:'Từ trường Đại học tại Hàn Quốc',
+    fileName:null, driveId:null, official:null,
+  },
+  {
+    id:'등록금납입증명', icon:'💳', name:'등록금/장학금 납입 증명', vi_name:'Xác nhận nộp học phí/học bổng',
+    badge:'필수', desc:'한국 대학에서 발급',
+    vi_desc:'Từ trường Đại học tại Hàn Quốc',
+    fileName:null, driveId:null, official:null,
+  },
+  {
+    id:'재정능력증명', icon:'💰', name:'재정능력증명 (계좌 잔액)', vi_name:'Chứng minh khả năng tài chính (Số dư tài khoản)',
+    badge:'필수', desc:'충분한 자금 증명',
+    vi_desc:'Chứng minh có đủ tiền',
+    fileName:null, driveId:null, official:null,
+  },
+  {
+    id:'거주지확인서', icon:'🏠', name:'거주지 확인 (계약서/기숙사)', vi_name:'Xác nhận nơi cư trú (Hợp đồng nhà/KTX)',
+    badge:'필수', desc:'한국에서의 거주지 증명',
+    vi_desc:'Chứng minh chỗ ở tại Hàn Quốc',
+    fileName:null, driveId:null, official:null,
+  },
+  {
+    id:'표준입학허가서', icon:'📩', name:'표준 입학 허가서 (Standard Admission Letter)', vi_name:'Thư mời nhập học chuẩn (Standard Admission Letter)',
+    badge:'필수', desc:'한국 대학에서 발급',
+    vi_desc:'Từ trường Đại học tại Hàn Quốc',
+    fileName:null, driveId:null, official:null,
+  },
+  {
+    id:'학교사업자등록증', icon:'📋', name:'대학교의 사업등록증 사본', vi_name:'Bản sao giấy đăng ký kinh doanh của trường Đại học',
+    badge:'필수', desc:'학교에서 제공',
+    vi_desc:'Cung cấp bởi trường',
+    fileName:null, driveId:null, official:null,
+  },
+  {
+    id:'베트남최종학위증명서', icon:'🎓', name:'베트남 최종 학위증명서 (영사 인증)', vi_name:'Bằng cấp tại Việt Nam: Bằng tốt nghiệp cao nhất (THPT hoặc Đại học) - Hợp pháp hóa lãnh sự',
+    badge:'필수', desc:'고등학교 또는 대학교 졸업장 (노란 도장)',
+    vi_desc:'Tốt nghiệp THPT hoặc Đại học (có tem vàng)',
+    fileName:null, driveId:null, official:null,
+  },
+  {
+    id:'행정수수료', icon:'💸', name:'행정 수수료 (현금 130,000 KRW)', vi_name:'Chi phí hành chính: 130,000 KRW tiền mặt',
+    badge:'필수', desc:'한국 출입국청에 현금 납부',
+    vi_desc:'Nộp tiền mặt tại Cục Xuất nhập cảnh',
+    fileName:null, driveId:null, official:null,
+  },
 ];
 
 /* ========== 비자별 필수·권장 서류 (완벽 정리) ========== */
@@ -5015,7 +5063,7 @@ const REQUIRED_DOCS_BY_VISA = {
   e9: ['통합신청서', '여권', '외국인등록증', '고용허가서', '사업자등록증', '고용주신분증', '고용보험가입명부', '기숙사확인서'],
 
   /* D-2: 유학 */
-  d2: ['통합신청서', '여권', '외국인등록증', '재학증명서', '등록금납입증명', '재정능력증명', '기숙사확인서'],
+  d2: ['통합신청서', '여권', '외국인등록증', '재학증명서', '등록금납입증명', '재정능력증명', '거주지확인서', 'TOPIK', '표준입학허가서', '학교사업자등록증', '베트남최종학위증명서', '행정수수료'],
 
   /* D-10: 구직활동 */
   d10: ['통합신청서', '여권', '외국인등록증', '학위증명서', '구직계획서', '구직점수표', '재정능력증명'],
