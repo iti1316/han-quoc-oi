@@ -4721,11 +4721,11 @@ function ScorePage({ type='e74', onBack, lang }) {
 ================================================================ */
 const DOCS = [
   {
-    id:'통합신청서', icon:'📄', name:'통합신청서 (체류자격 변경·연장)', vi_name:'Đơn tổng hợp (thay đổi·gia hạn tư cách lưu trú)',
-    badge:'법무부 공식', desc:'E-7-4 변경·D-9 연장 공통 양식 (HWP/PDF)',
-    vi_desc:'Biểu mẫu chung cho E-7-4 và gia hạn D-9 (HWP/PDF)',
-    fileName:'통합신청서_E74_변경.hwp', driveId:'1PLACEHOLDER_DRIVE_ID_통합신청서_replace_me',
-    official:'https://www.hikorea.go.kr/pt/InfoDetailR_kor.pt?catSeq=2&cmsSeq=189',
+    id:'통합신청서', icon:'📄', name:'통합신청서 (체류자격 변경·연장, 양식번호 34)', vi_name:'Đơn tổng hợp (thay đổi·gia hạn tư cách lưu trú, mẫu số 34)',
+    badge:'필수', desc:'체류자격 변경·연장용',
+    vi_desc:'Biểu mẫu chung cho thay đổi & gia hạn tư cách lưu trú',
+    fileName:null, driveId:null,
+    official:null,
   },
   {
     id:'고용사유서', icon:'📝', name:'고용사유서 양식', vi_name:'Biểu mẫu lý do tuyển dụng',
@@ -4780,7 +4780,7 @@ const DOCS = [
     fileName:null, driveId:null, official:null,
   },
   {
-    id:'외국인등록증', icon:'🆔', name:'외국인등록증 사본', vi_name:'Bản sao giấy ngoại kiều',
+    id:'외국인등록증', icon:'🆔', name:'외국인등록증 사본', vi_name:'Bản sao thẻ ngoại kiều (ARC)',
     badge:'필수', desc:'유효한 외국인등록증 필수',
     vi_desc:'Giấy ngoại kiều còn hạn bắt buộc',
     fileName:null, driveId:null, official:null,
@@ -5008,13 +5008,13 @@ const DOCS = [
     fileName:null, driveId:null, official:null,
   },
   {
-    id:'재학증명서', icon:'📚', name:'재학중임을 나타내는 증명서 및 성적표', vi_name:'Giấy xác nhận đang học & bảng điểm (từ trường Hàn)',
+    id:'재학증명서', icon:'📚', name:'재학중임을 나타내는 증명서 및 성적표 (한국 대학에서)', vi_name:'Giấy xác nhận đang học & bảng điểm (từ trường Hàn)',
     badge:'필수', desc:'한국 대학에서 발급',
     vi_desc:'Tài liệu chính thức từ trường Hàn',
     fileName:null, driveId:null, official:null,
   },
   {
-    id:'등록금납입증명', icon:'💳', name:'등록금/장학금 납입 증명', vi_name:'Xác nhận nộp học phí hoặc học bổng',
+    id:'등록금납입증명', icon:'💳', name:'등록금/장학금 납입 증명', vi_name:'Xác nhận nộp học phí/học bổng',
     badge:'필수', desc:'한국 대학에서 발급',
     vi_desc:'Chứng minh nộp học phí hoặc nhận học bổng',
     fileName:null, driveId:null, official:null,
@@ -5022,7 +5022,7 @@ const DOCS = [
   {
     id:'재정능력증명', icon:'💰', name:'재정능력증명 (계좌 잔액)', vi_name:'Chứng minh khả năng tài chính (Số dư tài khoản)',
     badge:'필수', desc:'충분한 자금 증명',
-    vi_desc:'Bản sao tài khoản ngân hàng (dự tiêu chuẩn)',
+    vi_desc:'Bản sao tài khoản ngân hàng',
     fileName:null, driveId:null, official:null,
   },
   {
@@ -5032,20 +5032,26 @@ const DOCS = [
     fileName:null, driveId:null, official:null,
   },
   {
+    id:'TOPIK', icon:'🏅', name:'TOPIK 인증서 (권장)', vi_name:'Chứng chỉ TOPIK (Mục khuyến cáo)',
+    badge:'권장', desc:'한국어능력증명 (선택)',
+    vi_desc:'Chứng chỉ tiếng Hàn (tùy chọn)',
+    fileName:null, driveId:null, official:null,
+  },
+  {
     id:'표준입학허가서', icon:'📩', name:'표준 입학 허가서 (Standard Admission Letter)', vi_name:'Thư mời nhập học chuẩn (Standard Admission Letter)',
     badge:'필수', desc:'한국 대학에서 발급',
     vi_desc:'Từ trường Đại học tại Hàn Quốc',
     fileName:null, driveId:null, official:null,
   },
   {
-    id:'학교사업자등록증', icon:'📋', name:'대학교의 사업등록증 사본', vi_name:'Bản sao giấy đăng ký kinh doanh của trường Đại học. (Trường sẽ cấp bộ này cùng với giấy xác nhận học phí ở mục 5)',
+    id:'학교사업자등록증', icon:'📋', name:'대학교의 사업등록증 사본', vi_name:'Bản sao giấy đăng ký kinh doanh của trường Đại học',
     badge:'필수', desc:'학교에서 제공',
-    vi_desc:'Cung cấp bởi trường cùng lúc với xác nhận học phí',
+    vi_desc:'Cung cấp bởi trường',
     fileName:null, driveId:null, official:null,
   },
   {
-    id:'베트남최종학위증명서', icon:'🎓', name:'베트남 최종 학위증명서 (영사 인증)', vi_name:'Bằng cấp tại Việt Nam: Bằng tốt nghiệp cao nhất (THPT hoặc Đại học) đã được Hợp pháp hóa lãnh sự (bản có tem vàng)',
-    badge:'필수', desc:'고등학교 또는 대학교 졸업장 (영사 인증)',
+    id:'베트남최종학위증명서', icon:'🎓', name:'베트남 최종 학위증명서 (영사 인증)', vi_name:'Bằng cấp tại Việt Nam - Hợp pháp hóa lãnh sự (bản có tem vàng)',
+    badge:'필수', desc:'고등학교 또는 대학교 졸업장',
     vi_desc:'Tốt nghiệp THPT hoặc Đại học (có tem vàng)',
     fileName:null, driveId:null, official:null,
   },
