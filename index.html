@@ -4144,11 +4144,15 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
   const [searchQuery, setSearchQuery] = useState('');
   const [showNicknameModal, setShowNicknameModal] = useState(false);
   const [nicknameInput, setNicknameInput] = useState('');
+  const [nicknameLoading, setNicknameLoading] = useState(false);
   const [adminClickCount, setAdminClickCount] = useState(0);
   const adminClickTimer = useRef(null);
 
   const handleNicknameSave = async () => {
-    if (nicknameInput.trim()) {
+    if (!nicknameInput.trim()) return;
+
+    setNicknameLoading(true);
+    try {
       const nickname = nicknameInput.trim();
       const deviceId = getDeviceId();
       const oldAuthor = window.userNickname;
@@ -4158,6 +4162,7 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
       // 1단계: 새 닉네임 설정
       window.userNickname = nickname;
       const saved = await NicknameDB.save(deviceId, nickname);
+      console.log('💾 NicknameDB.save() 결과:', saved);
 
       if (saved) {
         // 2단계: 과거 글/댓글 데이터 업데이트 (3번 방식)
@@ -4201,12 +4206,12 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
         if (updateCount > 0) {
           try {
             const url = `${FIREBASE_POSTS_URL}.json`;
-            await fetch(url, {
+            const response = await fetch(url, {
               method: 'PUT',
               body: JSON.stringify(updatedPostsList),
               headers: { 'Content-Type': 'application/json' }
             });
-            console.log(`✅ [Firebase] ${updateCount}개 항목 저장 완료`);
+            console.log(`✅ [Firebase] ${updateCount}개 항목 저장 완료 (상태: ${response.status})`);
           } catch (err) {
             console.error('⚠️ Firebase 저장 중 오류:', err);
           }
@@ -4214,11 +4219,19 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
           console.log('ℹ️ 닉네임은 변경되었으나, 기존 글/댓글이 없습니다.');
         }
 
+        console.log('✅ 닉네임 변경 완료!');
         setShowNicknameModal(false);
         setNicknameInput('');
       } else {
         console.warn('⚠️ Firebase 저장에 실패했지만, 현재 세션에서는 사용 가능:', nickname);
+        // 현재 세션에서는 사용 가능하므로 모달 닫기
+        setShowNicknameModal(false);
+        setNicknameInput('');
       }
+    } catch (err) {
+      console.error('❌ 닉네임 변경 중 오류:', err);
+    } finally {
+      setNicknameLoading(false);
     }
   };
 
@@ -4376,10 +4389,11 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
                 className="py-3 border border-gray-200 rounded-2xl text-sm font-bold text-gray-500 bg-white tap transition">
                 {lang==='vi'?'Hủy':'취소'}
               </button>
-              <button onClick={handleNicknameSave}
-                disabled={!nicknameInput.trim()}
+              <button
+                onClick={handleNicknameSave}
+                disabled={!nicknameInput.trim() || nicknameLoading}
                 className="py-3 bg-blue-700 text-white rounded-2xl text-sm font-black tap transition disabled:opacity-40">
-                {lang==='vi'?'Lưu':'저장'}
+                {nicknameLoading ? (lang==='vi'?'Đang lưu...':'저장 중...') : (lang==='vi'?'Lưu':'저장')}
               </button>
             </div>
           </div>
