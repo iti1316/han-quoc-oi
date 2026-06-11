@@ -4273,41 +4273,6 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
         )}
       </main>
 
-      {/* ── 하단 네비게이션 바 ── */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 safe-bottom"
-        style={{paddingBottom:'env(safe-area-inset-bottom,0px)'}}>
-        <div className="max-w-lg mx-auto grid grid-cols-4 h-14">
-
-          {/* 홈 */}
-          <button onClick={()=>{ setSearchQuery(''); window.scrollTo({top:0,behavior:'smooth'}); }}
-            className="flex flex-col items-center justify-center gap-0.5 tap transition active:bg-gray-50">
-            <span className="text-xl">🏠</span>
-            <span className="text-[9px] font-bold text-gray-500">{lang==='vi'?'Trang chủ':'홈'}</span>
-          </button>
-
-          {/* 인기 */}
-          <button onClick={()=>{ setSearchQuery(''); setTimeout(()=>document.getElementById('hot-feed')?.scrollIntoView({behavior:'smooth'}),50); }}
-            className="flex flex-col items-center justify-center gap-0.5 tap transition active:bg-gray-50">
-            <span className="text-xl">🔥</span>
-            <span className="text-[9px] font-bold text-gray-500">{lang==='vi'?'Hot':'인기'}</span>
-          </button>
-
-          {/* 검색 */}
-          <button onClick={()=>{ window.scrollTo({top:0,behavior:'smooth'}); setTimeout(()=>document.querySelector('input[type=search]')?.focus(),300); }}
-            className="flex flex-col items-center justify-center gap-0.5 tap transition active:bg-gray-50">
-            <span className="text-xl">🔍</span>
-            <span className="text-[9px] font-bold text-gray-500">{lang==='vi'?'Tìm':'검색'}</span>
-          </button>
-
-          {/* 더보기 */}
-          <button onClick={()=>setShowMore(true)}
-            className="flex flex-col items-center justify-center gap-0.5 tap transition active:bg-gray-50">
-            <span className="text-xl">☰</span>
-            <span className="text-[9px] font-bold text-gray-500">{lang==='vi'?'Thêm':'더보기'}</span>
-          </button>
-
-        </div>
-      </nav>
 
       {/* 닉네임 설정 모달 */}
       {showNicknameModal && (
