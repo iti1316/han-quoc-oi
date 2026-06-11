@@ -4165,32 +4165,32 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
 
         let updateCount = 0;
         let updatedPostsList = posts.map(p => {
-          let postModified = false;
+          let shouldUpdate = false;
+          let updatedPost = { ...p };
 
           // 자신이 쓴 글 (deviceId 일치)이면 업데이트
-          if (p.deviceId === deviceId && p.author) {
+          if (p.deviceId === deviceId) {
             updateCount++;
-            postModified = true;
+            shouldUpdate = true;
             console.log(`  ✅ 글 업데이트: "${p.title}" → 닉네임: ${nickname}`);
+            updatedPost.author = nickname;
           }
 
           // 댓글도 함께 업데이트
-          let updatedComments = p.commentsData;
           if (p.commentsData && Array.isArray(p.commentsData)) {
-            updatedComments = p.commentsData.map(c => {
-              if (c.deviceId === deviceId && c.author) {
+            const updatedComments = p.commentsData.map(c => {
+              if (c.deviceId === deviceId) {
                 updateCount++;
                 console.log(`  ✅ 댓글 업데이트 → 닉네임: ${nickname}`);
+                shouldUpdate = true;
                 return { ...c, author: nickname };
               }
               return c;
             });
-            if (updatedComments !== p.commentsData) {
-              postModified = true;
-            }
+            updatedPost.commentsData = updatedComments;
           }
 
-          return postModified ? { ...p, author: nickname, commentsData: updatedComments } : p;
+          return updatedPost;
         });
 
         // React state 업데이트
