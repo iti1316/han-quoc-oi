@@ -4733,32 +4733,48 @@ function ScorePage({ type='e74', onBack, lang }) {
             </p>
           </div>
 
-          {/* 공식 점수표 - HTML 테이블 */}
-          <div className="bg-white rounded-2xl shadow-sm p-3 mb-4 overflow-x-auto text-[9px]">
+          {/* 공식 점수표 - 간단한 카드 형식 */}
+          <div className="bg-white rounded-2xl shadow-sm p-4 mb-4">
             <h3 className="font-black text-sm text-gray-800 mb-3 text-center">
               {lang==='vi' ? '📋 Bảng điểm chính thức (민원인 제증용)' : '📋 공식 점수표 (민원인 제증용)'}
             </h3>
-            <style>{`
-              .f27table { border-collapse: collapse; width: 100%; font-size: 10px; }
-              .f27table th, .f27table td { border: 1px solid #999; padding: 4px 3px; text-align: center; }
-              .f27table th { background: #fff3cd; font-weight: bold; }
-              .f27table .cat { background: #e8f4f8; font-weight: bold; text-align: left; }
-            `}</style>
             {lang==='vi' ? (
-              <div>
-                <p className="font-black text-center mb-2 text-xs">Bảng điểm F-2-7 (Năm 2026)</p>
-                <table className="f27table w-full mb-2"><tr><th className="w-1/3">① Độ tuổi (Max 25đ)</th><th>18-24</th><th>25-29</th><th>30-34</th><th>35-39</th><th>40-44</th><th>45-50</th><th>51+</th></tr><tr><td className="cat">Điểm</td><td>23</td><td>25</td><td>23</td><td>20</td><td>12</td><td>8</td><td>3</td></tr></table>
-                <table className="f27table w-full mb-2"><tr><th>② Học vị (Max 25đ)</th><th>TS STEM/2+</th><th>TS Khác</th><th>ThS STEM/2+</th><th>ThS Khác</th><th>ĐH STEM/2+</th><th>ĐH Khác</th><th>CĐ</th></tr><tr><td className="cat">Điểm</td><td>25</td><td>20</td><td>20</td><td>17</td><td>17</td><td>15</td><td>10-15</td></tr></table>
-                <table className="f27table w-full mb-2"><tr><th>③ Tiếng Hàn (Max 20đ)</th><th>5-6/L5</th><th>4/L4</th><th>3/L3</th><th>2</th><th>1</th></tr><tr><td className="cat">Điểm</td><td>20</td><td>15</td><td>10</td><td>5</td><td>3</td></tr></table>
-                <table className="f27table w-full mb-2"><tr><th>④ Thu nhập (Max 60đ)</th><th>100+tr</th><th>90-100</th><th>80-90</th><th>70-80</th><th>60-70</th><th>50-60</th><th>40-50</th><th>30-40</th><th>Min-30</th></tr><tr><td className="cat">Điểm</td><td>60</td><td>58</td><td>56</td><td>53</td><td>50</td><td>45</td><td>40</td><td>30</td><td>10</td></tr></table>
+              <div className="space-y-2 text-xs">
+                <div className="bg-blue-50 p-2 rounded border border-blue-200">
+                  <p className="font-black">① Độ tuổi (Max 25đ)</p>
+                  <p className="text-[10px] mt-1">18-24: 23đ | 25-29: 25đ | 30-34: 23đ | 35-39: 20đ | 40-44: 12đ | 45-50: 8đ | 51+: 3đ</p>
+                </div>
+                <div className="bg-green-50 p-2 rounded border border-green-200">
+                  <p className="font-black">② Học vị (Max 25đ)</p>
+                  <p className="text-[10px] mt-1">TS STEM/2+: 25đ | TS Khác: 20đ | ThS STEM/2+: 20đ | ThS Khác: 17đ | ĐH STEM/2+: 17đ | ĐH Khác: 15đ | CĐ: 10-15đ</p>
+                </div>
+                <div className="bg-yellow-50 p-2 rounded border border-yellow-200">
+                  <p className="font-black">③ Tiếng Hàn (Max 20đ)</p>
+                  <p className="text-[10px] mt-1">5-6/L5: 20đ | 4/L4: 15đ | 3/L3: 10đ | 2: 5đ | 1: 3đ</p>
+                </div>
+                <div className="bg-purple-50 p-2 rounded border border-purple-200">
+                  <p className="font-black">④ Thu nhập (Max 60đ)</p>
+                  <p className="text-[10px] mt-1">100+tr: 60 | 90-100: 58 | 80-90: 56 | 70-80: 53 | 60-70: 50 | 50-60: 45 | 40-50: 40 | 30-40: 30 | Min-30: 10</p>
+                </div>
               </div>
             ) : (
-              <div>
-                <p className="font-black text-center mb-2 text-xs">F-2-7 점수표 (2026년)</p>
-                <table className="f27table w-full mb-2"><tr><th className="w-1/3">① 나이 (최대 25점)</th><th>18-24세</th><th>25-29세</th><th>30-34세</th><th>35-39세</th><th>40-44세</th><th>45-50세</th><th>51세+</th></tr><tr><td className="cat">배점</td><td>23</td><td>25</td><td>23</td><td>20</td><td>12</td><td>8</td><td>3</td></tr></table>
-                <table className="f27table w-full mb-2"><tr><th>② 학력 (최대 25점)</th><th>박사(이공/2+)</th><th>박사(다른)</th><th>석사(이공/2+)</th><th>석사(다른)</th><th>학사(이공/2+)</th><th>학사(다른)</th><th>전문학사</th></tr><tr><td className="cat">배점</td><td>25</td><td>20</td><td>20</td><td>17</td><td>17</td><td>15</td><td>10-15</td></tr></table>
-                <table className="f27table w-full mb-2"><tr><th>③ 한국어 (최대 20점)</th><th>5-6급/L5</th><th>4급/L4</th><th>3급/L3</th><th>2급</th><th>1급</th></tr><tr><td className="cat">배점</td><td>20</td><td>15</td><td>10</td><td>5</td><td>3</td></tr></table>
-                <table className="f27table w-full"><tr><th>④ 연간소득 (최대 60점)</th><th>1억+</th><th>9천~1억</th><th>8천~9천</th><th>7천~8천</th><th>6천~7천</th><th>5천~6천</th><th>4천~5천</th><th>3천~4천</th><th>최저~3천</th></tr><tr><td className="cat">배점</td><td>60</td><td>58</td><td>56</td><td>53</td><td>50</td><td>45</td><td>40</td><td>30</td><td>10</td></tr></table>
+              <div className="space-y-2 text-xs">
+                <div className="bg-blue-50 p-2 rounded border border-blue-200">
+                  <p className="font-black">① 나이 (최대 25점)</p>
+                  <p className="text-[10px] mt-1">18-24세: 23점 | 25-29세: 25점 | 30-34세: 23점 | 35-39세: 20점 | 40-44세: 12점 | 45-50세: 8점 | 51세+: 3점</p>
+                </div>
+                <div className="bg-green-50 p-2 rounded border border-green-200">
+                  <p className="font-black">② 학력 (최대 25점)</p>
+                  <p className="text-[10px] mt-1">박사(이공/2+): 25점 | 박사(다른): 20점 | 석사(이공/2+): 20점 | 석사(다른): 17점 | 학사(이공/2+): 17점 | 학사(다른): 15점 | 전문학사: 10-15점</p>
+                </div>
+                <div className="bg-yellow-50 p-2 rounded border border-yellow-200">
+                  <p className="font-black">③ 한국어 (최대 20점)</p>
+                  <p className="text-[10px] mt-1">5-6급/L5: 20점 | 4급/L4: 15점 | 3급/L3: 10점 | 2급: 5점 | 1급: 3점</p>
+                </div>
+                <div className="bg-purple-50 p-2 rounded border border-purple-200">
+                  <p className="font-black">④ 연간소득 (최대 60점)</p>
+                  <p className="text-[10px] mt-1">1억+: 60 | 9천~1억: 58 | 8천~9천: 56 | 7천~8천: 53 | 6천~7천: 50 | 5천~6천: 45 | 4천~5천: 40 | 3천~4천: 30 | 최저~3천: 10</p>
+                </div>
               </div>
             )}
           </div>
