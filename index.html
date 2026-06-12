@@ -3817,6 +3817,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
   const [selectedSubRoute, setSelectedSubRoute] = useState(savedState?.visaSubRoute || null);
   const [selectedStep,     setSelectedStep]     = useState(savedState?.visaStep || null);
   const [boardPage,        setBoardPage]        = useState(1);
+  const [showDocsModal,    setShowDocsModal]    = useState(false);
   const BOARD_PER = 10;
   const route = VISA_ROUTES.find(r => r.key === selectedRoute);
   const subRoute = route?.subRoutes?.find(sr => sr.key === selectedSubRoute);
@@ -3974,43 +3975,6 @@ function VisaHubPage({ nav, lang, posts = [] }) {
                   ))}
                 </ol>
 
-                {/* 필수 서류 준비 */}
-                {guide.docs && (
-                  <div className="mb-3">
-                    <p className="text-[10px] font-black text-gray-500 mb-2.5">📋 {lang==='vi'?'Danh sách hộ sơ':'필수서류준비'}</p>
-
-                    {/* 비자 변경 */}
-                    {guide.docs.change && (
-                      <div className="bg-white rounded-xl border border-green-200 p-3 mb-2.5">
-                        <p className="text-[10px] font-black text-green-600 mb-2">🔄 {lang==='vi'?'Đổi visa (D-2 → D-10)':'비자 변경 (D-2 → D-10)'}</p>
-                        <ol className="flex flex-col gap-1.5">
-                          {guide.docs.change.map((doc, i) => (
-                            <li key={i} className="flex items-start gap-2 text-[10px] text-gray-700 word-keep">
-                              <span className="flex-shrink-0 font-black text-green-600 w-4">{i+1}.</span>
-                              <span>{T(doc)}</span>
-                            </li>
-                          ))}
-                        </ol>
-                      </div>
-                    )}
-
-                    {/* 비자 연장 */}
-                    {guide.docs.extension && (
-                      <div className="bg-white rounded-xl border border-blue-200 p-3">
-                        <p className="text-[10px] font-black text-blue-600 mb-2">🔁 {lang==='vi'?'Gia hạn visa (D-10)':'비자 연장 (D-10)'}</p>
-                        <ol className="flex flex-col gap-1.5">
-                          {guide.docs.extension.map((doc, i) => (
-                            <li key={i} className="flex items-start gap-2 text-[10px] text-gray-700 word-keep">
-                              <span className="flex-shrink-0 font-black text-blue-600 w-4">{i+1}.</span>
-                              <span>{T(doc)}</span>
-                            </li>
-                          ))}
-                        </ol>
-                      </div>
-                    )}
-                  </div>
-                )}
-
                 {/* 핵심 팁 */}
                 <div className="bg-amber-50 border border-amber-200 rounded-xl px-3 py-2.5">
                   <p className="text-[9px] font-black text-amber-600 mb-1">💡 {lang==='vi'?'Mẹo quan trọng':'핵심 팁'}</p>
@@ -4073,7 +4037,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
               ...(selectedStep === 'e74' ? [{ e:'📊', ko:'E-7-4 점수 계산기',   vi:'Tính điểm E-7-4',      bg:'bg-amber-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_e74', prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'f27' || selectedStep === 'f27_e71' ? [{ e:'📊', ko:'F-2-7 점수 계산기',   vi:'Tính điểm F-2-7',      bg:'bg-purple-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_f27', prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'f5' || selectedStep === 'f5_veteran' || selectedStep === 'f5_marriage' ? [{ e:'📊', ko:'F-5 점수 계산기',   vi:'Tính điểm F-5',      bg:'bg-rose-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_f5', prevPage:'visaHub'}) } }] : []),
-              { e:'📋', ko:'필수 서류 준비',   vi:'Danh sách hồ sơ',       bg:'bg-green-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'docsChecklist', param:selectedStep, prevPage:'visaHub'}) } },
+              { e:'📋', ko:'필수 서류 준비',   vi:'Danh sách hộ sơ',       bg:'bg-green-600',   act:()=>setShowDocsModal(true) },
               { e:'🗂️', ko:'출입국·대사관·외교부 연락처',  vi:'Thông tin liên hệ XNC, Đại sứ quán, Bộ Ngoại giao',      bg:'bg-violet-600',  act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'office',    param:null, prevPage:'visaHub'}) } },
             ].map((t,i)=>(
               <button key={i} onClick={t.act}
@@ -4191,6 +4155,53 @@ function VisaHubPage({ nav, lang, posts = [] }) {
             </div>
           </div>
         </div>
+
+        {/* 필수 서류 모달 */}
+        {showDocsModal && selectedStep && VISA_GUIDE_DATA[selectedStep]?.docs && (
+          <div className="fixed inset-0 z-50 flex items-end justify-center" onClick={()=>setShowDocsModal(false)}>
+            <div className="absolute inset-0 bg-black/50" />
+            <div className="relative w-full max-w-lg bg-white rounded-t-2xl max-h-[90vh] overflow-y-auto px-4 py-4 fade-in" onClick={e=>e.stopPropagation()}>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-base font-black text-gray-800">📋 {lang==='vi'?'Danh sách hộ sơ':'필수서류준비'}</h2>
+                <button onClick={()=>setShowDocsModal(false)} className="text-gray-400 text-2xl font-bold">✕</button>
+              </div>
+
+              {/* 비자 변경 */}
+              {VISA_GUIDE_DATA[selectedStep].docs.change && (
+                <div className="bg-white border border-green-200 rounded-xl p-3 mb-3">
+                  <p className="text-sm font-black text-green-600 mb-2.5">🔄 {lang==='vi'?'Đổi visa (D-2 → D-10)':'비자 변경 (D-2 → D-10)'}</p>
+                  <ol className="flex flex-col gap-2">
+                    {VISA_GUIDE_DATA[selectedStep].docs.change.map((doc, i) => (
+                      <li key={i} className="flex items-start gap-2 text-xs text-gray-700 word-keep">
+                        <span className="flex-shrink-0 font-black text-green-600 w-5">{i+1}.</span>
+                        <span>{T(doc)}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+
+              {/* 비자 연장 */}
+              {VISA_GUIDE_DATA[selectedStep].docs.extension && (
+                <div className="bg-white border border-blue-200 rounded-xl p-3 mb-4">
+                  <p className="text-sm font-black text-blue-600 mb-2.5">🔁 {lang==='vi'?'Gia hạn visa (D-10)':'비자 연장 (D-10)'}</p>
+                  <ol className="flex flex-col gap-2">
+                    {VISA_GUIDE_DATA[selectedStep].docs.extension.map((doc, i) => (
+                      <li key={i} className="flex items-start gap-2 text-xs text-gray-700 word-keep">
+                        <span className="flex-shrink-0 font-black text-blue-600 w-5">{i+1}.</span>
+                        <span>{T(doc)}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+
+              <button onClick={()=>setShowDocsModal(false)} className="w-full bg-blue-700 text-white font-bold py-3 rounded-xl tap">
+                {lang==='vi'?'Đóng':'닫기'}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
   );
 }
