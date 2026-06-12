@@ -2608,6 +2608,27 @@ const VISA_GUIDE_DATA = {
       { ko:'[단계 4] 결과를 기다립니다 (처리 기간은 보통 2~4주). 서류가 승인되면 새로운 만료 기간이 인쇄된 ARC를 받게 됩니다 (또는 예약 확인서 수령).', vi:'Bước 4: Chờ kết quả (thời gian xử lý thường từ 2 - 4 tuần). Nếu hồ sơ được thông qua, bạn sẽ nhận lại thẻ ARC đã được in thời hạn mới (hoặc nhận giấy hẹn).' },
     ],
     tip: { ko:'[절대 불법 취업 금지]\n노동 비자(E-7...)로 변경하기 전에 공식 계약을 체결하거나 정식 급여를 받으면 안 됩니다. 위반하면 벌금 + 영구 비자 거절!\n\n[실습/알바 신고]\n회사당 최대 1년간 실습 가능하지만, 반드시 Hi-Korea에서 "체류자격외 활동허가"를 먼저 등록해야 합니다.\n\n[깨끗한 은행 거래]\n출입국청은 3개월 거래 내역을 매우 자세히 검토합니다. 불명확한 이유의 큰 금액 거래를 피해서 불법 취업 의심을 받지 않도록 주의하세요.', vi:'Tuyệt đối không làm chui:\nKhông ký hợp đồng chính thức hay nhận lương chính thức khi chưa đổi sang visa lao động (E-7...). Vi phạm sẽ bị phạt tiền và từ chối cấp visa vĩnh viễn.\n\nKhai báo thực tập/làm thêm:\nBạn được thực tập tối đa 1 năm/công ty nhưng bắt buộc phải đăng ký "Giấy phép hoạt động ngoài tư cách" trên Hi-Korea trước khi đi làm.\n\nSạch dòng tiền ngân hàng:\nCục Xuất nhập cảnh kiểm tra rất kỹ sao kê 3 tháng. Tránh các giao dịch nhận tiền lớn, mập mờ, không rõ lý do để không bị nghi ngờ đi làm chui.' },
+    docs: {
+      change: [
+        { ko:'통합신청서 (Change of Status 체크)', vi:'Đơn đăng ký tổng hợp (tích chọn mục thay đổi tư cách lưu trú)' },
+        { ko:'사진 1장 (3.5cm x 4.5cm, 흰색 배경, 6개월 이내)', vi:'Ảnh thẻ 1 ảnh cỡ 3.5cm x 4.5cm (nền trắng, chụp trong vòng 6 tháng gần nhất)' },
+        { ko:'여권 & 외국인등록증(ARC): 원본 + 사본', vi:'Hộ chiếu & Thẻ đăng ký người nước ngoài (ARC): Bản gốc kèm bản photo' },
+        { ko:'졸업장 (또는 임시졸업증명서) + 성적증명서', vi:'Bằng tốt nghiệp (hoặc Giấy chứng nhận tốt nghiệp tạm thời) + Bảng điểm' },
+        { ko:'구직활동계획서 (구체적인 직무 방향과 지원 회사 명시)', vi:'Bản khai kế hoạch tìm việc (chi tiết định hướng tìm việc, công ty mục tiêu)' },
+        { ko:'거주지 증명서 (임차계약서 원본 또는 거주 확인서)', vi:'Giấy tờ chứng minh nơi cư trú (Hợp đồng thuê nhà đứng tên bạn)' },
+        { ko:'외국어 능력 증명 (TOPIK 또는 KIIP 수료증 - 있으면 가점)', vi:'Chứng nhận năng lực ngoại ngữ (TOPIK hoặc KIIP - để tính điểm)' },
+        { ko:'수수료: 130,000 KRW (비자 변경 100,000 + ARC 재발급 30,000)', vi:'Lệ phí: 130.000 KRW (100.000 KRW phí đổi tư cách + 30.000 KRW phí làm lại thẻ ARC)' },
+      ],
+      extension: [
+        { ko:'통합신청서 (Extension of Stay 체크)', vi:'Đơn đăng ký tổng hợp (tích chọn mục gia hạn thời gian lưu trú)' },
+        { ko:'여권 & 외국인등록증(ARC) 원본 + 사본', vi:'Hộ chiếu & Thẻ ARC gốc + bản photo' },
+        { ko:'구직활동계획서 (향후 취업 계획)', vi:'Bản khai kế hoạch tìm việc (cho thời gian tới)' },
+        { ko:'[매우 중요] 구직 활동 증거 (과거 6개월~1년간의 구직 활동 증명)', vi:'[Cực kỳ quan trọng] CHỨNG CỨ TÌM VIỆC TRONG QUÁ KHỨ (6 tháng/1 năm qua)' },
+        { ko:'재정증명 (잔액증명서 + 입출금 내역서 3개월): 6개월 연장 시 5.4M원, 1년 연장 시 10.8M원 이상', vi:'Giấy chứng minh tài chính (잔액증명서 + 입출금내역서 3개월): 6 tháng = 5.4M won, 1 năm = 10.8M won' },
+        { ko:'거주지 증명 (유효한 임차계약서)', vi:'Giấy tờ chứng minh nơi cư trú (Hợp đồng nhà còn thời hạn)' },
+        { ko:'수수료: 60,000 KRW (출입국 청에서 여권으로 납부)', vi:'Lệ phí gia hạn: 60.000 KRW (mua bằng tem phiếu tại Cục)' },
+      ]
+    },
   },
   d8: {
     code:'D-8', icon:'🏢', color:'bg-blue-600',
@@ -3952,6 +3973,43 @@ function VisaHubPage({ nav, lang, posts = [] }) {
                     </li>
                   ))}
                 </ol>
+
+                {/* 필수 서류 준비 */}
+                {guide.docs && (
+                  <div className="mb-3">
+                    <p className="text-[10px] font-black text-gray-500 mb-2.5">📋 {lang==='vi'?'Danh sách hộ sơ':'필수서류준비'}</p>
+
+                    {/* 비자 변경 */}
+                    {guide.docs.change && (
+                      <div className="bg-white rounded-xl border border-green-200 p-3 mb-2.5">
+                        <p className="text-[10px] font-black text-green-600 mb-2">🔄 {lang==='vi'?'Đổi visa (D-2 → D-10)':'비자 변경 (D-2 → D-10)'}</p>
+                        <ol className="flex flex-col gap-1.5">
+                          {guide.docs.change.map((doc, i) => (
+                            <li key={i} className="flex items-start gap-2 text-[10px] text-gray-700 word-keep">
+                              <span className="flex-shrink-0 font-black text-green-600 w-4">{i+1}.</span>
+                              <span>{T(doc)}</span>
+                            </li>
+                          ))}
+                        </ol>
+                      </div>
+                    )}
+
+                    {/* 비자 연장 */}
+                    {guide.docs.extension && (
+                      <div className="bg-white rounded-xl border border-blue-200 p-3">
+                        <p className="text-[10px] font-black text-blue-600 mb-2">🔁 {lang==='vi'?'Gia hạn visa (D-10)':'비자 연장 (D-10)'}</p>
+                        <ol className="flex flex-col gap-1.5">
+                          {guide.docs.extension.map((doc, i) => (
+                            <li key={i} className="flex items-start gap-2 text-[10px] text-gray-700 word-keep">
+                              <span className="flex-shrink-0 font-black text-blue-600 w-4">{i+1}.</span>
+                              <span>{T(doc)}</span>
+                            </li>
+                          ))}
+                        </ol>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* 핵심 팁 */}
                 <div className="bg-amber-50 border border-amber-200 rounded-xl px-3 py-2.5">
