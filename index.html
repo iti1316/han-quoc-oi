@@ -2403,6 +2403,27 @@ const VISA_GUIDE_DATA = {
       { ko:'[⚠️ 탈락 이유 #2~4] 회사 규모 미달: 한국인 5명 미만 또는 외국인 20% 초과 기업 원천 탈락 · 임금 후려치기: GNI 80% 미달 또는 회사 한국인 동종직과 비교해 너무 적은 임금 (편법 의심) · 전공-직무 불일치: 대학 전공 \'뷰티\' vs 취업 회사 \'IT 개발\' → 100% 거절', vi:'[⚠️ Lý do từ chối #2~4] Công ty không đủ quy mô: <5 nhân viên Hàn hoặc >20% ngoại kiều = tự động từ chối · Lương quá thấp: <80% GNI hoặc thấp hơn đáng kể so với người Hàn cùng chức vụ (bị nghi ngờ lách luật) · Không khớp chuyên ngành-công việc: học \'làm đẹp\' nhưng vào công ty \'phát triển IT\' → 100% bị từ chối' },
     ],
     tip: { ko:'[2.3 핵심 요점]\n1. 전공 100% 일치: 직무가 졸업 전공과 정확히 일치해야 함. 직무 설명 불일치가 E-7-1 거절의 최대 이유!\n2. 한국인 직원 유지: 심사 중 한국인 직원이 퇴직하여 최소 기준(5명 이상) 미달 시 불승인 또는 심사 중단!\n3. 한국 대학 졸업 우대: 한국 대학 이상 졸업자는 1년 경력 요건 면제 (베트남 졸업자에게만 적용)', vi:'2.3 Điểm chính yếu\n1.Đúng chuyên ngành 100%: Công việc bạn làm tại công ty phải trùng khớp với ngành học trên bằng tốt nghiệp. Sự sai lệch mô tả công việc là lý do hàng đầu bị từ chối E-7-1.\n2.Sự sụt giảm nhân sự Hàn: Nếu trong quá trình xét duyệt visa, công ty có nhân viên người Hàn nghỉ việc làm tụt tỷ lệ tối thiểu (dưới 5 người Hàn/1 nước ngoài), hồ sơ sẽ bị treo hoặc đánh trượt.\n3.Ưu tiên bằng cấp Hàn Quốc: Nếu bạn tốt nghiệp Đại học trở lên tại Hàn Quốc, bạn sẽ được miễn yêu cầu về kinh nghiệm làm việc 1 năm (vốn áp dụng cho người tốt nghiệp tại Việt Nam).' },
+    docs: {
+      change: [
+        { ko:'통합신청서 (자격변경 체크)', vi:'Đơn đăng ký tổng hợp (tích chọn mục thay đổi tư cách)' },
+        { ko:'여권 & 외국인등록증 (ARC): 원본 + 사본', vi:'Hộ chiếu & Thẻ đăng ký người nước ngoài (ARC): Bản gốc + bản photo' },
+        { ko:'학위증명서 + 성적증명서', vi:'Giấy chứng nhận bằng tốt nghiệp + Bảng điểm' },
+        { ko:'고용계약서 (임금 GNI 80% 이상 명시)', vi:'Hợp đồng lao động (ghi lương ≥80% GNI)' },
+        { ko:'고용사유서 (구체적 직무 설명)', vi:'Lý do tuyển dụng (mô tả công việc cụ thể)' },
+        { ko:'회사 인프라 증빙 (한국인 5명 이상, 외국인 20% 이하)', vi:'Chứng minh cơ sở hạ tầng công ty (≥5 Hàn, ≤20% ngoại kiều)' },
+        { ko:'고용보험 가입 명부', vi:'Danh sách đăng ký bảo hiểm lao động' },
+        { ko:'신원보증서', vi:'Giấy bảo lãnh' },
+        { ko:'수수료: 130,000 KRW', vi:'Lệ phí: 130.000 KRW' },
+      ],
+      extension: [
+        { ko:'통합신청서 (갱신 체크)', vi:'Đơn đăng ký tổng hợp (tích chọn mục gia hạn)' },
+        { ko:'여권 & 외국인등록증 (ARC): 원본 + 사본', vi:'Hộ chiếu & Thẻ ARC gốc + bản photo' },
+        { ko:'고용계약서 (임금 GNI 80% 이상 명시)', vi:'Hợp đồng lao động (ghi lương ≥80% GNI)' },
+        { ko:'회사 인프라 증빙 (한국인 5명 이상 유지)', vi:'Chứng minh cơ sở hạ tầng công ty (vẫn ≥5 Hàn)' },
+        { ko:'경력증명서', vi:'Giấy xác nhận kinh nghiệm làm việc' },
+        { ko:'수수료: 130,000 KRW', vi:'Lệ phí: 130.000 KRW' },
+      ]
+    },
   },
   e74: {
     code:'E-7-4', icon:'⭐', color:'bg-orange-600',
@@ -5246,17 +5267,17 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
       <BackHeader title={lang==='vi' ? '📋 Danh sách hồ sơ cần thiết' : '📋 필수 서류 준비'} onBack={onBack} />
       <div className="max-w-lg mx-auto px-4 py-4 pb-12">
 
-        {/* D-10 특별 처리: 변경/연장 섹션 */}
-        {visaStep === 'd10' && VISA_GUIDE_DATA.d10?.docs && (
+        {/* D-10, E-7-1 특별 처리: 변경/연장 섹션 */}
+        {(visaStep === 'd10' || visaStep === 'e71') && VISA_GUIDE_DATA[visaStep]?.docs && (
           <>
             {/* 비자 변경 */}
-            {VISA_GUIDE_DATA.d10.docs.change && (
+            {VISA_GUIDE_DATA[visaStep].docs.change && (
               <div className="mb-6">
                 <div className="px-3 py-2 bg-green-50 border-l-4 border-green-600 mb-3 rounded-sm">
-                  <p className="text-sm font-black text-green-700">🔄 {lang==='vi' ? 'Đổi visa (D-2 → D-10)' : '비자 변경 (D-2 → D-10)'} ({VISA_GUIDE_DATA.d10.docs.change.length})</p>
+                  <p className="text-sm font-black text-green-700">🔄 {lang==='vi' ? (visaStep === 'd10' ? 'Đổi visa (D-2 → D-10)' : 'Đổi visa (D-10 → E-7-1)') : (visaStep === 'd10' ? '비자 변경 (D-2 → D-10)' : '비자 변경 (D-10 → E-7-1)')} ({VISA_GUIDE_DATA[visaStep].docs.change.length})</p>
                 </div>
                 <div className="space-y-2">
-                  {VISA_GUIDE_DATA.d10.docs.change.map((doc, idx) => (
+                  {VISA_GUIDE_DATA[visaStep].docs.change.map((doc, idx) => (
                     <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden fade-in">
                       <div className="px-4 py-3">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
@@ -5271,13 +5292,13 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
             )}
 
             {/* 비자 연장 */}
-            {VISA_GUIDE_DATA.d10.docs.extension && (
+            {VISA_GUIDE_DATA[visaStep].docs.extension && (
               <div className="mb-6">
                 <div className="px-3 py-2 bg-blue-50 border-l-4 border-blue-600 mb-3 rounded-sm">
-                  <p className="text-sm font-black text-blue-700">🔁 {lang==='vi' ? 'Gia hạn visa (D-10)' : '비자 연장 (D-10)'} ({VISA_GUIDE_DATA.d10.docs.extension.length})</p>
+                  <p className="text-sm font-black text-blue-700">🔁 {lang==='vi' ? (visaStep === 'd10' ? 'Gia hạn visa (D-10)' : 'Gia hạn visa (E-7-1)') : (visaStep === 'd10' ? '비자 연장 (D-10)' : '비자 연장 (E-7-1)')} ({VISA_GUIDE_DATA[visaStep].docs.extension.length})</p>
                 </div>
                 <div className="space-y-2">
-                  {VISA_GUIDE_DATA.d10.docs.extension.map((doc, idx) => (
+                  {VISA_GUIDE_DATA[visaStep].docs.extension.map((doc, idx) => (
                     <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden fade-in">
                       <div className="px-4 py-3">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
@@ -5294,7 +5315,7 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
         )}
 
         {/* 다른 비자: 기존 방식 */}
-        {visaStep !== 'd10' && (
+        {visaStep !== 'd10' && visaStep !== 'e71' && (
           <>
             {/* ── 필수 서류 섹션 ── */}
             {requiredDocs.length > 0 && (
