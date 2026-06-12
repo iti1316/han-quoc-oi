@@ -3934,7 +3934,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
                 <div className="grid grid-cols-2 gap-2 mb-3">
                   <div className="bg-blue-50 rounded-xl px-3 py-2.5">
                     <p className="text-[9px] font-black text-blue-400 mb-0.5">⏰ {lang==='vi'?'Thời hạn':'체류기간'}</p>
-                    <p className="text-[11px] font-bold text-blue-700 word-keep leading-tight">{T(guide.maxStay)}</p>
+                    <p className="text-[11px] font-bold text-blue-700 word-keep leading-tight whitespace-pre-wrap">{T(guide.maxStay)}</p>
                   </div>
                   <div className="bg-green-50 rounded-xl px-3 py-2.5">
                     <p className="text-[9px] font-black text-green-500 mb-0.5">🎯 {lang==='vi'?'Tiếp theo':'다음 목표'}</p>
@@ -3956,7 +3956,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
                 {/* 핵심 팁 */}
                 <div className="bg-amber-50 border border-amber-200 rounded-xl px-3 py-2.5">
                   <p className="text-[9px] font-black text-amber-600 mb-1">💡 {lang==='vi'?'Mẹo quan trọng':'핵심 팁'}</p>
-                  <p className="text-[11px] text-amber-700 word-keep leading-relaxed">{T(guide.tip)}</p>
+                  <p className="text-[11px] text-amber-700 word-keep leading-relaxed whitespace-pre-wrap">{T(guide.tip)}</p>
                 </div>
 
                 {/* E-7-4 점수 계산기 버튼 */}
