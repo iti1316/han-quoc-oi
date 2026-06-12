@@ -5245,35 +5245,87 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
       <BackHeader title={lang==='vi' ? '📋 Danh sách hồ sơ cần thiết' : '📋 필수 서류 준비'} onBack={onBack} />
       <div className="max-w-lg mx-auto px-4 py-4 pb-12">
 
-        {/* ── 필수 서류 섹션 ── */}
-        {requiredDocs.length > 0 && (
-          <div className="mb-6">
-            <div className="px-3 py-2 bg-red-50 border-l-4 border-red-600 mb-3 rounded-sm">
-              <p className="text-sm font-black text-red-700">🔴 {lang==='vi' ? 'Danh sách hồ sơ cần thiết' : '필수 서류 준비'} ({requiredDocs.length})</p>
-            </div>
-            <div className="space-y-2">
-              {requiredDocs.map((doc, idx) => <DocCard key={idx} doc={doc} idx={idx} isAdditional={false} />)}
-            </div>
-          </div>
+        {/* D-10 특별 처리: 변경/연장 섹션 */}
+        {visaStep === 'd10' && VISA_GUIDE_DATA.d10?.docs && (
+          <>
+            {/* 비자 변경 */}
+            {VISA_GUIDE_DATA.d10.docs.change && (
+              <div className="mb-6">
+                <div className="px-3 py-2 bg-green-50 border-l-4 border-green-600 mb-3 rounded-sm">
+                  <p className="text-sm font-black text-green-700">🔄 {lang==='vi' ? 'Đổi visa (D-2 → D-10)' : '비자 변경 (D-2 → D-10)'} ({VISA_GUIDE_DATA.d10.docs.change.length})</p>
+                </div>
+                <div className="space-y-2">
+                  {VISA_GUIDE_DATA.d10.docs.change.map((doc, idx) => (
+                    <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden fade-in">
+                      <div className="px-4 py-3">
+                        <div className="flex items-center gap-2 flex-wrap mb-1">
+                          <span className="text-lg font-black text-gray-600 w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">{idx + 1}</span>
+                          <p className="text-sm font-black text-gray-800">{lang==='vi' ? doc.vi : doc.ko}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 비자 연장 */}
+            {VISA_GUIDE_DATA.d10.docs.extension && (
+              <div className="mb-6">
+                <div className="px-3 py-2 bg-blue-50 border-l-4 border-blue-600 mb-3 rounded-sm">
+                  <p className="text-sm font-black text-blue-700">🔁 {lang==='vi' ? 'Gia hạn visa (D-10)' : '비자 연장 (D-10)'} ({VISA_GUIDE_DATA.d10.docs.extension.length})</p>
+                </div>
+                <div className="space-y-2">
+                  {VISA_GUIDE_DATA.d10.docs.extension.map((doc, idx) => (
+                    <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden fade-in">
+                      <div className="px-4 py-3">
+                        <div className="flex items-center gap-2 flex-wrap mb-1">
+                          <span className="text-lg font-black text-gray-600 w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">{idx + 1}</span>
+                          <p className="text-sm font-black text-gray-800">{lang==='vi' ? doc.vi : doc.ko}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
         )}
 
-        {/* ── 권장 서류 섹션 ── */}
-        {additionalDocs.length > 0 && (
-          <div className="mb-6">
-            <div className="px-3 py-2 bg-blue-50 border-l-4 border-blue-600 mb-3 rounded-sm">
-              <p className="text-sm font-black text-blue-700">🔵 {lang==='vi' ? 'Danh sách hồ sơ được khuyến cáo' : '권장 서류 준비'} ({additionalDocs.length})</p>
-            </div>
-            <div className="space-y-2">
-              {additionalDocs.map((doc, idx) => <DocCard key={idx} doc={doc} idx={idx} isAdditional={true} />)}
-            </div>
-          </div>
-        )}
+        {/* 다른 비자: 기존 방식 */}
+        {visaStep !== 'd10' && (
+          <>
+            {/* ── 필수 서류 섹션 ── */}
+            {requiredDocs.length > 0 && (
+              <div className="mb-6">
+                <div className="px-3 py-2 bg-red-50 border-l-4 border-red-600 mb-3 rounded-sm">
+                  <p className="text-sm font-black text-red-700">🔴 {lang==='vi' ? 'Danh sách hồ sơ cần thiết' : '필수 서류 준비'} ({requiredDocs.length})</p>
+                </div>
+                <div className="space-y-2">
+                  {requiredDocs.map((doc, idx) => <DocCard key={idx} doc={doc} idx={idx} isAdditional={false} />)}
+                </div>
+              </div>
+            )}
 
-        {/* 비어있는 경우 */}
-        {requiredDocs.length === 0 && additionalDocs.length === 0 && (
-          <div className="bg-white rounded-2xl shadow-sm p-8 text-center text-gray-400">
-            {lang==='vi' ? 'Không cần hồ sơ' : '서류가 필요하지 않습니다'}
-          </div>
+            {/* ── 권장 서류 섹션 ── */}
+            {additionalDocs.length > 0 && (
+              <div className="mb-6">
+                <div className="px-3 py-2 bg-blue-50 border-l-4 border-blue-600 mb-3 rounded-sm">
+                  <p className="text-sm font-black text-blue-700">🔵 {lang==='vi' ? 'Danh sách hồ sơ được khuyến cáo' : '권장 서류 준비'} ({additionalDocs.length})</p>
+                </div>
+                <div className="space-y-2">
+                  {additionalDocs.map((doc, idx) => <DocCard key={idx} doc={doc} idx={idx} isAdditional={true} />)}
+                </div>
+              </div>
+            )}
+
+            {/* 비어있는 경우 */}
+            {requiredDocs.length === 0 && additionalDocs.length === 0 && (
+              <div className="bg-white rounded-2xl shadow-sm p-8 text-center text-gray-400">
+                {lang==='vi' ? 'Không cần hồ sơ' : '서류가 필요하지 않습니다'}
+              </div>
+            )}
+          </>
         )}
 
         {/* 안내 메시지 */}
