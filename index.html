@@ -2553,6 +2553,25 @@ const VISA_GUIDE_DATA = {
       { ko:'[경로 5: F-5-16 점수제 전환 영주권] 대상: F-2-7 점수제 비자 소유자. 기간: F-2-7 유지하며 연속 3년 이상 거주. 소득: GNI 200% 이상 필수 (약 88백만원 이상/년). 특징: 제조업 베테랑의 가장 현실적 경로. 주의: 신청 시점에 F-2-7 점수가 80점 이상 유지되어야 함.', vi:'[Diện F-5-16: Chuyển đổi từ Visa tính điểm F-2-7] Đối tượng: Người sở hữu & duy trì visa F-2-7. Thời gian: Giữ F-2-7 liên tục ≥3 năm. Thu nhập: ≥200% GNI (~88 triệu KRW/năm). Lưu ý: Tại thời điểm nộp, F-2-7 phải duy trì ≥80 điểm.' },
     ],
     tip: { ko:'🚨 [F-5 취득 후의 함정] 많은 사람들이 F-5를 받으면 끝이라고 착각하지만, 다음 두 가지를 어기면 영주권을 박탈당합니다: ①한국을 2년 이상 떠날 수 없음: 한국을 떠나 베트남이나 다른 나라로 가서 2년 이상 입국하지 않으면 F-5가 자동으로 취소됩니다. ②강제 추방 처벌: 한국에서 형사범죄를 저질러 징역형이나 큰 행정처벌을 받으면 F-5 카드를 빼앗기고 추방당합니다.', vi:'🚨 [Rất nhiều người lầm tưởng] Lấy được F-5 là xong, nhưng bạn hoàn toàn có thể bị tước quyền thường trú nếu vi phạm hai điều sau: ①Không được rời Hàn Quốc quá 2 năm liên tục: Nếu bạn xuất cảnh khỏi Hàn Quốc để về Việt Nam hoặc đi nước khác mà quá 2 năm không nhập cảnh lại, visa F-5 sẽ tự động bị hủy bỏ. ②Hình phạt trục xuất: Nếu phạm tội hình sự tại Hàn Quốc và bị tuyên án phạt tù hoặc bị xử phạt hành chính với số tiền quá lớn theo quy định của Luật Xuất nhập cảnh, bạn vẫn sẽ bị tước thẻ F-5 và trục xuất.' },
+    docs: {
+      change: [
+        { ko:'F-5 변경 신청서 (통합신청서)', vi:'Đơn xin cấp tư cách vĩnh trú (통합신청서)' },
+        { ko:'여권 원본 + ARC 원본 + 사본', vi:'Hộ chiếu & Thẻ ARC gốc kèm bản photo' },
+        { ko:'전년도 소득금액증명원 (국세청 발급)', vi:'Bản gốc Giấy chứng nhận thu nhập (소득금액증명원) của Cục Thuế cấp cho năm gần nhất' },
+        { ko:'KIIP 5단계 수료증 + 영주용 종합평가 합격증 (60점 이상)', vi:'Bằng chứng nhận hoàn thành KIIP Lớp 5 + Bảng điểm kết quả bài thi vĩnh trú' },
+        { ko:'범죄경력증명서 (베트남 발급, 번역/공증/영사 확인 완료)', vi:'Lý lịch tư pháp số 2 (Việt Nam cấp) đã dịch thuật, công chứng và hợp pháp hóa lãnh sự đầy đủ' },
+        { ko:'국민건강보험 가입증명서 + 재직증명서', vi:'Giấy chứng nhận đóng bảo hiểm quốc dân, giấy chứng nhận việc làm chính thức (재직증명서)' },
+        { ko:'주택임차차용금 / 주택구입 관련 서류', vi:'Hợp đồng nhà' },
+        { ko:'수수료: 230,000원 (변경 200,000원 + 카드 30,000원)', vi:'Lệ phí: 230.000 KRW (200.000 won phí chuyển đổi + 30.000 won phí cấp thẻ phôi xanh mới)' },
+      ],
+      extension: [
+        { ko:'F-5 연장 신청서', vi:'Đơn xin gia hạn F-5' },
+        { ko:'여권 원본 + 영주증 원본 + 사본', vi:'Hộ chiếu gốc + Thẻ thường trú gốc + bản photo' },
+        { ko:'고용계약서 또는 재직증명서', vi:'Hợp đồng lao động hoặc xác nhận việc làm' },
+        { ko:'국민건강보험 가입증명서', vi:'Giấy chứng nhận bảo hiểm sức khỏe quốc dân' },
+        { ko:'수수료: 30,000원 (카드 갱신료)', vi:'Lệ phí: 30.000 KRW (phí gia hạn thẻ)' },
+      ]
+    },
   },
   f5_marriage: {
     code:'F-5', icon:'💕', color:'bg-rose-600',
@@ -5460,14 +5479,14 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
       <BackHeader title={lang==='vi' ? '📋 Danh sách hồ sơ cần thiết' : '📋 필수 서류 준비'} onBack={onBack} />
       <div className="max-w-lg mx-auto px-4 py-4 pb-12">
 
-        {/* D-10, E-7-1, F-2-7 특별 처리: 변경/연장 섹션 */}
-        {(visaStep === 'd10' || visaStep === 'e71' || visaStep === 'f27' || visaStep === 'f27_e71') && VISA_GUIDE_DATA[visaStep]?.docs && (
+        {/* D-10, E-7-1, F-2-7, F-5 특별 처리: 변경/연장 섹션 */}
+        {(visaStep === 'd10' || visaStep === 'e71' || visaStep === 'f27' || visaStep === 'f27_e71' || visaStep === 'f5' || visaStep === 'f5_veteran' || visaStep === 'f5_marriage') && VISA_GUIDE_DATA[visaStep]?.docs && (
           <>
             {/* 비자 변경 */}
             {VISA_GUIDE_DATA[visaStep].docs.change && (
               <div className="mb-6">
                 <div className="px-3 py-2 bg-green-50 border-l-4 border-green-600 mb-3 rounded-sm">
-                  <p className="text-sm font-black text-green-700">🔄 {lang==='vi' ? (visaStep === 'd10' ? 'Đổi visa (D-2 → D-10)' : visaStep === 'e71' ? 'Đổi visa (D-10 → E-7-1)' : 'Đổi visa sang F-2-7') : (visaStep === 'd10' ? '비자 변경 (D-2 → D-10)' : visaStep === 'e71' ? '비자 변경 (D-10 → E-7-1)' : 'F-2-7 비자 변경')} ({VISA_GUIDE_DATA[visaStep].docs.change.length})</p>
+                  <p className="text-sm font-black text-green-700">🔄 {lang==='vi' ? (visaStep === 'd10' ? 'Đổi visa (D-2 → D-10)' : visaStep === 'e71' ? 'Đổi visa (D-10 → E-7-1)' : visaStep.startsWith('f5') ? 'Cấp thẻ vĩnh trú (F-5)' : 'Đổi visa sang F-2-7') : (visaStep === 'd10' ? '비자 변경 (D-2 → D-10)' : visaStep === 'e71' ? '비자 변경 (D-10 → E-7-1)' : visaStep.startsWith('f5') ? 'F-5 영주권 신청' : 'F-2-7 비자 변경')} ({VISA_GUIDE_DATA[visaStep].docs.change.length})</p>
                 </div>
                 <div className="space-y-2">
                   {VISA_GUIDE_DATA[visaStep].docs.change.map((doc, idx) => (
@@ -5488,7 +5507,7 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
             {VISA_GUIDE_DATA[visaStep].docs.extension && (
               <div className="mb-6">
                 <div className="px-3 py-2 bg-blue-50 border-l-4 border-blue-600 mb-3 rounded-sm">
-                  <p className="text-sm font-black text-blue-700">🔁 {lang==='vi' ? (visaStep === 'd10' ? 'Gia hạn visa (D-10)' : visaStep === 'e71' ? 'Gia hạn visa (E-7-1)' : 'Gia hạn visa F-2-7') : (visaStep === 'd10' ? '비자 연장 (D-10)' : visaStep === 'e71' ? '비자 연장 (E-7-1)' : 'F-2-7 비자 연장')} ({VISA_GUIDE_DATA[visaStep].docs.extension.length})</p>
+                  <p className="text-sm font-black text-blue-700">🔁 {lang==='vi' ? (visaStep === 'd10' ? 'Gia hạn visa (D-10)' : visaStep === 'e71' ? 'Gia hạn visa (E-7-1)' : visaStep.startsWith('f5') ? 'Gia hạn thẻ vĩnh trú (F-5)' : 'Gia hạn visa F-2-7') : (visaStep === 'd10' ? '비자 연장 (D-10)' : visaStep === 'e71' ? '비자 연장 (E-7-1)' : visaStep.startsWith('f5') ? 'F-5 영주증 갱신' : 'F-2-7 비자 연장')} ({VISA_GUIDE_DATA[visaStep].docs.extension.length})</p>
                 </div>
                 <div className="space-y-2">
                   {VISA_GUIDE_DATA[visaStep].docs.extension.map((doc, idx) => (
