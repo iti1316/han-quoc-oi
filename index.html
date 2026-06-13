@@ -4676,63 +4676,6 @@ function ScorePage({ type='e74', onBack, lang }) {
       <BackHeader title={SETTING.title} onBack={onBack} />
       <div className="max-w-lg mx-auto px-4 py-4 pb-12">
 
-        {/* ═════ F-2-7 점수 기준 정보 섹션 ═════ */}
-        {type==='f27' && (
-        <div className="mb-6 fade-in">
-          <h2 className="text-lg font-black text-gray-800 mb-4 text-center">
-            {lang==='vi' ? '📊 Tiêu chuẩn tính điểm F-2-7' : '📊 F-2-7 점수 계산 기준'}
-          </h2>
-
-          {/* 1. 나이/Tuổi tác */}
-          <div className="bg-white rounded-2xl shadow-sm p-4 mb-3">
-            <h3 className="font-black text-sm text-blue-700 mb-2">① {lang==='vi'?'Độ tuổi (Tối đa 25 điểm)':'나이 (최대 25점)'}</h3>
-            <p className="text-xs text-gray-700 leading-relaxed word-keep mb-2">
-              {lang==='vi'
-                ? '25-29 tuổi: 25 điểm | 18-24 & 30-34 tuổi: 23 điểm | 35-39 tuổi: 20 điểm | 40-44 tuổi: 12 điểm | 45-50 tuổi: 8 điểm | 51+ tuổi: 3 điểm'
-                : '25-29세: 25점 | 18-24세 & 30-34세: 23점 | 35-39세: 20점 | 40-44세: 12점 | 45-50세: 8점 | 51세 이상: 3점'}
-            </p>
-          </div>
-
-          {/* 2. 학력/Học vị */}
-          <div className="bg-white rounded-2xl shadow-sm p-4 mb-3">
-            <h3 className="font-black text-sm text-blue-700 mb-2">② {lang==='vi'?'Học vị (Tối đa 25 điểm)':'학력 (최대 25점)'}</h3>
-            <p className="text-xs text-gray-700 leading-relaxed word-keep mb-2">
-              {lang==='vi'
-                ? '박사: 이공계/2개+ → 25점 | 다른분야 → 20점 | 석사: 이공계/2개+ → 20점 | 다른분야 → 17점 | 학사: 이공계/2개+ → 17점 | 다른분야 → 15점 | 전문학사: 이공계 → 15점 | 다른분야 → 10점'
-                : 'Tiến sĩ: STEM/2+ → 25đ | Khác → 20đ | Thạc sĩ: STEM/2+ → 20đ | Khác → 17đ | Đại học: STEM/2+ → 17đ | Khác → 15đ | Cao đẳng: Kỹ thuật → 15đ | Khác → 10đ'}
-            </p>
-          </div>
-
-          {/* 3. 기본소양/Năng lực */}
-          <div className="bg-white rounded-2xl shadow-sm p-4 mb-3">
-            <h3 className="font-black text-sm text-blue-700 mb-2">③ {lang==='vi'?'Năng lực tiếng Hàn (Tối đa 20 điểm)':'기본소양/한국어 능력 (최대 20점)'}</h3>
-            <p className="text-xs text-gray-700 leading-relaxed word-keep mb-2">
-              {lang==='vi'
-                ? 'TOPIK 5~6급/KIIP 5단계: 20점 | TOPIK 4급/KIIP 4단계: 15점 | TOPIK 3급/KIIP 3단계: 10점 | TOPIK 2급: 5점 | TOPIK 1급: 3점'
-                : 'TOPIK cấp 5~6 / KIIP lớp 5: 20đ | TOPIK 4 / KIIP 4: 15đ | TOPIK 3 / KIIP 3: 10đ | TOPIK 2: 5đ | TOPIK 1: 3đ'}
-            </p>
-          </div>
-
-          {/* 4. 연간소득/Thu nhập */}
-          <div className="bg-white rounded-2xl shadow-sm p-4 mb-3">
-            <h3 className="font-black text-sm text-blue-700 mb-2">④ {lang==='vi'?'Thu nhập hàng năm (Tối đa 60 điểm)':'연간 소득 (최대 60점)'}</h3>
-            <p className="text-xs text-gray-700 leading-relaxed word-keep mb-2">
-              {lang==='vi'
-                ? '100만원 이상: 60점 | 9천~1억: 58점 | 8천~9천: 56점 | 7천~8천: 53점 | 6천~7천: 50점 | 5천~6천: 45점 | 4천~5천: 40점 | 3천~4천: 30점 | 최저~3천: 10점'
-                : '100 triệu+ KRW: 60đ | 90-100 triệu: 58đ | 80-90 triệu: 56đ | 70-80 triệu: 53đ | 60-70 triệu: 50đ | 50-60 triệu: 45đ | 40-50 triệu: 40đ | 30-40 triệu: 30đ | Min-30 triệu: 10đ'}
-            </p>
-          </div>
-
-          {/* 5. 가점항목/Hạng mục cộng */}
-          <div className="bg-white rounded-2xl shadow-sm p-4 mb-3">
-            <h3 className="font-black text-sm text-blue-700 mb-2">⑤ {lang==='vi'?'Hạng mục điểm cộng (Tối đa 40 điểm)':'가점항목 (최대 40점)'}</h3>
-            <p className="text-[10px] text-gray-600 leading-relaxed word-keep mb-2">
-              {lang==='vi'
-                ? '우수인재 +20 | 중앙행정기관 추천 +20 | 해외 명문대 박사 +30 / 석사 +20 / 학사 +15 | 한국 대학 박사 +10 / 석사 +7 / 학사 +5 | 국내 봉사활동 3년+ +7 | 2~3년 +5 | 1~2년 +1'
-                : 'Chuyên gia xuất sắc +20 | Cơ quan hành chính +20 | ĐH danh tiếng: Tiến sĩ +30 / Thạc sĩ +20 / Đại học +15 | ĐH Hàn: Tiến sĩ +10 / Thạc sĩ +7 / Đại học +5 | Tình nguyện 3+ +7 | 2~3 năm +5 | 1~2 năm +1'}
-            </p>
-          </div>
-
           {/* 공식 점수표 - 사용자가 제공한 이미지 + 텍스트 카드 함께 표시 */}
           <div className="bg-white rounded-2xl shadow-sm p-4 mb-4">
             <h3 className="font-black text-sm text-gray-800 mb-3 text-center">
