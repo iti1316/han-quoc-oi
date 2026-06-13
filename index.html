@@ -4754,111 +4754,78 @@ function ScorePage({ type='e74', onBack, lang }) {
 
         {/* F-2-7 점수 기준 상세 설명 */}
         {type==='f27' && (
-        <div className="bg-gradient-to-b from-purple-50 to-pink-50 rounded-2xl border border-purple-200 px-4 py-4 fade-in space-y-4">
-          <p className="text-sm font-black text-purple-900">📋 {lang==='vi' ? 'Tiêu chuẩn tính điểm F-2-7' : 'F-2-7 점수 기준 상세'}</p>
-
-          {/* 각 카테고리별 설명 */}
-          <div className="space-y-3">
-            {/* ① 나이 / Tuổi tác */}
-            <div className="bg-white rounded-lg px-3 py-2.5 border-l-4 border-blue-500">
-              <p className="text-xs font-black text-blue-700 mb-1.5">① {lang==='vi' ? 'Độ tuổi (最大 25점)' : '나이 (최대 25점)'}</p>
-              <div className="text-[11px] text-gray-700 space-y-0.5 leading-tight">
-                {lang==='vi' ? (
-                  <>
-                    <p>• 25-29 tuổi: 25 điểm | 18-24 tuổi: 23 điểm | 30-34 tuổi: 23 điểm</p>
-                    <p>• 35-39 tuổi: 20 điểm | 40-44 tuổi: 12 điểm | 45-50 tuổi: 8 điểm</p>
-                    <p>• 51 tuổi trở lên: 3 điểm</p>
-                  </>
-                ) : (
-                  <>
-                    <p>• 25-29세: 25점 | 18-24세: 23점 | 30-34세: 23점</p>
-                    <p>• 35-39세: 20점 | 40-44세: 12점 | 45-50세: 8점</p>
-                    <p>• 51세 이상: 3점</p>
-                  </>
-                )}
-              </div>
+        <div className="bg-white rounded-2xl border border-gray-200 px-4 py-4 fade-in">
+          <div className="text-sm text-gray-800 space-y-4 leading-relaxed word-keep" style={{whiteSpace:'pre-wrap'}}>
+            <div>
+              <p className="font-black text-base mb-2">1. Tuổi tác (Độ tuổi) – Tối đa 25 điểm</p>
+              <p className="text-xs mb-2">Phần này tính theo độ tuổi sinh học chính xác của bạn tại thời điểm nộp hồ sơ:</p>
+              <p className="text-xs">• 25 – 29 tuổi: Đạt điểm tuyệt đối 25 điểm.
+• 18 – 24 tuổi và 30 – 34 tuổi: Đạt 23 điểm.
+• Từ 35 tuổi trở lên điểm giảm mạnh (35-39 tuổi được 20 điểm, 40-44 tuổi chỉ còn 12 điểm...).</p>
             </div>
 
-            {/* ② 학력 / Học vấn */}
-            <div className="bg-white rounded-lg px-3 py-2.5 border-l-4 border-green-500">
-              <p className="text-xs font-black text-green-700 mb-1.5">② {lang==='vi' ? 'Học vấn (最大 25점)' : '학력 (최대 25점)'}</p>
-              <div className="text-[11px] text-gray-700 space-y-0.5 leading-tight">
-                {lang==='vi' ? (
-                  <>
-                    <p>• Tiến sĩ/STEM: 25đ | Tiến sĩ/khác: 20đ | Thạc sĩ/STEM: 20đ</p>
-                    <p>• Thạc sĩ/khác: 17đ | Cử nhân/STEM: 17đ | Cử nhân/khác: 15đ</p>
-                    <p>• Cao đẳng kỹ thuật: 15đ | Cao đẳng khác: 10đ</p>
-                  </>
-                ) : (
-                  <>
-                    <p>• 박사/STEM: 25점 | 박사/기타: 20점 | 석사/STEM: 20점</p>
-                    <p>• 석사/기타: 17점 | 학사/STEM: 17점 | 학사/기타: 15점</p>
-                    <p>• 전문학사(기술): 15점 | 전문학사(기타): 10점</p>
-                  </>
-                )}
-              </div>
+            <div>
+              <p className="font-black text-base mb-2">2. Học vị / Bằng cấp – Tối đa 25 điểm</p>
+              <p className="text-xs mb-2">Đây là phần có sự phân hóa rất rõ rệt giữa khối ngành Kỹ thuật/Tự nhiên và Kinh tế/Xã hội:</p>
+              <p className="text-xs">• Tiến sĩ (박사):
+  - Ngành Khoa học kỹ thuật (이공계) hoặc sở hữu từ 2 bằng Tiến sĩ trở lên: 25 điểm (Trần tối đa).
+  - Các ngành khác (이공계 외): 20 điểm.
+
+• Thạc sĩ (석사):
+  - Ngành Khoa học kỹ thuật (이공계) hoặc sở hữu từ 2 bằng Thạc sĩ trở lên: 20 điểm.
+  - Các ngành khác (이공계 외): 17 điểm.
+
+• Cử nhân - Đại học 4 năm (학사):
+  - Ngành Khoa học kỹ thuật (이공계) hoặc sở hữu từ 2 bằng Cử nhân trở lên: 17 điểm.
+  - Các ngành khác (이공계 외): 15 điểm.
+
+• Cao đẳng 2-3 năm (전문학사): Ngành kỹ thuật được 15 điểm, các ngành khác được 10 điểm.</p>
             </div>
 
-            {/* ③ 한국어 / Tiếng Hàn */}
-            <div className="bg-white rounded-lg px-3 py-2.5 border-l-4 border-red-500">
-              <p className="text-xs font-black text-red-700 mb-1.5">③ {lang==='vi' ? 'Năng lực tiếng Hàn (最大 20점)' : '한국어 능력 (최대 20점)'}</p>
-              <div className="text-[11px] text-gray-700 space-y-0.5 leading-tight">
-                {lang==='vi' ? (
-                  <>
-                    <p>• TOPIK 5-6 hoặc KIIP 5: 20đ | TOPIK 4 hoặc KIIP 4: 15đ</p>
-                    <p>• TOPIK 3 hoặc KIIP 3: 10đ | TOPIK 2 hoặc KIIP 2: 5đ</p>
-                    <p>• TOPIK 1: 3đ</p>
-                  </>
-                ) : (
-                  <>
-                    <p>• TOPIK 5-6 또는 KIIP 5: 20점 | TOPIK 4 또는 KIIP 4: 15점</p>
-                    <p>• TOPIK 3 또는 KIIP 3: 10점 | TOPIK 2 또는 KIIP 2: 5점</p>
-                    <p>• TOPIK 1: 3점</p>
-                  </>
-                )}
-              </div>
+            <div>
+              <p className="font-black text-base mb-2">3. Năng lực tiếng Hàn (기본소양) – Tối đa 20 điểm</p>
+              <p className="text-xs mb-2">Phần này đánh giá đồng đều giữa chứng chỉ TOPIK và chương trình Hội nhập xã hội (KIIP):</p>
+              <p className="text-xs">• Cao cấp (고급): TOPIK cấp 5, cấp 6 trở lên HOẶC hoàn thành KIIP Lớp 5 ➔ Nhận trọn vẹn 20 điểm.
+
+• Trung cấp (중급):
+  - TOPIK 4 / KIIP Lớp 4 ➔ 15 điểm.
+  - TOPIK 3 / KIIP Lớp 3 ➔ 10 điểm.
+
+• Sơ cấp (초급): Cấp 2 được 5 điểm, Cấp 1 được 3 điểm.</p>
             </div>
 
-            {/* ④ 연간 소득 / Thu nhập hàng năm */}
-            <div className="bg-white rounded-lg px-3 py-2.5 border-l-4 border-amber-500">
-              <p className="text-xs font-black text-amber-700 mb-1.5">④ {lang==='vi' ? 'Thu nhập hàng năm (最大 60점)' : '연간 소득 (최대 60점)'}</p>
-              <div className="text-[11px] text-gray-700 space-y-0.5 leading-tight">
-                {lang==='vi' ? (
-                  <>
-                    <p>• 100M+ KRW: 60đ | 90-99.99M: 58đ | 80-89.99M: 56đ | 70-79.99M: 54đ</p>
-                    <p>• 60-69.99M: 52đ | 50-59.99M: 50đ | 40-49.99M: 45đ | 30-39.99M: 40đ</p>
-                    <p>• 20-29.99M: 30đ | 10-19.99M: 20đ | 최저: 10đ</p>
-                  </>
-                ) : (
-                  <>
-                    <p>• 100M원 이상: 60점 | 90-99.99M: 58점 | 80-89.99M: 56점 | 70-79.99M: 54점</p>
-                    <p>• 60-69.99M: 52점 | 50-59.99M: 50점 | 40-49.99M: 45점 | 30-39.99M: 40점</p>
-                    <p>• 20-29.99M: 30점 | 10-19.99M: 20점 | 최저: 10점</p>
-                  </>
-                )}
-              </div>
+            <div>
+              <p className="font-black text-base mb-2">4. Thu nhập hàng năm (연간 소득) – Tối đa 60 điểm</p>
+              <p className="text-xs mb-2">Điểm số lũy tiến rất cao dựa trên tờ khai thuế (소득금액증명원):</p>
+              <p className="text-xs">• Từ 100 triệu KRW trở lên: 60 điểm (Mức trần).
+• 90 triệu ~ dưới 100 triệu KRW: 58 điểm.
+• 80 triệu ~ dưới 90 triệu KRW: 56 điểm.
+• 70 triệu ~ dưới 80 triệu KRW: 53 điểm.
+• 60 triệu ~ dưới 70 triệu KRW: 50 điểm.
+• 50 triệu ~ dưới 60 triệu KRW: 45 điểm.
+• 40 triệu ~ dưới 50 triệu KRW: 40 điểm.
+• 30 triệu ~ dưới 40 triệu KRW: 30 điểm.
+• Từ mức Lương tối thiểu ~ dưới 30 triệu KRW: 10 điểm.</p>
             </div>
 
-            {/* ⑤ 가산점 / Hạng mục điểm cộng */}
-            <div className="bg-white rounded-lg px-3 py-2.5 border-l-4 border-indigo-500">
-              <p className="text-xs font-black text-indigo-700 mb-1.5">⑤ {lang==='vi' ? 'Hạng mục điểm cộng (最大 40점)' : '가점 항목 (최대 40점)'}</p>
-              <div className="text-[11px] text-gray-700 space-y-0.5 leading-tight">
-                {lang==='vi' ? (
-                  <>
-                    <p>• Chỉ định xuất sắc: 20đ | Thư giới thiệu chính phủ: 20đ</p>
-                    <p>• Hoàn thành KIIP level 5: 10đ | ĐH top 500 thế giới: 30đ</p>
-                    <p>• ĐH top 20 Hàn Quốc: 20đ | ĐH top 50 Hàn Quốc: 10đ</p>
-                    <p>• Tình nguyện viên (1-7 năm): 1-7đ | Công nhân kỹ năng: 25đ</p>
-                  </>
-                ) : (
-                  <>
-                    <p>• 지정출중: 20점 | 정부기관 추천서: 20점</p>
-                    <p>• KIIP 5단계 수료: 10점 | 세계 상위 500대 대학 졸업: 30점</p>
-                    <p>• 한국 상위 20대 대학 졸업: 20점 | 한국 상위 50대 대학 졸업: 10점</p>
-                    <p>• 자원봉사 (1-7년): 1-7점 | 숙련기술인 (E-7-4): 25점</p>
-                  </>
-                )}
-              </div>
+            <div>
+              <p className="font-black text-base mb-2">5. Hạng mục điểm cộng (가점항목) – Tối đa 40 điểm</p>
+              <p className="text-xs mb-2">Dù bạn có nhiều giấy tờ đến mấy thì tổng điểm cộng ở phần này cũng chỉ được chốt tối đa 40 điểm. Các mốc cộng cụ thể trong ảnh gồm:</p>
+              <p className="text-xs">• Chuyên gia xuất sắc/Nhân tài ưu tú (참전국 우수 인재): +20 điểm.
+
+• Được cơ quan hành chính trung ương tiến cử (중앙행정기관 추천): +20 điểm.
+
+• Hội nhập xã hội (사회통합프로그램 5단계 이상): Đã hoàn thành xong lớp 5 được cộng thêm +10 điểm (Lưu ý: Mục này ăn điểm song song với mục Tiếng Hàn ở trên, tức là học xong KIIP 5 bạn vừa có 20 điểm gốc vừa có 10 điểm cộng).
+
+• Tốt nghiệp trường danh tiếng thế giới (우수) hoặc trường nội địa Hàn Quốc (국내):
+  - Hệ Tiến sĩ: Trường thế giới +30 điểm | Trường Hàn Quốc +10 điểm.
+  - Hệ Thạc sĩ: Trường thế giới +20 điểm | Trường Hàn Quốc +7 điểm.
+  - Hệ Cử nhân: Trường thế giới +15 điểm | Trường Hàn Quốc +5 điểm.
+
+• Hoạt động tình nguyện trong nước (국내 사회봉사 활동):
+  - Trên 3 năm: +7 điểm.
+  - Từ 2 ~ 3 năm: +5 điểm.
+  - Từ 1 ~ 2 năm: +1 điểm.</p>
             </div>
           </div>
         </div>
