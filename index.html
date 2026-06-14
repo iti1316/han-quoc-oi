@@ -2364,6 +2364,12 @@ const VISA_GUIDE_DATA = {
       { ko:'[E-7-4 전환 경력 요건] 최근 10년 이내 동일 사업장에서 최소 4년 이상 법정 근로 필수. 비수도권의 경우 3년 이상이면 광역지자체 추천 신청 가능 (특례)', vi:'Bước 4: Xuất cảnh: Nhận visa E-9, bay sang Hàn Quốc, hoàn thành khóa giáo dục định hướng ngắn ngày rồi về công ty làm việc.' },
     ],
     tip: { ko:'🚨 [E-9 탈락 리스크 1] 준법성 결격 — 벌금 100만원 이상, 세금/건보료 체납, 출입국법 4회+ 위반, 3개월+ 불법체류 경력자는 200점 이상 받아도 심사 즉시 탈락! 🚨 [E-9 탈락 리스크 2] 소득 미달 — 근로계약서상 연봉과 별개로, 세무서 소득금액증명원상 최근 2년 평균이 2,500만원에 1원이라도 미달하면 보완 기회 없이 탈락! 철저한 사전 서류 검증 필수', vi:'-Hạn chế chuyển đổi công ty: Khác với visa chuyên gia, diện E-9 bị bó buộc vào chủ bảo lãnh ban đầu. Bạn chỉ được phép đổi công ty trong một số trường hợp giới hạn nghiêm ngặt (như công ty phá sản, chủ bạo hành, quỵt lương...) và số lần đổi tối đa bị giới hạn. (Năm 2026, Hàn Quốc đang nới lỏng dần số lần đổi nhưng vẫn phải được Bộ Lao động thông qua).\n-Kiểm soát dòng tiền ngân hàng: Tương tự các loại visa khác, việc dùng tài khoản nhận tiền làm thêm chui bên ngoài sẽ khiến bạn bị từ chối gia hạn hoặc bị hủy hợp đồng lập tức.' },
+    docs: {
+      description: {
+        ko:'E-9 비자는 한국 정부의 EPS 시스템을 통해 관리되는 비자로, 베트남 노동부-상이용사 사회부가 Colab 센터를 통해 한국의 각 시도 노동청과 협력하여 서류를 처리합니다. 따라서 개별 노동자는 대사관에 직접 서류를 제출하지 않습니다.',
+        vi:'Do bản chất visa E-9 được cấp thông qua hệ thống EPS của Bộ Lao động, toàn bộ quy trình giấy tờ sẽ được thực hiện khép kín thông qua Trung tâm Lao động ngoài nước (Colab) phối hợp với Sở Lao động - Thương binh & Xã hội tỉnh, chứ người lao động không tự nộp hồ sơ trực tiếp lên Đại sứ quán.'
+      }
+    },
     nextPaths: [
       { code:'D-8', ko:'기업투자', vi:'Đầu tư doanh nghiệp', desc_ko:'제조업 경험을 바탕으로 사업 아이디어가 있다면 창업 전환 가능', desc_vi:'Dựa trên kinh nghiệm sản xuất, nếu có ý tưởng → chuyển D-8' },
       { code:'D-9', ko:'무역경영', vi:'Kinh doanh thương mại', desc_ko:'제조업에서 쌓은 경험으로 한국·해외 무역사업으로 진출 가능', desc_vi:'Với kinh nghiệm sản xuất, phát triển kinh doanh xuất nhập khẩu' },
@@ -5542,8 +5548,15 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
           </>
         )}
 
+        {/* E-9 특별 설명 */}
+        {visaStep === 'e9' && VISA_GUIDE_DATA['e9']?.docs?.description && (
+          <div className="mb-6 px-4 py-3 bg-yellow-50 border-l-4 border-yellow-600 rounded-sm">
+            <p className="text-xs text-gray-700 word-keep">{lang==='vi' ? VISA_GUIDE_DATA['e9'].docs.description.vi : VISA_GUIDE_DATA['e9'].docs.description.ko}</p>
+          </div>
+        )}
+
         {/* 다른 비자: 기존 방식 */}
-        {visaStep !== 'd10' && visaStep !== 'e71' && visaStep !== 'f27' && visaStep !== 'f27_e71' && (
+        {visaStep !== 'd10' && visaStep !== 'e71' && visaStep !== 'f27' && visaStep !== 'f27_e71' && visaStep !== 'f5' && visaStep !== 'f5_veteran' && visaStep !== 'f5_marriage' && (
           <>
             {/* ── 필수 서류 섹션 ── */}
             {requiredDocs.length > 0 && (
