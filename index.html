@@ -5550,13 +5550,13 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
 
         {/* E-9 특별 설명 */}
         {visaStep === 'e9' && VISA_GUIDE_DATA['e9']?.docs?.description && (
-          <div className="mb-6 px-4 py-3 bg-yellow-50 border-l-4 border-yellow-600 rounded-sm">
-            <p className="text-xs text-gray-700 word-keep">{lang==='vi' ? VISA_GUIDE_DATA['e9'].docs.description.vi : VISA_GUIDE_DATA['e9'].docs.description.ko}</p>
+          <div className="mb-6 px-6 py-6 bg-yellow-50 border-l-4 border-yellow-600 rounded-lg">
+            <p className="text-base text-gray-800 word-keep leading-relaxed font-medium">{lang==='vi' ? VISA_GUIDE_DATA['e9'].docs.description.vi : VISA_GUIDE_DATA['e9'].docs.description.ko}</p>
           </div>
         )}
 
         {/* 다른 비자: 기존 방식 */}
-        {visaStep !== 'd10' && visaStep !== 'e71' && visaStep !== 'f27' && visaStep !== 'f27_e71' && visaStep !== 'f5' && visaStep !== 'f5_veteran' && visaStep !== 'f5_marriage' && (
+        {visaStep !== 'd10' && visaStep !== 'e71' && visaStep !== 'f27' && visaStep !== 'f27_e71' && visaStep !== 'f5' && visaStep !== 'f5_veteran' && visaStep !== 'f5_marriage' && visaStep !== 'e9' && (
           <>
             {/* ── 필수 서류 섹션 ── */}
             {requiredDocs.length > 0 && (
