@@ -2079,7 +2079,7 @@ const VISA_TREES = {
     desc:{ ko:'E-9으로 시작해 영주권까지', vi:'Từ E-9 đến thường trú' },
     color:'bg-blue-700', light:'bg-blue-50', text:'text-blue-700', ring:'ring-blue-400',
     steps:[
-      { id:'e9',  code:'E-9',   ko:'비전문취업',   vi:'Lao động phi chuyên' },
+      { id:'e9',  code:'E-9',   ko:'비전문취업',   vi:'Visa e-9 LAO ĐỘNG PHỔ THÔNG' },
       { id:'e74', code:'E-7-4', ko:'숙련기능인력', vi:'Kỹ năng đặc định' },
       { id:'f27', code:'F-2-7', ko:'거주',         vi:'Cư trú' },
       { id:'f5',  code:'F-5',   ko:'영주권',        vi:'Thường trú', final:true },
@@ -2353,7 +2353,7 @@ function VisaTreeSection({ lang, visaType, onChangeType }) {
 const VISA_GUIDE_DATA = {
   e9: {
     code:'E-9', icon:'🏭', color:'bg-blue-600',
-    name:      { ko:'비전문취업 (제조업)',         vi:'Lao động phi chuyên' },
+    name:      { ko:'비전문취업 (제조업)',         vi:'Visa e-9 LAO ĐỘNG PHỔ THÔNG' },
     summary:   { ko:'제조업·농축산업 단순 기능 인력 — 최대 4년 10개월 + 재입국 특혜로 추가 4년 10개월 가능', vi:'Lao động phổ thông sản xuất/nông nghiệp — tối đa 4 năm 10 tháng + đặc ưu tái nhập cảnh thêm 4 năm 10 tháng' },
     maxStay:   { ko:'최대 4년 10개월 (이직 제한 3회/3년 + 2회/연장기) — 성실근로자 재입국 시 추가 4년 10개월 가능', vi:'Tối đa 4 năm 10 tháng (tối đa 3 lần đổi chỗ/3 năm + 2 lần/gia hạn) — tái nhập cảnh người lao động trung thực được +4 năm 10 tháng' },
     target:    { ko:'E-7-4 숙련기능인력으로 변경 (최소 4년 근무, 비수도권 3년 특례) → 영주권 진입', vi:'Chuyển E-7-4 lành nghề (tối thiểu 4 năm, đặc lệ 3 năm ở địa phương) → bước vào thường trú' },
