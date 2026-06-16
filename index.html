@@ -4949,47 +4949,6 @@ function ScorePage({ type='e74', onBack, lang }) {
         )}
 
           {/* 가산점 체크박스 (E-7-4 전용) */}
-          {type==='e74' && (
-          <div className="bg-blue-50 rounded-2xl shadow-sm px-4 py-4 fade-in space-y-4">
-            <div>
-              <p className="text-xs font-black text-blue-900 mb-2">{lang==='vi' ? '8. Hệ thống tính điểm' : '8. K-POINT E-7-4 점수제'}</p>
-              <p className="text-[10px] text-blue-800 word-keep">{lang==='vi' ? 'Hệ thống tính điểm áp dụng mức trần tối đa là 300 điểm. Bạn bắt buộc phải đạt từ 200 điểm trở lên (tính cả điểm cộng) để vượt qua vòng xét duyệt. Đặc biệt, ở hai mục cơ bản là Thu nhập và Tiếng Hàn, bạn phải đạt điểm số tối thiểu của mỗi mục là từ 50 điểm trở lên.' : '점수 시스템은 최대 300점이며, 최소 200점 이상(가산점 포함)을 받아야 합격합니다. 특히 수입과 한국어 두 기본 항목에서는 각각 최소 50점 이상을 받아야 합니다.'}</p>
-            </div>
-
-            <div className="bg-white rounded-lg p-3 space-y-3">
-              <p className="text-xs font-black text-gray-700">A. {lang==='vi' ? 'Các hạng mục điểm cơ bản' : '기본 점수 항목'}</p>
-
-              <div className="text-[10px] space-y-2">
-                <div className="border-l-3 border-green-500 pl-2">
-                  <p className="font-black text-gray-800">{lang==='vi' ? 'Thu nhập trung bình (2 năm gần nhất): Tối đa 120 điểm' : '평균 수입 (최근 2년): 최대 120점'}</p>
-                  <p className="text-gray-600 mt-1">{lang==='vi' ? '25~30 tỷ: 50đ (mức sàn) | 30~35 tỷ: 65đ | 35~40 tỷ: 80đ | 40~45 tỷ: 95đ | 45~50 tỷ: 110đ | 50 tỷ+: 120đ' : '25~30만원: 50점 (최소) | 30~35: 65점 | 35~40: 80점 | 40~45: 95점 | 45~50: 110점 | 50만원+: 120점'}</p>
-                </div>
-
-                <div className="border-l-3 border-green-500 pl-2">
-                  <p className="font-black text-gray-800">{lang==='vi' ? 'Năng lực tiếng Hàn: Tối đa 120 điểm' : '한국어 능력: 최대 120점'}</p>
-                  <p className="text-gray-600 mt-1">{lang==='vi' ? 'Cấp 2/2단계/41~60점: 50đ (mức sàn) | Cấp 3/3단계/61~80점: 80đ | Cấp 4+/4단계+/81점+: 120đ' : '2급/2단계/41~60점: 50점 (최소) | 3급/3단계/61~80점: 80점 | 4급+/4단계+/81점+: 120점'}</p>
-                </div>
-
-                <div className="border-l-3 border-green-500 pl-2">
-                  <p className="font-black text-gray-800">{lang==='vi' ? 'Tuổi tác: Tối đa 60 điểm' : '나이: 최대 60점'}</p>
-                  <p className="text-gray-600 mt-1">{lang==='vi' ? '19~26: 40đ | 27~33: 60đ | 34~40: 30đ | 41+: 10đ' : '19~26: 40점 | 27~33: 60점 | 34~40: 30점 | 41+: 10점'}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg p-3 space-y-2">
-              <p className="text-xs font-black text-gray-700">B. {lang==='vi' ? 'Điểm cộng (tối đa 40 điểm)' : '가산점 (최대 40점)'}</p>
-              <p className="text-[10px] text-gray-600 word-keep">{lang==='vi' ? '• Bộ ngành Trung ương tiến cử: +30 | Tỉnh/TP tiến cử: +30 | Chủ xưởng tiến cử: +50 | Làm 3 năm+: +20 | Vùng sâu/sụt dân: +20 | Bằng/chứng chỉ tại Hàn: +20 | Bằng lái: +10' : '• 중앙부처 추천: +30 | 지자체 추천: +30 | 고용주 추천: +50 | 3년 이상 근무: +20 | 낙후지역 근무 3년+: +20 | 한국 학위/자격증: +20 | 운전면허: +10'}</p>
-            </div>
-
-            <div className="bg-white rounded-lg p-3 space-y-2">
-              <p className="text-xs font-black text-gray-700">C. {lang==='vi' ? 'Điểm trừ (vi phạm hành chính)' : '감점 (행정 위반)'}</p>
-              <p className="text-[10px] text-gray-600 word-keep">{lang==='vi' ? '• Phạt tiền <1 tỷ KRW: -5~20đ | Chậm nộp thuế: -5~15đ | Vi phạm XNC <3 lần: -5~15đ' : '• 벌금액 <100만원: -5~20점 | 세금 체납: -5~15점 | 출입국법 위반 <3회: -5~15점'}</p>
-            </div>
-
-            <p className="text-[10px] text-center text-yellow-700 bg-yellow-50 p-2 rounded">{lang==='vi' ? '⚠️ Thông tin tham khảo. Kết quả thực tế có thể khác tùy theo quy định cập nhật.' : '⚠️ 참고용 정보입니다. 실제 결과는 최신 규정에 따라 달라질 수 있습니다.'}</p>
-          </div>
-          )}
 
           {/* F-2-7 가산점 설명 (정보용) */}
           {type==='f27' && (
