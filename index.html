@@ -4950,6 +4950,81 @@ function ScorePage({ type='e74', onBack, lang }) {
 
           {/* 가산점 체크박스 (E-7-4 전용) */}
 
+          {/* E-7-4 K-Point 정보 테이블 */}
+          {type==='e74' && (
+          <div className="bg-white rounded-2xl shadow-sm px-3 py-3 fade-in space-y-3 text-[9px]">
+            <div className="border border-gray-300 rounded overflow-hidden">
+              <div className="bg-blue-800 text-white px-2 py-1 font-black">📋 K-POINT E-7-4 정수표</div>
+
+              <table className="w-full border-collapse text-[8px]">
+                <tbody>
+                  <tr className="border-b border-gray-300">
+                    <td className="border-r border-gray-300 bg-yellow-100 px-1 py-1 font-black w-1/4">구분</td>
+                    <td className="bg-yellow-100 px-1 py-1 font-black">내용</td>
+                  </tr>
+                  <tr className="border-b border-gray-300">
+                    <td className="border-r border-gray-300 bg-blue-100 font-black px-1 py-1">대상자<br/>요건</td>
+                    <td className="px-1 py-1">
+                      ① 최근 10년간 해당 자격(E-9, E-10, H-2) 또는 현재 국내 체류 중<br/>
+                      ② 현재 근무처에서 연봉 2,600만원 이상으로 향후 2년 이상 E-7-4 고용계약<br/>
+                      ③ 현재 1년 이상 근무 중인 기업의 추천을 받은 자<br/>
+                      ④ 기본항목의 A(평균소득 및 B(한국어능력) 각각 최소점(50점) 이상자로 300점 만점에 가점 포함 200점 이상 특점자
+                    </td>
+                  </tr>
+                  <tr className="border-b border-gray-300">
+                    <td className="border-r border-gray-300 bg-red-100 font-black px-1 py-1">제외대상</td>
+                    <td className="px-1 py-1">
+                      ① 벌금 100만원 이상의 형을 받은 자 ② 조세 체납자(원납 시 신청 가능)<br/>
+                      ③ 출입국관리법 4회 이상 위반자 ④ 불법체류 경력자<br/>
+                      ⑤ 대한민국의 이익이나 공공의 안전 등을 해치는 행동을 할 염려가 있다고 인정할 만한 자<br/>
+                      ⑥ 경제질서 또는 사회질서를 해치거나 선량한 풍속 등을 해치는 행동을 할 염려가 있다고 인정할 만한 자
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="border-r border-gray-300 bg-green-100 font-black px-1 py-1">점수표</td>
+                    <td className="px-1 py-1">
+                      <div className="space-y-1">
+                        <p className="font-black">■ 전환요건 점수: 300점 만점(가점 제외) 중 200점 이상(가점 포함) 특점</p>
+
+                        <p className="font-black mt-2">A. 기본방점 (최근 2년 연간 평균소득)</p>
+                        <p>구분: 2,500만원이상* | 3,500만원이상 | 5,000만원이상</p>
+                        <p>배점: 50 | 80 | 120</p>
+                        <p className="text-[7px]">* 농축산업, 어업·내항상선 종사자는 연봉 2,400만원 이상</p>
+
+                        <p className="font-black mt-1">B. 한국어능력: 최대 120점</p>
+                        <p>구분: 2급/2단계/41~60점 | 3급/3단계/61~80점 | 4급/4단계/81점 이상</p>
+                        <p>배점: 50 | 80 | 120</p>
+
+                        <p className="font-black mt-1">C. 나이: 최대 60점</p>
+                        <p>구분: 19세~26세 | 27세~33세 | 34세~40세 | 41세~</p>
+                        <p>배점: 40 | 60 | 30 | 10</p>
+
+                        <p className="font-black mt-2">가산점 (최대 40점)</p>
+                        <p>중앙부처 | 지자체 | 고용주 추천 | 3년 이상 근무 | 낙후지역 3년+ | 국내 학위/자격 | 운전면허</p>
+                        <p>30 | 30 | 50 | 20 | 20 | 20 | 10</p>
+                        <p className="text-[7px]">※ (①~⑥) 간 중복 가능(단, ①의 중복부자 및 광역시제 추신인 중복되면 하락 인정)</p>
+
+                        <p className="font-black mt-2">감점 항목</p>
+                        <p>감점 항목 | 1회 | 2회 | 3회(이상)</p>
+                        <p>① 벌금 100만원 이만의 형을 받은 자(최대20점)</p>
+                        <p>배점: 5 | 10 | 20</p>
+                        <p>② 체납으로 체류자가 세관을 받은 자(최대15점)</p>
+                        <p>배점: 5 | 10 | 15</p>
+                        <p>③ 출입국관리법 3회 이하 위반자로 행정처를 받은 자</p>
+                        <p>배점: 5 | 10 | 15</p>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="bg-yellow-50 border-l-4 border-yellow-600 px-2 py-1 text-[8px]">
+              <p className="font-black">⚠️ 위 대상자 요건 및 결수표 방문(점수)은 순영과어에서 변경될 수 있습니다.</p>
+            </div>
+          </div>
+          )}
+
           {/* F-2-7 가산점 설명 (정보용) */}
           {type==='f27' && (
           <div className="bg-blue-50 border border-blue-200 rounded-2xl shadow-sm px-4 py-3 fade-in">
