@@ -4105,13 +4105,6 @@ function VisaHubPage({ nav, lang, posts = [] }) {
                 </div>
 
                 {/* E-7-4 점수 계산기 버튼 */}
-                {selectedStep === 'e74' && (
-                  <button onClick={()=>nav({page:'checklist', param:'score'})}
-                    className="w-full bg-orange-600 text-white font-black text-xs py-2.5 rounded-xl tap transition flex items-center justify-center gap-2 mt-3">
-                    📊 {lang==='vi'?'→ Tính điểm E-7-4':'→ E-7-4 점수 계산기'}
-                  </button>
-                )}
-
                 {/* 다른 경로로 이동 (nextPaths) */}
                 {guide.nextPaths && guide.nextPaths.length > 0 && (
                   <div className="mt-3 pt-3 border-t border-gray-200">
