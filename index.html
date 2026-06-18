@@ -4819,35 +4819,6 @@ function ScorePage({ type='e74', onBack, lang }) {
         </div>
         )}
 
-        {/* ⚠️ 참고용 경고 배너 */}
-        <div className="bg-amber-50 border-2 border-amber-300 rounded-2xl px-4 py-3 mb-4 fade-in">
-          <p className="text-sm font-black text-amber-800 mb-1">{lang==='vi' ? '⚠️ Công cụ này chỉ để tham khảo' : '⚠️ 이 계산기는 참고용입니다'}</p>
-          <p className="text-xs text-amber-700 leading-relaxed word-keep">
-            {lang==='vi'
-              ? <><strong>Kết quả thực tế có thể khác.</strong><br/>Hãy xác nhận điểm chính xác tại <strong>Cục XNC hoặc theo tiêu chuẩn chính thức của Bộ Tư pháp.</strong></>
-              : <>항목 누락·기준 변경 가능성이 있어 <strong>실제 심사 결과와 다를 수 있습니다.</strong><br/>정확한 점수는 반드시 <strong>출입국 사무소 또는 법무부 공식 기준</strong>으로 확인하세요.</>}
-          </p>
-        </div>
-
-        {/* 결과 카드 */}
-        <div className={`rounded-2xl shadow-sm overflow-hidden mb-4 border-2 fade-in ${pass?'bg-green-50 border-green-200':'bg-white border-gray-100'}`}>
-          <div className="px-4 py-4">
-            <div className="flex items-end justify-between mb-3">
-              <p className="text-xs font-bold text-gray-500">{lang==='vi' ? 'Điểm ước tính của tôi' : '나의 예상 점수'}</p>
-              <p className={`text-4xl font-black ${pass?'text-green-600':'text-blue-700'}`}>{total}<span className="text-lg">{lang==='vi'?'đ':'점'}</span></p>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-3 mb-1">
-              <div className={`h-3 rounded-full transition-all duration-700 ${pass?'bg-green-500':'bg-blue-700'}`} style={{width:`${pct}%`}}></div>
-            </div>
-            <div className="flex justify-between text-[10px] text-gray-400 mb-3">
-              <span>0</span><span className="font-bold text-blue-700">{lang==='vi' ? `Ngưỡng đậu ${SETTING.passScore}đ ✓` : `합격선 ${SETTING.passScore}점 ✓`}</span>
-            </div>
-            {pass
-              ? <p className="text-sm font-black text-green-600">{lang==='vi' ? '🎉 Có thể đậu! Hãy chuẩn bị hồ sơ ngay.' : '🎉 합격 가능! 지금 서류를 준비하세요.'}</p>
-              : <p className="text-sm font-black text-red-500">{lang==='vi' ? `❌ Cần thêm ${SETTING.passScore-total} điểm. Hãy cải thiện các mục bên dưới!` : `❌ ${SETTING.passScore-total}점 더 필요합니다. 아래 항목을 개선해보세요!`}</p>}
-          </div>
-        </div>
-
         {/* F-2-7 점수 기준 상세 설명 */}
         {type==='f27' && (
         <div className="bg-white rounded-2xl border border-gray-200 px-4 py-4 fade-in">
