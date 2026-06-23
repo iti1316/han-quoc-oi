@@ -198,7 +198,44 @@ function getDeviceId() {
   }
   return deviceId;
 }
-
+/* ── 내 글 댓글 안 읽음 추적 (deviceId 기반) ── */
+const MY_POST_SEEN_STORE = 'vb_my_post_seen';
+function loadSeenCounts() {
+  try { return JSON.parse(localStorage.getItem(MY_POST_SEEN_STORE)) || {}; }
+  catch { return {}; }
+}
+function saveSeenCounts(obj) {
+  try { localStorage.setItem(MY_POST_SEEN_STORE, JSON.stringify(obj)); } catch(e) {}
+}
+function markPostSeen(postId, commentCount) {
+  const seen = loadSeenCounts();
+  seen[postId] = commentCount;
+  saveSeenCounts(seen);
+}
+function getUnreadCount(posts, deviceId) {
+  const seen = loadSeenCounts();
+  let total = 0;
+  posts.forEach(p => {
+    if (p.deviceId === deviceId) {
+      const current = p.commentsData?.length || p.comments || 0;
+      const lastSeen = seen[p.id] || 0;
+      if (current > lastSeen) total += (current - lastSeen);
+    }
+  });
+  return total;
+}
+function getMyUnreadPosts(posts, deviceId) {
+  const seen = loadSeenCounts();
+  return posts
+    .filter(p => p.deviceId === deviceId)
+    .map(p => {
+      const current = p.commentsData?.length || p.comments || 0;
+      const lastSeen = seen[p.id] || 0;
+      return { post: p, unread: Math.max(0, current - lastSeen) };
+    })
+    .filter(x => x.unread > 0)
+    .sort((a, b) => b.unread - a.unread);
+}
 /* ────────────────────────────────────────────────────────────
    🔒 렌더 레이어 익명화 — 2중 보안
    저장된 author 값이 허용 패턴과 다르면 (예: 실제 이름·ID가
@@ -3173,7 +3210,13 @@ function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDe
       ogUrl.setAttribute('content', url);
     }
   }, [post?.id, post?.title, post?.body, boardKey, postId]);
-
+// 내 글이면 댓글 읽음 처리
+useEffect(() => {
+  if (post && post.deviceId === deviceId) {
+    const current = post.commentsData?.length || post.comments || 0;
+    markPostSeen(post.id, current);
+  }
+}, [post?.id, post?.commentsData?.length, post?.comments, deviceId]);
   if (!post) return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="text-center px-6">
@@ -4280,13 +4323,15 @@ function VisaHubPage({ nav, lang, posts = [] }) {
 /* ================================================================
    페이지: 메인(Home) — 새 디자인
 ================================================================ */
-function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onAddComment, onDeleteComment, toggleLang, onNicknameSave }) {
+function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onAddComment, onDeleteComment, toggleLang, onNicknameSave, deviceId }) {
   const [showMore,    setShowMore]    = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showNicknameModal, setShowNicknameModal] = useState(false);
   const [nicknameInput, setNicknameInput] = useState('');
   const [nicknameLoading, setNicknameLoading] = useState(false);
   const [adminClickCount, setAdminClickCount] = useState(0);
+  const unreadCount   = getUnreadCount(posts, deviceId);
+  const myUnreadPosts = getMyUnreadPosts(posts, deviceId);
   const adminClickTimer = useRef(null);
 
   const handleNicknameSave = async () => {
@@ -4349,15 +4394,19 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
           <div className="flex items-center gap-2">
             <button onClick={handleAdminClick} className="text-lg tap transition opacity-0 w-6 h-6" title="관리자">⚙️</button>
             <button onClick={toggleLang} className="text-lg tap transition" title="언어">{lang==='vi'?'🇻🇳':'🇰🇷'}</button>
-            <div className="flex items-center gap-1.5 tap cursor-pointer" onClick={() => {
-              console.log('✅ 프로필 클릭! setShowNicknameModal(true) 호출');
-              setShowNicknameModal(true);
-            }}>
-              <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-[12px] flex-shrink-0">👤</div>
-              <span className="text-[11px] font-bold text-gray-600">
-                {window.userNickname || '익명'}
-              </span>
-            </div>
+<div className="flex items-center gap-1.5 tap cursor-pointer" onClick={() => setShowNicknameModal(true)}>
+  <div className="relative w-6 h-6 flex-shrink-0">
+    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-[12px]">👤</div>
+    {unreadCount > 0 && (
+      <span className="absolute -top-1 -right-1 min-w-[14px] h-[14px] px-1 bg-red-500 rounded-full text-white text-[8px] font-black flex items-center justify-center">
+        {unreadCount > 9 ? '9+' : unreadCount}
+      </span>
+    )}
+  </div>
+  <span className="text-[11px] font-bold text-gray-600">
+    {window.userNickname || '익명'}
+  </span>
+</div>
           </div>
         </div>
       </header>
@@ -4421,6 +4470,26 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
             <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5"></div>
             <p className="text-sm font-black text-gray-800 mb-1">{lang==='vi'?'Đặt tên của bạn':'닉네임 설정'}</p>
             <p className="text-xs text-gray-400 mb-4">{lang==='vi'?'Bạn có thể thay đổi bất cứ lúc nào':'언제든지 변경할 수 있어요'}</p>
+            {myUnreadPosts.length > 0 && (
+  <div className="bg-red-50 border border-red-200 rounded-2xl px-3 py-3 mb-4">
+    <p className="text-xs font-black text-red-600 mb-2">
+      🔔 {lang==='vi' ? `${myUnreadPosts.length} bài có bình luận mới` : `새 댓글 달린 글 ${myUnreadPosts.length}개`}
+    </p>
+    <div className="flex flex-col gap-1.5">
+      {myUnreadPosts.slice(0, 5).map(({ post, unread }) => {
+        const boardKey = (CAT_BOARD_MAP[post.cat] || CAT_BOARD_MAP.bamboo).key;
+        return (
+          <button key={post.id}
+            onClick={() => { setShowNicknameModal(false); nav({ page:'postDetail', boardKey, postId: post.id }); }}
+            className="flex items-center justify-between bg-white rounded-xl px-3 py-2 text-left tap">
+            <span className="text-[11px] text-gray-700 truncate flex-1">{post.title}</span>
+            <span className="text-[10px] font-black text-red-500 bg-red-100 px-1.5 py-0.5 rounded-full ml-2 flex-shrink-0">+{unread}</span>
+          </button>
+        );
+      })}
+    </div>
+  </div>
+)}
             <input
               type="text"
               value={nicknameInput}
