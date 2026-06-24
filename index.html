@@ -116,6 +116,7 @@ const NicknameDB = {
       });
       if (response.ok) {
         console.log('✅ Firebase 닉네임 저장 성공:', nickname);
+        localStorage.setItem('vb_nickname', nickname);
         return true;
       } else {
         console.warn('⚠️ Firebase 닉네임 저장 실패:', response.statusText);
@@ -155,6 +156,13 @@ const NicknameDB = {
       deviceId = 'dev_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
       localStorage.setItem('vb_device_id', deviceId);
     }
+    // localStorage에서 먼저 동기적으로 읽기 (race condition 방지)
+    const cached = localStorage.getItem('vb_nickname');
+    if (cached) {
+      window.userNickname = cached;
+      console.log('🟢 페이지 로드: localStorage에서 닉네임 복원:', cached);
+    }
+    // Firebase에서 최신값 가져오기
     const saved = await NicknameDB.load(deviceId);
     if (saved) {
       window.userNickname = saved;
@@ -166,7 +174,7 @@ const NicknameDB = {
 })();
 
 function genAuthor() {
-  const nickname = window.userNickname;
+  const nickname = window.userNickname || localStorage.getItem('vb_nickname');
   if (nickname) {
     console.log('✅ genAuthor - 닉네임 사용:', nickname);
     return nickname;
@@ -6579,6 +6587,7 @@ function App() {
 
       // 1단계: 새 닉네임 설정
       window.userNickname = nickname;
+      localStorage.setItem('vb_nickname', nickname);
       const saved = await NicknameDB.save(deviceId, nickname);
       console.log('🔵 [App] NicknameDB.save() 완료:', saved);
 
