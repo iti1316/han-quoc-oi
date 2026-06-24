@@ -522,7 +522,48 @@ function usePosts() {
     }));
   }
 
-  return { posts, setPosts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, canEditPost, deviceId };
+  // Firebase에서 최신 데이터 다시 불러오기 (다른 기기의 변경사항 반영용)
+  const refreshPosts = async () => {
+    console.log('🔄 [refreshPosts] Firebase에서 최신 데이터 불러오는 중...');
+    try {
+      const res = await fetch(FIREBASE_POSTS_URL, { timeout: 10000 });
+      const data = await res.json();
+
+      if (!data) {
+        console.log('✅ Firebase: 데이터 없음 (초기 상태)');
+        return;
+      }
+
+      if (!Array.isArray(data)) {
+        console.warn('⚠️ Firebase 데이터가 배열이 아님:', typeof data);
+        return;
+      }
+
+      const validData = data.filter(p => p && p.id != null && p.author);
+      console.log(`✅ [refreshPosts] Firebase load: ${data.length}개 중 ${validData.length}개 유효`);
+
+      setPosts(prev => {
+        const localOnly = prev.filter(p =>
+          !validData.some(fb => String(fb.id) === String(p.id))
+        );
+
+        const merged = [...localOnly, ...validData];
+        console.log('✅ [refreshPosts] 최신 데이터 병합 완료 - 지역 글:', localOnly.length, '개');
+
+        try {
+          localStorage.setItem(BOARD_STORE, JSON.stringify(merged));
+        } catch (e) {
+          console.warn('⚠️ 새로고침 후 localStorage 업데이트 실패');
+        }
+
+        return merged;
+      });
+    } catch (e) {
+      console.error('❌ [refreshPosts] Firebase load error:', e.message);
+    }
+  };
+
+  return { posts, setPosts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, canEditPost, deviceId, refreshPosts };
 }
 
 /* ================================================================
@@ -4323,7 +4364,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
 /* ================================================================
    페이지: 메인(Home) — 새 디자인
 ================================================================ */
-function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onAddComment, onDeleteComment, toggleLang, onNicknameSave, deviceId }) {
+function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onAddComment, onDeleteComment, toggleLang, onNicknameSave, deviceId, refreshPosts }) {
   const [showMore,    setShowMore]    = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showNicknameModal, setShowNicknameModal] = useState(false);
@@ -4394,7 +4435,7 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
           <div className="flex items-center gap-2">
             <button onClick={handleAdminClick} className="text-lg tap transition opacity-0 w-6 h-6" title="관리자">⚙️</button>
             <button onClick={toggleLang} className="text-lg tap transition" title="언어">{lang==='vi'?'🇻🇳':'🇰🇷'}</button>
-<div className="flex items-center gap-1.5 tap cursor-pointer" onClick={() => setShowNicknameModal(true)}>
+<div className="flex items-center gap-1.5 tap cursor-pointer" onClick={() => { refreshPosts(); setShowNicknameModal(true); }}>
   <div className="relative w-6 h-6 flex-shrink-0">
     <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-[12px]">👤</div>
     {unreadCount > 0 && (
@@ -6459,7 +6500,7 @@ function App() {
   });
   const [prevRoute, setPrevRoute] = useState({ page:'home', param:null });
   const [lang,     setLang]     = useState('vi');
-  const { posts, setPosts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId } = usePosts();
+  const { posts, setPosts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId, refreshPosts } = usePosts();
 
   /* route 변경 시 browser history에 저장 */
   useEffect(() => {
@@ -6587,7 +6628,8 @@ function App() {
     }
   };
 
-  const shared = { nav, posts, lang, onAddPost:addPost, onDeletePost:deletePost, onUpdatePost:updatePost, onAddComment:addComment, onDeleteComment:deleteComment, onUpdateComment:updateComment, deviceId, onNicknameSave:handleNicknameSaveApp };
+  const shared = { nav, posts, lang, onAddPost:addPost, onDeletePost:deletePost, onUpdatePost:updatePost, onAddComment:addComment, onDeleteComment:deleteComment, onUpdateComment:updateComment, deviceId, onNicknameSave:handleNicknameSaveApp, refreshPosts };
+
 
   switch (route.page) {
     case 'guide':     return <GuidePage     type={route.param}     onBack={goBack} lang={lang} />;
