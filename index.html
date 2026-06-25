@@ -2969,7 +2969,7 @@ function loadBoardNotices(cat = 'market') {
   return allNotices[cat] || [];
 }
 
-const LOCKED_CATS = ['travel', 'market', 'house', 'horror', 'bamboo', 'talk'];
+const LOCKED_CATS = ['travel', 'market', 'house', 'horror', 'bamboo', 'talk', 'info', 'jobs'];
 const LOCKED_CAT_INFO = {
   talk:   { e:'💬', ko:'출입국 참교육방',    vi:'Kinh nghiệm Thực tế',   desc_ko:'반려·실패담, 출입국 썰', desc_vi:'Trải nghiệm bị từ chối' },
   travel: { e:'📸', ko:'여행·맛집 소개',    vi:'Du lịch & Ẩm thực',     desc_ko:'여행 정보, 맛집 소개',   desc_vi:'Chia sẻ du lịch, ẩm thực' },
@@ -2977,6 +2977,8 @@ const LOCKED_CAT_INFO = {
   house:  { e:'🏠', ko:'집 구하기',         vi:'Tìm nhà & Share house', desc_ko:'부동산 정보, 쉐어하우스', desc_vi:'Tìm phòng, share house' },
   horror: { e:'👻', ko:'무서운 이야기 방',   vi:'Phòng Chuyện Ma',       desc_ko:'무서운 경험, 귀신 이야기', desc_vi:'Chuyện ma, trải nghiệm đáng sợ' },
   bamboo: { e:'🤫', ko:'대나무숲 완전 익명', vi:'Rừng Tre Ẩn Danh',     desc_ko:'익명으로 자유롭게 대화', desc_vi:'Nói chuyện ẩn danh tự do' },
+  info:   { e:'📚', ko:'한국생활 정보',     vi:'Thông tin sống ở Hàn',  desc_ko:'생활정보 모음',          desc_vi:'Tips sống ở Hàn Quốc' },
+  jobs:   { e:'💼', ko:'지역 일자리 구인&구직', vi:'Việc làm quanh đây', desc_ko:'일자리 정보',            desc_vi:'Tìm việc làm' },
 };
 
 /* ── 클래식 테이블 게시판 ── */
@@ -3871,6 +3873,8 @@ const SEARCH_BOARD_INFO = {
   market: { key:'market', emoji:'🥕', ko:'당근마켓',    vi:'Chợ',         bg:'bg-orange-400' },
   house:  { key:'house',  emoji:'🏠', ko:'집구하기',    vi:'Tìm nhà',     bg:'bg-teal-600' },
   horror: { key:'horror', emoji:'👻', ko:'무서운이야기', vi:'Chuyện Ma',   bg:'bg-gray-800' },
+  info:   { key:'info', emoji:'📚', ko:'한국생활정보', vi:'Thông tin sinh hoạt', bg:'bg-purple-600' },
+  jobs:   { key:'jobs', emoji:'💼', ko:'지역일자리',   vi:'Việc làm',           bg:'bg-indigo-600' },
 };
 
 function SearchResults({ posts, query, nav, lang }) {
