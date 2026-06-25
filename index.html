@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<!-- v.2026.06.18.FORCE_REFRESH -->
+<!-- v.2026.06.25.DDAY_WIDGET -->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -1592,6 +1592,9 @@ const LANG = {
     cmtPwNote:'Không bắt buộc — nhập nếu muốn xóa sau',
     cmtSubmit:'Gửi', cmtEmpty:'Chưa có bình luận nào.',
     cmtDelete:'Xóa', cmtCollapse:'Thu gọn',
+    todoTopik:'Hãy bắt đầu ôn thi TOPIK 📚', todoDocs:'Hãy bắt đầu chuẩn bị hồ sơ 📋',
+    todoBooking:'Hãy đặt lịch Cục XNC ngay! 🚨', todoExpired:'Visa đã hết hạn! Cần xử lý ngay ⚠️',
+    ddayEditBtn:'Sửa', ddayTargetLabel:'Mục tiêu',
   },
   ko: {
     tagline:'D-9 → E-7-4 커뮤니티 🇻🇳',
@@ -1662,6 +1665,9 @@ const LANG = {
     cmtPwNote:'선택사항 — 나중에 삭제하려면 입력하세요',
     cmtSubmit:'등록', cmtEmpty:'아직 댓글이 없어요.',
     cmtDelete:'삭제', cmtCollapse:'접기',
+    todoTopik:'TOPIK 시험 준비를 시작하세요 📚', todoDocs:'서류 준비를 시작하세요 📋',
+    todoBooking:'출입국 예약을 서둘러주세요! 🚨', todoExpired:'비자가 만료됐어요! 즉시 확인하세요 ⚠️',
+    ddayEditBtn:'수정', ddayTargetLabel:'목표',
   },
 };
 
@@ -4370,6 +4376,195 @@ function VisaHubPage({ nav, lang, posts = [] }) {
 }
 
 /* ================================================================
+   D-day + 목표비자 위젯
+================================================================ */
+const DDAY_STORE = 'vb_dday_info';
+const DDAY_APPLY_MONTHS = { d9: 4, e74: 2 }; // 신청 가능일 = 만료일 - N개월
+
+function loadDdayInfo() {
+  try { return JSON.parse(localStorage.getItem(DDAY_STORE)) || null; }
+  catch { return null; }
+}
+function saveDdayInfo(info) {
+  try { localStorage.setItem(DDAY_STORE, JSON.stringify(info)); } catch(e) {}
+}
+function calcDday(dateStr) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const target = new Date(dateStr); target.setHours(0,0,0,0);
+  return Math.round((target - today) / 86400000);
+}
+function calcApplyDate(dateStr, type) {
+  const months = DDAY_APPLY_MONTHS[type] || 2;
+  const d = new Date(dateStr);
+  d.setMonth(d.getMonth() - months);
+  return d;
+}
+function getTodoMessage(dday, lang) {
+  const L = LANG[lang];
+  if (dday < 0) return L.todoExpired;
+  if (dday <= 30) return L.todoBooking;
+  if (dday <= 180) return L.todoDocs;
+  return L.todoTopik;
+}
+
+const CURRENT_VISA_OPTIONS = [
+  { key:'d9',  code:'D-9' },
+  { key:'e74', code:'E-7-4' },
+];
+
+const TARGET_VISA_OPTIONS = [
+  { code:'E-7-4',   key:'e74',           route:'worker',   subRoute:null,            ko:'E-7-4 숙련기능인력', vi:'E-7-4 Kỹ năng đặc định' },
+  { code:'F-2-7',   key:'f27_e71',       route:'worker',   subRoute:null,            ko:'F-2-7 거주(점수제)', vi:'F-2-7 Cư trú (điểm)' },
+  { code:'F-5',     key:'f5_veteran',    route:'worker',   subRoute:null,            ko:'F-5 영주권',         vi:'F-5 Thường trú' },
+  { code:'E-7-1',   key:'e71',           route:'student',  subRoute:'student_e71',  ko:'E-7-1 전문기술인력', vi:'E-7-1 Chuyên môn' },
+  { code:'F-6',     key:'f6',            route:'marriage', subRoute:'marriage_pass',ko:'F-6 결혼이민',       vi:'F-6 Kết hôn' },
+  { code:'국적취득', key:'naturalization',route:'marriage', subRoute:'marriage_pass',ko:'국적취득',           vi:'Nhập tịch' },
+  { code:'D-8',     key:'d8',            route:'d8route',  subRoute:null,            ko:'D-8 기업투자',       vi:'D-8 Đầu tư' },
+  { code:'D-9',     key:'d9',            route:'d9route',  subRoute:null,            ko:'D-9 무역경영',       vi:'D-9 Thương mại' },
+];
+
+function DdayWidget({ lang, nav, onNicknameSave }) {
+  const L = LANG[lang];
+  const [info, setInfo] = useState(() => loadDdayInfo());
+  const [mode, setMode] = useState(info ? 'display' : 'empty');
+  const [currentType, setCurrentType] = useState(info?.type || 'd9');
+  const [date, setDate] = useState(info?.date || '');
+  const [target, setTarget] = useState(info?.target || 'e74');
+  const [nicknameInput, setNicknameInput] = useState('');
+  const needsNickname = !window.userNickname;
+
+  function startEdit() {
+    setCurrentType(info?.type || 'd9');
+    setDate(info?.date || '');
+    setTarget(info?.target || 'e74');
+    setMode('editing');
+  }
+  function handleTypeChange(t) {
+    setCurrentType(t);
+    if (!info) setTarget(t === 'd9' ? 'e74' : 'f27_e71'); // 스마트 프리셋
+  }
+  async function handleSave() {
+    if (!date) return;
+    if (needsNickname && nicknameInput.trim() && onNicknameSave) {
+      await onNicknameSave(nicknameInput.trim());
+    }
+    const next = { type: currentType, date, target };
+    saveDdayInfo(next);
+    setInfo(next);
+    setMode('display');
+  }
+  function goToTarget() {
+    const o = TARGET_VISA_OPTIONS.find(x => x.key === info.target);
+    if (!o) return;
+    window.__visaState = { visaRoute: o.route, visaSubRoute: o.subRoute, visaStep: o.key };
+    nav({ page:'visaHub' });
+  }
+
+  if (mode === 'empty') {
+    return (
+      <section className="px-3 pt-3">
+        <button onClick={startEdit}
+          className="w-full bg-gradient-to-r from-blue-700 to-indigo-700 rounded-2xl px-4 py-4 flex items-center gap-3 tap shadow-sm">
+          <span className="text-3xl flex-shrink-0">📅</span>
+          <div className="flex-1 text-left">
+            <p className="text-white font-black text-sm">{L.ddayTitle}</p>
+            <p className="text-blue-200 text-[10px] mt-0.5">{L.ddaySub}</p>
+          </div>
+          <span className="text-white/70 text-xl">›</span>
+        </button>
+      </section>
+    );
+  }
+
+  if (mode === 'editing') {
+    return (
+      <section className="px-3 pt-3">
+        <div className="bg-white rounded-2xl shadow-sm px-4 py-4 fade-in">
+          <p className="text-sm font-black text-gray-800 mb-3">📅 {L.ddayTitle}</p>
+
+          {needsNickname && (
+            <div className="mb-3">
+              <label className="text-xs font-black text-gray-600 mb-1.5 block">{lang==='vi'?'Tên của bạn':'닉네임'}</label>
+              <input type="text" value={nicknameInput} onChange={e=>setNicknameInput(e.target.value)}
+                maxLength={20}
+                placeholder={lang==='vi'?'Nhập tên...':'닉네임을 입력하세요'}
+                className="w-full border-2 border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-blue-400" />
+            </div>
+          )}
+
+          <label className="text-xs font-black text-gray-600 mb-1.5 block">{L.ddayType}</label>
+          <select value={currentType} onChange={e=>handleTypeChange(e.target.value)}
+            className="w-full border-2 border-gray-200 rounded-xl px-3 py-2.5 text-sm mb-3 focus:outline-none focus:border-blue-400 bg-white">
+            <option value="d9">{L.ddayD9}</option>
+            <option value="e74">{L.ddayE74}</option>
+          </select>
+
+          <label className="text-xs font-black text-gray-600 mb-1.5 block">{L.ddayLabel}</label>
+          <input type="date" value={date} onChange={e=>setDate(e.target.value)}
+            className="w-full border-2 border-gray-200 rounded-xl px-3 py-2.5 text-sm mb-3 focus:outline-none focus:border-blue-400" />
+
+          <label className="text-xs font-black text-gray-600 mb-1.5 block">{lang==='vi'?'Visa mục tiêu':'목표 비자'}</label>
+          <select value={target} onChange={e=>setTarget(e.target.value)}
+            className="w-full border-2 border-gray-200 rounded-xl px-3 py-2.5 text-sm mb-4 focus:outline-none focus:border-blue-400 bg-white">
+            {TARGET_VISA_OPTIONS.map(o => (
+              <option key={o.key} value={o.key}>{o.code} — {lang==='vi'?o.vi:o.ko}</option>
+            ))}
+          </select>
+
+          <div className="grid grid-cols-2 gap-2">
+            {info && (
+              <button onClick={()=>setMode('display')}
+                className="py-3 border border-gray-200 rounded-xl text-sm font-bold text-gray-500 bg-white tap">
+                {lang==='vi'?'Hủy':'취소'}
+              </button>
+            )}
+            <button onClick={handleSave} disabled={!date}
+              className={`py-3 bg-blue-700 text-white rounded-xl text-sm font-black tap disabled:opacity-40 ${!info ? 'col-span-2' : ''}`}>
+              {lang==='vi'?'Lưu':'저장'}
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const dday = calcDday(info.date);
+  const targetOpt = TARGET_VISA_OPTIONS.find(o => o.key === info.target);
+  const ddayLabel = dday < 0 ? L.ddayExpired : dday === 0 ? L.ddayToday : `D-${dday}`;
+  const applyDate = calcApplyDate(info.date, info.type);
+  const applyAvailable = new Date() >= applyDate;
+  const urgent = dday <= 30;
+
+  return (
+    <section className="px-3 pt-3">
+      <div className={`rounded-2xl shadow-sm overflow-hidden ${urgent ? 'bg-gradient-to-r from-red-600 to-orange-600' : 'bg-gradient-to-r from-blue-700 to-indigo-700'}`}>
+        <div className="px-4 py-4 flex items-center justify-between gap-2">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-white/70 text-[10px] font-bold">{info.type==='d9'?L.ddayD9:L.ddayE74}</span>
+              <button onClick={startEdit} className="text-white/50 text-[10px] underline">{L.ddayEditBtn}</button>
+            </div>
+            <p className="text-white font-black text-2xl leading-none">{ddayLabel}</p>
+            <p className="text-white/80 text-[11px] mt-1.5 word-keep">{getTodoMessage(dday, lang)}</p>
+            <p className="text-white/60 text-[10px] mt-1">
+              {L.ddayApply}: {applyAvailable ? L.ddayApplyAvail : applyDate.toLocaleDateString(lang==='vi'?'vi-VN':'ko-KR')}
+            </p>
+          </div>
+          {targetOpt && (
+            <button onClick={goToTarget}
+              className="bg-white/20 hover:bg-white/30 rounded-xl px-3 py-2.5 flex flex-col items-center gap-0.5 tap transition flex-shrink-0">
+              <span className="text-white text-[9px] font-bold">{L.ddayTargetLabel}</span>
+              <span className="text-white font-black text-xs">{targetOpt.code}</span>
+              <span className="text-white text-base">→</span>
+            </button>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================
    페이지: 메인(Home) — 새 디자인
 ================================================================ */
 function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onAddComment, onDeleteComment, toggleLang, onNicknameSave, deviceId, refreshPosts }) {
@@ -4496,6 +4691,9 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
           <SearchResults posts={posts} query={searchQuery} nav={nav} lang={lang} />
         ) : (
           <>
+            {/* ── D-day 위젯 ── */}
+            <DdayWidget lang={lang} nav={nav} onNicknameSave={onNicknameSave} />
+
             {/* ── 마스터 그리드 ── */}
             <MasterGrid nav={nav} lang={lang} toggleLang={toggleLang} onOpenMore={()=>setShowMore(true)} />
 
