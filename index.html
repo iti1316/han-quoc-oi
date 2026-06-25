@@ -3651,24 +3651,28 @@ function TickingAnnouncementBar({ lang }) {
 
 /* ── 게시판별 인기글 피드 ── */
 const BOARD_HOT_CFG = [
-  { key:'d9',     cats:['hall','sos','talk'], emoji:'📘', bg:'bg-blue-600',   ko:'비자 정보',  vi:'Visa' },
-  { key:'travel', cats:['travel'],              emoji:'📸', bg:'bg-pink-500',   ko:'여행·맛집',  vi:'Du lịch' },
-  { key:'bamboo', cats:['bamboo'],              emoji:'🤫', bg:'bg-orange-500', ko:'대나무숲',   vi:'Rừng Tre' },
-  { key:'market', cats:['market'],              emoji:'🥕', bg:'bg-orange-400', ko:'당근마켓',   vi:'Chợ' },
-  { key:'house',  cats:['house'],               emoji:'🏠', bg:'bg-teal-600',   ko:'집구하기',   vi:'Tìm nhà' },
-  { key:'horror', cats:['horror'],              emoji:'👻', bg:'bg-gray-800',   ko:'무서운이야기', vi:'Chuyện Ma' },
+  { key:'d9',     cats:['hall','sos','talk'], emoji:'📘', bg:'bg-blue-600',   ko:'비자 정보',     vi:'Visa' },
+  { key:'travel', cats:['travel'],              emoji:'📸', bg:'bg-pink-500',   ko:'여행·맛집',    vi:'Du lịch' },
+  { key:'bamboo', cats:['bamboo'],              emoji:'🤫', bg:'bg-orange-500', ko:'대나무숲',     vi:'Rừng Tre' },
+  { key:'market', cats:['market'],              emoji:'🥕', bg:'bg-orange-400', ko:'당근마켓',     vi:'Chợ' },
+  { key:'house',  cats:['house'],               emoji:'🏠', bg:'bg-teal-600',   ko:'집구하기',     vi:'Tìm nhà' },
+  { key:'horror', cats:['horror'],              emoji:'👻', bg:'bg-gray-800',   ko:'무서운이야기',  vi:'Chuyện Ma' },
+  { key:'info',   cats:['info'],                emoji:'📚', bg:'bg-purple-600', ko:'한국생활정보',  vi:'Thông tin sinh hoạt' },
+  { key:'jobs',   cats:['jobs'],                emoji:'💼', bg:'bg-indigo-600', ko:'지역일자리',    vi:'Việc làm' },
 ];
 
 /* cat → board 매핑 (최신글 피드용) */
 const CAT_BOARD_MAP = {
-  hall:   { key:'d9',     emoji:'📘', bg:'bg-blue-600',   ko:'비자 정보',   vi:'Visa' },
-  sos:    { key:'d9',     emoji:'📘', bg:'bg-blue-600',   ko:'비자 정보',   vi:'Visa' },
-  talk:   { key:'d9',     emoji:'📘', bg:'bg-blue-600',   ko:'비자 정보',   vi:'Visa' },
-  bamboo: { key:'bamboo', emoji:'🤫', bg:'bg-orange-500', ko:'대나무숲',    vi:'Rừng Tre' },
-  travel: { key:'travel', emoji:'📸', bg:'bg-pink-500',   ko:'여행·맛집',   vi:'Du lịch' },
-  market: { key:'market', emoji:'🥕', bg:'bg-orange-400', ko:'당근마켓',    vi:'Chợ' },
-  house:  { key:'house',  emoji:'🏠', bg:'bg-teal-600',   ko:'집구하기',    vi:'Tìm nhà' },
-  horror: { key:'horror', emoji:'👻', bg:'bg-gray-800',   ko:'무서운이야기', vi:'Chuyện Ma' },
+  hall:   { key:'d9',     emoji:'📘', bg:'bg-blue-600',   ko:'비자 정보',     vi:'Visa' },
+  sos:    { key:'d9',     emoji:'📘', bg:'bg-blue-600',   ko:'비자 정보',     vi:'Visa' },
+  talk:   { key:'d9',     emoji:'📘', bg:'bg-blue-600',   ko:'비자 정보',     vi:'Visa' },
+  bamboo: { key:'bamboo', emoji:'🤫', bg:'bg-orange-500', ko:'대나무숲',      vi:'Rừng Tre' },
+  travel: { key:'travel', emoji:'📸', bg:'bg-pink-500',   ko:'여행·맛집',     vi:'Du lịch' },
+  market: { key:'market', emoji:'🥕', bg:'bg-orange-400', ko:'당근마켓',      vi:'Chợ' },
+  house:  { key:'house',  emoji:'🏠', bg:'bg-teal-600',   ko:'집구하기',      vi:'Tìm nhà' },
+  horror: { key:'horror', emoji:'👻', bg:'bg-gray-800',   ko:'무서운이야기',   vi:'Chuyện Ma' },
+  info:   { key:'info',   emoji:'📚', bg:'bg-purple-600', ko:'한국생활정보',   vi:'Thông tin sinh hoạt' },
+  jobs:   { key:'jobs',   emoji:'💼', bg:'bg-indigo-600', ko:'지역일자리',     vi:'Việc làm' },
 };
 
 function HotFeed({ posts, nav, lang }) {
