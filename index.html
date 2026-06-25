@@ -6529,16 +6529,16 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
         onBack={goBack} />
       <div className="max-w-lg mx-auto px-4 py-4 pb-12">
 
-        {/* 카테고리 선택 — talk에서 진입 시 자유 토크방 고정 표시, 변경 불가 */}
-        {isTalk ? (
+        {/* 카테고리 선택 — initCat이 지정된 경우 (travel, market, house, info, jobs 등) 고정 표시 */}
+        {initCat ? (
           <div className="bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 mb-3 fade-in flex items-center gap-3">
-            <span className="text-xl">{lockedInfo ? lockedInfo.e : '🟢'}</span>
+            <span className="text-xl">{lockedInfo ? lockedInfo.e : '📝'}</span>
             <div>
               <p className="text-xs font-black text-gray-700">
-                {lockedInfo ? (lang==='vi' ? lockedInfo.vi : lockedInfo.ko) : (lang==='vi' ? 'Góc Tán Gẫu' : '자유 토크방')}
+                {lockedInfo ? (lang==='vi' ? lockedInfo.vi : lockedInfo.ko) : (lang==='vi' ? CLASSIC_BOARD_CFG[initCat]?.vi : CLASSIC_BOARD_CFG[initCat]?.ko)}
               </p>
               <p className="text-[10px] text-gray-500">
-                {lockedInfo ? (lang==='vi' ? lockedInfo.desc_vi : lockedInfo.desc_ko) : (lang==='vi' ? 'Tán gẫu tự do' : '비자 외 일상·자유 수다')}
+                {lockedInfo ? (lang==='vi' ? lockedInfo.desc_vi : lockedInfo.desc_ko) : (lang==='vi' ? CLASSIC_BOARD_CFG[initCat]?.desc_vi : CLASSIC_BOARD_CFG[initCat]?.desc_ko)}
               </p>
             </div>
           </div>
