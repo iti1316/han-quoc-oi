@@ -492,49 +492,57 @@ function usePosts() {
   const deletePost = (id)        => save(posts.filter(p => p.id !== id));
   const updatePost = (id, edits) => save(posts.map(p => p.id === id ? { ...p, ...edits } : p));
 
-  // Firebase REST API에서 데이터 불러오기
+  // Firebase 실시간 리스너 — 누구든 글/댓글/반응을 바꾸는 즉시 모든 사용자 화면에 자동 반영
   useEffect(() => {
-    fetch(FIREBASE_POSTS_URL, { timeout: 10000 })
-      .then(res => res.json())
-      .then(data => {
-        // 데이터 검증: null 체크, 배열 확인, 각 항목 검증
-        if (!data) {
-          console.log('✅ Firebase: 데이터 없음 (초기 상태)');
-          return;
+    const postsRef = window.database.ref('posts');
+
+    const handleValue = (snapshot) => {
+      const data = snapshot.val();
+
+      if (!data) {
+        console.log('✅ Firebase: 데이터 없음 (초기 상태)');
+        return;
+      }
+
+      // Firebase가 배열을 객체 형태로 줄 수도 있어서 방어적으로 처리
+      const dataArray = Array.isArray(data) ? data : Object.values(data);
+
+      if (!Array.isArray(dataArray)) {
+        console.warn('⚠️ Firebase 데이터가 배열이 아님:', typeof data);
+        return;
+      }
+
+      // 각 항목 검증 (id와 author 필수)
+      const validData = dataArray.filter(p => p && p.id != null && p.author);
+      console.log(`✅ [실시간] Firebase 업데이트: ${dataArray.length}개 중 ${validData.length}개 유효`);
+
+      setPosts(prev => {
+        // id를 string으로 정규화해서 비교 (안전성 향상)
+        const localOnly = prev.filter(p =>
+          !validData.some(fb => String(fb.id) === String(p.id))
+        );
+
+        const merged = [...localOnly, ...validData];
+
+        // localStorage 업데이트 시도 (실패해도 괜찮음)
+        try {
+          localStorage.setItem(BOARD_STORE, JSON.stringify(merged));
+        } catch (e) {
+          console.warn('⚠️ 실시간 업데이트 후 localStorage 업데이트 실패');
         }
 
-        if (!Array.isArray(data)) {
-          console.warn('⚠️ Firebase 데이터가 배열이 아님:', typeof data);
-          return;
-        }
-
-        // 각 항목 검증 (id와 author 필수)
-        const validData = data.filter(p => p && p.id != null && p.author);
-        console.log(`✅ Firebase load: ${data.length}개 중 ${validData.length}개 유효`);
-
-        setPosts(prev => {
-          // id를 string으로 정규화해서 비교 (안전성 향상)
-          const localOnly = prev.filter(p =>
-            !validData.some(fb => String(fb.id) === String(p.id))
-          );
-
-          const merged = [...localOnly, ...validData];
-          console.log('✅ Firebase load success - merged:', localOnly.length, 'local posts preserved');
-
-          // localStorage 업데이트 시도 (실패해도 괜찮음)
-          try {
-            localStorage.setItem(BOARD_STORE, JSON.stringify(merged));
-          } catch (e) {
-            console.warn('⚠️ Firebase로드 후 localStorage 업데이트 실패');
-          }
-
-          return merged;
-        });
-      })
-      .catch(e => {
-        console.error('❌ Firebase load error:', e.message);
-        console.log('💡 로컬 데이터 사용 중. 다음 저장 시 firebase와 동기화됩니다.');
+        return merged;
       });
+    };
+
+    postsRef.on('value', handleValue, (error) => {
+      console.error('❌ Firebase 실시간 리스너 오류:', error.message);
+    });
+
+    // 컴포넌트 정리 시 리스너 해제
+    return () => {
+      postsRef.off('value', handleValue);
+    };
   }, []);
 
   function addComment(postId, comment) {
