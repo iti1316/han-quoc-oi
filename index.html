@@ -3223,7 +3223,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
             {[
               ...(selectedStep === 'e74' ? [{ e:'📊', ko:'E-7-4 점수 계산기',   vi:'Tính điểm E-7-4',      bg:'bg-amber-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_e74', prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'f27' || selectedStep === 'f27_e71' ? [{ e:'📊', ko:'F-2-7 점수 계산기',   vi:'Tính điểm F-2-7',      bg:'bg-purple-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_f27', prevPage:'visaHub'}) } }] : []),
-              ...(selectedStep === 'f6' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f6', prevPage:'visaHub'}) } }] : []),
+              ...(selectedStep === 'f6' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f6', prevPage:'visaHub'}) } }, { e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:null, prevPage:'visaHub'}) } }] : []),
               { e:'📋', ko:'필수 서류 준비',   vi:'Danh sách hồ sơ',       bg:'bg-green-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'docsChecklist', param:selectedStep, prevPage:'visaHub'}) } },
               { e:'🗂️', ko:'출입국·대사관·외교부 연락처',  vi:'Thông tin liên hệ XNC, Đại sứ quán, Bộ Ngoại giao',      bg:'bg-violet-600',  act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'office',    param:null, prevPage:'visaHub'}) } },
             ].map((t,i)=>(
@@ -4651,6 +4651,106 @@ function EligibilityPage({ visaStep, onBack, lang }) {
 }
 
 /* ================================================================
+   페이지: F-6 심사 기준 (소득 기준표 포함)
+================================================================ */
+function AssessmentCriteriaPage({ onBack, lang }) {
+  const incomeStandards = [
+    { family: 2, amount: '23,595,948' },
+    { family: 3, amount: '30,152,118' },
+    { family: 4, amount: '36,586,638' },
+    { family: 5, amount: '42,649,152' },
+    { family: 6, amount: '48,388,830' },
+    { family: 7, amount: '53,930,568' },
+  ];
+
+  return (
+    <div style={{ background:'#F0F2F5' }} className="min-h-screen">
+      <BackHeader title={lang==='vi' ? '📋 Điều kiện thẩm định' : '📋 심사 기준'} onBack={onBack} />
+      <div className="max-w-lg mx-auto px-4 py-4 pb-12">
+
+        {/* 주요 기준 */}
+        <div className="space-y-3 mb-6">
+          <div className="bg-white rounded-2xl shadow-sm p-4">
+            <p className="text-sm font-black text-gray-800 mb-2">✅ {lang==='vi' ? 'Tính chân thực của hôn nhân' : '결혼의 진정성'}</p>
+            <p className="text-xs text-gray-600 word-keep">{lang==='vi' ? 'Lịch sử quen biết, ảnh cưới, tin nhắn SNS minh chứng không phải kết hôn giả.' : '연애 기간, 결혼식 사진, SNS 메시지 등으로 가짜 결혼이 아님을 증명'}</p>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-sm p-4">
+            <p className="text-sm font-black text-gray-800 mb-2">⚖️ {lang==='vi' ? 'Hôn nhân hợp pháp' : '합법적 혼인'}</p>
+            <p className="text-xs text-gray-600 word-keep">{lang==='vi' ? 'Đã hoàn thành đăng ký kết hôn theo đúng luật pháp của cả hai nước.' : '양국 법에 따라 정식으로 혼인신고 완료'}</p>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-sm p-4">
+            <p className="text-sm font-black text-gray-800 mb-2">🏠 {lang==='vi' ? 'Điều kiện nhà ở' : '주거 조건'}</p>
+            <p className="text-xs text-gray-600 word-keep">{lang==='vi' ? 'Người bảo lãnh phải có không gian nhà ở ổn định, đủ cho hai vợ chồng sinh sống (thuộc sở hữu hoặc thuê).' : '보증인이 부부가 함께 생활할 수 있는 안정적인 주거공간 보유 (소유 또는 임차)'}</p>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-sm p-4">
+            <p className="text-sm font-black text-gray-800 mb-2">🗣️ {lang==='vi' ? 'Khả năng giao tiếp' : '의사소통 능력'}</p>
+            <p className="text-xs text-gray-600 word-keep">{lang==='vi' ? 'Người vợ/chồng nước ngoài phải có chứng chỉ TOPIK cấp 1 trở lên, hoàn thành lớp KIIP cấp 2 trở lên, hoặc chứng minh hai người có ngôn ngữ chung.' : '외국인 배우자가 TOPIK 1급 이상, KIIP 2단계 이상, 또는 공통 언어 증명'}</p>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-sm p-4">
+            <p className="text-sm font-black text-gray-800 mb-2">🏥 {lang==='vi' ? 'Sức khỏe và Lý lịch tư pháp' : '건강진단 & 범죄경력'}</p>
+            <p className="text-xs text-gray-600 word-keep">{lang==='vi' ? 'Cả hai phải cung cấp phiếu khám sức khỏe và lý lịch tư pháp.' : '부부 모두 건강진단서 및 범죄경력증명서 제출 필수'}</p>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-sm p-4">
+            <p className="text-sm font-black text-gray-800 mb-2">⏰ {lang==='vi' ? 'Hạn chế số lần mời' : '초청 제한'}</p>
+            <p className="text-xs text-gray-600 word-keep">{lang==='vi' ? 'Người Hàn Quốc không được mời vợ/chồng khác diện F-6 trong vòng 5 năm gần nhất.' : '한국인이 지난 5년 내 다른 F-6 배우자를 초청한 적 없어야 함'}</p>
+          </div>
+        </div>
+
+        {/* 소득 기준 */}
+        <div className="mb-6">
+          <div className="px-3 py-2 bg-blue-50 border-l-4 border-blue-600 mb-3 rounded-sm">
+            <p className="text-sm font-black text-blue-700">💰 {lang==='vi' ? 'Tiêu chuẩn thu nhập (Cập nhật 2025)' : '소득 기준 (2025년 기준)'}</p>
+          </div>
+          <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-100 border-b border-gray-200">
+                <tr>
+                  <th className="px-4 py-2 text-left font-black text-gray-700">{lang==='vi' ? 'Quy mô gia đình' : '가족 규모'}</th>
+                  <th className="px-4 py-2 text-right font-black text-gray-700">{lang==='vi' ? 'Mức thu nhập bắt buộc (KRW)' : '최저 소득 기준 (KRW)'}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {incomeStandards.map((std, idx) => (
+                  <tr key={idx} className={idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                    <td className="px-4 py-3 font-medium text-gray-800">
+                      {lang==='vi' ? `Gia đình ${std.family} người` : `${std.family}인 가족`}
+                    </td>
+                    <td className="px-4 py-3 text-right font-black text-blue-600">{std.amount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mt-3">
+            <p className="text-xs text-amber-700 word-keep">
+              {lang==='vi'
+                ? '(Nếu gia đình từ 8 người trở lên: Mỗi một thành viên cộng thêm sẽ tăng thêm 5,541,738 KRW)'
+                : '(8인 가족 이상: 추가 1인당 5,541,738 KRW 추가)'}
+            </p>
+          </div>
+        </div>
+
+        {/* 예외 사항 */}
+        <div className="bg-green-50 border-l-4 border-green-600 rounded-lg px-4 py-3">
+          <p className="text-sm font-black text-green-700 mb-2">💡 {lang==='vi' ? 'Miễn trừ điều kiện' : '예외 조건'}</p>
+          <p className="text-xs text-green-700 word-keep leading-relaxed">
+            {lang==='vi'
+              ? '💡 Miễn trừ điều kiện thu nhập và giao tiếp: Nếu hai vợ chồng đã có con chung (được khai sinh hợp pháp), các điều kiện về thu nhập, năng lực tiếng Hàn và chương trình hướng dẫn kết hôn quốc tế sẽ được miễn giảm hoàn toàn.'
+              : '💡 소득·한국어 조건 면제: 부부가 혼생 미성년 자녀를 두고 있으면, 소득 기준, 한국어 능력, 국제결혼중매 프로그램 조건이 모두 면제됩니다.'}
+          </p>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+/* ================================================================
    페이지: 필수 서류 준비 (비자별 맞춤)
 ================================================================ */
 function DocsChecklistPage({ visaStep, onBack, lang }) {
@@ -5680,6 +5780,7 @@ function App() {
     case 'docsChecklist': return <DocsChecklistPage visaStep={route.param} onBack={goBack} lang={lang} />;
     case 'office':       return <OfficePage       onBack={goBack} lang={lang} />;
     case 'eligibility':  return <EligibilityPage  visaStep={route.param} onBack={goBack} lang={lang} />;
+    case 'assessment':   return <AssessmentCriteriaPage onBack={goBack} lang={lang} />;
     case 'classicBoard': return <ClassicBoardPage boardKey={route.param} {...shared} />;
     case 'postDetail':   return <PostDetailPage   boardKey={route.boardKey} postId={route.postId} {...shared} />;
     case 'visaHub':      return <VisaHubPage      nav={nav} lang={lang} posts={posts} />;
