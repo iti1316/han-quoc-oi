@@ -4528,12 +4528,34 @@ function EligibilityPage({ visaStep, onBack, lang }) {
   // Naturalization eligibility content
   const naturalizationContent = lang === 'vi' ? {
     title: '👥 Đối tượng áp dụng',
-    subtitle: 'Điều kiện nhập tịch Hàn Quốc (Nhập tịch đơn giản)',
+    subtitle: 'Điều kiện nhập tịch Hàn Quốc (Nhập tịch đơn giản - 간이귀화)',
     sections: [
-      { icon: '⏰', title: '1. Thời gian cư trú', items: ['Trường hợp 1: 2 năm liên tục cư trú', 'Trường hợp 2: 3 năm hôn nhân + 1 năm cư trú'] },
-      { icon: '💰', title: '2. Năng lực kinh tế', items: ['Tài sản tài chính ≥30 triệu won HOẶC', 'Bất động sản ≥30 triệu won HOẶC', 'Giấy chứng nhận việc làm ổn định'] },
-      { icon: '🗣️', title: '3. Tiếng Hàn & hội nhập', items: ['KIIP lớp 5 hoàn thành', 'Thi đỗ kỳ thi tổng hợp ≥60/100 điểm'] },
-      { icon: '⚖️', title: '4. Phẩm hạnh', items: ['Lý lịch sạch tại Việt Nam và Hàn Quốc', 'Không có tiền án tiền sự nặng'] }
+      {
+        icon: '📋',
+        title: 'Giới thiệu',
+        items: ['Hàn Quốc chia quy định nhập tịch làm nhiều diện (nhập tịch thông thường, nhập tịch diện nhân tài chuyên gia...). Tuy nhiên, đối với người nước ngoài đang cư trú theo diện Hôn nhân kết hôn (Visa F-6), luật áp dụng diện 간이귀화 (Nhập tịch đơn giản/Giản dị).', 'Để làm hồ sơ nhập tịch theo diện này, bạn cần thỏa mãn đầy đủ các điều kiện "cứng" cốt lõi sau đây của Bộ Tư pháp Hàn Quốc:']
+      },
+      {
+        icon: '⏰',
+        title: '1. Điều kiện về Thời gian cư trú hợp pháp',
+        items: ['Trường hợp 1: Duy trì hôn nhân và cư trú liên tục tại Hàn Quốc từ 2 năm trở lên kể từ ngày làm thẻ đăng ký người nước ngoài (ARC).', 'Trường hợp 2: Hai vợ chồng kết hôn được 3 năm trở lên, và bạn có thời gian cư trú liên tục tại Hàn Quốc từ 1 năm trở lên.', '💡 Ngoại lệ (Hôn nhân đứt gãy): Nếu chưa đủ thời gian trên nhưng người chồng Hàn Quốc bị tử vong, mất tích, hoặc hai người ly hôn nhưng lỗi hoàn toàn thuộc về phía người chồng (bạo hành, cờ bạc...) và bạn được tòa phán quyết quyền nuôi con hoặc không có lỗi, bạn vẫn được phép nộp đơn.']
+      },
+      {
+        icon: '💰',
+        title: '2. Điều kiện Năng lực Kinh tế (Chứng minh tài chính)',
+        items: ['Khác với diện nhập tịch thông thường yêu cầu tài sản rất cao, diện kết hôn F-6 chỉ cần chứng minh năng lực tài chính ở mức tối thiểu để đảm bảo cuộc sống chung. Bạn hoặc chồng (người cùng chung hộ khẩu) phải cung cấp được một trong các giấy tờ sau:', 'Sở hữu tài sản tài chính (tiền gửi tiết kiệm, số dư ngân hàng, chứng khoán...) trị giá từ 30.000.000 KRW trở lên.', 'Sở hữu bất động sản (nhà đất tính theo giá công thị trường) hoặc Hợp đồng thuê nhà có giá trị tiền cọc (Jeonse/Wolse) từ 30.000.000 KRW trở lên.', 'Có Giấy chứng nhận việc làm (재직증명서) hoặc Giấy xác nhận dự kiến tiếp nhận lao động để chứng minh thu nhập ổn định.']
+      },
+      {
+        icon: '🗣️',
+        title: '3. Điều kiện Năng lực tiếng Hàn & Hội nhập xã hội',
+        items: ['Bạn bắt buộc phải nắm vững các kiến thức cơ bản về ngôn ngữ, lịch sử, văn hóa và phong tục của Hàn Quốc.', 'Yêu cầu thực tế: Hoàn thành chương trình Hội nhập xã hội KIIP Lớp 5 và thi đỗ kỳ thi tổng hợp dành cho diện nhập tịch (귀화용 종합평가) đạt từ 60/100 điểm trở lên.', 'Khi có chứng nhận này, bạn sẽ được miễn kỳ thi viết quốc tịch.']
+      },
+      {
+        icon: '⚖️',
+        title: '4. Điều kiện Nhân thân và Phẩm hạnh (품행단정)',
+        items: ['Đây là rào cản hành chính rất gắt gao của Bộ Tư pháp:', 'Bạn phải có lý lịch trong sạch, phẩm hạnh đoan chính.', 'Không có tiền án tiền sự nghiêm trọng ở cả Việt Nam (chứng minh qua Lý lịch tư pháp số 2) và Hàn Quốc.', 'Lưu ý đặc biệt: Nếu bạn từng có lịch sử vi phạm giao thông bị phạt tiền nặng, trốn thuế, nợ thuế hoặc từng cư trú bất hợp pháp trước đây rồi quay lại chính ngạch, bạn thường sẽ bị hạn chế quyền nộp đơn nhập tịch trong vòng 5 năm kể từ ngày nộp phạt.', 'Hồ sơ sẽ bị đánh trượt ngay nếu chưa đủ thời gian thử thách xóa án tích.'],
+        isDanger: true
+      }
     ]
   } : {
     title: '👥 대상 적용',
@@ -4542,7 +4564,7 @@ function EligibilityPage({ visaStep, onBack, lang }) {
       { icon: '⏰', title: '1. 거주 기간', items: ['경우 1: 2년 연속 거주', '경우 2: 3년 혼인 + 1년 거주'] },
       { icon: '💰', title: '2. 경제 능력', items: ['금융 자산 ≥3천만원 또는', '부동산 ≥3천만원 또는', '재직증명서 (안정적 소득)'] },
       { icon: '🗣️', title: '3. 한국어·사회통합', items: ['KIIP 5단계 수료', '귀화용 종합평가 ≥60점'] },
-      { icon: '⚖️', title: '4. 품행단정', items: ['베트남·한국 모두 범죄 전과 없음', '신원이 명확하고 깨끗함'] }
+      { icon: '⚖️', title: '4. 품행단정', items: ['베트남·한국 모두 범죄 전과 없음', '신원이 명확하고 깨끗함'], isDanger: true }
     ]
   };
 
