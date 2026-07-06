@@ -4844,6 +4844,40 @@ function AssessmentCriteriaPage({ onBack, lang }) {
    페이지: 필수 서류 준비 (비자별 맞춤)
 ================================================================ */
 function DocsChecklistPage({ visaStep, onBack, lang }) {
+  // Naturalization docs page
+  if (visaStep === 'naturalization') {
+    return (
+      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
+        <BackHeader title="📋 Hồ sơ nhập tịch Hàn Quốc" onBack={onBack} />
+        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
+          <div className="bg-white rounded-2xl shadow-sm px-4 py-3 mb-4">
+            <p className="text-xs text-gray-600 word-keep leading-relaxed">Để chuẩn bị hồ sơ nhập tịch Hàn Quốc, đối với diện Nhập tịch đơn giản (간이귀화) dành cho cô dâu cư trú theo diện Hôn nhân kết hôn (Visa F-6), bộ hồ sơ chuẩn chỉnh và đầy đủ nhất bao gồm các đầu mục giấy tờ được chia làm 3 nhóm chính dưới đây:</p>
+          </div>
+          {[
+            { title: '📂 1. Hồ sơ phía Bạn (Người nước ngoài chuẩn bị)', items: ['Đơn xin nhập quốc tịch (귀화허가신청서): Điền đầy đủ thông tin theo mẫu, dán kèm 1 ảnh thẻ nền trắng (3.5cm x 4.5cm, chụp trong 6 tháng gần nhất)', 'Hộ chiếu Việt Nam (Bản gốc): Còn thời hạn lưu trú hợp pháp', 'Thẻ đăng ký người nước ngoài (ARC gốc): Diện visa F-6 còn hạn', 'Phiếu Lý lịch tư pháp số 2 (Bản gốc từ Việt Nam): Xác nhận không có tiền án, bắt buộc dịch thuật công chứng tiếng Hàn', 'Bằng chứng nhận đỗ kỳ thi tổng hợp KIIP Lớp 5 (귀화용 종합평가 합격증): Giấy chứng nhận ≥60/100 điểm để được miễn kỳ thi viết'] },
+            { title: '📂 2. Hồ sơ phía Chồng Hàn Quốc (Người bảo lãnh chuẩn bị)', items: ['Giấy chứng nhận quan hệ hôn nhân chi tiết (혼인관계증명서 - 상세): Thể hiện rõ lịch sử kết hôn', 'Giấy chứng nhận quan hệ gia đình chi tiết (가족관계증명서 - 상세): Liệt kê các thành viên gia đình', 'Bản sao Hộ khẩu gia đình (주민등록등본): Chứng minh thực sự sống chung', 'Bản sao Căn cước công dân của chồng (주민등록증 사본)', 'Nếu có con chung: Giấy chứng nhận quan hệ gia đình của con và bản sao căn cước/khai sinh để hồ sơ được ưu tiên xét duyệt'] },
+            { title: '📂 3. Hồ sơ Chứng minh năng lực Kinh tế (Tài chính)', items: ['Phương án bất động sản: Bản sao Hợp đồng thuê nhà (Jeonse/Wolse) ≥30 triệu won HOẶC Giấy chứng nhận quyền sở hữu bất động sản', 'Phương án tài chính: Giấy xác nhận số dư tài khoản ngân hàng (잔액증명서) liên tục ≥30 triệu won', 'Phương án công việc: Giấy chứng nhận việc làm (재직증명서) + Giấy chứng nhận thu nhập thuế (소득금액증명원) để chứng minh có nguồn thu nhập ổn định'] },
+            { title: '⚠️ 3 Lưu ý quan trọng khi nộp hồ sơ', items: ['Lệ phí nộp hồ sơ: 300.000 KRW/hồ sơ (nộp bằng tem phiếu tại Cục)', 'Kiểm tra kỹ nợ thuế: Cục sẽ quét hệ thống thuế ngay khi tiếp nhận. Hai vợ chồng tuyệt đối không được nợ bất kỳ khoản thuế nào, nếu không hồ sơ sẽ bị từ chối ngay', 'Duy trì visa gốc: Thời gian chờ xét duyệt có thể kéo dài vài tháng đến >1 năm. Phải gia hạn Visa F-6 khi gần hết hạn để duy trì tư cách cư trú hợp pháp'], isDanger: true }
+          ].map((sec, i) => (
+            <div key={i} className={`bg-white rounded-2xl shadow-sm overflow-hidden mb-3 fade-in ${sec.isDanger ? 'border-l-4 border-red-600' : ''}`}>
+              <div className="px-4 py-3 border-b border-gray-100">
+                <p className="text-sm font-black text-gray-800">{sec.title}</p>
+              </div>
+              <div className="p-4 space-y-2">
+                {sec.items.map((item, j) => (
+                  <div key={j} className="flex gap-3">
+                    <span className="text-lg flex-shrink-0">[ ]</span>
+                    <p className="text-sm text-gray-700 word-keep leading-relaxed">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   const [checkedDocs, setCheckedDocs] = useState({});
 
   const requiredIds = REQUIRED_DOCS_BY_VISA[visaStep] || [];
