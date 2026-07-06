@@ -4523,11 +4523,37 @@ function DocsPage({ onBack, lang }) {
    페이지: F-6 대상 적용 (적격 기준)
 ================================================================ */
 function EligibilityPage({ visaStep, onBack, lang }) {
-  if (visaStep !== 'f6') return null;
+  if (visaStep !== 'f6' && visaStep !== 'naturalization') return null;
 
-  const content = lang === 'vi' ? {
+  // Naturalization eligibility content
+  const naturalizationContent = lang === 'vi' ? {
     title: '👥 Đối tượng áp dụng',
-    subtitle: 'Điều kiện hợp lệ chuyển đổi visa F-6',
+    subtitle: 'Điều kiện nhập tịch Hàn Quốc (Nhập tịch đơn giản)',
+    sections: [
+      { icon: '⏰', title: '1. Thời gian cư trú', items: ['Trường hợp 1: 2 năm liên tục cư trú', 'Trường hợp 2: 3 năm hôn nhân + 1 năm cư trú'] },
+      { icon: '💰', title: '2. Năng lực kinh tế', items: ['Tài sản tài chính ≥30 triệu won HOẶC', 'Bất động sản ≥30 triệu won HOẶC', 'Giấy chứng nhận việc làm ổn định'] },
+      { icon: '🗣️', title: '3. Tiếng Hàn & hội nhập', items: ['KIIP lớp 5 hoàn thành', 'Thi đỗ kỳ thi tổng hợp ≥60/100 điểm'] },
+      { icon: '⚖️', title: '4. Phẩm hạnh', items: ['Lý lịch sạch tại Việt Nam và Hàn Quốc', 'Không có tiền án tiền sự nặng'] }
+    ]
+  } : {
+    title: '👥 대상 적용',
+    subtitle: '귀화 적격 기준 (간이귀화)',
+    sections: [
+      { icon: '⏰', title: '1. 거주 기간', items: ['경우 1: 2년 연속 거주', '경우 2: 3년 혼인 + 1년 거주'] },
+      { icon: '💰', title: '2. 경제 능력', items: ['금융 자산 ≥3천만원 또는', '부동산 ≥3천만원 또는', '재직증명서 (안정적 소득)'] },
+      { icon: '🗣️', title: '3. 한국어·사회통합', items: ['KIIP 5단계 수료', '귀화용 종합평가 ≥60점'] },
+      { icon: '⚖️', title: '4. 품행단정', items: ['베트남·한국 모두 범죄 전과 없음', '신원이 명확하고 깨끗함'] }
+    ]
+  };
+
+  // Select content based on visaStep
+  let content;
+  if (visaStep === 'naturalization') {
+    content = naturalizationContent;
+  } else {
+    content = lang === 'vi' ? {
+      title: '👥 Đối tượng áp dụng',
+      subtitle: 'Điều kiện hợp lệ chuyển đổi visa F-6',
     sections: [
       {
         icon: '✅',
@@ -4610,6 +4636,7 @@ function EligibilityPage({ visaStep, onBack, lang }) {
       }
     ]
   };
+  }
 
   return (
     <div style={{ background:'#F0F2F5' }} className="min-h-screen">
