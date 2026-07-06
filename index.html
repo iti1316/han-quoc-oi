@@ -1661,6 +1661,38 @@ const VISA_GUIDE_DATA = {
     ],
     tip: { ko:'🚨 [F-5-2 신청 체크리스트] ①F-6 2년 확인: 정확히 2년이 되었는가? ②혼인 진정성: 배우자와 함께 행복해 보이는 증거(공동통장, 함께 사진 등)가 있는가? ③소득 확인: 가족 소득(배우자+부모+성인자녀) 합산으로 GNI 1배 이상 되는가? 아니면 자산이 충분한가? ④한국어: KIIP 5단계 이수증이나 종합평가 60점 이상 합격증이 있는가? 💡 [최고의 혜택] GNI 1배(일반은 2배) + 가족 소득 합산 + 자산 대체 = 결혼이민자들이 가장 쉽게 영주권을 얻을 수 있는 경로. 맞벌이 가정은 경력이 길수록 유리! ⭐ [유지의 핵심] 배우자와의 혼인이 계속 진정하다는 걸 보여주기 (함께 촬영한 사진, 공동명의 재산, 아이 양육 등). 연장 심사 시 "위장결혼"이라 의심받지 않으면 평생 안전!' , vi:'🚨 [Checklist nộp F-5-2] ①F-6 2 năm: Đã đủ 2 năm chưa? ②Hôn nhân thực: Có bằng chứng hạnh phúc (tài khoản chung, ảnh cùng)? ③Lương: Gia đình cộng (vợ/chồng+cha mẹ+con lớn) ≥GNI 1×? Hay tài sản đủ? ④Tiếng Hàn: KIIP 5 hay 60đ? 💡 [Ưu đãi tuyệt vời] GNI 1×(thay vì 2×) + cộng lương + bù tài sản = dễ nhất để lấy F-5! Gia đình hai lương càng lâu càng tốt! ⭐ [Bí quyết duy trì] Chứng minh hôn nhân thực tế (ảnh chung, tài sản chung, con cái) → kiểm tra gia hạn dễ → an toàn vĩnh viễn!' },
   },
+  f5_marriage_naturalization: {
+    code:'귀화', icon:'🇰🇷', color:'bg-red-700',
+    name:      { ko:'대한민국 국적 취득 (F-5-2 경유 혼인귀화)',                  vi:'Nhập quốc tịch Hàn Quốc (qua F-5-2)' },
+    summary:   { ko:'F-6 → F-5-2(2년) → 국적취득(총5년) — F-5-2 경유 후 국적 신청', vi:'F-6 → F-5-2(2 năm) → Nhập tịch (tổng 5 năm)' },
+    maxStay:   { ko:'무기한 (국적 취득 후 한국 정착)',          vi:'Vô thời hạn: Khi đã hoàn thành quy trình nhập tịch, bạn đã là công dân Hàn Quốc thực thụ.' },
+    target:    { ko:'F-5-2를 거쳐 국적취득 — 최종 목표 🇰🇷',        vi:'F-5-2 → Nhập tịch thành công dân Hàn Quốc' },
+    steps: [
+      { ko:'[Bước 1: Nộp hồ sơ & Đóng lệ phí] Nộp hồ sơ hoàn chỉnh theo danh sách tại Cục Xuất nhập cảnh địa phương (또는 immigration office) + Đóng lệ phí 300,000 KRW', vi:'Bước 1: Nộp hồ sơ & Đóng lệ phí (300,000 KRW)\nBạn chuẩn bị đầy đủ các giấy tờ theo danh sách (bao gồm giấy khai sinh, hôn thú, lý lịch tư pháp, chứng minh tài chính...) và nộp trực tiếp tại Cục Xuất nhập cảnh địa phương (출입국청 또는 시청 지사).\nĐồng thời, thanh toán lệ phí xin nhập tịch là 300,000 KRW. Hồ sơ sẽ được ghi nhận và chuyển vào thủ tục xét duyệt.' },
+      { ko:'[Bước 2: Phỏng vấn quốc tịch] Gọi tới phỏng vấn tại Cục Xuất nhập cảnh + Trình bày lý do xin nhập tịch + Thông dịch viên hỗ trợ (귀화면접)', vi:'Bước 2: Phỏng vấn quốc tịch (귀화면접)\nSau khi nộp hồ sơ, Cục Xuất nhập cảnh sẽ gửi thư mời bạn đến dự phỏng vấn (bình thường trong vòng 1-2 tháng).\nTại buổi phỏng vấn:\n- Bạn sẽ được hỏi về lý do xin nhập tịch, tình hình hôn nhân, kế hoạch sinh sống tại Hàn\n- Cán bộ sẽ kiểm tra năng lực tiếng Hàn cơ bản của bạn\n- Thông dịch viên sẽ hỗ trợ (thường là Anh, Trung, Nhật, hoặc Tây Ban Nha)\n- Quá trình này giúp xác định bạn có thực sự có ý định nhập tịch hay không.' },
+      { ko:'[Bước 3: Nhận kết quả & Tuyên thệ] Nhận Thông báo phê duyệt & Giấy chứng nhận nhập tịch + Tham dự Lễ tuyên thệ (귀화허가 and 귀화증서)', vi:'Bước 3: Nhận kết quả & Lễ tuyên thệ (귀화허가 and Lễ tuyên thệ)\nNếu được phê duyệt (bình thường trong vòng 2-3 tháng sau phỏng vấn):\n- Cục Xuất nhập cảnh sẽ gửi Thông báo phê duyệt (귀화허가 통지서) và Giấy chứng nhận nhập tịch (귀화증서)\n- Bạn được mời tham dự Lễ tuyên thệ công dân (시민 선서식). Tại buổi lễ, bạn phải đọc lời thề trung thành với Hiến pháp và dân tộc Hàn Quốc trước chứng kiến của đại diện Chính phủ\n- Kể từ lúc nhận Giấy chứng nhận nhập tịch, bạn chính thức trở thành công dân Hàn Quốc trên mặt pháp lý.' },
+      { ko:'[Bước 4: Ký cam kết song tịch & Làm căn cước] Nộp Đơn cam kết không sử dụng quốc tịch Việt Nam + Làm Hộ khẩu & Căn cước (1 năm)', vi:'Bước 4: Ký cam kết song tịch & Làm căn cước (Bắt buộc trong vòng 1 năm)\nTrong vòng 1 năm kể từ ngày nhận Giấy chứng nhận nhập tịch, bạn phải hoàn thành:\n① Nộp Đơn cam kết không sử dụng quốc tịch nước ngoài (외국국적불행사 서약서) tại Cục Xuất nhập cảnh → Sau đó bạn được giữ hộ chiếu Việt Nam hợp pháp mà không bị bắt buộc phải từ bỏ quốc tịch Việt\n② Đăng ký Hộ khẩu (주민등록) tại UBND Phường nơi cư trú → Được ghi danh vào sổ hộ khẩu chính thức\n③ Làm Căn cước công dân Hàn Quốc (주민등록증) → Thẻ ID chính thức cấp trong 2-3 tuần\nHoàn thành 3 bước này, bạn sẽ sở hữu tất cả quyền lợi của công dân Hàn Quốc và được phép sử dụng hộ chiếu Hàn Quốc để du lịch.' },
+    ],
+    tip: { ko:'🚨 [F-5-2 후 국적취득 팁] F-5-2로 승격된 후 국적취득 신청이 훨씬 수월해짐. 이미 생계유지 증명이 되었으므로 추가 소득 증명 불필요. 단, 국적신청 중에 이혼하면 자격 박탈되므로 주의!', vi:'Tuyệt đối không được nợ thuế: Cục Xuất nhập cảnh sẽ quét toàn bộ hệ thống thuế của cả hai vợ chồng trước khi duyệt. Dù bạn có tài sản lớn đến đâu nhưng nếu đang nợ dù chỉ một khoản thuế nhỏ (thuế cư trú, thuế xe cộ, thuế thu nhập cá nhân...), hồ sơ sẽ bị đánh trượt ngay lập tức.\nKhông vi phạm lỗi phẩm hạnh (Hành chính/Giao thông): Bộ Tư pháp Hàn Quốc xét duyệt tư cách đạo đức rất kỹ khi lên quốc tịch. Các lỗi vi phạm giao thông bị phạt tiền nặng, lịch sử chậm nộp thuế nghiêm trọng hoặc từng cư trú bất hợp pháp trong quá khứ có thể khiến hồ sơ bị treo hoặc từ chối thẳng.\nQuản lý xuất nhập cảnh trong thời gian chờ: Trong suốt quá trình nộp hồ sơ và chờ kết quả duyệt quốc tịch, tư cách lưu trú hiện tại của bạn vẫn là F-5-2. Do đó, bạn vẫn phải tuyệt đối tuân thủ quy định không rời khỏi Hàn Quốc quá 2 năm liên tục, nếu không thẻ F-5-2 sẽ bị hủy và hồ sơ nhập tịch cũng sẽ bị hủy theo.' },
+    tools: [
+      {
+        title: { ko:'대상 적용', vi:'Đối tượng áp dụng' },
+        icon: '👥',
+        content: {
+          ko:'[F-5-2 후 혼인귀화 대상]\n①이미 F-5-2 영주권을 보유한 자\n②현재 한국인 배우자와 정상적인 혼인 관계를 유지 중인 자\n③국적신청 시점의 생계유지 능력 재검증 (F-5-2 때 이미 입증됨)',
+          vi:'[Đối tượng nhập tịch từ F-5-2]\n①Đã có F-5-2 thường trú\n②Duy trì hôn nhân bình thường với công dân Hàn Quốc\n③Xác nhận lại khả năng sinh sống (đã được xác minh từ F-5-2)'
+        }
+      },
+      {
+        title: { ko:'필요서류', vi:'Hồ sơ cần thiết' },
+        icon: '📋',
+        content: {
+          ko:'[F-5-2 후 국적신청 필요서류]\nA. 신청자 서류 (신청자가 준비)\nB. 배우자 서류 (한국인 배우자가 준비, 상세 기준)\nC. 재정 증명서 (금융자산 3천만원 이상)',
+          vi:'A. Hồ sơ phía Bạn (Người nộp đơn)\n[ ] Đơn xin nhập quốc tịch (귀화허가신청서): Điền theo mẫu của Bộ Tư pháp, dán kèm 1 ảnh thẻ nền trắng (3.5cm x 4.5cm).\n[ ] Hộ chiếu Việt Nam (Bản gốc): Còn hạn.\n[ ] Thẻ cư trú vĩnh viễn F-5-2 (Bản gốc).\n[ ] Bằng chứng nhận đỗ kỳ thi tổng hợp KIIP Lớp 5 (귀화용/영주용):\nLưu ý đặc biệt: Nếu trước đây khi đổi sang F-5-2 bạn đã thi bài thi Nhập tịch (귀화용 종합평가) và đạt từ 60/100 điểm trở lên, bạn sẽ được miễn hoàn toàn kỳ thi viết quốc tịch lần này, chỉ cần nộp bằng cũ.\nNếu trước đó bạn chỉ thi bài thi Vĩnh trú (영주용), bạn sẽ cần đăng ký thi bổ sung bài thi quốc tịch để lấy chứng nhận hợp lệ.\n[ ] Phiếu Lý lịch tư pháp số 2 (Bản gốc từ Việt Nam): Cấp trong vòng 3 tháng gần nhất, đã dịch thuật công chứng tiếng Hàn và được Hợp pháp hóa lãnh sự đầy đủ.\n\nB. Hồ sơ phía Chồng Hàn Quốc (Xin dạng Chi tiết - 상세)\n[ ] Giấy chứng nhận quan hệ hôn nhân chi tiết (혼인관계증명서 - 상세).\n[ ] Giấy chứng nhận quan hệ gia đình chi tiết (가족관계증명서 - 상세).\n[ ] Bản sao Hộ khẩu gia đình (주민등록등본) chứng minh hai vợ chồng cùng chung hộ khẩu.\n[ ] Bản sao Căn cước công dân của chồng.\n[ ] Nếu có con chung: Nộp thêm Giấy chứng nhận quan hệ gia đình và căn cước/khai sinh của con để hồ sơ được ưu tiên duyệt nhanh.\n\nC. Hồ sơ Năng lực Tài chính\nVì bạn đã từng chứng minh mức thu nhập rất cao (100% GNI) để đạt được visa F-5-2, việc chứng minh tài chính diện nhập tịch kết hôn lúc này trở nên rất đơn giản. Bạn chỉ cần chứng minh tài sản của vợ hoặc chồng đạt từ 30.000.000 KRW trở lên bằng một trong các giấy tờ:\n[ ] Hợp đồng thuê nhà (Jeonse/Wolse) hoặc Giấy chứng nhận sở hữu nhà đất đứng tên vợ/chồng.\n[ ] Giấy xác nhận số dư tài khoản ngân hàng hoặc sổ tiết kiệm liên tục trên 30 triệu won.\n[ ] Giấy chứng nhận việc làm (재직증명서) và Giấy chứng nhận thu nhập thuế (소득금액증명원) của bạn hoặc chồng.'
+        }
+      }
+    ],
+  },
   f5_info: {
     code:'공통 규정', icon:'⚙️', color:'bg-gray-700',
     name:      { ko:'[공통] 영주권 유지 및 박탈 조건',             vi:'[Chung] Điều kiện duy trì & hủy thường trú' },
@@ -1818,17 +1850,27 @@ const VISA_GUIDE_DATA = {
   d8: {
     code:'D-8', icon:'🏢', color:'bg-blue-600',
     name:      { ko:'법인 기업투자',                    vi:'Đầu tư doanh nghiệp (D-8)' },
-    summary:   { ko:'최소 1억 원 투자 + 10% 이상 지분 → 한국에서 법인 설립 · 대규모 무역업 사장의 정석 경로', vi:'Tối thiểu 100 triệu won + ≥10% cổ phần → thành lập công ty tại Hàn · Đường chính thức trở thành chủ doanh nghiệp xuất nhập khẩu' },
-    maxStay:   { ko:'최초 1년, 실제 매출 + 한국인 고용 실적 기반 연장',vi:'Lần đầu 1 năm, gia hạn dựa trên doanh thu thực tế + tạo việc làm cho người Hàn' },
-    target:    { ko:'장기 사업 운영 → F-2-7 또는 F-5 거주권 진행',vi:'Chạy công ty dài hạn → tiến tới F-2-7 hay F-5' },
+    summary:   { ko:'최소 1억 원 투자 + 10% 이상 지분 → 한국에서 법인 설립 · 대규모 무역업 사장의 정석 경로', vi:'Là loại visa dành riêng cho các nhà đầu tư nước ngoài muốn thành lập công ty, rót vốn đầu tư hoặc hợp tác kinh doanh hợp pháp tại Hàn Quốc.\nKhi sở hữu visa D-8, bạn được coi là một Nhà đầu tư/Thành viên ban quản trị dòng vốn nước ngoài, được hưởng nhiều đặc quyền cư trú dài hạn và cơ hội chuyển đổi lên các dòng visa định cư cao cấp.\nVisa D-8 được chia làm 4 nhánh nhỏ:\n• D-8-1 (Đầu tư doanh nghiệp thông thường): Thành lập công ty mới hoặc góp vốn vào doanh nghiệp có sẵn của người Hàn.\n• D-8-2 (Đầu tư startup công nghệ cao): Thành lập doanh nghiệp dựa trên công nghệ cao, sáng chế hoặc quyền sở hữu trí tuệ.\n• D-8-3 (Đầu tư hợp tác): Cá nhân góp vốn chung với doanh nghiệp người Hàn để cùng điều hành.\n• D-8-4 (Khởi nghiệp công nghệ OASIS): Tốt nghiệp đại học tại Hàn, tham gia chương trình OASIS và đạt điểm khởi nghiệp.' },
+    maxStay:   { ko:'최초 1년, 실제 매출 + 한국인 고용 실적 기반 연장',vi:'Không giới hạn thời gian ở lại: Bạn được gia hạn visa liên tục sau mỗi 1 - 2 năm miễn là công ty hoạt động ổn định, nộp thuế đầy đủ và phát sinh doanh thu.' },
+    target:    { ko:'장기 사업 운영 → F-2-7 또는 F-5 거주권 진행',vi:'Bảo lãnh gia đình dễ dàng: Bạn được phép đưa vợ/chồng, con cái sang cư trú cùng dưới diện Visa F-3 (Diện phụ thuộc) với thủ tục xét duyệt rất nhanh chóng.\nĐường thẳng lên Visa định cư cao cấp: Visa D-8 là một trong những diện "VIP" để tích lũy điểm đổi sang Visa nhân tài F-2-7 hoặc tiến thẳng lên Visa thường trú vĩnh viễn F-5-5 (Vĩnh trú diện đầu tư) nếu doanh nghiệp của bạn vận hành tốt và tạo ra nhiều công ăn việc làm cho người bản địa.' },
     steps: [
-      { ko:'[투자 자금] 최소 1억 원 이상의 자금을 외국환은행을 통해 합법적으로 한국으로 송금 (현금 조달은 절대 불가) · D-4/D-2는 본국 부모님 또는 본인 해외계좌에서 송금, 외화반입증명서 필수 · E-9는 본국 송금 증명 또는 자산 역추적 증명 필요 (심사 가장 엄격)', vi:'[Vốn đầu tư] ≥100 triệu won qua ngân hàng ngoại tệ (không được tiền mặt) · D-4/D-2 từ bố mẹ hoặc tài khoản nước ngoài + chứng minh nhập ngoại tệ · E-9 phải chứng minh chuyển tiền về nước hoặc quay lại từ tài sản (kiểm tra nghiêm nhất)' },
-      { ko:'[지분 조건] 법인 설립 후 총 주식의 10% 이상을 소유하고 의결권을 가진 주주로 등재 (페이퍼 컴퍼니 의심 피하기 위해 실질 경영권 증명 필수)', vi:'[Điều kiện cổ phần] Sau khi thành lập công ty, sở hữu ≥10% cổ phần và có quyền biểu quyết (phải chứng minh quyền kinh doanh thực chất, không phải công ty ma)' },
-      { ko:'[법인 설립 및 신고] 한국 법인 등록 → 법인세청 신고 → 관할 지방청 국세청 확인 → 출입국 D-8 비자 신청', vi:'[Thành lập & đăng ký] Đăng ký công ty Hàn → Khai báo với Cục thuế thu nhập doanh nghiệp → Xác minh cục thuế địa phương → Nộp đơn D-8 tại Cục XNC' },
-      { ko:'[사무실 요건] 실제 사업 운영이 가능한 독립된 사무실 공간 (임차 계약서 + 사업자 등록 주소로 사용)', vi:'[Yêu cầu văn phòng] Không gian văn phòng độc lập để vận hành thực tế (hợp đồng thuê + địa chỉ đăng ký kinh doanh)' },
-      { ko:'[연장 심사] 연도별 실제 매출 실적(수출입 면장), 세금 납부 실적, 한국인 고용 창출 여부 종합 평가 · 매출 없거나 페이퍼 컴퍼니 의심 시 연장 불가', vi:'[Xét duyệt gia hạn] Đánh giá tổng hợp: doanh thu thực tế theo năm, nộp thuế đầy đủ, tạo việc làm cho người Hàn · Không có doanh thu hoặc nghi ngờ công ty ma → không được gia hạn' },
+      { ko:'[투자 자금] 최소 1억 원 이상의 자금을 외국환은행을 통해 합법적으로 한국으로 송금 (현금 조달은 절대 불가)', vi:'Bước 1: Báo cáo đầu tư nước ngoài\nTrước khi chuyển tiền, bạn hoặc người đại diện phải đến một ngân hàng lớn tại Hàn Quốc (Shinhan, Woori, Hana...) hoặc KOTRA để làm thủ tục "Báo cáo đầu tư trực tiếp nước ngoài". Ngân hàng sẽ mở cho bạn một tài khoản tạm thời (tài khoản phong tỏa) để nhận tiền.' },
+      { ko:'[지분 조건] 법인 설립 후 총 주식의 10% 이상을 소유하고 의결권을 가진 주주로 등재', vi:'Bước 2: Chuyển tiền đầu tư\nChuyển chính ngạch số tiền tối thiểu 100.000.000 KRW từ Việt Nam (hoặc từ tài khoản hợp pháp của bạn) vào tài khoản phong tỏa đã mở ở Bước 1. Ngân hàng Hàn Quốc sẽ tiến hành hoán đổi tiền và cấp cho bạn Giấy chứng nhận doanh nghiệp đầu tư nước ngoài.' },
+      { ko:'[법인 설립 및 신고] 한국 법인 등록 → 법인세청 신고 → 관할 지방청 국세청 확인 → 출입국 D-8 비자 신청', vi:'Bước 3: Thành lập công ty và mở cơ sở\nTiến hành đăng ký thành lập pháp nhân tại Tòa án địa phương (nếu làm công ty pháp nhân 법인), xin Giấy đăng ký kinh doanh tại Cục thuế, ký hợp đồng thuê mặt bằng và hoàn thiện trang trí văn phòng/cửa hàng.' },
+      { ko:'[사무실 요건] 실제 사업 운영이 가능한 독립된 사무실 공간 (임차 계약서 + 사업자 등록 주소로 사용)', vi:'Bước 4: Đặt lịch hẹn và Nộp hồ sơ\nĐặt lịch hẹn trước trên hệ thống HiKorea. Đến ngày hẹn, bạn mang toàn bộ bộ hồ sơ đã chuẩn bị ở Mục II đến nộp tại Cục Xuất nhập cảnh quản lý khu vực của bạn. Lệ phí nộp hồ sơ đổi tư cách lưu trú là 130.000 KRW.' },
+      { ko:'[연장 심사] 연도별 실제 매출 실적, 세금 납부 실적, 한국인 고용 창출 여부 종합 평가', vi:'Bước 5: Thẩm định và Nhận thẻ\nCục Xuất nhập cảnh sẽ tiến hành xét duyệt giấy tờ. Trong nhiều trường hợp, nhân viên Cục sẽ đến kiểm tra trực tiếp (실사) tại địa chỉ văn phòng/cửa hàng của bạn để xác minh xem có hoạt động thật hay không. Thời gian ra kết quả thông thường kéo dài từ 3 đến 6 tuần.' },
     ],
-    tip: { ko:'🚨 [2026 자금 출처 조사 강화] 1억 원이 베트남에서 한국으로 어떤 경로로 들어왔는지 은행 송금 내역과 베트남 현지 자산 형성 증빙(부동산 매매, 소득 증빙 등)을 현미경 심사. 자금 출처 불분명 시 100% 반려! 💡 [동업 창업의 덫] 베트남인 여럿이 돈을 모아 1억 원으로 공동 대표 신청? → 1인당 최소 1억 원씩, 총 3억 원 필요. 이사진 2명이면 2억 원 이상 필수!', vi:'🚨 [Kiểm tra tiền 2026 lên mức siêu chặt] 100 triệu won chính xác từ đâu chuyển từ Việt sang Hàn — kiểm tra chi tiết giao dịch + chứng minh tài sản Việt (bất động sản, thu nhập). Không rõ nguồn tiền → 100% từ chối! 💡 [Bẫy hợp tác] Người Việt 3 người hợp đóng, gom 100 triệu → mỗi người cần 100 triệu! 3 người = 300 triệu tối thiểu!' },
+    tip: { ko:'🚨 [2026 자금 출처 조사 강화] 1억 원이 베트남에서 한국으로 어떤 경로로 들어왔는지 은행 송금 내역과 베트남 현지 자산 형성 증빙(부동산 매매, 소득 증빙 등)을 현미경 심사. 자금 출처 불분명 시 100% 반려! 💡 [동업 창업의 덫] 베트남인 여럿이 돈을 모아 1억 원으로 공동 대표 신청? → 1인당 최소 1억 원씩, 총 3억 원 필요. 이사진 2명이면 2억 원 이상 필수!', vi:'-Bẫy chuyển tiền lậu (Bắn tiền tay ba): Tuyệt đối không sử dụng dịch vụ chuyển tiền tư nhân, tiền "chợ đen" hoặc chuyển khoản nội bộ giữa các cá nhân tại Hàn Quốc để gom cho đủ 100 triệu Won. Cục Xuất nhập cảnh yêu cầu dòng tiền phải đi từ tài khoản nước ngoài, có mã lệnh chuyển tiền FDI rõ ràng. Mọi dòng tiền mập mờ sẽ bị quy vào tội rửa tiền và bác hồ sơ ngay lập tức.\n-Hạn chế đối với một số ngành nghề nhạy cảm: Nếu bạn dùng visa D-8 để mở các mô hình kinh doanh nhỏ lẻ như quán ăn, tiệm cà phê, cửa hàng tạp hóa... Cục Xuất nhập cảnh sẽ xét duyệt cực kỳ khắt khe vì họ cho rằng số tiền 100 triệu Won là quá nhỏ để vận hành bền vững các mô hình này và nghi ngờ bạn mua xưởng "ảo" để lấy visa lưu trú. Bản kế hoạch kinh doanh của bạn phải cực kỳ thuyết phục.\n-Rủi ro khi gia hạn năm đầu tiên: Thẻ D-8 cấp lần đầu thường chỉ có thời hạn 1 năm. Khi hết năm đầu tiên đi gia hạn, Cục sẽ không nhìn vào 100 triệu Won nữa, mà họ sẽ nhìn vào Doanh thu thực tế trên tờ khai thuế và Bảng sao kê tài khoản công ty. Nếu công ty không phát sinh doanh thu, không đóng thuế hoặc thua lỗ triền miên, bạn sẽ bị từ chối gia hạn visa. Do đó, hãy chuẩn bị tinh thần vận hành kinh doanh thật nghiêm túc ngay khi nhận được thẻ.' },
+    tools: [
+      {
+        title: { ko:'대상 적용', vi:'Đối tượng áp dụng' },
+        icon: '👥',
+        content: {
+          ko:'[D-8 비자 대상]\n①최소 1억 원 이상의 합법적인 투자 자금을 확보한 자\n②한국에서 법인을 설립하거나 기존 법인에 10% 이상 지분을 투자하려는 자\n③투자 후 안정적인 사업 운영과 세금 납부를 지속할 수 있는 자\n④한국에서 실제 사무실을 운영하고 한국인 고용을 창출할 수 있는 자\n\n[D-8 비자 4가지 분류]\n• D-8-1: 일반 사업 투자\n• D-8-2: 기술 기반 스타트업\n• D-8-3: 합작 투자\n• D-8-4: OASIS 기술 창업',
+          vi:'Để xin được Visa D-8-1, nhà đầu tư phải thỏa mãn đồng thời các điều kiện tài chính và pháp lý rất ngặt nghèo sau:\n\nSố tiền đầu tư tối thiểu: Từ 100.000.000 KRW (100 triệu Won) trở lên.\n\nTỷ lệ góp vốn: Nhà đầu tư nước ngoài phải nắm giữ ít nhất 10% tổng số cổ phần có quyền biểu quyết của công ty đó.\n\nTính minh bạch của dòng tiền: Đây là điều kiện cốt lõi. Toàn bộ số tiền 100 triệu Won này bắt buộc phải là tiền sạch, được chuyển khoản chính ngạch từ nước ngoài (hoặc tài khoản hợp pháp của bạn) vào tài khoản phong tỏa của ngân hàng tại Hàn Quốc dưới danh nghĩa \"Tiền đầu tư trực tiếp nước ngoài\" (FDI).\n\nĐịa điểm kinh doanh thực tế: Công ty phải có văn phòng, cửa hàng hoặc nhà xưởng hoạt động thực tế (có hợp đồng thuê nhà đứng tên công ty), tuyệt đối không chấp nhận công ty \"ma\" hoặc địa chỉ ảo.'
+        }
+      }
+    ],
   },
   d9: {
     code:'D-9', icon:'🚢', color:'bg-indigo-600',
@@ -2981,7 +3023,7 @@ const VISA_ROUTES = [
         steps: [
           { code:'F-6', key:'f6' },
           { code:'F-5-2', key:'f5_marriage' },
-          { code:'국적취득', key:'naturalization' }
+          { code:'국적취득', key:'f5_marriage_naturalization' }
         ]
       }
     ]
@@ -3230,6 +3272,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
               ...(selectedStep === 'f27' || selectedStep === 'f27_e71' ? [{ e:'📊', ko:'F-2-7 점수 계산기',   vi:'Tính điểm F-2-7',      bg:'bg-purple-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_f27', prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'f6' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f6', prevPage:'visaHub'}) } }, { e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:null, prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'naturalization' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'naturalization', prevPage:'visaHub'}) } }] : []),
+              ...(selectedStep === 'd8' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'d8', prevPage:'visaHub'}) } }] : []),
               { e:'📋', ko:'필수 서류 준비',   vi:'Danh sách hồ sơ',       bg:'bg-green-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'docsChecklist', param:selectedStep, prevPage:'visaHub'}) } },
               { e:'🗂️', ko:'출입국·대사관·외교부 연락처',  vi:'Thông tin liên hệ XNC, Đại sứ quán, Bộ Ngoại giao',      bg:'bg-violet-600',  act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'office',    param:null, prevPage:'visaHub'}) } },
             ].map((t,i)=>(
@@ -4558,7 +4601,7 @@ function DocsPage({ visaStep, onBack, lang }) {
    페이지: F-6 대상 적용 (적격 기준)
 ================================================================ */
 function EligibilityPage({ visaStep, onBack, lang }) {
-  if (visaStep !== 'f6' && visaStep !== 'naturalization') return null;
+  if (visaStep !== 'f6' && visaStep !== 'naturalization' && visaStep !== 'd8') return null;
 
   // Naturalization eligibility content
   const naturalizationContent = lang === 'vi' ? {
@@ -4858,6 +4901,73 @@ function AssessmentCriteriaPage({ onBack, lang }) {
    페이지: 필수 서류 준비 (비자별 맞춤)
 ================================================================ */
 function DocsChecklistPage({ visaStep, onBack, lang }) {
+  // D-8 docs page
+  if (visaStep === 'd8') {
+    return (
+      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
+        <BackHeader title="📋 Hồ sơ xin D-8" onBack={onBack} />
+        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
+          <div className="bg-white rounded-2xl shadow-sm px-4 py-3 mb-4">
+            <p className="text-xs text-gray-600 word-keep leading-relaxed">Hồ sơ xin visa D-8 được chia làm 3 nhóm chứng minh riêng biệt theo hạng mục:</p>
+          </div>
+          {[
+            { title: '📂 1. Hồ sơ pháp nhân và cơ sở kinh doanh tại Hàn Quốc', items: ['Giấy đăng ký kinh doanh (사업자등록증): Do Cục Thuế Hàn Quốc cấp.', 'Giấy chứng nhận đăng ký pháp nhân (법인등기부등본): Nếu bạn thành lập công ty theo mô hình Tập đoàn/Công ty cổ phần/TNHH (법인).', 'Giấy chứng nhận doanh nghiệp đầu tư nước ngoài (외국인투자기업등록증): Đây là giấy tờ đặc chủng do ngân hàng hoặc cơ quan KOTRA cấp sau khi dòng tiền đầu tư của bạn được xác nhận hợp lệ.', 'Danh sách cổ đông (주주명부): Chứng minh bạn nắm giữ ≥10% cổ phần công ty.', 'Hợp đồng thuê văn phòng/mặt bằng kinh doanh: Phải đứng tên công ty/pháp nhân.', 'Hình ảnh thực tế: Ảnh chụp toàn cảnh mặt tiền (có biển hiệu công ty), không gian làm việc bên trong, máy móc thiết bị.'] },
+            { title: '📂 2. Hồ sơ chứng minh dòng tiền "Sạch" (Trọng tâm xét duyệt)', items: ['Giấy báo có của ngân hàng tại Hàn Quốc: Xác nhận đã nhận tiền từ nước ngoài chuyển về dưới dạng "Vốn đầu tư trực tiếp nước ngoài" (FDI).', 'Giấy xác nhận hoán đổi ngoại tệ (외환매입증명서): Chứng từ ngân hàng chuyển đổi tiền USD hoặc ngoại tệ khác sang tiền Won (KRW).', 'Chứng từ từ phía Việt Nam: Sao kê tài khoản ngân hàng chuyển tiền đi, tờ khai hải quan (nếu mang tiền mặt qua sân bay hợp pháp).'] },
+            { title: '📂 3. Hồ sơ cá nhân của nhà đầu tư', items: ['Đơn xin cấp visa tổng hợp (통합신청서) kèm ảnh thẻ nền trắng 3.5cm x 4.5cm.', 'Hộ chiếu gốc và Thẻ ARC hiện tại (nếu có).', 'Bản kế hoạch kinh doanh (사업계획서): Bản thuyết minh bằng tiếng Hàn chi tiết về lộ trình kinh doanh, dự toán thu chi, phương án marketing và kế hoạch nhân sự.', 'Phiếu lý lịch tư pháp số 2: Được dịch thuật công chứng tiếng Hàn và Hợp pháp hóa lãnh sự tại Đại sứ quán.'] }
+          ].map((sec, i) => (
+            <div key={i} className={`bg-white rounded-2xl shadow-sm overflow-hidden mb-3 fade-in`}>
+              <div className="px-4 py-3 border-b border-gray-100">
+                <p className="text-sm font-black text-gray-800">{sec.title}</p>
+              </div>
+              <div className="p-4 space-y-2">
+                {sec.items.map((item, j) => (
+                  <div key={j} className="flex gap-3">
+                    <span className="text-lg flex-shrink-0">[ ]</span>
+                    <p className="text-sm text-gray-700 word-keep leading-relaxed">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // F-5-2 Naturalization docs page
+  if (visaStep === 'f5_marriage_naturalization') {
+    return (
+      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
+        <BackHeader title="📋 Hồ sơ nhập tịch từ F-5-2" onBack={onBack} />
+        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
+          <div className="bg-white rounded-2xl shadow-sm px-4 py-3 mb-4">
+            <p className="text-xs text-gray-600 word-keep leading-relaxed">F-5-2 từ nhập tịch kết hôn (혼인귀화) được chuẩn bị theo 3 nhóm tài liệu chính. Lưu ý: Bạn đã chứng minh tài chính khi xin F-5-2 nên diện này chỉ cần 30 triệu won tài sản đơn giản hơn:</p>
+          </div>
+          {[
+            { title: '📂 A. Hồ sơ phía Bạn (Người nộp đơn)', items: ['Đơn xin nhập quốc tịch (귀화허가신청서): Điền theo mẫu của Bộ Tư pháp, dán kèm 1 ảnh thẻ nền trắng (3.5cm x 4.5cm).', 'Hộ chiếu Việt Nam (Bản gốc): Còn hạn.', 'Thẻ cư trú vĩnh viễn F-5-2 (Bản gốc).', 'Bằng chứng nhận đỗ kỳ thi tổng hợp KIIP Lớp 5 (귀화용/영주용): Lưu ý: Nếu đã thi Nhập tịch (귀화용) và đạt ≥60/100, chỉ cần nộp bằng cũ. Nếu chỉ thi Vĩnh trú (영주용), phải đăng ký thi bổ sung.', 'Phiếu Lý lịch tư pháp số 2 (Bản gốc từ Việt Nam): Cấp trong 3 tháng gần nhất, dịch thuật & hợp pháp hóa lãnh sự đầy đủ.'] },
+            { title: '📂 B. Hồ sơ phía Chồng Hàn Quốc (Chi tiết - 상세)', items: ['Giấy chứng nhận quan hệ hôn nhân chi tiết (혼인관계증명서 - 상세).', 'Giấy chứng nhận quan hệ gia đình chi tiết (가족관계증명서 - 상세).', 'Bản sao Hộ khẩu gia đình (주민등록등본) chứng minh hai vợ chồng cùng chung hộ khẩu.', 'Bản sao Căn cước công dân của chồng.', 'Nếu có con chung: Nộp thêm Giấy chứng nhận quan hệ gia đình và căn cước/khai sinh của con để ưu tiên duyệt nhanh.'] },
+            { title: '📂 C. Hồ sơ Năng lực Tài chính (Đơn giản hơn F-5)', items: ['Vì bạn đã chứng minh 100% GNI để đạt F-5-2, lúc này chỉ cần chứng minh ≥30 triệu won:', 'Hợp đồng thuê nhà (Jeonse/Wolse) hoặc Giấy chứng nhận sở hữu nhà đất đứng tên vợ/chồng.', 'Giấy xác nhận số dư tài khoản ngân hàng hoặc sổ tiết kiệm liên tục ≥30 triệu won.', 'Giấy chứng nhận việc làm (재직증명서) & Giấy chứng nhận thu nhập thuế (소득금액증명원).'] },
+            { title: '⚠️ Lưu ý quan trọng', items: ['Lệ phí: 300.000 KRW/hồ sơ', 'Tuyệt đối không nợ thuế: Cục quét hệ thống thuế kỹ. Nợ dù 1 khoản nhỏ = bị trượt.', 'Giữ F-5-2: Trong quá trình chờ kết quả, vẫn là F-5-2 nên phải tuân thủ quy tắc 2 năm xuất nhập cảnh. Nếu ở nước ngoài quá 2 năm, F-5-2 và hồ sơ nhập tịch đều bị hủy.'], isDanger: true }
+          ].map((sec, i) => (
+            <div key={i} className={`bg-white rounded-2xl shadow-sm overflow-hidden mb-3 fade-in ${sec.isDanger ? 'border-l-4 border-red-600' : ''}`}>
+              <div className="px-4 py-3 border-b border-gray-100">
+                <p className="text-sm font-black text-gray-800">{sec.title}</p>
+              </div>
+              <div className="p-4 space-y-2">
+                {sec.items.map((item, j) => (
+                  <div key={j} className="flex gap-3">
+                    <span className="text-lg flex-shrink-0">[ ]</span>
+                    <p className="text-sm text-gray-700 word-keep leading-relaxed">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   // Naturalization docs page
   if (visaStep === 'naturalization') {
     return (
