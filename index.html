@@ -5040,8 +5040,8 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
         {/* D-10, E-7-1, E-7-4, F-2-7, F-5, F-6 특별 처리: 변경/연장 섹션 */}
         {(visaStep === 'd10' || visaStep === 'e71' || visaStep === 'e74' || visaStep === 'f27' || visaStep === 'f27_e71' || visaStep === 'f5' || visaStep === 'f5_veteran' || visaStep === 'f5_marriage' || visaStep === 'f6') && VISA_GUIDE_DATA[visaStep]?.docs && (
           <>
-            {/* F-6: 섹션 기반 문서 */}
-            {visaStep === 'f6' && VISA_GUIDE_DATA[visaStep].docs.change_sections && (
+            {/* F-6, F-5-2: 섹션 기반 문서 */}
+            {(visaStep === 'f6' || visaStep === 'f5_marriage') && VISA_GUIDE_DATA[visaStep].docs.change_sections && (
               <div className="space-y-4">
                 {VISA_GUIDE_DATA[visaStep].docs.change_sections.map((section, idx) => (
                   <div key={idx} className="mb-5">
