@@ -3311,7 +3311,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
               ...(selectedStep === 'f6' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f6', prevPage:'visaHub'}) } }, { e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:null, prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'naturalization' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'naturalization', prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'd8' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'d8', prevPage:'visaHub'}) } }] : []),
-              ...(selectedStep === 'f5_marriage' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f5_marriage', prevPage:'visaHub'}) } }, { e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:null, prevPage:'visaHub'}) } }] : []),
+              ...(selectedStep === 'f5_marriage' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f5_marriage', prevPage:'visaHub'}) } }, { e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:'f5_marriage', prevPage:'visaHub'}) } }] : []),
               { e:'📋', ko:'필수 서류 준비',   vi:'Danh sách hồ sơ',       bg:'bg-green-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'docsChecklist', param:selectedStep, prevPage:'visaHub'}) } },
               { e:'🗂️', ko:'출입국·대사관·외교부 연락처',  vi:'Thông tin liên hệ XNC, Đại sứ quán, Bộ Ngoại giao',      bg:'bg-violet-600',  act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'office',    param:null, prevPage:'visaHub'}) } },
             ].map((t,i)=>(
@@ -4815,7 +4815,49 @@ function EligibilityPage({ visaStep, onBack, lang }) {
 /* ================================================================
    페이지: F-6 심사 기준 (소득 기준표 포함)
 ================================================================ */
-function AssessmentCriteriaPage({ onBack, lang }) {
+function AssessmentCriteriaPage({ assessmentParam, onBack, lang }) {
+  // F-5-2 Assessment
+  if (assessmentParam === 'f5_marriage') {
+    return (
+      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
+        <BackHeader title={lang==='vi' ? '📋 Điều kiện thẩm định' : '📋 심사 기준'} onBack={onBack} />
+        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
+          <div className="space-y-3">
+            {[
+              { title: lang==='vi' ? 'a) Thời gian' : 'a) 기간', ko:'a) 기간', vi:'a) Thời gian', items: [
+                { ko:'법적 혼인 유지: 최소 2년', vi:'Duy trì hôn nhân hợp pháp với người Hàn tối thiểu 2 năm' },
+                { ko:'한국 공동거주: 1년 이상', vi:'Đã sinh sống chung tại Hàn Quốc trên 1 năm' }
+              ]},
+              { title: lang==='vi' ? 'b) Thu nhập/tài sản' : 'b) 소득/자산', ko:'b) 소득/자산', vi:'b) Thu nhập/tài sản', items: [
+                { ko:'생계유지 능력 증명 (근로소득, 사업소득, 임차료, 배당금 모두 인정)', vi:'Cần chứng minh khả năng duy trì kế sinh nhai (thu nhập lao động, kinh doanh, cho thuê bất động sản, cổ tức... đều được tính)' },
+                { ko:'자산: 신청 전 6개월 이상 보유, 최소 약 30,000,000 KRW (예금, 적금, 부동산)', vi:'Tài sản (tiền gửi, tiết kiệm, bất động sản) cần sở hữu liên tục ≥6 tháng trước ngày nộp hồ sơ, tối thiểu khoảng 30 triệu won' },
+                { ko:'소득 기준 50% 감면 가능: 미성년 자녀 양육 중, 중병/장애, 또는 한국 거주 5년 이상', vi:'Có thể giảm đến 50% tiêu chuẩn thu nhập nếu: đang nuôi con nhỏ, có bệnh nặng/khuyết tật, hoặc đã cư trú tại Hàn trên 5 năm' }
+              ]},
+              { title: lang==='vi' ? 'c) Tiếng Hàn / Hội nhập xã hội' : 'c) 한국어/사회통합', ko:'c) 한국어/사회통합', vi:'c) Tiếng Hàn / Hội nhập xã hội', items: [
+                { ko:'KIIP 5단계 (70시간) 수료 또는 영주용 종합평가 합격', vi:'Hoàn thành lớp 5 (70 giờ) chương trình KIIP, hoặc thi đỗ kỳ thi tổng hợp 영주용종합평가' },
+                { ko:'실질적으로 KIIP 완료가 거의 필수이며, 완료 시 소득 기준 완화 등 혜택 제공', vi:'Trên thực tế, việc hoàn thành KIIP gần như là bắt buộc, hoặc mang lại lợi ích lớn như nới lỏng điều kiện thu nhập' }
+              ]},
+              { title: lang==='vi' ? 'd) Lý lịch' : 'd) 품행', ko:'d) 품행', vi:'d) Lý lịch', items: [
+                { ko:'범죄경력 문제 없음, 최근 3년 이내 출입국법 위반 없음', vi:'Không có vấn đề về lý lịch tư pháp, không vi phạm Luật Di trú trong vòng 3 năm gần đây' }
+              ]}
+            ].map((section, idx) => (
+              <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                <div className="px-4 py-3 bg-blue-50 border-b border-blue-200">
+                  <p className="text-sm font-black text-blue-700">{lang==='vi' ? section.title : section.ko}</p>
+                </div>
+                <div className="p-4 space-y-2">
+                  {section.items.map((item, j) => (
+                    <p key={j} className="text-sm text-gray-700 word-keep leading-relaxed">• {lang==='vi' ? item.vi : item.ko}</p>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const incomeStandards = [
     { family: 2, amount: '23,595,948' },
     { family: 3, amount: '30,152,118' },
@@ -6043,7 +6085,7 @@ function App() {
     case 'docsChecklist': return <DocsChecklistPage visaStep={route.param} onBack={goBack} lang={lang} />;
     case 'office':       return <OfficePage       onBack={goBack} lang={lang} />;
     case 'eligibility':  return <EligibilityPage  visaStep={route.param} onBack={goBack} lang={lang} />;
-    case 'assessment':   return <AssessmentCriteriaPage onBack={goBack} lang={lang} />;
+    case 'assessment':   return <AssessmentCriteriaPage assessmentParam={route.param} onBack={goBack} lang={lang} />;
     case 'classicBoard': return <ClassicBoardPage boardKey={route.param} {...shared} />;
     case 'postDetail':   return <PostDetailPage   boardKey={route.boardKey} postId={route.postId} {...shared} />;
     case 'visaHub':      return <VisaHubPage      nav={nav} lang={lang} posts={posts} />;
