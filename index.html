@@ -4630,7 +4630,7 @@ function DocsPage({ visaStep, onBack, lang }) {
    페이지: F-6 대상 적용 (적격 기준)
 ================================================================ */
 function EligibilityPage({ visaStep, onBack, lang }) {
-  if (visaStep !== 'f6' && visaStep !== 'f5_marriage' && visaStep !== 'naturalization' && visaStep !== 'd8') return null;
+  if (visaStep !== 'f6' && visaStep !== 'f5_marriage' && visaStep !== 'naturalization' && visaStep !== 'f5_marriage_naturalization' && visaStep !== 'd8') return null;
 
   // Naturalization eligibility content
   const naturalizationContent = lang === 'vi' ? {
@@ -4744,6 +4744,53 @@ function EligibilityPage({ visaStep, onBack, lang }) {
   let content;
   if (visaStep === 'f5_marriage') {
     content = f5MarriageContent;
+  } else if (visaStep === 'f5_marriage_naturalization') {
+    // F-5-2 Naturalization eligibility (simplified)
+    content = lang === 'vi' ? {
+      title: '👥 Đối tượng áp dụng',
+      subtitle: 'Điều kiện nhập tịch từ F-5-2',
+      sections: [
+        {
+          icon: '✅',
+          title: 'Đối tượng chính',
+          items: [
+            'Người kết hôn với người Hàn Quốc và cùng chung sống liên tục ≥2 năm, hoặc kết hôn ≥3 năm và duy trì trạng thái chung sống ≥1 năm.'
+          ],
+          highlight: true
+        },
+        {
+          icon: '⚖️',
+          title: 'Bao gồm cả trường hợp:',
+          items: [
+            'Chồng/vợ mất',
+            'Ly hôn nhưng lỗi thuộc về người chồng/vợ Hàn (có giấy tòa xác nhận)',
+            'Ly hôn nhưng có quyền/trách nhiệm nuôi con chung'
+          ]
+        }
+      ]
+    } : {
+      title: '👥 대상 적용',
+      subtitle: 'F-5-2 귀화 적격 기준',
+      sections: [
+        {
+          icon: '✅',
+          title: '주요 대상',
+          items: [
+            '한국인과 결혼하여 연속 2년 이상 함께 거주, 또는 결혼 3년 이상이고 한국 거주 1년 이상'
+          ],
+          highlight: true
+        },
+        {
+          icon: '⚖️',
+          title: '특수 경우 포함:',
+          items: [
+            '배우자 사망',
+            '배우자의 귀책사유로 인한 이혼 (법원 판결서 있음)',
+            '이혼 후에도 자녀 양육권/책임 있음'
+          ]
+        }
+      ]
+    };
   } else if (visaStep === 'naturalization') {
     content = naturalizationContent;
   } else {
@@ -4883,6 +4930,37 @@ function EligibilityPage({ visaStep, onBack, lang }) {
    페이지: F-6 심사 기준 (소득 기준표 포함)
 ================================================================ */
 function AssessmentCriteriaPage({ assessmentParam, onBack, lang }) {
+  // F-5-2 Naturalization Assessment
+  if (!assessmentParam || assessmentParam === null) {
+    return (
+      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
+        <BackHeader title={lang==='vi' ? '📋 Điều kiện thẩm định' : '📋 심사 기준'} onBack={onBack} />
+        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
+          <div className="space-y-3">
+            {[
+              { title: lang==='vi' ? 'Hầu hết các điều kiện bạn đều đã thỏa mãn từ lúc làm visa F-5-2:' : '대부분의 조건은 F-5-2 때부터 충족됩니다:', ko:'대부분의 조건은 F-5-2 때부터 충족됩니다:', vi:'Hầu hết các điều kiện bạn đều đã thỏa mãn từ lúc làm visa F-5-2:', items: [
+                { ko:'거주 기간: 한국인 배우자와 합법 결혼 후 연속 2년 이상 대한민국 거주 (또는 결혼 3년 이상이고 한국 거주 1년 이상)', vi:'Thời gian cư trú: Đã kết hôn hợp pháp với người Hàn và cư trú liên tục tại Hàn Quốc từ 2 năm trở lên (hoặc kết hôn đủ 3 năm và sống tại Hàn ít nhất 1 năm).' },
+                { ko:'경제 조건: F-5-2 대비 매우 완화됨. 더 이상 GNI 초과 소득을 증명할 필요 없고, 가족 총자산이 3,000만 KRW 이상임을 보이면 됨 (은행 잔고, 전세 계약, 부동산/자동차 소유권으로 증명)', vi:'Điều kiện kinh tế: Miễn giảm rất nhiều so với F-5-2. Bạn không cần chứng minh thu nhập vượt GNI nữa, mà chỉ cần chứng minh gia đình có tổng tài sản từ 30 triệu KRW trở lên (thể hiện qua số dư tài khoản ngân hàng, hợp đồng thuê nhà Jeonse/Wolse, hoặc quyền sở hữu bất động sản/nhà cửa, xe cộ).' },
+                { ko:'필기시험 면제: F-5-2 때 KIIP 5단계를 이미 완료했고 종합평가(귀화용)에 합격했으므로, 귀화 신청 시 필기시험 완전 면제', vi:'Miễn thi viết: Vì bạn đã hoàn thành KIIP lớp 5 và thi đỗ kỳ thi đánh giá tổng hợp (종합평가) khi làm vĩnh trú, bạn sẽ được miễn hoàn toàn bài thi viết khi nộp hồ sơ nhập tịch.' }
+              ]}
+            ].map((section, idx) => (
+              <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                <div className="px-4 py-3 bg-blue-50 border-b border-blue-200">
+                  <p className="text-sm font-black text-blue-700">{lang==='vi' ? section.title : section.ko}</p>
+                </div>
+                <div className="p-4 space-y-2">
+                  {section.items.map((item, j) => (
+                    <p key={j} className="text-sm text-gray-700 word-keep leading-relaxed">• {lang==='vi' ? item.vi : item.ko}</p>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // F-5-2 Assessment
   if (assessmentParam === 'f5_marriage') {
     return (
