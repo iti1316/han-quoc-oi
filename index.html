@@ -3326,6 +3326,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
             {[
               ...(selectedStep === 'e74' ? [{ e:'📊', ko:'E-7-4 점수 계산기',   vi:'Tính điểm E-7-4',      bg:'bg-amber-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_e74', prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'f27' || selectedStep === 'f27_e71' ? [{ e:'📊', ko:'F-2-7 점수 계산기',   vi:'Tính điểm F-2-7',      bg:'bg-purple-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_f27', prevPage:'visaHub'}) } }] : []),
+              ...(selectedStep === 'f27_e71' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f27_e71', prevPage:'visaHub'}) } }, { e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:null, prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'f6' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f6', prevPage:'visaHub'}) } }, { e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:null, prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'f5_marriage_naturalization' ? [{ e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:null, prevPage:'visaHub'}) } }, { e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f5_marriage_naturalization', prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'd8' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'d8', prevPage:'visaHub'}) } }] : []),
@@ -4634,7 +4635,7 @@ function DocsPage({ visaStep, onBack, lang }) {
    페이지: F-6 대상 적용 (적격 기준)
 ================================================================ */
 function EligibilityPage({ visaStep, onBack, lang }) {
-  if (visaStep !== 'f6' && visaStep !== 'f5_marriage' && visaStep !== 'naturalization' && visaStep !== 'f5_marriage_naturalization' && visaStep !== 'd8') return null;
+  if (visaStep !== 'f6' && visaStep !== 'f5_marriage' && visaStep !== 'naturalization' && visaStep !== 'f5_marriage_naturalization' && visaStep !== 'd8' && visaStep !== 'f27_e71') return null;
 
   // Naturalization eligibility content
   const naturalizationContent = lang === 'vi' ? {
@@ -4748,6 +4749,57 @@ function EligibilityPage({ visaStep, onBack, lang }) {
   let content;
   if (visaStep === 'f5_marriage') {
     content = f5MarriageContent;
+  } else if (visaStep === 'f27_e71') {
+    // D-9 F-2-99 eligibility
+    content = lang === 'vi' ? {
+      title: '👥 Đối tượng áp dụng',
+      subtitle: 'Điều kiện để chuyển đổi sang F-2-99',
+      sections: [
+        {
+          icon: '✅',
+          title: 'Đối tượng chính',
+          items: [
+            'Người lao động giữ visa E-7-4 từ 1 đến 3 năm với thu nhập đạt chuẩn GNI hoặc đáp ứng đủ điểm số',
+            'Hoặc lao động E-7-4 với thu nhập cao (trên 4 triệu won/năm) có thể nộp ngay'
+          ],
+          highlight: true
+        },
+        {
+          icon: '📋',
+          title: 'Yêu cầu chi tiết:',
+          items: [
+            'Tích lũy 5 năm cư trú liên tục (hoặc thời gian E-7 + F-2-99 tổng cộng)',
+            'Hoàn thành KIIP Lớp 4+ hoặc TOPIK 4+',
+            'Có giấy chứng nhận thu nhập GNI từ năm trước',
+            'Đang có hợp đồng lao động hợp pháp'
+          ]
+        }
+      ]
+    } : {
+      title: '👥 대상 적용',
+      subtitle: 'F-2-99 적격 기준',
+      sections: [
+        {
+          icon: '✅',
+          title: '주요 대상',
+          items: [
+            'E-7-4 비자 1~3년 보유 후 GNI 기준 이상 또는 충분한 점수 보유자',
+            '또는 고소득(월 400만원 이상) E-7-4 보유자는 즉시 신청 가능'
+          ],
+          highlight: true
+        },
+        {
+          icon: '📋',
+          title: '상세 요건:',
+          items: [
+            '연속 5년 이상 합법적 거주 (또는 E-7 + F-2-99 총합)',
+            'KIIP 4단계 이상 또는 TOPIK 4급 이상 보유',
+            '전년도 GNI 기준 충족 소득금액증명원 보유',
+            '현재 유효한 고용계약 보유'
+          ]
+        }
+      ]
+    };
   } else if (visaStep === 'f5_marriage_naturalization') {
     // F-5-2 Naturalization eligibility (simplified)
     content = lang === 'vi' ? {
