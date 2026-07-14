@@ -4753,50 +4753,46 @@ function EligibilityPage({ visaStep, onBack, lang }) {
     // D-9 F-2-99 eligibility
     content = lang === 'vi' ? {
       title: '👥 Đối tượng áp dụng',
-      subtitle: 'Điều kiện để chuyển đổi sang F-2-99',
+      subtitle: 'Ai có thể chuyển đổi sang F-2-99',
       sections: [
         {
-          icon: '✅',
-          title: 'Đối tượng chính',
+          icon: '📌',
+          title: 'Bạn phải đang lưu trú hợp pháp tại Hàn Quốc với một trong các tư cách visa sau:',
           items: [
-            'Người lao động giữ visa E-7-4 từ 1 đến 3 năm với thu nhập đạt chuẩn GNI hoặc đáp ứng đủ điểm số',
-            'Hoặc lao động E-7-4 với thu nhập cao (trên 4 triệu won/năm) có thể nộp ngay'
-          ],
-          highlight: true
+            '✅ Visa chuyên gia/lao động chuyên môn: E-1, E-2, E-3, E-4, E-5, E-6 (trừ E-6-2), E-7.',
+            '✅ Visa đầu tư/thương mại: D-1, D-5, D-6, D-7, D-8, D-9.',
+            '✅ Visa phụ thuộc/gia đình: F-1, F-3 (Người phụ thuộc của các diện visa lao động/chuyên gia nêu trên).'
+          ]
         },
         {
-          icon: '📋',
-          title: 'Yêu cầu chi tiết:',
+          icon: '⚠️',
+          title: 'Lưu ý đối với E-9, E-10, H-2:',
           items: [
-            'Tích lũy 5 năm cư trú liên tục (hoặc thời gian E-7 + F-2-99 tổng cộng)',
-            'Hoàn thành KIIP Lớp 4+ hoặc TOPIK 4+',
-            'Có giấy chứng nhận thu nhập GNI từ năm trước',
-            'Đang có hợp đồng lao động hợp pháp'
-          ]
+            'Nhóm visa lao động phổ thông này không được chuyển thẳng lên F-2-99, mà thông thường phải lộ trình chuyển sang visa nhân tài chuyên môn ngành nghề cơ bản (E-7-4) trước, sau đó mới tích lũy thời gian để lên F-2-99.'
+          ],
+          isDanger: true
         }
       ]
     } : {
       title: '👥 대상 적용',
-      subtitle: 'F-2-99 적격 기준',
+      subtitle: 'F-2-99로 변경 가능 대상',
       sections: [
         {
-          icon: '✅',
-          title: '주요 대상',
+          icon: '📌',
+          title: '다음 중 하나의 비자로 합법 거주 중이어야 함:',
           items: [
-            'E-7-4 비자 1~3년 보유 후 GNI 기준 이상 또는 충분한 점수 보유자',
-            '또는 고소득(월 400만원 이상) E-7-4 보유자는 즉시 신청 가능'
-          ],
-          highlight: true
+            '✅ 전문인력/기술자 비자: E-1, E-2, E-3, E-4, E-5, E-6 (E-6-2 제외), E-7',
+            '✅ 투자/무역 비자: D-1, D-5, D-6, D-7, D-8, D-9',
+            '✅ 부양/가족 비자: F-1, F-3 (위 비자 소유자의 부양가족)'
+          ]
         },
         {
-          icon: '📋',
-          title: '상세 요건:',
+          icon: '⚠️',
+          title: 'E-9, E-10, H-2 주의:',
           items: [
-            '연속 5년 이상 합법적 거주 (또는 E-7 + F-2-99 총합)',
-            'KIIP 4단계 이상 또는 TOPIK 4급 이상 보유',
-            '전년도 GNI 기준 충족 소득금액증명원 보유',
-            '현재 유효한 고용계약 보유'
-          ]
+            '일반 저숙련 노동자 비자는 F-2-99로 직접 변경 불가능. 먼저 E-7-4 (숙련기술자)로 변경 후 시간을 쌓아야 F-2-99 신청 가능.'
+          ],
+          isDanger: true
         }
       ]
     };
@@ -4994,10 +4990,13 @@ function AssessmentCriteriaPage({ assessmentParam, onBack, lang }) {
         <div className="max-w-lg mx-auto px-4 py-4 pb-12">
           <div className="space-y-3">
             {[
-              { title: lang==='vi' ? 'Hầu hết các điều kiện bạn đều đã thỏa mãn từ lúc làm visa F-5-2:' : '대부분의 조건은 F-5-2 때부터 충족됩니다:', ko:'대부분의 조건은 F-5-2 때부터 충족됩니다:', vi:'Hầu hết các điều kiện bạn đều đã thỏa mãn từ lúc làm visa F-5-2:', items: [
-                { ko:'거주 기간: 한국인 배우자와 합법 결혼 후 연속 2년 이상 대한민국 거주 (또는 결혼 3년 이상이고 한국 거주 1년 이상)', vi:'Thời gian cư trú: Đã kết hôn hợp pháp với người Hàn và cư trú liên tục tại Hàn Quốc từ 2 năm trở lên (hoặc kết hôn đủ 3 năm và sống tại Hàn ít nhất 1 năm).' },
-                { ko:'경제 조건: F-5-2 대비 매우 완화됨. 더 이상 GNI 초과 소득을 증명할 필요 없고, 가족 총자산이 3,000만 KRW 이상임을 보이면 됨 (은행 잔고, 전세 계약, 부동산/자동차 소유권으로 증명)', vi:'Điều kiện kinh tế: Miễn giảm rất nhiều so với F-5-2. Bạn không cần chứng minh thu nhập vượt GNI nữa, mà chỉ cần chứng minh gia đình có tổng tài sản từ 30 triệu KRW trở lên (thể hiện qua số dư tài khoản ngân hàng, hợp đồng thuê nhà Jeonse/Wolse, hoặc quyền sở hữu bất động sản/nhà cửa, xe cộ).' },
-                { ko:'필기시험 면제: F-5-2 때 KIIP 5단계를 이미 완료했고 종합평가(귀화용)에 합격했으므로, 귀화 신청 시 필기시험 완전 면제', vi:'Miễn thi viết: Vì bạn đã hoàn thành KIIP lớp 5 và thi đỗ kỳ thi đánh giá tổng hợp (종합평가) khi làm vĩnh trú, bạn sẽ được miễn hoàn toàn bài thi viết khi nộp hồ sơ nhập tịch.' }
+              { title: lang==='vi' ? 'Hồ sơ xét duyệt dựa trên các tiêu chí "cứng"' : '심사는 "체크리스트" 기준으로 진행됩니다', ko:'심사는 "체크리스트" 기준으로 진행됩니다', vi:'Hồ sơ xét duyệt dựa trên các tiêu chí "cứng"', items: [
+                { ko:'시간 요건: 연속 5년 이상 합법 거주 (D-2, D-4 학기는 일반적으로 미포함)', vi:'Thời gian cư trú liên tục: Đã lưu trú hợp pháp tại Hàn Quốc liên tục từ 5 năm trở lên tính đến ngày nộp hồ sơ. (Thời gian du học D-2 hoặc học tiếng D-4 thường không được tính vào thời gian tích lũy này).' },
+                { ko:'업무 & 나이: 19세 이상 성인, 안정적인 일자리 보유, 완전히 납세 중', vi:'Điều kiện công việc và tuổi tác: Phải là người thành niên (trên 19 tuổi) và đang có công việc ổn định, đóng thuế đầy đủ tại Hàn Quốc.' },
+                { ko:'소득: 전년도 총 소득 ≥ GNI 수준 (국세청 소득금액증명원 기준)', vi:'Năng lực kinh tế - Thu nhập: Tổng thu nhập của năm gần nhất (thể hiện trên Giấy chứng nhận thu nhập của Cục Thuế) phải đạt bằng hoặc cao hơn mức GNI (Thu nhập quốc dân bình quân đầu người) của Hàn Quốc.' },
+                { ko:'자산: 부양인/동반 가족은 은행 잔액 및 전세금 최소 3천만 KRW 이상', vi:'Năng lực kinh tế - Tài sản: Người phụ thuộc (vợ/chồng ăn theo) cần chứng minh gia đình có tài sản tích lũy (số dư tài khoản ngân hàng, hợp đồng nhà Jeonse/Wolse) tối thiểu theo quy định của Bộ Tư pháp (thường từ 30 triệu KRW trở lên).' },
+                { ko:'언어: TOPIK 4급 이상 또는 KIIP 4단계 이상 수료', vi:'Năng lực ngôn ngữ và hòa nhập: Đạt chứng chỉ TOPIK cấp 4 trở lên hoặc hoàn thành Chương trình Hội nhập Xã hội (KIIP) từ Lớp 4 trở lên.' },
+                { ko:'품행: 출입국법 중대 위반 없음, 전과 없음', vi:'Tư cách phẩm chất: Không vi phạm nghiêm trọng Luật quản lý xuất nhập cảnh và không có tiền án tiền sự nghiêm trọng.' }
               ]}
             ].map((section, idx) => (
               <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden">
