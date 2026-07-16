@@ -3398,6 +3398,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
               ...(selectedStep === 'f6' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f6', prevPage:'visaHub'}) } }, { e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:null, prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'f5_marriage_naturalization' ? [{ e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:null, prevPage:'visaHub'}) } }, { e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f5_marriage_naturalization', prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'd8' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'d8', prevPage:'visaHub'}) } }] : []),
+              ...(selectedStep === 'd9' ? [{ e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:'d9', prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'f5_marriage' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f5_marriage', prevPage:'visaHub'}) } }, { e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:'f5_marriage', prevPage:'visaHub'}) } }] : []),
               { e:'📋', ko:'필수 서류 준비',   vi:'Danh sách hồ sơ',       bg:'bg-green-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'docsChecklist', param:selectedStep, prevPage:'visaHub'}) } },
               { e:'🗂️', ko:'출입국·대사관·외교부 연락처',  vi:'Thông tin liên hệ XNC, Đại sứ quán, Bộ Ngoại giao',      bg:'bg-violet-600',  act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'office',    param:null, prevPage:'visaHub'}) } },
@@ -5066,6 +5067,43 @@ function AssessmentCriteriaPage({ assessmentParam, onBack, lang }) {
                 { ko:'자산: 부양인/동반 가족은 은행 잔액 및 전세금 최소 3천만 KRW 이상', vi:'Năng lực kinh tế - Tài sản: Người phụ thuộc (vợ/chồng ăn theo) cần chứng minh gia đình có tài sản tích lũy (số dư tài khoản ngân hàng, hợp đồng nhà Jeonse/Wolse) tối thiểu theo quy định của Bộ Tư pháp (thường từ 30 triệu KRW trở lên).' },
                 { ko:'언어: TOPIK 4급 이상 또는 KIIP 4단계 이상 수료', vi:'Năng lực ngôn ngữ và hòa nhập: Đạt chứng chỉ TOPIK cấp 4 trở lên hoặc hoàn thành Chương trình Hội nhập Xã hội (KIIP) từ Lớp 4 trở lên.' },
                 { ko:'품행: 출입국법 중대 위반 없음, 전과 없음', vi:'Tư cách phẩm chất: Không vi phạm nghiêm trọng Luật quản lý xuất nhập cảnh và không có tiền án tiền sự nghiêm trọng.' }
+              ]}
+            ].map((section, idx) => (
+              <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                <div className="px-4 py-3 bg-blue-50 border-b border-blue-200">
+                  <p className="text-sm font-black text-blue-700">{lang==='vi' ? section.title : section.ko}</p>
+                </div>
+                <div className="p-4 space-y-2">
+                  {section.items.map((item, j) => (
+                    <p key={j} className="text-sm text-gray-700 word-keep leading-relaxed">• {lang==='vi' ? item.vi : item.ko}</p>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // D-9 Assessment
+  if (assessmentParam === 'd9') {
+    return (
+      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
+        <BackHeader title={lang==='vi' ? '📋 Điều kiện thẩm định' : '📋 심사 기준'} onBack={onBack} />
+        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
+          <div className="space-y-3">
+            {[
+              { title: lang==='vi' ? '🔄 Điều kiện chuyển đổi - Diện D-9-1 (Hệ thống tính điểm)' : '🔄 Điều kiện chuyển đổi - Diện D-9-1', ko:'🔄 Điều kiện chuyển đổi - Diện D-9-1', vi:'🔄 Điều kiện chuyển đổi - Diện D-9-1', items: [
+                { ko:'D-10과 유사한 점수제 적용: 최소 60/100점 필수', vi:'Áp dụng thang điểm giống D-10, cần đạt tối thiểu 60/100 điểm' },
+                { ko:'필수 항목: 최소 10점 이상 필수 (무역교육 이수 시 10점 가산)', vi:'Ở hạng mục bắt buộc phải đạt tối thiểu 10 điểm (hoàn thành lớp học mậu dịch được cộng 10 điểm)' },
+                { ko:'사업등록 필수 (사업자등록증 확보)', vi:'Đã đăng ký hoạt động kinh doanh (사업자등록)' },
+                { ko:'한국 대학 석사 이상 학위 소유 (또는 졸업 예정)는 가산점/필수 조건 중 하나', vi:'Có bằng Thạc sĩ trở lên tại trường đại học Hàn Quốc (hoặc đang chuẩn bị tốt nghiệp) là một trong các điều kiện cộng điểm/đủ điều kiện' },
+                { ko:'D-8과 다른 점: 실제 수출입 실적(무역실적)이 필수 — 단순 세금신고 + 매출증명만으로는 불충분', vi:'Phải có hoạt động xuất khẩu thực tế (무역실적) để duy trì/gia hạn visa — khác với D-8 chỉ cần khai thuế + giấy chứng nhận doanh thu' }
+              ]},
+              { title: lang==='vi' ? '💰 Điều kiện tài chính' : '💰 Điều kiện tài chính', ko:'💰 Điều kiện tài chính', vi:'💰 Điều kiện tài chính', items: [
+                { ko:'투자 자금: 최소 약 100 triệu won (최소 50 triệu won는 해외에서 송금 필수) — 단, D-9-1 점수제는 D-8처럼 100 triệu won 필수가 아님이 장점', vi:'Một số nguồn ghi nhận vốn đầu tư tối thiểu khoảng 100 triệu won, trong đó ít nhất 50 triệu won phải chuyển từ nước ngoài vào — tuy nhiên mức này áp dụng rõ hơn cho D-8/D-9-5; với D9-1 (điểm số) thì không cần vốn đầu tư 100 triệu won như D-8, đây chính là ưu điểm giúp hồ sơ đơn giản hơn.' },
+                { ko:'최소 재정 증명: 일부 사례에서 5,000 USD 이상 (경우에 따라 다름) - 생활비 자력 해결 가능성 입증', vi:'Chứng minh tài chính tối thiểu (một số trường hợp ghi nhận từ 5.000 USD trở lên tùy diện) để đảm bảo khả năng tự chi trả sinh hoạt.' }
               ]}
             ].map((section, idx) => (
               <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden">
