@@ -1412,14 +1412,14 @@ const VISA_GUIDE_DATA = {
     name:      { ko:'무역·주재',                    vi:'Thương mại·Trú đóng' },
     summary:   { ko:'무역·주재·기업투자 등 경영 관련 활동', vi:'Hoạt động kinh doanh, thương mại, đầu tư' },
     maxStay:   { ko:'최대 2년 (이후 취업비자 변경 필수)', vi:'Tối đa 2 năm (sau phải chuyển visa lao động)' },
-    target:    { ko:'E-7-4 변경이 목표 — 2년 초과 시 불법체류', vi:'Mục tiêu chuyển E-7-4 — quá 2 năm sẽ là cư trú bất hợp pháp' },
+    target:    { ko:'장기 무역 사업 운영 → F-2-7 또는 F-5 거주권 진행', vi:'D-9 để tiến lên visa F-2 (cư trú dài hạn) hoặc F-5 (thường trú)' },
     steps: [
       { ko:'만료 4개월 전부터 연장 신청 가능 (그 이전엔 불가)', vi:'Có thể nộp đơn từ 4 tháng trước khi hết hạn (trước đó không nhận)' },
       { ko:'서류: 통합신청서, 여권, 외국인등록증, 취업활동 실적증명', vi:'Hồ sơ: đơn tổng hợp, hộ chiếu, thẻ ngoại kiều, chứng minh tìm việc' },
       { ko:'Hi-Korea(hikorea.go.kr) 예약 후 관할 출입국 방문', vi:'Đặt lịch Hi-Korea rồi đến Cục XNC phụ trách' },
       { ko:'심사 1~2주, 접수증 발급 후 합법 체류 인정', vi:'Thẩm định 1~2 tuần, nhận phiếu tiếp nhận được cư trú hợp pháp' },
     ],
-    tip: { ko:'D-9 총 체류는 최대 2년. 반드시 E-7-4로 변경해야 계속 한국에서 살 수 있어요!', vi:'D-9 tổng cộng tối đa 2 năm. Phải chuyển sang E-7-4 để tiếp tục sống tại Hàn!' },
+    tip: { ko:'D-9 총 체류는 최대 2년. 장기 거주를 원한다면 F-2-7 또는 F-5로 진행해야 합니다!', vi:'D-9 tổng cộng tối đa 2 năm. Để tiếp tục sống tại Hàn, bạn cần chuyển sang F-2 hoặc F-5!' },
   },
   e71: {
     code:'E-7-1', icon:'🎓', color:'bg-indigo-600',
@@ -1464,7 +1464,7 @@ const VISA_GUIDE_DATA = {
   e74: {
     code:'E-7-4', icon:'⭐', color:'bg-orange-600',
     name:      { ko:'숙련기능인력 (K-Point 300 점수제)',  vi:'VISA lao động lành nghề diện dích điểm' },
-    summary:   { ko:'E-9 제조업에서 4년 경험 후 200점 이상으로 신청 — 최초 2년 부여, 연장 반복 후 F-2-7 진입', vi:'Là loại visa được thiết kế riêng cho các bạn đang làm việc tại Hàn Quốc dưới dạng lao động phổ thông (như Visa E-9, E-10, H-2) muốn nâng cấp lên diện chuyên gia để có thể ở lại Hàn Quốc lâu dài và bảo lãnh được vợ/chồng, con cái sang sinh sống cùng' },
+    summary:   { ko:'E-9 제조업에서 4년 경험 후 200점 이상으로 신청 — 최초 2년 부여, 연장 반복 후 F-2-99 진입', vi:'Là loại visa được thiết kế riêng cho các bạn đang làm việc tại Hàn Quốc dưới dạng lao động phổ thông (như Visa E-9, E-10, H-2) muốn nâng cấp lên diện chuyên gia để có thể ở lại Hàn Quốc lâu dài và bảo lãnh được vợ/chồng, con cái sang sinh sống cùng' },
     maxStay:   { ko:'최초 2년 (이후 1~3년 단위 갱신) — 매번 소득 기준 재검증 필수 / 동반가족 F-3 초청 가능', vi:'Xoá bỏ giới hạn thời gian (Ở lại không giới hạn): Lao động E-9 bình thường chỉ được ở tối đa 4 năm 10 tháng. Nhưng khi đã lên được E-7-4, bạn được gia hạn 2 năm/lần và ở lại Hàn Quốc bao lâu tùy thích miễn là bạn và công ty vẫn duy trì hợp đồng lao động.\nĐược bảo lãnh gia đình: Đây là bước ngoặt lớn nhất. Bạn được phép làm thủ tục đón vợ/chồng và con cái sang Hàn Quốc sinh sống cùng.' },
     target:    { ko:'3년 이상 E-7-4 유지 후 F-2-7 거주비자 신청 가능 — 제조업 근로자의 최고 성취', vi:'Đường thẳng lên Visa định cư cao cấp: E-7-4 chính là "bước đệm bắt buộc" để bạn tích lũy thời gian, hướng tới mục tiêu đổi sang Visa nhân tài tính điểm F-2-7 hoặc Visa thường trú vĩnh viễn F-5.\nKhông cần phải xuất cảnh: Quy trình đổi từ E-9 sang E-7-4 được thực hiện trực tuyến và trực tiếp ngay tại Hàn Quốc, bạn không cần phải bay về Việt Nam để chờ cấp lại visa.' },
     steps: [
@@ -1551,7 +1551,7 @@ const VISA_GUIDE_DATA = {
       { ko:'[한국어 능력과 소득 수준 검토] 안정적인 80점 이상을 위해 TOPIK 4급 또는 KIIP 4단계 이상을 확보하고, 가장 중요한 것은 소득금액증명원상 수치가 점수표 계산 기준을 충족하는지 미리 대조', vi:'Bước 3: Chuẩn bị hồ sơ và lịch hẹn: Tập hợp các giấy tờ cần thiết, đặt lịch nộp hồ sơ trực tuyến trên HiKorea.' },
       { ko:'[F-2-7 취득 후의 이점] D-8 상태에서는 배우자가 F-3(동반가족)으로만 머물 수 있으나, F-2-7로 변경 후 배우자도 F-2-1으로 상향되어 제한 없이 취업 가능하고 사업 영위도 가능', vi:'Bước 4: Nộp hồ sơ và chờ kết quả: Thời gian xét duyệt thường 1-3 tháng.' },
     ],
-    tip: { ko:'🚨 [D-8 사업가의 F-2-7 신청 3대 체크포인트] ① 회사 매출이 크더라도 \"개인 소득\"이 낮으면 점수 0점 → 배우자 급여, 본인 배당금 등으로 개인 소득 확보 필수! ② 최근 2~3년간 회사 실적이 안정적이어야 함 → 빚, 체납, 우발채무 등이 적어야 점수 유리 ③ 한국어(TOPIK 4급 이상 또는 KIIP 4단계)와 개인 소득 증명서(국세청 소득금액증명원)가 F-2-7 합격의 최종 열쇠! 💡 흔한 실수: 수십억 원 매출의 회사 대표인데도 자신의 개인 소득을 낮게 신고해서 F-2-7 탈락하는 경우 → 반드시 미리 소득금액증명원 기준으로 점수를 자체 계산 후 신청 결정! ⭐ F-2-7로 변경되면 배우자도 자동으로 상향되어 취업과 사업이 자유로워지므로, 더욱 적극적인 경제활동이 가능해집니다!', vi:'⚠️ Thu nhập cá nhân chứ không phải doanh thu công ty:\nRất nhiều chủ doanh nghiệp D-8 nhầm lẫn ở điểm này. Khi tính điểm F-2-7, Cục xuất nhập cảnh chấm điểm dựa trên Thu nhập cá nhân (소득금액) của bạn – tức là khoản lương, cổ tức mà công ty chi trả cho cá nhân bạn và bạn đã nộp thuế thu nhập cá nhân đầy đủ. Doanh thu của công ty dù có hàng tỷ won nhưng nếu bạn để lương cá nhân thấp thì điểm mục thu nhập của bạn vẫn bằng 0.\n⚠️ Kiểm tra kỹ điều kiện duy trì điểm khi gia hạn:\nVisa F-2-7 lần đầu tiên cấp từ D-8 thường có thời hạn 1–3 năm. Đến kỳ gia hạn tiếp theo, họ sẽ quét lại bảng điểm và thu nhập của năm đó. Nếu doanh nghiệp của bạn gặp khó khăn dẫn đến thu nhập cá nhân bị sụt giảm làm tổng điểm tụt xuống dưới 80 điểm, bạn sẽ không được gia hạn F-2-7 và việc quay trở lại visa D-8 gốc sẽ rất phức tạp.\nNếu bạn tự tin về vốn tiếng Hàn (đã có KIIP hoặc TOPIK) và công ty đã quyết toán thuế năm ngoái với mức lương cá nhân ổn định, hãy tiến hành làm F-2-7 ngay để giải phóng quyền lợi đi làm cho vợ/chủ hộ và mở rộng cơ hội đầu tư kinh doanh tự do tại Hàn.' },
+    tip: { ko:'🚨 [D-8 사업가의 F-2-7 신청 3대 체크포인트] ① 회사 매출이 크더라도 \"개인 소득\"이 낮으면 점수 0점 → 배우자 급여, 본인 배당금 등으로 개인 소득 확보 필수! ② 최근 2~3년간 회사 실적이 안정적이어야 함 → 빚, 체납, 우발채무 등이 적어야 점수 유리 ③ 한국어(TOPIK 4급 이상 또는 KIIP 4단계)와 개인 소득 증명서(국세청 소득금액증명원)가 F-2-7 합격의 최종 열쇠! 💡 흔한 실수: 수십억 원 매출의 회사 대표인데도 자신의 개인 소득을 낮게 신고해서 F-2-7 탈락하는 경우 → 반드시 미리 소득금액증명원 기준으로 점수를 자체 계산 후 신청 결정! ⭐ F-2-7로 변경되면 배우자도 자동으로 상향되어 취업과 사업이 자유로워지므로, 더욱 적극적인 경제활동이 가능해집니다!', vi:'⚠️ Lỗi phổ biến: Đánh đồng doanh thu công ty với thu nhập cá nhân\nRất nhiều chủ doanh nghiệp D-9 khi đi làm F-2-7 hồ hởi mang theo báo cáo tài chính khoe doanh thu công ty đạt hàng trăm triệu won, nhưng mục điểm thu nhập vẫn bị tính là 0 điểm. Lý do là vì điểm F-2-7 chỉ tính trên Lương cá nhân của bạn. Nếu bạn là chủ doanh nghiệp nhưng chỉ khai mức lương tối thiểu cho bản thân để giảm thuế thu nhập cá nhân, điểm số của bạn sẽ rất thấp và không thể đạt mức sàn 80 điểm.\n⚠️ Rủi ro khi gia hạn nếu công ty đi xuống\nVisa F-2-7 không phải là vĩnh viễn. Đến kỳ gia hạn (sau 1-3 năm), Cục xuất nhập cảnh sẽ yêu cầu nộp lại Giấy chứng nhận thu nhập của năm trước đó. Nếu công ty D-9 của bạn làm ăn sa sút, bạn buộc phải cắt giảm lương cá nhân của chính mình dẫn đến tổng điểm tụt xuống dưới 80 điểm, bạn sẽ bị từ chối gia hạn F-2-7. Khi đó, việc xin quay trở lại visa D-9 ban đầu sẽ cực kỳ gian nan vì công ty lúc này đang thua lỗ.\nChính vì vậy, nếu có kế hoạch đổi sang F-2-7, bạn cần có chiến lược cân đối tài chính trước 1 năm: Nâng mức lương cá nhân của mình lên trên sổ sách, chấp nhận đóng thuế thu nhập cá nhân cao hơn một chút trong năm đó để đổi lấy tấm visa cư trú tự do lâu dài cho cả gia đình.' },
     docs: {
       change: [
         { ko:'D-8 기업투자 비자 소유자로서 개인 점수 및 기업 실태 증명 서류 필요', vi:'Vì gốc của bạn là visa đầu tư D-8, Cục Xuất nhập cảnh sẽ yêu cầu cả giấy tờ cá nhân chứng minh điểm số lẫn giấy tờ chứng minh doanh nghiệp của bạn đang hoạt động hợp pháp:' },
@@ -2017,7 +2017,7 @@ const VISA_GUIDE_DATA = {
    클래식 게시판 설정 - Force Rebuild
 ================================================================ */
 const CLASSIC_BOARD_CFG = {
-  d9:     { ko:'📘 비자 정보공유',          vi:'Thông tin Visa',          desc_ko:'D-9 연장, E-7-4 변경 등 비자에 관한 정보공유, 질문&답변 게시판입니다.', desc_vi:'Chia sẻ thông tin visa D-9, E-7-4 và hỏi đáp.', cats:['hall','sos','talk'], writeParam:'hall' },
+  d9:     { ko:'📘 비자 정보공유',          vi:'Thông tin Visa',          desc_ko:'D-9 연장, F-2-7, F-5 변경 등 비자에 관한 정보공유, 질문&답변 게시판입니다.', desc_vi:'Chia sẻ thông tin visa D-9, F-2-7, F-5 và hỏi đáp.', cats:['hall','sos','talk'], writeParam:'hall' },
   travel: { ko:'📸 여행·맛집 소개',         vi:'Du lịch & Ẩm thực',       desc_ko:'여행 정보, 맛집 소개, 주말 감성 핫플 등을 자유롭게 공유하세요.',        desc_vi:'Chia sẻ trải nghiệm du lịch, ẩm thực, địa điểm cuối tuần.',    cats:['travel'], writeParam:'travel' },
   bamboo: { ko:'🤫 대나무숲 완전 익명',     vi:'Rừng Tre Ẩn Danh',        desc_ko:'익명으로 자유롭게 이야기할 수 있는 게시판입니다. 비자 외 모든 이야기 환영.', desc_vi:'Không gian nói chuyện ẩn danh. Tất cả chủ đề đều được chào đón.',cats:['bamboo'], writeParam:'bamboo' },
   market: { ko:'🥕 당근마켓 꿀매물',        vi:'Chợ Daangn',              desc_ko:'중고거래, 나눔, 꿀매물 정보를 공유하는 게시판입니다.',                  desc_vi:'Mua bán đồ cũ, đồ mới, chia sẻ hàng ngon giá tốt',                    cats:['market'], writeParam:'market' },
@@ -3115,11 +3115,11 @@ const VISA_ROUTES = [
     key: 'worker',
     emoji: '🏭', ko: 'E-9 제조업', vi: 'E-9 Sản xuất',
     color: 'bg-blue-700',
-    desc: { ko: 'E-9, E-7-4, F-2-7, F-5', vi: 'E-9, E-7-4, F-2-7, F-5' },
+    desc: { ko: 'E-9, E-7-4, F-2-99, F-5', vi: 'E-9, E-7-4, F-2-99, F-5' },
     steps: [
       { code:'E-9',   key:'e9'  },
       { code:'E-7-4', key:'e74' },
-      { code:'F-2-7', key:'f27_e71' },
+      { code:'F-2-99', key:'f27_e71' },
       { code:'F-5',   key:'f5_veteran'  },
     ]
   },
@@ -3167,11 +3167,10 @@ const VISA_ROUTES = [
     key: 'd9route',
     emoji: '💼', ko: 'D-9 무역·주재', vi: 'D-9 Thương mại',
     color: 'bg-indigo-700',
-    desc: { ko: 'D-9, E-7-4, F-2-99, F-5', vi: 'D-9, E-7-4, F-2-99, F-5' },
+    desc: { ko: 'D-9, F-2-7, F-5', vi: 'D-9, F-2-7, F-5' },
     steps: [
       { code:'D-9',   key:'d9'  },
-      { code:'E-7-4', key:'e74' },
-      { code:'F-2-99', key:'f27_e71' },
+      { code:'F-2-7', key:'f27_d8' },
       { code:'F-5',   key:'f5_veteran'  },
     ]
   },
@@ -5265,6 +5264,94 @@ function AssessmentCriteriaPage({ assessmentParam, onBack, lang }) {
    페이지: 필수 서류 준비 (비자별 맞춤)
 ================================================================ */
 function DocsChecklistPage({ visaStep, onBack, lang }) {
+  // F-2-7 from D-8 docs page
+  if (visaStep === 'f27_d8') {
+    return (
+      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
+        <BackHeader title={lang==='vi' ? '📋 Danh sách hồ sơ cần thiết' : '📋 필수 서류 준비'} onBack={onBack} />
+        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
+          <div className="bg-white rounded-2xl shadow-sm px-4 py-3 mb-4">
+            <p className="text-xs text-gray-600 word-keep leading-relaxed">{lang==='vi' ? 'Vì gốc của bạn là visa đầu tư D-8, Cục Xuất nhập cảnh sẽ yêu cầu cả giấy tờ cá nhân chứng minh điểm số lẫn giấy tờ chứng minh doanh nghiệp của bạn đang hoạt động hợp pháp:' : 'D-8 기업투자 비자 소유자로서 개인 점수 및 기업 실태 증명 서류 필요'}</p>
+          </div>
+          {[
+            { title: lang==='vi' ? '📂 Giấy tờ cá nhân (Chứng minh điểm số F-2-7)' : '📂 개인 신청 서류 (점수 증명용)', items: [
+              { ko: '통합신청서 + 여권 + 외국인등록증(ARC) 원본', vi: 'Đơn xin chuyển đổi visa, Hộ chiếu, Thẻ đăng ký người nước ngoài (ARC) gốc.' },
+              { ko: '점수표 (자신의 점수 정확히 계산)', vi: 'Bảng tính điểm F-2-7 tự khai (theo mẫu).' },
+              { ko: '학위증명서 (해외 학위는 영사 인증 또는 아포스티유 필수)', vi: 'Bằng tốt nghiệp Đại học/Thạc sĩ/Tiến sĩ (nếu bằng nước ngoài phải hợp pháp hóa lãnh sự hoặc có chứng nhận Apostille).' },
+              { ko: '한국어 능력 증명 (TOPIK 또는 KIIP 수료증)', vi: 'Chứng chỉ tiếng Hàn (TOPIK) hoặc Giấy chứng nhận hoàn thành chương trình Hội nhập xã hội (KIIP).' },
+              { ko: '소득금액증명원 (국세청 발급 - 최근 연도)', vi: 'Giấy chứng nhận thu nhập (소득금액증명원) của bạn do Cục thuế cấp cho năm gần nhất.' },
+              { ko: '범죄경력증명서 (베트남 발급, 영사 인증 완료)', vi: 'Lý lịch tư pháp số 2 từ Việt Nam (đã hợp pháp hóa lãnh sự).' },
+            ] },
+            { title: lang==='vi' ? '📂 Giấy tờ doanh nghiệp D-8 (Chứng minh tư cách gốc)' : '📂 기업 실태 증명 서류 (D-8 자격 유지 증명용)', items: [
+              { ko: '사업자등록증 (사업자번호 및 등록 상태 확인)', vi: 'Giấy đăng ký kinh doanh của công ty (사업자등록증).' },
+              { ko: '외국인투자기업등록증 (D-8 기업임을 증명)', vi: 'Giấy chứng nhận doanh nghiệp đầu tư nước ngoài (외국인투자기업등록증).' },
+              { ko: '최근 회계감사보고서 또는 재무제표 (회사 실제 운영 증명)', vi: 'Báo cáo tài chính, chứng từ nộp thuế của công ty năm gần nhất (để chứng minh công ty hoạt động thật, không phải công ty "ma" thành lập để mua visa).' },
+              { ko: '사무실 임차계약서 (영업 장소 확인)', vi: 'Hợp đồng thuê văn phòng công ty.' },
+            ] }
+          ].map((sec, i) => (
+            <div key={i} className={`bg-white rounded-2xl shadow-sm overflow-hidden mb-3 fade-in`}>
+              <div className="px-4 py-3 border-b border-gray-100">
+                <p className="text-sm font-black text-gray-800">{sec.title}</p>
+              </div>
+              <div className="p-4 space-y-2">
+                {sec.items.map((item, j) => (
+                  <div key={j} className="flex gap-3">
+                    <span className="text-lg flex-shrink-0">[ ]</span>
+                    <p className="text-sm text-gray-700 word-keep leading-relaxed">{lang==='vi' ? item.vi : item.ko}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // D-9 docs page
+  if (visaStep === 'd9') {
+    return (
+      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
+        <BackHeader title={lang==='vi' ? '📋 Danh sách hồ sơ cần thiết' : '📋 필수 서류 준비'} onBack={onBack} />
+        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
+          {[
+            { title: lang==='vi' ? '📂 Giấy tờ cá nhân' : '📂 개인 서류', items: [
+              { ko: '통합신청서 (비자 신청서 양식) + 여권 + 외국인등록증(ARC) 사본 (있는 경우)', vi: 'Đơn xin cấp visa (theo mẫu), Hộ chiếu, Thẻ đăng ký người nước ngoài (ARC) nếu có.' },
+              { ko: '증명사진 1장 (3.5cm x 4.5cm 흰색 배경)', vi: '1 Ảnh thẻ nền trắng (3.5cm x 4.5cm).' },
+              { ko: '학위증명서 + 자력경력서(CV) - 무역 경험 증명', vi: 'Giấy tờ chứng minh học vấn, lý lịch trích ngang (CV) chứng minh kinh nghiệm làm thương mại.' },
+              { ko: '범죄경력증명서 (베트남 발급, 영사 인증 완료)', vi: 'Lý lịch tư pháp số 2 (Việt Nam) đã hợp pháp hóa lãnh sự.' },
+            ] },
+            { title: lang==='vi' ? '📂 Giấy tờ chứng minh nguồn vốn đầu tư (Cực kỳ quan trọng)' : '📂 투자 자금 증명 (매우 중요)', items: [
+              { ko: '자금 출처 상세 설명 (100 triệu KRW가 청정 자금임을 입증)', vi: 'Báo cáo chi tiết về nguồn gốc dòng vốn (chứng minh số tiền 100 triệu KRW là tiền sạch, hợp pháp).' },
+              { ko: '국제 송금 확인서 (베트남에서 한국으로 송금한 증명)', vi: 'Giấy chứng nhận chuyển tiền quốc tế từ Việt Nam sang Hàn Quốc (외화매입증명서).' },
+              { ko: '외국인 투자 신고서', vi: 'Thông báo khai báo đầu tư nước ngoài.' },
+            ] },
+            { title: lang==='vi' ? '📂 Giấy tờ doanh nghiệp tại Hàn Quốc' : '📂 한국 내 사업 관련 서류', items: [
+              { ko: '사업자등록증 + 법인등기부등본 (법인인 경우)', vi: 'Giấy đăng ký kinh doanh của công ty (사업자등록증).' },
+              { ko: '외국인투자기업등록증', vi: 'Giấy chứng nhận doanh nghiệp đầu tư nước ngoài (외국인투자기업등록증).' },
+              { ko: '최근 회계감사보고서 또는 재무제표 (회사 실제 운영 증명)', vi: 'Báo cáo tài chính, chứng từ nộp thuế của công ty năm gần nhất (để chứng minh công ty hoạt động thật, không phải công ty "ma" thành lập để mua visa).' },
+              { ko: '사무실 임차계약서 (반드시 상업용 사무실, 주거용 불가)', vi: 'Hợp đồng thuê văn phòng công ty.' },
+            ] }
+          ].map((sec, i) => (
+            <div key={i} className={`bg-white rounded-2xl shadow-sm overflow-hidden mb-3 fade-in`}>
+              <div className="px-4 py-3 border-b border-gray-100">
+                <p className="text-sm font-black text-gray-800">{sec.title}</p>
+              </div>
+              <div className="p-4 space-y-2">
+                {sec.items.map((item, j) => (
+                  <div key={j} className="flex gap-3">
+                    <span className="text-lg flex-shrink-0">[ ]</span>
+                    <p className="text-sm text-gray-700 word-keep leading-relaxed">{lang==='vi' ? item.vi : item.ko}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   // D-8 docs page
   if (visaStep === 'd8') {
     return (
