@@ -1,0 +1,145 @@
+{
+  "visaRoutes": [
+    {
+      "key": "student",
+      "emoji": "🎓",
+      "ko": "유학생",
+      "vi": "Du học sinh",
+      "color": "bg-green-700",
+      "desc": {
+        "ko": "D-4, D-2, D-10, E-7-1, F-2-7, F-5",
+        "vi": "D-4, D-2, D-10, E-7-1, F-2-7, F-5"
+      },
+      "subRoutes": [
+        {
+          "key": "student_e71",
+          "emoji": "💼",
+          "ko": "E-7-1 경로 (전문직 취업)",
+          "vi": "Đường E-7-1 (chuyên môn)",
+          "desc": {
+            "ko": "D-2 졸업 후 전문직 취업 → 영주권",
+            "vi": "Tốt nghiệp D-2, xin việc chuyên môn → thường trú"
+          },
+          "steps": [
+            { "code": "D-4", "key": "d2d4" },
+            { "code": "D-2", "key": "d2" },
+            { "code": "D-10", "key": "d10" },
+            { "code": "E-7-1", "key": "e71" },
+            { "code": "F-2-7", "key": "f27_e71" },
+            { "code": "F-5", "key": "f5_veteran" }
+          ]
+        },
+        {
+          "key": "student_f27",
+          "emoji": "📊",
+          "ko": "직접 F-2-7 경로 (점수제)",
+          "vi": "Đường F-2-7 trực tiếp (điểm)",
+          "desc": {
+            "ko": "E-7 없이 점수제로 바로 거주비자",
+            "vi": "Không qua E-7, thẳng visa cư trú hệ điểm"
+          },
+          "steps": [
+            { "code": "D-4", "key": "d2d4" },
+            { "code": "D-2", "key": "d2" },
+            { "code": "D-10", "key": "d10" },
+            { "code": "F-2-7", "key": "f27" },
+            { "code": "F-5", "key": "f5" }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "worker",
+      "emoji": "🏭",
+      "ko": "E-9 제조업",
+      "vi": "E-9 Sản xuất",
+      "color": "bg-blue-700",
+      "desc": {
+        "ko": "E-9, E-7-4, F-2-99, F-5",
+        "vi": "E-9, E-7-4, F-2-99, F-5"
+      },
+      "steps": [
+        { "code": "E-9", "key": "e9" },
+        { "code": "E-7-4", "key": "e74" },
+        { "code": "F-2-99", "key": "f27_e71" },
+        { "code": "F-5", "key": "f5_veteran" }
+      ]
+    },
+    {
+      "key": "marriage",
+      "emoji": "💑",
+      "ko": "결혼이민",
+      "vi": "Kết hôn định cư",
+      "color": "bg-pink-700",
+      "desc": {
+        "ko": "국적시험 합격/미합격 2가지 경로",
+        "vi": "2 đường dựa trên kết quả kì thi quốc tịch"
+      },
+      "subRoutes": [
+        {
+          "key": "marriage_pass",
+          "emoji": "🎯",
+          "ko": "국적시험 합격 (3년)",
+          "vi": "Đỗ kì thi 귀화용 종합평가",
+          "desc": {
+            "ko": "",
+            "vi": ""
+          },
+          "color": "bg-green-600",
+          "steps": [
+            { "code": "F-6", "key": "f6" },
+            { "code": "국적취득", "key": "naturalization" }
+          ]
+        },
+        {
+          "key": "marriage_fail",
+          "emoji": "📚",
+          "ko": "국적시험 미합격 (5년)",
+          "vi": "Đỗ kì thi 영주용/귀화용 종합평가",
+          "desc": {
+            "ko": "",
+            "vi": ""
+          },
+          "color": "bg-indigo-600",
+          "steps": [
+            { "code": "F-6", "key": "f6" },
+            { "code": "F-5-2", "key": "f5_marriage" },
+            { "code": "국적취득", "key": "f5_marriage_naturalization" }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "d8route",
+      "emoji": "🏢",
+      "ko": "D-8 법인 기업투자",
+      "vi": "D-8 Đầu tư công ty",
+      "color": "bg-blue-600",
+      "desc": {
+        "ko": "D-8, F-2-7, F-5",
+        "vi": "D-8, F-2-7, F-5"
+      },
+      "steps": [
+        { "code": "D-8", "key": "d8" },
+        { "code": "F-2-7", "key": "f27_d8" },
+        { "code": "F-5", "key": "f5_veteran" }
+      ]
+    },
+    {
+      "key": "d9route",
+      "emoji": "💼",
+      "ko": "D-9 무역·주재",
+      "vi": "D-9 Thương mại",
+      "color": "bg-indigo-700",
+      "desc": {
+        "ko": "D-9, F-2-7, F-5",
+        "vi": "D-9, F-2-7, F-5"
+      },
+      "steps": [
+        { "code": "D-9", "key": "d9" },
+        { "code": "F-2-7", "key": "f27_d8" },
+        { "code": "F-5", "key": "f5_veteran" }
+      ]
+    }
+  ]
+}
