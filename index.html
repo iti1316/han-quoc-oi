@@ -1501,6 +1501,45 @@ const VISA_GUIDE_DATA = {
   },
   f27_e71: {
     code:'F-2-7', icon:'🌟', color:'bg-purple-600',
+    name:      { ko:'점수제 거주비자 (제조업 베테랑)',                  vi:'Visa cư trú diện tích điểm' },
+    summary:   { ko:'E-7-4 숙련기능에서 3년 체류 후 신청 (또는 4,000만원 고소득 시 즉시 가능) — 제조업 베테랑의 영주권 진입로', vi:'- Tự do nhảy việc/Làm chủ: Bạn có thể làm việc ở bất kỳ công ty nào, bất kỳ ngành nghề nào (trừ một số ngành hạn chế phổ thông) hoặc tự mở doanh nghiệp/hộ kinh doanh cá thể mà không cần công ty bảo lãnh.\n-Bảo lãnh và quyền làm việc của gia đình: Vợ/chồng (F-3) được đi làm hợp pháp (chuyển sang diện F-2-71) nếu thu nhập của bạn đạt chuẩn GNI.' },
+    maxStay:   { ko:'1~3년 단위 갱신 (GNI 1배 이상 소득 계속 유지 필수)', vi:'Thời hạn lưu trú dài: Lên tới 3 - 5 năm cho một lần cấp (tùy thuộc vào tổng số điểm bạn đạt được), gia hạn dễ dàng nếu duy trì đủ điểm.' },
+    target:    { ko:'3년 이상 F-2-7 유지 후 F-5 영주권 신청 가능 — 제조업 근로자의 최종 목표', vi:'Đường thẳng lên Thường trú (F-5): Chỉ cần giữ F-2-7 từ 1 năm trở lên (kèm đủ điều kiện thu nhập) là có thể nộp đơn xin visa vĩnh viễn F-5.' },
+    steps: [
+      { ko:'[신청 자격의 3년 vs 즉시 관문] ①일반: E-7-4 취득 후 한국에서 3년 이상 연속 합법 체류 필수 ②고소득 우대: 전년도 소득금액증명원상 연간 소득 4,000만원 이상 증명 시 3년 제한 없이 E-7-4 직후 즉시 신청 가능! (자신의 소득 수준 먼저 확인 필수)', vi:'Bước 1: Tích lũy thời gian và điều kiện: Chờ đủ 5 năm lưu trú liên tục, hoàn thành việc học tiếng Hàn/KIIP và đợi đến khi có giấy chứng nhận thu nhập GNI của năm trước đó từ Cục Thuế (thường có vào khoảng tháng 5 hàng năm).' },
+      { ko:'[2026년 소득 기준 철저 이해] F-2-7 신청 시 반드시 전년도(2025년) 한국 국민총소득(GNI) 1배 이상의 소득을 국세청 발행 소득금액증명원으로 입증해야 함. 2026년 현재 대략 연봉 4,400만~4,500만원 선 이상 필수! (정확한 GNI 수치는 출입국청 공고 확인)', vi:'Bước 2: Chuẩn bị hồ sơ giấy tờ: Thu thập đầy đủ các giấy tờ chứng minh từ bản thân, công ty đang làm việc và lý lịch tư pháp.' },
+      { ko:'[제조업 수당의 함정 = 실제 소득 확인 필수] 근로계약서상 기본급이 충분해도, 실제 세금 신고가 완료되어 국세청 시스템에 찍힌 최종 총과세 소득 숫자가 GNI 기준선을 넘었는지 유저가 먼저 대조 및 확인해야 함! 잔업·특근·야간 수당 등이 빠지거나 제대로 신고되지 않으면 탈락 위험 극대', vi:'Bước 3: Đặt lịch hẹn: Đặt lịch hẹn trực tuyến trên trang HiKorea.' },
+      { ko:'[한국어 능력 고득점 필수화] 국내 학위 점수가 낮기 때문에, 안정적인 80점 통과를 위해서는 사회통합프로그램(KIIP) 5단계 이수(10점) 또는 TOPIK 5급 이상(최대 15점)을 무조건 확보해야 함. 4급 이하로는 점수 부족 위험 높음!', vi:'Bước 4: Nộp hồ sơ tại Cục xuất nhập cảnh: Đến nộp trực tiếp theo lịch hẹn và đóng lệ phí.' },
+      { ko:'[F-2-7 취득 후 이직 전면 자유화의 핵심] 기존 E-9/E-7-4와 달리, F-2-7 취득 순간부터 제조업 내 이직이 전면 자유화됨! 고용주 동의서나 출입국 사전 허가 없이 단순 이직 신고(통보)만으로 다른 제조업체로 즉시 전직 가능. 더 나아가 단순노무가 아닌 전문직·관리직 분야의 사업도 가능해짐', vi:'Bước 5: Nhận kết quả: Thời gian xét duyệt thường kéo dài từ 1 đến 3 tháng.' },
+    ],
+    tip: { ko:'🚨 [제조업 베테랑의 F-2-7 합격 3대 법칙] ① 신청 전 \'본인 소득\'을 국세청 소득금액증명원으로 직접 확인하기 (계약서와 실제 신고 소득이 다를 수 있음!) ② 한국어 KIIP 5단계 또는 TOPIK 5급 이상 반드시 확보 (4급 이하는 점수 부족 위험) ③ 3년 체류 vs 고소득 즉시 신청 중 자신의 소득으로 어떤 경로인지 명확히 파악! 💡 가장 흔한 탈락 원인: 제조업 수당(잔업, 특근, 야간비)이 제대로 세금 신고되지 않아 실제 소득이 GNI 기준 미달로 떨어지는 경우. 매년 연장 시마다 이 기준을 계속 유지해야 하므로 소득 관리가 절대 중요! ⭐ F-2-7 취득 후의 이직 자유와 비수도권 가산점 혜택을 최대한 활용하면, 영주권(F-5)까지 순탄한 여정을 보장받을 수 있습니다!', vi:'Không tính lương trên hợp đồng: Điểm thu nhập của F-2-7 tính dựa trên con số thực tế bạn đã đóng thuế hiển thị trên tờ 소득금액증명원 của Cục Thuế, không tính mức lương ghi trên hợp đồng lao động mới ký.\nCảnh giác với điểm trừ (감점): Các lỗi vi phạm luật giao thông (bị phạt tiền), đi làm chui trước đó, hoặc vi phạm luật cư trú có thể bị trừ từ 5 đến 70 điểm, kéo tổng điểm của bạn xuống dưới mức 80 điểm và gây trượt visa ngay lập tức.\nMẹo tăng điểm nhanh: Nếu thiếu vài điểm để chạm mốc 80, bạn nên tham gia các khóa tình nguyện được đăng ký trên cổng thông tin 1365 (được cộng tối đa 7 điểm) hoặc cố gắng hoàn thành lớp KIIP Lớp 5 (được cộng ngay 10 điểm).' },
+    docs: {
+      change: [
+        { ko:'[ ] 통합신청서 + 증명사진 1장 (3.5 x 4.5)', vi:'[ ] Đơn tổng hợp + 1 Ảnh thẻ nền trắng (3.5 x 4.5).' },
+        { ko:'[ ] 여권 & 외국인등록증(ARC) 원본', vi:'[ ] Hộ chiếu & Thẻ ARC gốc.' },
+        { ko:'[ ] 점수표 (점수표): 출입국청 양식에 따라 작성', vi:'[ ] Bảng tự chấm điểm (점수표): Điền theo mẫu của Cục Xuất nhập cảnh.' },
+        { ko:'[ ] 점수 증빙 서류:', vi:'[ ] Giấy tờ chứng minh điểm số đã khai:' },
+        { ko:'학위증명서 + 성적표 (대학/대학원)', vi:'Bằng tốt nghiệp + Bảng điểm (Đại học/Thạc sĩ).' },
+        { ko:'한국어 능력증명서 (TOPIK 또는 KIIP 수료증)', vi:'Chứng chỉ tiếng Hàn (TOPIK hoặc bằng chứng nhận lớp Hội nhập xã hội KIIP).' },
+        { ko:'소득금액증명원: 국세청 발급, 최근 연도 (점수 결정의 가장 중요한 서류)', vi:'Giấy chứng nhận thu nhập (소득금액증명원): Do Cục Thuế cấp cho năm gần nhất (Yếu tố cực kỳ quan trọng quyết định số điểm lớn).' },
+        { ko:'[ ] 현재 고용계약서', vi:'[ ] Hợp đồng lao động hiện tại.' },
+        { ko:'[ ] 주택 임차계약서', vi:'[ ] Hợp đồng thuê nhà.' },
+        { ko:'[ ] 법적 기록 (형사기록증명서 2호): 외교 인증 필수 (한국 거주 중 6개월 이상 출국하지 않은 경우 제외 가능)', vi:'[ ] Lịch sử tư pháp (Lý lịch tư pháp số 2): Hợp pháp hóa lãnh sự (được miễn nếu ở Hàn liên tục không cư trú nước ngoài quá 6 tháng).' },
+        { ko:'[ ] 수수료: 130,000 KRW', vi:'[ ] Lệ phí: 130.000 KRW.' },
+      ],
+      extension: [
+        { ko:'[ ] 통합신청서 (\'체류기간 연장\' 항목 체크)', vi:'[ ] Đơn tổng hợp (통합신청서): Tích chọn mục Gia hạn thời gian lưu trú (Extension of Stay).' },
+        { ko:'[ ] 여권 & 외국인등록증(ARC) 원본', vi:'[ ] Hộ chiếu & Thẻ ARC gốc.' },
+        { ko:'[ ] 점수표 (최신 기준으로 재계산)', vi:'[ ] Bảng tự chấm điểm (점수표): Điền theo mẫu cập nhật mới nhất.' },
+        { ko:'[ ] 소득금액증명원 (최근 연도 - 가장 중요!)', vi:'[ ] Giấy chứng nhận thu nhập (소득금액증명원): Do Cục Thuế cấp cho năm gần nhất (Đây là giấy tờ quan trọng nhất để chứng minh bạn vẫn duy trì đủ điểm thu nhập).' },
+        { ko:'[ ] 현재 고용계약서 (계약 유효 기간 확인)', vi:'[ ] Hợp đồng lao động hiện tại (để chứng minh bạn vẫn đang có công việc hợp pháp).' },
+        { ko:'[ ] 거주지 임차계약서', vi:'[ ] Hợp đồng thuê nhà (Chứng minh nơi cư trú).' },
+        { ko:'[ ] 연장 수수료: 60,000 KRW', vi:'[ ] Lệ phí gia hạn: 60.000 KRW.' },
+      ]
+    },
+  },
+  f299: {
+    code:'F-2-99', icon:'🌟', color:'bg-purple-600',
     name:      { ko:'점수제 거주비자 (제조업 베테랑)',                  vi:'Visa f2-99 (cư trú dài hạn)' },
     summary:   { ko:'E-7-4 숙련기능에서 3년 체류 후 신청 (또는 4,000만원 고소득 시 즉시 가능) — 제조업 베테랑의 영주권 진입로', vi:'Đây là diện visa cư trú dài hạn cho phép người nước ngoài được phép đi làm, thay đổi công việc tự do hoặc tự kinh doanh (phụ thuộc vào ngành nghề của visa gốc trước đó) mà không cần công ty bảo lãnh hay làm thủ tục gia hạn phức tạp gắn liền với một doanh nghiệp cụ thể.' },
     maxStay:   { ko:'1~3년 단위 갱신 (GNI 1배 이상 소득 계속 유지 필수)', vi:'Mỗi lần gia hạn, visa F-2-99 thường được cấp thời hạn từ 1 đến 3 năm (tùy thuộc vào mức thu nhập và đánh giá của Cục xuất nhập cảnh tại thời điểm nộp). Bạn có thể gia hạn liên tục loại visa này nếu duy trì đủ các điều kiện' },
@@ -1551,7 +1590,7 @@ const VISA_GUIDE_DATA = {
       { ko:'[한국어 능력과 소득 수준 검토] 안정적인 80점 이상을 위해 TOPIK 4급 또는 KIIP 4단계 이상을 확보하고, 가장 중요한 것은 소득금액증명원상 수치가 점수표 계산 기준을 충족하는지 미리 대조', vi:'Bước 3: Chuẩn bị hồ sơ và lịch hẹn: Tập hợp các giấy tờ cần thiết, đặt lịch nộp hồ sơ trực tuyến trên HiKorea.' },
       { ko:'[F-2-7 취득 후의 이점] D-8 상태에서는 배우자가 F-3(동반가족)으로만 머물 수 있으나, F-2-7로 변경 후 배우자도 F-2-1으로 상향되어 제한 없이 취업 가능하고 사업 영위도 가능', vi:'Bước 4: Nộp hồ sơ và chờ kết quả: Thời gian xét duyệt thường 1-3 tháng.' },
     ],
-    tip: { ko:'🚨 [D-8 사업가의 F-2-7 신청 3대 체크포인트] ① 회사 매출이 크더라도 \"개인 소득\"이 낮으면 점수 0점 → 배우자 급여, 본인 배당금 등으로 개인 소득 확보 필수! ② 최근 2~3년간 회사 실적이 안정적이어야 함 → 빚, 체납, 우발채무 등이 적어야 점수 유리 ③ 한국어(TOPIK 4급 이상 또는 KIIP 4단계)와 개인 소득 증명서(국세청 소득금액증명원)가 F-2-7 합격의 최종 열쇠! 💡 흔한 실수: 수십억 원 매출의 회사 대표인데도 자신의 개인 소득을 낮게 신고해서 F-2-7 탈락하는 경우 → 반드시 미리 소득금액증명원 기준으로 점수를 자체 계산 후 신청 결정! ⭐ F-2-7로 변경되면 배우자도 자동으로 상향되어 취업과 사업이 자유로워지므로, 더욱 적극적인 경제활동이 가능해집니다!', vi:'⚠️ Lỗi phổ biến: Đánh đồng doanh thu công ty với thu nhập cá nhân\nRất nhiều chủ doanh nghiệp D-9 khi đi làm F-2-7 hồ hởi mang theo báo cáo tài chính khoe doanh thu công ty đạt hàng trăm triệu won, nhưng mục điểm thu nhập vẫn bị tính là 0 điểm. Lý do là vì điểm F-2-7 chỉ tính trên Lương cá nhân của bạn. Nếu bạn là chủ doanh nghiệp nhưng chỉ khai mức lương tối thiểu cho bản thân để giảm thuế thu nhập cá nhân, điểm số của bạn sẽ rất thấp và không thể đạt mức sàn 80 điểm.\n⚠️ Rủi ro khi gia hạn nếu công ty đi xuống\nVisa F-2-7 không phải là vĩnh viễn. Đến kỳ gia hạn (sau 1-3 năm), Cục xuất nhập cảnh sẽ yêu cầu nộp lại Giấy chứng nhận thu nhập của năm trước đó. Nếu công ty D-9 của bạn làm ăn sa sút, bạn buộc phải cắt giảm lương cá nhân của chính mình dẫn đến tổng điểm tụt xuống dưới 80 điểm, bạn sẽ bị từ chối gia hạn F-2-7. Khi đó, việc xin quay trở lại visa D-9 ban đầu sẽ cực kỳ gian nan vì công ty lúc này đang thua lỗ.\nChính vì vậy, nếu có kế hoạch đổi sang F-2-7, bạn cần có chiến lược cân đối tài chính trước 1 năm: Nâng mức lương cá nhân của mình lên trên sổ sách, chấp nhận đóng thuế thu nhập cá nhân cao hơn một chút trong năm đó để đổi lấy tấm visa cư trú tự do lâu dài cho cả gia đình.' },
+    tip: { ko:'🚨 [D-8 사업가의 F-2-7 신청 3대 체크포인트] ① 회사 매출이 크더라도 \"개인 소득\"이 낮으면 점수 0점 → 배우자 급여, 본인 배당금 등으로 개인 소득 확보 필수! ② 최근 2~3년간 회사 실적이 안정적이어야 함 → 빚, 체납, 우발채무 등이 적어야 점수 유리 ③ 한국어(TOPIK 4급 이상 또는 KIIP 4단계)와 개인 소득 증명서(국세청 소득금액증명원)가 F-2-7 합격의 최종 열쇠! 💡 흔한 실수: 수십억 원 매출의 회사 대표인데도 자신의 개인 소득을 낮게 신고해서 F-2-7 탈락하는 경우 → 반드시 미리 소득금액증명원 기준으로 점수를 자체 계산 후 신청 결정! ⭐ F-2-7로 변경되면 배우자도 자동으로 상향되어 취업과 사업이 자유로워지므로, 더욱 적극적인 경제활동이 가능해집니다!', vi:'⚠️ Thu nhập cá nhân chứ không phải doanh thu công ty:\nRất nhiều chủ doanh nghiệp D-8 nhầm lẫn ở điểm này. Khi tính điểm F-2-7, Cục xuất nhập cảnh chấm điểm dựa trên Thu nhập cá nhân (소득금액) của bạn – tức là khoản lương, cổ tức mà công ty chi trả cho cá nhân bạn và bạn đã nộp thuế thu nhập cá nhân đầy đủ. Doanh thu của công ty dù có hàng tỷ won nhưng nếu bạn để lương cá nhân thấp thì điểm mục thu nhập của bạn vẫn bằng 0.\n⚠️ Kiểm tra kỹ điều kiện duy trì điểm khi gia hạn:\nVisa F-2-7 lần đầu tiên cấp từ D-8 thường có thời hạn 1–3 năm. Đến kỳ gia hạn tiếp theo, họ sẽ quét lại bảng điểm và thu nhập của năm đó. Nếu doanh nghiệp của bạn gặp khó khăn dẫn đến thu nhập cá nhân bị sụt giảm làm tổng điểm tụt xuống dưới 80 điểm, bạn sẽ không được gia hạn F-2-7 và việc quay trở lại visa D-8 gốc sẽ rất phức tạp.\nNếu bạn tự tin về vốn tiếng Hàn (đã có KIIP hoặc TOPIK) và công ty đã quyết toán thuế năm ngoái với mức lương cá nhân ổn định, hãy tiến hành làm F-2-7 ngay để giải phóng quyền lợi đi làm cho vợ/chủ hộ và mở rộng cơ hội đầu tư kinh doanh tự do tại Hàn.' },
     docs: {
       change: [
         { ko:'D-8 기업투자 비자 소유자로서 개인 점수 및 기업 실태 증명 서류 필요', vi:'Vì gốc của bạn là visa đầu tư D-8, Cục Xuất nhập cảnh sẽ yêu cầu cả giấy tờ cá nhân chứng minh điểm số lẫn giấy tờ chứng minh doanh nghiệp của bạn đang hoạt động hợp pháp:' },
@@ -1881,12 +1920,12 @@ const VISA_GUIDE_DATA = {
     name:    { ko:'정식 유학비자 (D-2)',              vi:'Visa du học chính thức (D-2)' },
     summary: { ko:'한국 대학 학위 취득·교환학생 — D-4와 달리 입국 즉시 알바 허가 신청 가능!', vi:'D2.1\nTùy thuộc vào hệ đào tạo bạn đăng ký, visa D-2 sẽ được chia nhỏ thành các mã sau:\nD-2-1: Hệ Cao đẳng (Associate Degree).\nD-2-2: Hệ Cử nhân / Đại học (Bachelor\'s Degree).\nD-2-3: Hệ Thạc sĩ (Master\'s Degree).\nD-2-4: Hệ Tiến sĩ (Doctorate Degree).\nD-2-6: Hệ sinh viên trao đổi (Exchange Student).\nD-2-8: Du học ngắn hạn / Học kỳ hè, đông (Short-term Study).' },
     maxStay: { ko:'1년 단위 갱신, 성적 유지 시 졸업까지 안정적 연장', vi:'Thông thường Cục Xuất nhập cảnh sẽ cấp visa theo chu kỳ 1 năm/lần hoặc 2 năm/lần dựa trên tiến độ học tập và học phí bạn đã đóng.' },
-    target:  { ko:'졸업 후 D-10(구직) → E-7-1 또는 F-2-7 전환', vi:'Sau tốt nghiệp → D-10 (tìm việc) → E-7-1 hoặc F-2-7' },
+    target:  { ko:'졸업 후 D-10(구직) → E-7-1 또는 F-2-7 전환', vi:'-Sau tốt nghiệp đại học -> d10 tìm viêc -> E7-1\n- Sau tốt nghiệp cao học --> d10 tìm việc --> F2-7' },
     steps: [
-      { ko:'D-4와 다른 핵심! 입국 즉시 시간제 취업 허가 신청 가능 (6개월 대기 없음)', vi:'Điểm khác biệt với D-4! Được xin phép làm thêm ngay sau nhập cảnh (không chờ 6 tháng)' },
-      { ko:'TOPIK 등급별 알바 허용 시간 달라짐 — 주 10~30시간 (등급 높을수록 더 많이 가능)', vi:'Số giờ làm thêm theo cấp TOPIK — 10~30 giờ/tuần (cấp càng cao càng được nhiều giờ)' },
-      { ko:'석사(D-2-3)·박사(D-2-4) 이상: 배우자·자녀를 F-3 비자로 한국에 초청 가능', vi:'Thạc sĩ(D-2-3)·Tiến sĩ(D-2-4): Được đưa vợ/chồng, con sang Hàn theo diện F-3' },
-      { ko:'D-10(구직)으로 전환 후 다시 D-2로 복귀 가능 — 단, D-10 총 체류는 합산 3년 한도', vi:'Có thể chuyển D-10 rồi quay về D-2 — nhưng tổng thời gian D-10 cộng dồn tối đa 3 năm' },
+      { ko:'Bước 1 — Nhận giấy báo nhập học chuẩn (표준입학허가서)\nDo hiệu trưởng/trưởng khoa của trường tại Hàn Quốc cấp cho sinh viên đã trúng tuyển.', vi:'Bước 1 — Nhận giấy báo nhập học chuẩn (표준입학허가서)\nDo hiệu trưởng/trưởng khoa của trường tại Hàn Quốc cấp cho sinh viên đã trúng tuyển.' },
+      { ko:'Bước 2 — Chuẩn bị hồ sơ nộp tại Lãnh sự quán/Đại sứ quán Hàn Quốc\nHồ sơ cơ bản gồm: đơn xin cấp visa (có dán ảnh), hộ chiếu, lệ phí, bản sao giấy báo nhập học chuẩn. Ngoài ra tùy đối tượng còn cần: giấy chứng nhận đăng ký kinh doanh của cơ sở giáo dục, chứng minh năng lực tài chính (như sổ tiết kiệm chứng minh số dư của bố mẹ, kèm giấy tờ chứng minh quan hệ gia đình nếu dùng sổ tiết kiệm của bố mẹ).\nLưu ý: nếu trường mời thuộc diện trường bị hạn chế cấp visa, hoặc trường thuộc diện "tư vấn" (컨설팅대학), hồ sơ sẽ bị thẩm tra nghiêm ngặt hơn theo hướng dẫn chung dành cho du học sinh. Nếu trường thuộc diện "trường được chứng nhận" (인증대학) thì chỉ cần giấy báo nhập học chuẩn là đủ để xét duyệt.', vi:'Bước 2 — Chuẩn bị hồ sơ nộp tại Lãnh sự quán/Đại sứ quán Hàn Quốc\nHồ sơ cơ bản gồm: đơn xin cấp visa (có dán ảnh), hộ chiếu, lệ phí, bản sao giấy báo nhập học chuẩn. Ngoài ra tùy đối tượng còn cần: giấy chứng nhận đăng ký kinh doanh của cơ sở giáo dục, chứng minh năng lực tài chính (như sổ tiết kiệm chứng minh số dư của bố mẹ, kèm giấy tờ chứng minh quan hệ gia đình nếu dùng sổ tiết kiệm của bố mẹ).\nLưu ý: nếu trường mời thuộc diện trường bị hạn chế cấp visa, hoặc trường thuộc diện "tư vấn" (컨설팅대학), hồ sơ sẽ bị thẩm tra nghiêm ngặt hơn theo hướng dẫn chung dành cho du học sinh. Nếu trường thuộc diện "trường được chứng nhận" (인증대학) thì chỉ cần giấy báo nhập học chuẩn là đủ để xét duyệt.' },
+      { ko:'Bước 3 — Thời gian xử lý\nVisa du học thường mất khoảng 20 ngày làm việc kể từ ngày nộp hồ sơ, nhưng có thể kéo dài hơn dự kiến do quá trình thẩm tra học vấn và xác minh thực tế → nên nộp sớm, có dư thời gian.', vi:'Bước 3 — Thời gian xử lý\nVisa du học thường mất khoảng 20 ngày làm việc kể từ ngày nộp hồ sơ, nhưng có thể kéo dài hơn dự kiến do quá trình thẩm tra học vấn và xác minh thực tế → nên nộp sớm, có dư thời gian.' },
+      { ko:'Bước 4 — Nhập cảnh và đăng ký sau khi đến Hàn Quốc\nĐăng ký thẻ ngoại kiều (외국인등록증/ARC) trong vòng 90 ngày kể từ ngày nhập cảnh.\nNếu muốn ở lại quá 90 ngày hoặc cần đổi/gia hạn tư cách lưu trú, nộp hồ sơ tại Cục xuất nhập cảnh (출입국·외국인청).', vi:'Bước 4 — Nhập cảnh và đăng ký sau khi đến Hàn Quốc\nĐăng ký thẻ ngoại kiều (외국인등록증/ARC) trong vòng 90 ngày kể từ ngày nhập cảnh.\nNếu muốn ở lại quá 90 ngày hoặc cần đổi/gia hạn tư cách lưu trú, nộp hồ sơ tại Cục xuất nhập cảnh (출입국·외국인청).' },
     ],
     tip: { ko:'D-2 8가지 종류: D-2-1(전문학사) · D-2-2(학사, 가장 많음) · D-2-3(석사) · D-2-4(박사) · D-2-5(연구) · D-2-6(교환학생) · D-2-7(일·학습연계) · D-2-8(방문학생). D-4와 가장 다른 점 — TOPIK 점수만 있으면 입국 즉시 알바 가능! TOPIK 점수 = 알바 시간, 알바 시간 = 생활비. 목숨 걸고 TOPIK 준비하세요 🎯', vi:'1.Tuyệt đối không đi làm thêm chui: Du học sinh D-2 được phép làm thêm (Part-time) nhưng bắt buộc phải có sự đồng ý của trường (đóng dấu của văn phòng quốc tế) và nộp đơn xin Giấy phép hoạt động ngoài tư cách lưu trú (시간제취업) trên HiKorea trước khi đi làm.\n2.Giới hạn giờ làm thêm: Số giờ làm thêm được quy định nghiêm ngặt theo bậc học và trình độ tiếng Hàn (Dao động từ 20 - 30 giờ/tuần trong kỳ học, và không giới hạn trong kỳ nghỉ). Nếu chưa có TOPIK đạt chuẩn theo yêu cầu, số giờ làm thêm hợp pháp của bạn sẽ bị cắt giảm một nửa.\n3.Quản lý sao kê ngân hàng: Khi đi gia hạn D-2, nếu bị yêu cầu nộp lịch sử giao dịch ngân hàng, hãy đảm bảo tài khoản không có các khoản thu nhập mập mờ hoặc nhận tiền lương từ các bên không khai báo, tránh bị khép vào tội làm thêm bất hợp pháp' },
     nextPaths: [
@@ -3083,32 +3122,13 @@ const VISA_ROUTES = [
     emoji: '🎓', ko: '유학생', vi: 'Du học sinh',
     color: 'bg-green-700',
     desc: { ko: 'D-4, D-2, D-10, E-7-1, F-2-7, F-5', vi: 'D-4, D-2, D-10, E-7-1, F-2-7, F-5' },
-    subRoutes: [
-      {
-        key: 'student_e71',
-        emoji: '💼', ko: 'E-7-1 경로 (전문직 취업)', vi: 'Đường E-7-1 (chuyên môn)',
-        desc: { ko: 'D-2 졸업 후 전문직 취업 → 영주권', vi: 'Tốt nghiệp D-2, xin việc chuyên môn → thường trú' },
-        steps: [
-          { code:'D-4',   key:'d2d4' },
-          { code:'D-2',   key:'d2'   },
-          { code:'D-10',  key:'d10'  },
-          { code:'E-7-1', key:'e71'  },
-          { code:'F-2-7', key:'f27_e71'  },
-          { code:'F-5',   key:'f5_veteran'   },
-        ]
-      },
-      {
-        key: 'student_f27',
-        emoji: '📊', ko: '직접 F-2-7 경로 (점수제)', vi: 'Đường F-2-7 trực tiếp (điểm)',
-        desc: { ko: 'E-7 없이 점수제로 바로 거주비자', vi: 'Không qua E-7, thẳng visa cư trú hệ điểm' },
-        steps: [
-          { code:'D-4',   key:'d2d4' },
-          { code:'D-2',   key:'d2'   },
-          { code:'D-10',  key:'d10'  },
-          { code:'F-2-7', key:'f27'  },
-          { code:'F-5',   key:'f5'   },
-        ]
-      }
+    steps: [
+      { code:'D-4',   key:'d2d4' },
+      { code:'D-2',   key:'d2'   },
+      { code:'D-10',  key:'d10'  },
+      { code:'E-7-1', key:'e71'  },
+      { code:'F-2-7', key:'f27_e71'  },
+      { code:'F-5',   key:'f5_veteran'   },
     ]
   },
   {
@@ -3119,7 +3139,7 @@ const VISA_ROUTES = [
     steps: [
       { code:'E-9',   key:'e9'  },
       { code:'E-7-4', key:'e74' },
-      { code:'F-2-99', key:'f27_e71' },
+      { code:'F-2-99', key:'f299' },
       { code:'F-5',   key:'f5_veteran'  },
     ]
   },
@@ -3393,7 +3413,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
             {[
               ...(selectedStep === 'e74' ? [{ e:'📊', ko:'E-7-4 점수 계산기',   vi:'Tính điểm E-7-4',      bg:'bg-amber-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_e74', prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'f27' ? [{ e:'📊', ko:'F-2-7 점수 계산기',   vi:'Tính điểm F-2-7',      bg:'bg-purple-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_f27', prevPage:'visaHub'}) } }] : []),
-              ...(selectedStep === 'f27_e71' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f27_e71', prevPage:'visaHub'}) } }, { e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:null, prevPage:'visaHub'}) } }] : []),
+              ...(selectedStep === 'f27_e71' ? [{ e:'👥', ko:'점수 방법',   vi:'Bảng tính điểm',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f27_e71', prevPage:'visaHub'}) } }, { e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:'f27_e71', prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'f6' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f6', prevPage:'visaHub'}) } }, { e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:null, prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'f5_marriage_naturalization' ? [{ e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:null, prevPage:'visaHub'}) } }, { e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f5_marriage_naturalization', prevPage:'visaHub'}) } }] : []),
               ...(selectedStep === 'd8' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'d8', prevPage:'visaHub'}) } }] : []),
@@ -4819,29 +4839,19 @@ function EligibilityPage({ visaStep, onBack, lang }) {
   if (visaStep === 'f5_marriage') {
     content = f5MarriageContent;
   } else if (visaStep === 'f27_e71') {
-    // D-9 F-2-99 eligibility
+    // F-2-7 eligibility
     content = lang === 'vi' ? {
-      title: '👥 Đối tượng áp dụng',
-      subtitle: 'Ai có thể chuyển đổi sang F-2-99',
+      title: "📊 Hệ thống tính điểm F-2-7",
+      subtitle: "Tổng 170 điểm, cần 80 điểm để được cấp visa",
       sections: [
-        {
-          icon: '📌',
-          title: 'Bạn phải đang lưu trú hợp pháp tại Hàn Quốc với một trong các tư cách visa sau:',
-          items: [
-            '✅ Visa chuyên gia/lao động chuyên môn: E-1, E-2, E-3, E-4, E-5, E-6 (trừ E-6-2), E-7.',
-            '✅ Visa đầu tư/thương mại: D-1, D-5, D-6, D-7, D-8, D-9.',
-            '✅ Visa phụ thuộc/gia đình: F-1, F-3 (Người phụ thuộc của các diện visa lao động/chuyên gia nêu trên).'
-          ]
-        },
-        {
-          icon: '⚠️',
-          title: 'Lưu ý đối với E-9, E-10, H-2:',
-          items: [
-            'Nhóm visa lao động phổ thông này không được chuyển thẳng lên F-2-99, mà thông thường phải lộ trình chuyển sang visa nhân tài chuyên môn ngành nghề cơ bản (E-7-4) trước, sau đó mới tích lũy thời gian để lên F-2-99.'
-          ],
-          isDanger: true
-        }
-      ]
+        { icon: "👤", title: "1. Tuổi tác – Tối đa 25 điểm", items: ["25-29: 25 điểm | 18-24, 30-34: 23 điểm | 35-39: 20 điểm | 40-44: 12 điểm..."] },
+        { icon: "🎓", title: "2. Học vị – Tối đa 25 điểm", items: ["Tiến sĩ (이공계): 25 | Tiến sĩ (khác): 20 | Thạc sĩ (이공계): 20 | Thạc sĩ (khác): 17 | Cử nhân (이공계): 17 | Cử nhân (khác): 15 | Cao đẳng (이공계): 15 | Cao đẳng (khác): 10"] },
+        { icon: "🗣️", title: "3. Tiếng Hàn – Tối đa 20 điểm", items: ["TOPIK 5-6 / KIIP 5: 20 | TOPIK 4 / KIIP 4: 15 | TOPIK 3 / KIIP 3: 10 | TOPIK 2: 5 | TOPIK 1: 3"] },
+        { icon: "💰", title: "4. Thu nhập hàng năm – Tối đa 60 điểm", items: ["100+: 60 | 90-100: 58 | 80-90: 56 | 70-80: 53 | 60-70: 50 | 50-60: 45 | 40-50: 40 | 30-40: 30 | Tối thiểu-30: 10"] },
+        { icon: "⭐", title: "5. Điểm cộng – Tối đa 40 điểm", items: ["Chuyên gia xuất sắc: +20 | Tiến cử hành chính: +20 | KIIP 5+: +10 | Tốt nghiệp thế giới: +30/20/15 | Tốt nghiệp Hàn: +10/7/5 | Tình nguyện: +7/5/1"] },
+        { icon: "📋", title: "Bảng điểm chi tiết", items: ["Xem ảnh K-point E74 dưới đây"] }
+      ],
+      hasImage: true
     } : {
       title: '👥 대상 적용',
       subtitle: 'F-2-99로 변경 가능 대상',
@@ -5042,6 +5052,13 @@ function EligibilityPage({ visaStep, onBack, lang }) {
           </div>
         ))}
 
+        {/* 이미지 표시 */}
+        {content.hasImage && (
+          <div className="mt-8 mb-6">
+            <img src="/images/f27_scoring_table.jpg.jpg" alt="F-2-7 Scoring Table" className="w-full rounded-xl shadow-lg" />
+          </div>
+        )}
+
       </div>
     </div>
   );
@@ -5075,6 +5092,47 @@ function AssessmentCriteriaPage({ assessmentParam, onBack, lang }) {
                 <div className="p-4 space-y-2">
                   {section.items.map((item, j) => (
                     <p key={j} className="text-sm text-gray-700 word-keep leading-relaxed">• {lang==='vi' ? item.vi : item.ko}</p>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // F-2-7 Assessment (f27_e71)
+  if (assessmentParam === 'f27_e71') {
+    return (
+      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
+        <BackHeader title={lang==='vi' ? '📋 ĐIỀU KIỆN ĐỂ ĐỔI VISA F-2-7' : '📋 F-2-7 심사 기준'} onBack={onBack} />
+        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
+          <div className="space-y-3">
+            {[
+              { title: lang==='vi' ? 'Thuộc đối tượng áp dụng:' : '대상 조건:', ko:'대상 조건:', vi:'Thuộc đối tượng áp dụng:', items: [
+                { ko:'✅ 현재 E-1~E-7-1, D-5~D-9 비자로 한국에 합법 거주 중: 3년 이상 연속 거주', vi:'✅ Đang giữ visa chuyên gia (E-1 đến E-7-1, D-5 đến D-9) liên tục từ 3 năm trở lên tại Hàn Quốc.' },
+                { ko:'✅ 또는 한국 대학원 석사/박사 졸업 후 5년 이내에 전문직(E-1~E-7-1) 취직', vi:'✅ HOẶC: Tốt nghiệp Thạc sĩ/Tiến sĩ tại Hàn Quốc và tìm được công việc chuyên môn (E-1 đến E-7-1) trong vòng 5 năm kể từ ngày tốt nghiệp.' },
+                { ko:'⚠️ 예외: 전년도 소득 40,000,000 KRW 이상이면 3년 기다리지 않고 즉시 신청 가능', vi:'⚠️ Ngoại lệ: Nếu thu nhập năm gần nhất đạt từ 40.000.000 KRW trở lên, bạn được MIỄN thời gian chờ 3 năm này và có thể đổi ngay.' }
+              ]},
+              { title: lang==='vi' ? 'Đạt chuẩn hệ thống tính điểm:' : '점수 기준:', ko:'점수 기준:', vi:'Đạt chuẩn hệ thống tính điểm:', items: [
+                { ko:'✅ 최소 170점 만점에 80점 이상 필수', vi:'✅ Đạt tối thiểu 80 điểm trên tổng số 170 điểm' },
+                { ko:'포함 항목: 나이, 학력, 한국어(TOPIK/KIIP), 전년도 소득, 가산점/감점', vi:'📋 Gồm các mục: Tuổi tác, Học vị, Tiếng Hàn TOPIK/KIIP, Thu nhập năm gần nhất, và Điểm cộng/Điểm trừ' }
+              ]},
+              { title: lang==='vi' ? 'Quy trình nộp đơn:' : '신청 절차:', ko:'신청 절차:', vi:'Quy trình nộp đơn:', items: [
+                { ko:'Bước 1: 점수표로 자신의 점수 계산 → 80점 이상 확인 + 소득금액증명원 준비', vi:'Bước 1: Tự tính điểm dựa trên bảng điểm chuẩn. Đảm bảo trên 80 điểm và có tờ 소득금액증명원 từ Cục thuế.' },
+                { ko:'Bước 2: HiKorea 웹사이트에서 온라인 예약', vi:'Bước 2: Đặt lịch hẹn trên website HiKorea.' },
+                { ko:'Bước 3: 자신의 거주지 관할 출입국청에 직접 방문 + 서류 제출', vi:'Bước 3: Nộp hồ sơ tại Cục Xuất nhập cảnh quản lý khu vực cư trú.' },
+                { ko:'Bước 4: 심사 기간은 일반적으로 4~6주 소요', vi:'Bước 4: Chờ xét duyệt (thời gian quét hồ sơ F-2-7 khá lâu, thông thường mất từ 4 - 6 tuần).' }
+              ]}
+            ].map((section, idx) => (
+              <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                <div className="px-4 py-3 bg-blue-50 border-b border-blue-200">
+                  <p className="text-sm font-black text-blue-700">{lang==='vi' ? section.title : section.ko}</p>
+                </div>
+                <div className="p-4 space-y-2">
+                  {section.items.map((item, j) => (
+                    <p key={j} className="text-sm text-gray-700 word-keep leading-relaxed">{lang==='vi' ? item.vi : item.ko}</p>
                   ))}
                 </div>
               </div>
