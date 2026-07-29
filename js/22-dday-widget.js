@@ -16,7 +16,8 @@ function DdayWidget({ lang, nav, onNicknameSave }) {
   }
   function handleTypeChange(t) {
     setCurrentType(t);
-    if (!info) setTarget(t === 'd9' ? 'e74' : 'f27_e71'); // 스마트 프리셋
+    const list = VISA_NEXT_MAP[t] || [];
+    if (list.length > 0) setTarget(list[0]);
   }
   async function handleSave() {
     if (!date) return;
@@ -70,8 +71,9 @@ function DdayWidget({ lang, nav, onNicknameSave }) {
           <label className="text-xs font-black text-gray-600 mb-1.5 block">{L.ddayType}</label>
           <select value={currentType} onChange={e=>handleTypeChange(e.target.value)}
             className="w-full border-2 border-gray-200 rounded-xl px-3 py-2.5 text-sm mb-3 focus:outline-none focus:border-blue-400 bg-white">
-            <option value="d9">{L.ddayD9}</option>
-            <option value="e74">{L.ddayE74}</option>
+            {CURRENT_VISA_OPTIONS.map(o => (
+              <option key={o.key} value={o.key}>{o.code} — {lang==='vi'?o.vi:o.ko}</option>
+            ))}
           </select>
 
           <label className="text-xs font-black text-gray-600 mb-1.5 block">{L.ddayLabel}</label>
@@ -81,7 +83,7 @@ function DdayWidget({ lang, nav, onNicknameSave }) {
           <label className="text-xs font-black text-gray-600 mb-1.5 block">{lang==='vi'?'Visa mục tiêu':'목표 비자'}</label>
           <select value={target} onChange={e=>setTarget(e.target.value)}
             className="w-full border-2 border-gray-200 rounded-xl px-3 py-2.5 text-sm mb-4 focus:outline-none focus:border-blue-400 bg-white">
-            {TARGET_VISA_OPTIONS.map(o => (
+            {TARGET_VISA_OPTIONS.filter(o => (VISA_NEXT_MAP[currentType] || []).includes(o.key)).map(o => (
               <option key={o.key} value={o.key}>{o.code} — {lang==='vi'?o.vi:o.ko}</option>
             ))}
           </select>
@@ -116,7 +118,7 @@ function DdayWidget({ lang, nav, onNicknameSave }) {
         <div className="px-4 py-4 flex items-center justify-between gap-2">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-white/70 text-[10px] font-bold">{info.type==='d9'?L.ddayD9:L.ddayE74}</span>
+              <span className="text-white/70 text-[10px] font-bold">{(() => { const c = CURRENT_VISA_OPTIONS.find(o => o.key === info.type); return c ? (lang==='vi'?c.vi:c.ko) : info.type; })()}</span>
               <button onClick={startEdit} className="text-white/50 text-[10px] underline">{L.ddayEditBtn}</button>
             </div>
             <p className="text-white font-black text-2xl leading-none">{ddayLabel}</p>

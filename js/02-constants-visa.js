@@ -2053,7 +2053,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
    D-day + 목표비자 위젯
 ================================================================ */
 const DDAY_STORE = 'vb_dday_info';
-const DDAY_APPLY_MONTHS = { d9: 4, e74: 2 }; // 신청 가능일 = 만료일 - N개월
+const DDAY_APPLY_MONTHS = { d4: 2, d2: 2, d10: 2, e9: 4, e74: 2, e71: 2, d8: 4, d9: 4, f6: 2, f27: 2 }; // 신청 가능일 = 만료일 - N개월
 
 function loadDdayInfo() {
   try { return JSON.parse(localStorage.getItem(DDAY_STORE)) || null; }
@@ -2084,13 +2084,42 @@ function getTodoMessage(dday, lang) {
 const TARGET_VISA_OPTIONS = [
   { code:'E-7-4',   key:'e74',           route:'worker',   subRoute:null,            ko:'E-7-4 숙련기능인력', vi:'E-7-4 Kỹ năng đặc định' },
   { code:'F-2-7',   key:'f27_e71',       route:'worker',   subRoute:null,            ko:'F-2-7 거주(점수제)', vi:'F-2-7 Cư trú (điểm)' },
+  { code:'F-2-99',  key:'f299',          route:'worker',   subRoute:null,            ko:'F-2-99 거주(장기취업)', vi:'F-2-99 Cư trú (lao động dài hạn)' },
   { code:'F-5',     key:'f5_veteran',    route:'worker',   subRoute:null,            ko:'F-5 영주권',         vi:'F-5 Thường trú' },
+  { code:'D-2',     key:'d2',            route:'student',  subRoute:null,           ko:'D-2 유학',           vi:'D-2 Du học' },
+  { code:'D-10',    key:'d10',           route:'student',  subRoute:null,           ko:'D-10 구직',          vi:'D-10 Tìm việc' },
   { code:'E-7-1',   key:'e71',           route:'student',  subRoute:'student_e71',  ko:'E-7-1 전문기술인력', vi:'E-7-1 Chuyên môn' },
   { code:'F-6',     key:'f6',            route:'marriage', subRoute:'marriage_pass',ko:'F-6 결혼이민',       vi:'F-6 Kết hôn' },
   { code:'국적취득', key:'naturalization',route:'marriage', subRoute:'marriage_pass',ko:'국적취득',           vi:'Nhập tịch' },
   { code:'D-8',     key:'d8',            route:'d8route',  subRoute:null,            ko:'D-8 기업투자',       vi:'D-8 Đầu tư' },
   { code:'D-9',     key:'d9',            route:'d9route',  subRoute:null,            ko:'D-9 무역경영',       vi:'D-9 Thương mại' },
 ];
+
+const CURRENT_VISA_OPTIONS = [
+  { key:'d4',  code:'D-4',   ko:'D-4 어학연수',   vi:'D-4 Học tiếng' },
+  { key:'d2',  code:'D-2',   ko:'D-2 유학',       vi:'D-2 Du học' },
+  { key:'d10', code:'D-10',  ko:'D-10 구직',      vi:'D-10 Tìm việc' },
+  { key:'e9',  code:'E-9',   ko:'E-9 고용허가제', vi:'E-9 Lao động phổ thông' },
+  { key:'e74', code:'E-7-4', ko:'E-7-4 숙련기능', vi:'E-7-4 Kỹ năng đặc định' },
+  { key:'e71', code:'E-7-1', ko:'E-7-1 전문기술', vi:'E-7-1 Chuyên môn' },
+  { key:'d8',  code:'D-8',   ko:'D-8 기업투자',   vi:'D-8 Đầu tư' },
+  { key:'d9',  code:'D-9',   ko:'D-9 무역·주재',  vi:'D-9 Thương mại' },
+  { key:'f6',  code:'F-6',   ko:'F-6 결혼이민',   vi:'F-6 Kết hôn' },
+  { key:'f27', code:'F-2-7', ko:'F-2-7 거주',     vi:'F-2-7 Cư trú' },
+];
+
+const VISA_NEXT_MAP = {
+  d4:  ['d2', 'd10'],
+  d2:  ['d10', 'e71'],
+  d10: ['e71', 'f27_e71'],
+  e9:  ['e74', 'f299', 'f5_veteran'],
+  e74: ['f299', 'f5_veteran'],
+  e71: ['f27_e71', 'f5_veteran'],
+  d8:  ['f27_e71', 'f5_veteran'],
+  d9:  ['f27_e71', 'f5_veteran'],
+  f6:  ['naturalization', 'f5_veteran'],
+  f27: ['f5_veteran'],
+};
 
 function DdayWidget({ lang, nav, onNicknameSave }) {
   const L = LANG[lang];
