@@ -1,3 +1,16 @@
+const VISA_ROUTE_BY_CURRENT = {
+  d4:  { route:'student',  subRoute:null },
+  d2:  { route:'student',  subRoute:null },
+  d10: { route:'student',  subRoute:null },
+  e9:  { route:'worker',   subRoute:null },
+  e74: { route:'worker',   subRoute:null },
+  e71: { route:'student',  subRoute:null },
+  d8:  { route:'d8route',  subRoute:null },
+  d9:  { route:'d9route',  subRoute:null },
+  f6:  { route:'marriage', subRoute:'marriage_pass' },
+  f27: { route:'worker',   subRoute:null },
+};
+
 function DdayWidget({ lang, nav, onNicknameSave }) {
   const L = LANG[lang];
   const [info, setInfo] = useState(() => loadDdayInfo());
@@ -32,7 +45,12 @@ function DdayWidget({ lang, nav, onNicknameSave }) {
   function goToTarget() {
     const o = TARGET_VISA_OPTIONS.find(x => x.key === info.target);
     if (!o) return;
-    window.__visaState = { visaRoute: o.route, visaSubRoute: o.subRoute, visaStep: o.key };
+    const base = VISA_ROUTE_BY_CURRENT[info.type];
+    const route    = base ? base.route    : o.route;
+    const subRoute = base ? base.subRoute : o.subRoute;
+    let step = o.key;
+    if (o.key === 'f27_e71' && (info.type === 'd8' || info.type === 'd9')) step = 'f27_d8';
+    window.__visaState = { visaRoute: route, visaSubRoute: subRoute, visaStep: step };
     nav({ page:'visaHub' });
   }
 
