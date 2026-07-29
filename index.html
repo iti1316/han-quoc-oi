@@ -105,6 +105,8 @@
   <script type="text/babel" src="js/17-assessment.js"></script>
   <script type="text/babel" src="js/18-docs-checklist.js"></script>
   <script type="text/babel" src="js/19-office.js"></script>
+  <script type="text/babel" src="js/20-master-grid.js"></script>
+  <script type="text/babel" src="js/21-more-drawer.js"></script>
 <script type="text/babel">
 /* ================================================================
    Visa Buddy — D-9 → E-7-4  |  완전 기능 구현 버전
@@ -1798,58 +1800,6 @@ const LOCKED_CAT_INFO = {
 };
 
 /* ── 클래식 테이블 게시판 ── */
-const MASTER_BTNS = [
-  { e:'📘', ko:'비자 변경\n및 연장',       vi:'Đổi và gia hạn\nVisa',       sub_ko:'모든 비자 가이드',    sub_vi:'Hướng dẫn tất cả visa', bg:'bg-blue-600',   act:()=>({page:'visaHub'}) },
-  { e:'📸', ko:'여행 및\n맛집 소개',      vi:'Du lịch và ẩm\nthực',  sub_ko:'주말 감성 핫플',       sub_vi:'Địa điểm hot, quán ăn ngon',     bg:'bg-pink-500',   act:()=>({page:'classicBoard', param:'travel'}) },
-  { e:'🤫', ko:'대나무숲\n완전 익명',     vi:'Góc tám\nchuyện',           sub_ko:'대나무숲 익명',        sub_vi:'Nói bất cứ điều gì\nbạn muốn',      bg:'bg-orange-500', act:()=>({page:'classicBoard', param:'bamboo'}) },
-  { e:'🥕', ko:'당근마켓\n꿀매물',        vi:'Góc mua\nbán',              sub_ko:'당근마켓 꿀매물',      sub_vi:'Mua bán sản phẩm mới cũ',           bg:'bg-orange-400', act:()=>({page:'classicBoard', param:'market'}) },
-  { e:'🏠', ko:'집 구하기 및\n쉐어하우스',vi:'Thuê nhà và\nshare nhà ở', sub_ko:'집구하기',             sub_vi:'Thông tin bất động sản',       bg:'bg-teal-600',   act:()=>({page:'classicBoard', param:'house'}) },
-  { e:'📚', ko:'한국생활\n정보',          vi:'Thông tin\nsống ở Hàn',   sub_ko:'생활정보 모음',         sub_vi:'Tips sống ở Hàn Quốc',         bg:'bg-purple-600', act:()=>({page:'classicBoard', param:'info'}) },
-  { e:'💼', ko:'지역 일자리\n구인&구직',   vi:'Việc làm\nquanh đây',       sub_ko:'일자리 정보',           sub_vi:'Tìm việc làm',                 bg:'bg-indigo-600', act:()=>({page:'classicBoard', param:'jobs'}) },
-  { e:'☰',  ko:'더보기',                 vi:'Xem thêm',                  sub_ko:'(전체 채널)',           sub_vi:'(Toàn bộ kênh)',          bg:'bg-gray-600',   more:true },
-];
-
-function MasterGrid({ nav, lang, toggleLang, onOpenMore }) {
-  return (
-    <section className="bg-white px-3 pt-3 pb-4 shadow-sm">
-      <div className="grid grid-cols-3 gap-2">
-        {MASTER_BTNS.map((b, i) => {
-          const label = lang==='vi' ? b.vi : b.ko;
-          const sub   = lang==='vi' ? b.sub_vi : b.sub_ko;
-          const inner = (
-            <>
-              <span className="text-[26px] leading-none">{b.e}</span>
-              <p className="text-[11px] font-black text-white text-center leading-tight whitespace-pre-line mt-1">{label}</p>
-              <p className="text-[9px] text-white/70 text-center leading-tight mt-0.5">{sub}</p>
-            </>
-          );
-          if (b.more) return (
-            <button key={i} onClick={onOpenMore}
-              className={`${b.bg} rounded-2xl p-2.5 flex flex-col items-center justify-center gap-0.5 min-h-[92px] tap transition active:scale-95`}>
-              {inner}
-            </button>
-          );
-          if (b.soon) return (
-            <div key={i}
-              className={`${b.bg} opacity-60 rounded-2xl p-2.5 flex flex-col items-center justify-center gap-0.5 min-h-[92px] relative`}>
-              {inner}
-              <span className="absolute top-1.5 right-1.5 text-[7px] bg-black/30 text-white font-bold px-1 py-0.5 rounded-full">
-                {lang==='vi'?'Sắp có':'준비중'}
-              </span>
-            </div>
-          );
-          return (
-            <button key={i} onClick={()=>nav(b.act())}
-              className={`${b.bg} rounded-2xl p-2.5 flex flex-col items-center justify-center gap-0.5 min-h-[92px] tap shadow-sm transition active:scale-95`}>
-              {inner}
-            </button>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
 /* ── 실시간 핫 전광판 (관리자 편집 포함) ── */
 function TickingAnnouncementBar({ lang }) {
   const [notices,   setNotices]   = useState(() => loadNotices());
@@ -1955,33 +1905,6 @@ const SEARCH_BOARD_INFO = {
   info:   { key:'info', emoji:'📚', ko:'한국생활정보', vi:'Thông tin sinh hoạt', bg:'bg-purple-600' },
   jobs:   { key:'jobs', emoji:'💼', ko:'지역일자리',   vi:'Việc làm',           bg:'bg-indigo-600' },
 };
-
-function MoreDrawer({ nav, lang, onClose }) {
-  const ALL_CHANNELS = [
-    { e:'👻', ko:'무서운 이야기 방',       vi:'Phòng Chuyện Ma',        act:()=>({page:'classicBoard', param:'horror'}) },
-  ];
-  return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center fade-in" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/50" />
-      <div className="relative w-full max-w-lg bg-white rounded-t-3xl pb-8 fade-in" onClick={e=>e.stopPropagation()}>
-        <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-3" />
-        <div className="flex items-center justify-between px-4 pb-3 border-b border-gray-100">
-          <p className="text-sm font-black text-gray-800">☰ {lang==='vi'?'Toàn bộ kênh':'전체 채널'}</p>
-          <button onClick={onClose} className="text-gray-400 text-xl font-bold tap">✕</button>
-        </div>
-        <div className="px-3 pt-3 grid grid-cols-2 gap-2 max-h-[60vh] overflow-y-auto">
-          {ALL_CHANNELS.map((c, i) => (
-            <button key={i} onClick={()=>{nav(c.act()); onClose();}}
-              className="bg-gray-50 rounded-xl px-3 py-3 text-left flex items-center gap-2.5 tap hover:bg-gray-100 transition">
-              <span className="text-xl flex-shrink-0">{c.e}</span>
-              <p className="text-[11px] font-black text-gray-800 word-keep leading-tight">{lang==='vi'?c.vi:c.ko}</p>
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* ================================================================
    비자 가이드 허브 페이지
