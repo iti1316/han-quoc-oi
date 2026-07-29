@@ -3,7 +3,7 @@
    페이지: F-6 대상 적용 (적격 기준)
 ================================================================ */
 function EligibilityPage({ visaStep, onBack, lang }) {
-  if (visaStep !== 'f6' && visaStep !== 'f5_marriage' && visaStep !== 'naturalization' && visaStep !== 'f5_marriage_naturalization' && visaStep !== 'd8' && visaStep !== 'f27_e71') return null;
+  if (visaStep !== 'f6' && visaStep !== 'f5_marriage' && visaStep !== 'naturalization' && visaStep !== 'f5_marriage_naturalization' && visaStep !== 'd8' && visaStep !== 'f27_e71' && visaStep !== 'f27_d8') return null;
 
   // Naturalization eligibility content
   const naturalizationContent = lang === 'vi' ? {
@@ -117,7 +117,7 @@ function EligibilityPage({ visaStep, onBack, lang }) {
   let content;
   if (visaStep === 'f5_marriage') {
     content = f5MarriageContent;
-  } else if (visaStep === 'f27_e71') {
+  } else if (['f27_e71', 'f27_d8'].includes(visaStep)) {
     // F-2-7 eligibility
     content = lang === 'vi' ? {
       title: "📊 Hệ thống tính điểm F-2-7",

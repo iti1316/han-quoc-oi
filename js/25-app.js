@@ -155,6 +155,7 @@ function App() {
       if (route.param==='score_f27') return <ScorePage type='f27' onBack={goBack} lang={lang} />;
       if (route.param==='score_f5') return <ScorePage type='f5' onBack={goBack} lang={lang} />;
       if (route.param==='score') return <ScorePage type='e74' onBack={goBack} lang={lang} />;
+      if (route.param==='f27_criteria') return <F27CriteriaPage onBack={goBack} lang={lang} />;
       return null;
     case 'docs':         return <DocsPage         onBack={goBack} lang={lang} />;
     case 'docsChecklist': return <DocsChecklistPage visaStep={route.param} onBack={goBack} lang={lang} />;
