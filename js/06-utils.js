@@ -408,3 +408,28 @@ function fmtLocation(loc) {
   if (!loc?.sido) return '';
   return `${SIDO_SHORT[loc.sido] || loc.sido} ${loc.sigungu}`;
 }
+
+/* 페이지 로드 시 Firebase에서 닉네임 복원 */
+(async function() {
+  try {
+    let deviceId = localStorage.getItem('vb_device_id');
+    if (!deviceId) {
+      deviceId = 'dev_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('vb_device_id', deviceId);
+    }
+    // localStorage에서 먼저 동기적으로 읽기 (race condition 방지)
+    const cached = localStorage.getItem('vb_nickname');
+    if (cached) {
+      window.userNickname = cached;
+      console.log('🟢 페이지 로드: localStorage에서 닉네임 복원:', cached);
+    }
+    // Firebase에서 최신값 가져오기
+    const saved = await NicknameDB.load(deviceId);
+    if (saved) {
+      window.userNickname = saved;
+      console.log('🔄 페이지 로드: Firebase에서 닉네임 복원:', saved);
+    }
+  } catch (e) {
+    console.warn('⚠️ Firebase 닉네임 로드 중 오류:', e.message);
+  }
+})();
