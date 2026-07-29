@@ -1,19 +1,6 @@
 /* ================================================================
    페이지: 글쓰기
 ================================================================ */
-const CAT_OPTS = [
-  { v:'hall',   e:'🏆', label:'합격 명예의 전당', desc:'합격 인증, 점수 스펙 공유',  sel:'border-yellow-300 bg-yellow-50', t:'text-yellow-700', d:'text-yellow-500' },
-  { v:'sos',    e:'🚨', label:'비자 119 SOS',     desc:'긴급 서류·절차 질문',        sel:'border-red-300 bg-red-50',       t:'text-red-700',    d:'text-red-500' },
-  { v:'talk',   e:'💬', label:'출입국 참교육방',  desc:'반려·실패담, 출입국 썰',      sel:'border-orange-300 bg-orange-50', t:'text-orange-700', d:'text-orange-500' },
-  { v:'bamboo', e:'🤫', label:'대나무숲 완전 익명', desc:'익명으로 자유롭게 대화',    sel:'border-orange-300 bg-orange-50', t:'text-orange-700', d:'text-orange-500' },
-];
-
-const CAT_LABELS_VI = {
-  hall:   { vi:'Bảng Vàng',           desc_vi:'Chia sẻ kết quả đậu' },
-  sos:    { vi:'Cứu Trợ Khẩn Cấp',   desc_vi:'Câu hỏi khẩn về hồ sơ/thủ tục' },
-  talk:   { vi:'Kinh nghiệm Thực tế', desc_vi:'Trải nghiệm bị từ chối' },
-  bamboo: { vi:'Rừng Tre Ẩn Danh',   desc_vi:'Nói chuyện ẩn danh tự do' },
-};
 
 function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePost, deviceId, route }) {
   // window.__currentRoute에서 최신 route 정보 가져오기
