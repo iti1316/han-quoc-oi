@@ -48,7 +48,7 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
   function removeImage(i) { setImages(prev => prev.filter((_,idx) => idx !== i)); }
 
   /* cat → classicBoard 키 매핑 */
-  const CAT_BOARD = { hall:'d9', sos:'d9', bamboo:'bamboo', talk:'bamboo', travel:'travel', market:'market', house:'house', horror:'horror', info:'info', jobs:'jobs' };
+  const CAT_BOARD = { hall:'d9', sos:'d9', bamboo:'bamboo', talk:'bamboo', travel:'travel', market:'market', house:'house', hospital:'hospital', horror:'horror', info:'info', jobs:'jobs' };
 
   function navToBoard(useCat) {
     console.log('🔴 [navToBoard] 호출됨');

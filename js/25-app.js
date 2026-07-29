@@ -61,6 +61,11 @@ function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  /* window.__lang 동기화 (bamboo 게시판 익명 라벨용) */
+  useEffect(() => {
+    window.__lang = lang;
+  }, [lang]);
+
   function nav(r) {
     setPrevRoute(route);
     window.__currentRoute = r; // 최신 route를 window에 저장

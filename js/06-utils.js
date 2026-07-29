@@ -139,12 +139,33 @@ function getMyUnreadPosts(posts, deviceId) {
 ──────────────────────────────────────────────────────────── */
 const ANON_PATTERN = new RegExp(`^(${ANONS.join('|')}) #\\d{3}$`);
 
+/** bamboo 게시판 댓글 익명 레이블 (익명1, 익명2, ...) */
+function getBambooLabel(post, deviceIdOfWriter, lang) {
+  if (!post || post.cat !== 'bamboo') return null;
+  const authorDev = post.deviceId;
+  if (deviceIdOfWriter && authorDev && deviceIdOfWriter === authorDev) {
+    return lang === 'vi' ? 'Tác giả' : '글쓴이';
+  }
+  const list = post.commentsData || [];
+  const order = [];
+  for (const c of list) {
+    const d = c.deviceId || c.author;
+    if (d && d !== authorDev && !order.includes(d)) order.push(d);
+  }
+  const idx = order.indexOf(deviceIdOfWriter);
+  if (idx === -1) return lang === 'vi' ? 'Ẩn danh' : '익명';
+  return lang === 'vi' ? `Ẩn danh ${idx + 1}` : `익명 ${idx + 1}`;
+}
+
 /** author 필드를 안전한 익명 닉네임으로 보장 */
 function safeAuthor(post) {
+  if (post && post.cat === 'bamboo') {
+    return (window.__lang === 'vi') ? 'Ẩn danh' : '익명';
+  }
   // 커스텀 닉네임인 경우: ANON_PATTERN 패턴이 없으면 그대로 반환
   if (!ANON_PATTERN.test(post.author)) {
     // 숫자로만 이루어진 경우(post.id 기반) → 재생성
-    if (/^\d{6,}$/.test(post.author)) {
+    if (/^\d{9,}$/.test(post.author)) {
       const seed = Math.abs(typeof post.id === 'number' ? post.id : parseInt(post.id, 10) || 1);
       return `${ANONS[seed % ANONS.length]} #${(seed % 900) + 100}`;
     }
@@ -157,6 +178,7 @@ function safeAuthor(post) {
 
 /** 아바타 문자: author 첫 글자 대신 post.id 기반으로 고정 */
 function safeAvatarChar(post) {
+  if (post && post.cat === 'bamboo') return '🎋';
   const author = safeAuthor(post);
   const seed = Math.abs((author.charCodeAt(0) || 0) + (author.charCodeAt(1) || 0));
   return ['익','D','V','하','H','버','A','B'][seed % 8];

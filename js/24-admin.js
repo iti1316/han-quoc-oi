@@ -185,6 +185,7 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
             <select value={selectedBoardForNotices} onChange={(e)=>setSelectedBoardForNotices(e.target.value)} className="w-full border-2 border-gray-300 rounded p-2 text-sm">
               <option value="market">🥕 당근마켓 꿀매물</option>
               <option value="house">🏠 집 구하기 & 쉐어하우스</option>
+              <option value="hospital">🏥 병원 찾기 · 추천</option>
               <option value="travel">📸 여행·맛집 소개</option>
               <option value="hall">🏆 합격 명예의 전당</option>
               <option value="sos">🚨 비자 119 SOS</option>
@@ -242,6 +243,7 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
             <select value={selectedBoardForPosts} onChange={(e)=>setSelectedBoardForPosts(e.target.value)} className="w-full border-2 border-gray-300 rounded p-2 text-sm">
               <option value="market">🥕 당근마켓 꿀매물</option>
               <option value="house">🏠 집 구하기 & 쉐어하우스</option>
+              <option value="hospital">🏥 병원 찾기 · 추천</option>
               <option value="travel">📸 여행·맛집 소개</option>
               <option value="hall">🏆 합격 명예의 전당</option>
               <option value="sos">🚨 비자 119 SOS</option>

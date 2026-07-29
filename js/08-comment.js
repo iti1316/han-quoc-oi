@@ -68,12 +68,12 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
           <ul className="divide-y divide-gray-100">
             {displayComments.map(c => (
               <li key={c.id} className="flex items-start gap-2.5 px-4 py-3">
-                <div className={`w-7 h-7 rounded-full ${safeAvatarColor(c)} flex items-center justify-center text-white text-xs font-black flex-shrink-0`}>
-                  {safeAvatarChar(c)}
+                <div className={`w-7 h-7 rounded-full ${post.cat === 'bamboo' ? 'bg-green-600' : safeAvatarColor(c)} flex items-center justify-center text-white text-xs font-black flex-shrink-0`}>
+                  {post.cat === 'bamboo' ? '🎋' : safeAvatarChar(c)}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <p className="text-[11px] font-bold text-gray-700">{c.author}</p>
+                    <p className="text-[11px] font-bold text-gray-700">{post.cat === 'bamboo' ? getBambooLabel(post, c.deviceId || c.author, lang) : c.author}</p>
                     <p className="text-[10px] text-gray-400">{c.date}</p>
                     {c.deviceId === deviceId && (
                       <div className="ml-auto flex gap-1">

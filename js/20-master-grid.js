@@ -4,6 +4,7 @@ const MASTER_BTNS = [
   { e:'🤫', ko:'대나무숲\n완전 익명',     vi:'Góc tám\nchuyện',           sub_ko:'대나무숲 익명',        sub_vi:'Nói bất cứ điều gì\nbạn muốn',      bg:'bg-orange-500', act:()=>({page:'classicBoard', param:'bamboo'}) },
   { e:'🥕', ko:'당근마켓\n꿀매물',        vi:'Góc mua\nbán',              sub_ko:'당근마켓 꿀매물',      sub_vi:'Mua bán sản phẩm mới cũ',           bg:'bg-orange-400', act:()=>({page:'classicBoard', param:'market'}) },
   { e:'🏠', ko:'집 구하기 및\n쉐어하우스',vi:'Thuê nhà và\nshare nhà ở', sub_ko:'집구하기',             sub_vi:'Thông tin bất động sản',       bg:'bg-teal-600',   act:()=>({page:'classicBoard', param:'house'}) },
+  { e:'🏥', ko:'병원 찾기 및\n추천',      vi:'Tìm & giới thiệu\nbệnh viện', sub_ko:'병원찾기',              sub_vi:'Thông tin bệnh viện',          bg:'bg-rose-600',   act:()=>({page:'classicBoard', param:'hospital'}) },
   { e:'📚', ko:'한국생활\n정보',          vi:'Thông tin\nsống ở Hàn',   sub_ko:'생활정보 모음',         sub_vi:'Tips sống ở Hàn Quốc',         bg:'bg-purple-600', act:()=>({page:'classicBoard', param:'info'}) },
   { e:'💼', ko:'지역 일자리\n구인&구직',   vi:'Việc làm\nquanh đây',       sub_ko:'일자리 정보',           sub_vi:'Tìm việc làm',                 bg:'bg-indigo-600', act:()=>({page:'classicBoard', param:'jobs'}) },
   { e:'☰',  ko:'더보기',                 vi:'Xem thêm',                  sub_ko:'(전체 채널)',           sub_vi:'(Toàn bộ kênh)',          bg:'bg-gray-600',   more:true },

@@ -19,7 +19,7 @@ const KOREA_REGIONS = {
   '제주특별자치도':['서귀포시','제주시'],
 };
 
-const LOCATION_CATS = ['travel', 'market', 'house', 'info', 'jobs']; // 지역 선택이 필요한 카테고리
+const LOCATION_CATS = ['travel', 'market', 'house', 'hospital', 'info', 'jobs']; // 지역 선택이 필요한 카테고리
 
 /* 시/도 축약 표시 */
 const SIDO_SHORT = {

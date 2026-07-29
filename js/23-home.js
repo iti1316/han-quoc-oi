@@ -15,15 +15,28 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
   const adminClickTimer = useRef(null);
 
   const handleNicknameSave = async () => {
-    if (!nicknameInput.trim()) {
+    const L = LANG[lang];
+    const trimmed = nicknameInput.trim();
+
+    if (!trimmed) {
       console.log('⚠️ 닉네임 입력 필요');
+      return;
+    }
+
+    if (trimmed.length < 2) {
+      alert(L.nickErrShort);
+      return;
+    }
+
+    if (/^\d{9,}$/.test(trimmed)) {
+      alert(L.nickErrPhone);
       return;
     }
 
     setNicknameLoading(true);
 
     try {
-      const nickname = nicknameInput.trim();
+      const nickname = trimmed;
       console.log('📝 [HomePage] 닉네임 저장 요청:', nickname);
 
       // App 레벨의 함수 호출
@@ -183,6 +196,7 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
               autoFocus
               onKeyPress={e => e.key === 'Enter' && handleNicknameSave()}
             />
+            <p className="text-[10px] text-gray-400 mt-1 mb-3">{LANG[lang].nickWarn}</p>
             <div className="text-right text-xs text-gray-400 mb-4">{nicknameInput.length}/20</div>
             <div className="grid grid-cols-2 gap-2">
               <button onClick={() => {setShowNicknameModal(false); setNicknameInput('');}}
