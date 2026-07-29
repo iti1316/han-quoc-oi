@@ -1,1231 +1,7 @@
-﻿<!DOCTYPE html>
-<!-- v.2026.06.25.DDAY_WIDGET -->
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Hàn Quốc Ơi</title>
-  <meta name="theme-color" content="#1d4ed8" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Hàn Quốc Ơi" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="description" content="재한 베트남인 커뮤니티 — 비자·생활·정보 공유" />
-  <meta property="og:title" content="Hàn Quốc Ơi" />
-  <meta property="og:description" content="재한 베트남인 커뮤니티 — 비자·생활·정보 공유" />
-  <meta property="og:url" content="https://han-quoc-oi-site.vercel.app/" />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ["'Noto Sans KR'","sans-serif"] } } } }</script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone@7.24.0/babel.min.js"></script>
-  <style>
-    * { font-family: 'Noto Sans KR', sans-serif; }
-    body { background: #F0F2F5; }
-    .word-keep  { word-break: keep-all; }
-    .line-clamp-2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-    .tap { transition: transform .12s; } .tap:active { transform: scale(.95); }
-    /* iPhone 안전영역 */
-    .safe-top    { padding-top:    env(safe-area-inset-top,    0px); }
-    .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
-    /* 하단 네비 높이 + 안전영역만큼 본문 여백 */
-    .pb-nav { padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px)); }
-    .fade-in { animation: fadeIn .2s ease; }
-    @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
-    /* 스켈레톤 */
-    .skeleton { background: linear-gradient(90deg,#e5e7eb 25%,#f3f4f6 50%,#e5e7eb 75%);
-                background-size: 200% 100%; animation: shimmer 1.4s infinite; }
-    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-  </style>
-  <!-- GitHub Pages SPA 리다이렉트 복구 -->
-  <script>
-    // 404에서 저장한 리다이렉트 URL 복구
-    const redirectUrl = sessionStorage.getItem('redirectUrl');
-    if (redirectUrl) {
-      sessionStorage.removeItem('redirectUrl');
-      if (redirectUrl !== window.location.pathname + window.location.search) {
-        window.history.replaceState(null, null, redirectUrl);
-      }
-    }
-  </script>
-  <!-- Firebase SDK (Compat version for CDN) -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
-  <script>
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyA2kePAA4q1Pk_NiADWwlpv2YHu7BvKpj4",
-      authDomain: "han-quoc-oi.firebaseapp.com",
-      databaseURL: "https://han-quoc-oi-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "han-quoc-oi",
-      storageBucket: "han-quoc-oi.firebasestorage.app",
-      messagingSenderId: "85811869663",
-      appId: "1:85811869663:web:bbe3b32d085efd69f2b6a",
-      measurementId: "G-0S75F0LD23"
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-    const storage = firebase.storage();
-
-    // Make globals available to React components
-    window.firebaseConfig = firebaseConfig;
-    window.database = database;
-    window.storage = storage;
-  </script>
-</head>
-<body>
-<div id="root"></div>
-
-  <script type="text/babel" src="js/01-constants-lang.js"></script>
-  <script type="text/babel" src="js/02-constants-visa.js"></script>
-  <script type="text/babel" src="js/03-constants-office.js"></script>
-  <script type="text/babel" src="js/04-constants-board.js"></script>
-  <script type="text/babel" src="js/05-constants-etc.js"></script>
-  <script type="text/babel" src="js/06-utils.js"></script>
-  <script type="text/babel" src="js/07-common.js"></script>
-  <script type="text/babel" src="js/08-comment.js"></script>
-  <script type="text/babel" src="js/09-post-detail.js"></script>
-  <script type="text/babel" src="js/10-classic-board.js"></script>
-  <script type="text/babel" src="js/11-write.js"></script>
-  <script type="text/babel" src="js/12-feeds.js"></script>
-  <script type="text/babel" src="js/13-visa-hub.js"></script>
-<script type="text/babel">
 /* ================================================================
-   Visa Buddy — D-9 → E-7-4  |  완전 기능 구현 버전
-   React 18 CDN + Babel Standalone + Tailwind CDN
-================================================================ */
-const { useState, useEffect, useCallback, useRef } = React;
-
-/* ── 상수 ──────────────────────────────────────────────────── */
-const BOARD_STORE = 'vb_posts_v2';
-const ANONS = ['하노이 출신','호치민 출신','다낭 출신','제조업 종사자','비자 도전 중','서류 준비 중','D-9 유저','출입국 단골','익명의 버디','베트남 멤버','비자 준비 중','출입국 도전자'];
-const AVATAR_COLORS = ['bg-blue-500','bg-green-500','bg-purple-500','bg-orange-500','bg-teal-500','bg-pink-500','bg-red-500','bg-indigo-500'];
-const FIREBASE_BASE = 'https://han-quoc-oi-default-rtdb.asia-southeast1.firebasedatabase.app';
-const FIREBASE_POSTS_URL = `${FIREBASE_BASE}/posts.json`;
-const FIREBASE_PROFILES_URL = `${FIREBASE_BASE}/userProfiles`;
-
-/* 닉네임 저장소 (Firebase — 영구 보관) */
-const NicknameDB = {
-  save: async (deviceId, nickname) => {
-    try {
-      const response = await fetch(`${FIREBASE_PROFILES_URL}/${deviceId}.json`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          nickname: nickname,
-          updatedAt: new Date().toISOString()
-        }),
-        timeout: 10000
-      });
-      if (response.ok) {
-        console.log('✅ Firebase 닉네임 저장 성공:', nickname);
-        localStorage.setItem('vb_nickname', nickname);
-        return true;
-      } else {
-        console.warn('⚠️ Firebase 닉네임 저장 실패:', response.statusText);
-        return false;
-      }
-    } catch (e) {
-      console.error('❌ Firebase 닉네임 저장 오류:', e.message);
-      return false;
-    }
-  },
-
-  load: async (deviceId) => {
-    try {
-      const response = await fetch(`${FIREBASE_PROFILES_URL}/${deviceId}.json`, {
-        timeout: 10000
-      });
-      const data = await response.json();
-      if (data && data.nickname) {
-        console.log('✅ Firebase 닉네임 로드 성공:', data.nickname);
-        return data.nickname;
-      } else {
-        console.log('💡 Firebase: 저장된 닉네임 없음');
-        return null;
-      }
-    } catch (e) {
-      console.error('❌ Firebase 닉네임 로드 오류:', e.message);
-      return null;
-    }
-  }
-};
-
-/* 페이지 로드 시 Firebase에서 닉네임 복원 */
-(async function() {
-  try {
-    let deviceId = localStorage.getItem('vb_device_id');
-    if (!deviceId) {
-      deviceId = 'dev_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-      localStorage.setItem('vb_device_id', deviceId);
-    }
-    // localStorage에서 먼저 동기적으로 읽기 (race condition 방지)
-    const cached = localStorage.getItem('vb_nickname');
-    if (cached) {
-      window.userNickname = cached;
-      console.log('🟢 페이지 로드: localStorage에서 닉네임 복원:', cached);
-    }
-    // Firebase에서 최신값 가져오기
-    const saved = await NicknameDB.load(deviceId);
-    if (saved) {
-      window.userNickname = saved;
-      console.log('🔄 페이지 로드: Firebase에서 닉네임 복원:', saved);
-    }
-  } catch (e) {
-    console.warn('⚠️ Firebase 닉네임 로드 중 오류:', e.message);
-  }
-})();
-
-function genAuthor() {
-  const nickname = window.userNickname || localStorage.getItem('vb_nickname');
-  if (nickname) {
-    console.log('✅ genAuthor - 닉네임 사용:', nickname);
-    return nickname;
-  }
-  const anonymous = `${ANONS[Math.floor(Math.random()*ANONS.length)]} #${Math.floor(Math.random()*900)+100}`;
-  console.log('⚪ genAuthor - 익명 사용:', anonymous);
-  return anonymous;
-}
-
-/* 닉네임 표시 함수: deviceId로 현재 닉네임 조회 (3번 방식) */
-/* 기기별 고유 ID (회원가입 전 게시물/댓글 식별용) */
-function getDeviceId() {
-  let deviceId = localStorage.getItem('vb_device_id');
-  if (!deviceId) {
-    deviceId = 'dev_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-    localStorage.setItem('vb_device_id', deviceId);
-  }
-  return deviceId;
-}
-/* ── 내 글 댓글 안 읽음 추적 (deviceId 기반) ── */
-const MY_POST_SEEN_STORE = 'vb_my_post_seen';
-function loadSeenCounts() {
-  try { return JSON.parse(localStorage.getItem(MY_POST_SEEN_STORE)) || {}; }
-  catch { return {}; }
-}
-function saveSeenCounts(obj) {
-  try { localStorage.setItem(MY_POST_SEEN_STORE, JSON.stringify(obj)); } catch(e) {}
-}
-function markPostSeen(postId, commentCount) {
-  const seen = loadSeenCounts();
-  seen[postId] = commentCount;
-  saveSeenCounts(seen);
-}
-function getUnreadCount(posts, deviceId) {
-  const seen = loadSeenCounts();
-  let total = 0;
-  posts.forEach(p => {
-    if (p.deviceId === deviceId) {
-      const current = p.commentsData?.length || p.comments || 0;
-      const lastSeen = seen[p.id] || 0;
-      if (current > lastSeen) total += (current - lastSeen);
-    }
-  });
-  return total;
-}
-function getMyUnreadPosts(posts, deviceId) {
-  const seen = loadSeenCounts();
-  return posts
-    .filter(p => p.deviceId === deviceId)
-    .map(p => {
-      const current = p.commentsData?.length || p.comments || 0;
-      const lastSeen = seen[p.id] || 0;
-      return { post: p, unread: Math.max(0, current - lastSeen) };
-    })
-    .filter(x => x.unread > 0)
-    .sort((a, b) => b.unread - a.unread);
-}
-/* ────────────────────────────────────────────────────────────
-   🔒 렌더 레이어 익명화 — 2중 보안
-   저장된 author 값이 허용 패턴과 다르면 (예: 실제 이름·ID가
-   미래 백엔드에서 흘러들어올 경우) post.id 기반으로 덮어씁니다.
-   화면에는 절대 실제 개인정보가 표시되지 않습니다.
-──────────────────────────────────────────────────────────── */
-const ANON_PATTERN = new RegExp(`^(${ANONS.join('|')}) #\\d{3}$`);
-
-/** author 필드를 안전한 익명 닉네임으로 보장 */
-function safeAuthor(post) {
-  // 커스텀 닉네임인 경우: ANON_PATTERN 패턴이 없으면 그대로 반환
-  if (!ANON_PATTERN.test(post.author)) {
-    // 숫자로만 이루어진 경우(post.id 기반) → 재생성
-    if (/^\d{6,}$/.test(post.author)) {
-      const seed = Math.abs(typeof post.id === 'number' ? post.id : parseInt(post.id, 10) || 1);
-      return `${ANONS[seed % ANONS.length]} #${(seed % 900) + 100}`;
-    }
-    // 그 외: 커스텀 닉네임 → 그대로 반환
-    return post.author;
-  }
-  // ANON_PATTERN 형식 → 그대로 반환
-  return post.author;
-}
-/** 아바타 문자: author 첫 글자 대신 post.id 기반으로 고정 */
-function safeAvatarChar(post) {
-  const author = safeAuthor(post);
-  const seed = Math.abs((author.charCodeAt(0) || 0) + (author.charCodeAt(1) || 0));
-  return ['익','D','V','하','H','버','A','B'][seed % 8];
-}
-/** 아바타 색상: author(닉네임) 기반 결정론적 색상 (같은 닉네임은 항상 같은 색상) */
-function safeAvatarColor(post) {
-  const author = safeAuthor(post);
-  const seed = Math.abs((author.charCodeAt(0) || 0) + (author.charCodeAt(1) || 0));
-  return AVATAR_COLORS[seed % AVATAR_COLORS.length];
-}
-
-/* ── 기본 게시글 ─────────────────────────────────────────────
-   isPublic: true 명시 필수 — 없으면 PostCard가 전부 비공개 처리함
-────────────────────────────────────────────────────────────── */
-function defaultPosts() {
-  return [
-    { id:1, cat:'hall',   author:'하노이 출신 #129', date:'2025.05.08', isNew:true,  isPublic:true,
-      title:'제조업 4년 2개월, 토픽 3급 → E-7-4 합격!! 🎉',
-      body:'드디어 받았습니다!! 점수 214점 (고용주 추천서 30점 포함), 동일 사업장 4년 2개월, 어학 토픽 3급. 사회통합프로그램 5단계 꼭 이수하세요!',
-      likes:31, hearts:12, wows:4, comments:8 },
-    { id:2, cat:'hall',   author:'다낭 출신 #305',   date:'2025.05.03', isNew:false, isPublic:true,
-      title:'소득 2.5배 넘기고 한방에 통과 💪 사회통합 5단계가 결정적',
-      body:'3번 도전 끝에 성공! 세후 실수령액 기준이라는 걸 몰라서 두 번 탈락했습니다.',
-      likes:24, hearts:9, wows:6, comments:15 },
-    { id:3, cat:'sos',    author:'서류 준비 중 #847', date:'2025.05.07', isNew:true,  isPublic:true,
-      title:'내일 출입국인데 고용사유서 양식 이게 맞나요? 🆘',
-      body:'회사에서 받은 고용사유서에 업종 코드가 없는데 E-7-4 신청 시 문제없을까요?',
-      likes:5, hearts:2, wows:0, comments:12 },
-    { id:4, cat:'sos',    author:'비자 도전 중 #412', date:'2025.05.05', isNew:false, isPublic:true,
-      title:'임금대장 세전 vs 세후 — 담당자마다 기준이 달라요',
-      body:'출입국 담당자마다 말이 달라서 헷갈려요. 어느 쪽이 공식 기준인지 아시는 분?',
-      likes:8, hearts:3, wows:1, comments:20 },
-    { id:5, cat:'bamboo', author:'D-9 유저 #382',    date:'2025.05.10', isNew:true,  isPublic:true,
-      title:'수원출입국 1점 차이 반려 😭 실수령액 함정 꼭 주의하세요!',
-      body:'임금대장을 연봉 기준으로 계산했더니 담당자가 실수령액 기준이라 했어요. 12점 부족으로 불허...',
-      likes:12, hearts:7, wows:15, comments:23 },
-    { id:6, cat:'bamboo', author:'출입국 단골 #291',  date:'2025.05.04', isNew:false, isPublic:true,
-      title:'인천 vs 수원 출입국 심사 난이도 솔직 비교 (2025 최신)',
-      body:'두 곳 다 경험했어요. 담당자 성향도 다르고 요구 서류도 미묘하게 달랐습니다.',
-      likes:19, hearts:8, wows:5, comments:31 },
-    /* ── 자유 토크방 샘플 ── */
-    { id:7, cat:'talk', author:'베트남 멤버 #551', date:'2025.05.11', isNew:true, isPublic:true,
-      title:'한국어 공부하는데 좋은 앱 추천해줘요! 😊',
-      body:'D-9 비자로 온지 8개월됐는데 한국어 실력 늘리고 싶어요. 좋은 방법 있으면 공유해주세요!',
-      likes:7, hearts:3, wows:0, comments:5 },
-    { id:8, cat:'talk', author:'하노이 출신 #234', date:'2025.05.09', isNew:false, isPublic:true,
-      title:'주말에 경기도 근처 여행지 추천해주세요 🗺️',
-      body:'주말에 쉬면서 구경할 수 있는 곳 추천해주세요. 대중교통으로 갈 수 있는 곳이면 더 좋아요.',
-      likes:4, hearts:5, wows:1, comments:3 },
-    { id:9, cat:'talk', author:'호치민 출신 #789', date:'2025.05.06', isNew:false, isPublic:true,
-      title:'월급날 환전 꿀팁 공유! 수수료 아끼는 방법 💸',
-      body:'카카오뱅크 앱에서 베트남 동으로 환전하면 일반 은행보다 수수료가 훨씬 저렴해요. 제가 직접 써본 방법입니다.',
-      likes:15, hearts:8, wows:3, comments:11 },
-    { id:10, cat:'talk', author:'D-9 유저 #103', date:'2025.05.03', isNew:false, isPublic:true,
-      title:'퇴근 후 혼밥 맛집 어디에요? 혼자 가도 괜찮은 곳 🍜',
-      body:'혼자 밥 먹기 편한 식당 추천해주세요. 국밥집이나 라멘집 같은 곳이면 좋겠어요.',
-      likes:9, hearts:6, wows:2, comments:8 },
-    /* ── 여행·맛집 게시판 샘플 ── */
-    { id:11, cat:'travel', author:'다낭 출신 #507', date:'2026.05.25', isNew:true,  isPublic:true,
-      title:'수원 팔달문 근처 베트남 쌀국수 찐맛집 발견! 🍜',
-      body:'퇴근 후 우연히 발견한 쌀국수집인데 진짜 맛있어요. 주인아주머니가 베트남분이셔서 맛이 진짜임.',
-      likes:18, hearts:11, wows:5, comments:7 },
-    { id:12, cat:'travel', author:'호치민 출신 #342', date:'2026.05.22', isNew:false, isPublic:true,
-      title:'경복궁 + 북촌 한옥마을 당일치기 추천 코스 🏯',
-      body:'주말에 다녀왔는데 너무 좋았어요. 한복 대여해서 사진 찍으면 더 특별한 추억이 될 것 같아요.',
-      likes:24, hearts:16, wows:9, comments:12 },
-    { id:13, cat:'travel', author:'하노이 출신 #221', date:'2026.05.18', isNew:false, isPublic:true,
-      title:'부산 해운대 주말여행 후기 (KTX 교통편 포함) 🌊',
-      body:'KTX 타고 서울에서 부산 당일치기 다녀왔어요. 해운대 해물탕도 꼭 드세요!',
-      likes:15, hearts:9, wows:6, comments:8 },
-    { id:20, cat:'travel', author:'D-9 유저 #614', date:'2026.05.15', isNew:false, isPublic:true,
-      title:'제주도 혼자 여행 3박 4일 후기 & 예산 공개 ✈️',
-      body:'비행기 왕복 8만원, 숙박 3박 12만원으로 다녀왔어요. 렌트카 없이도 충분히 즐길 수 있었습니다.',
-      likes:31, hearts:18, wows:11, comments:20 },
-    /* ── 당근마켓 게시판 샘플 ── */
-    { id:14, cat:'market', author:'D-9 유저 #614', date:'2026.05.28', isNew:true,  isPublic:true,
-      title:'[나눔] 이불/베개 세트 — 안산시 단원구 직거래 가능',
-      body:'이사 가면서 안 쓰는 이불 세트 나눔합니다. 깨끗하게 세탁했어요. 댓글 주세요.',
-      likes:8, hearts:14, wows:1, comments:5 },
-    { id:15, cat:'market', author:'베트남 멤버 #388', date:'2026.05.24', isNew:false, isPublic:true,
-      title:'삼성 갤럭시 A54 팝니다 — 미개봉 새 제품 💸',
-      body:'베트남에서 직구한 갤럭시 A54 미개봉 판매합니다. 가격 문의는 댓글로.',
-      likes:5, hearts:3, wows:0, comments:9 },
-    { id:16, cat:'market', author:'출입국 단골 #177', date:'2026.05.20', isNew:false, isPublic:true,
-      title:'[구해요] 전기밥솥 6인용 — 수원/화성 지역',
-      body:'쿠쿠나 쿠첸 전기밥솥 구합니다. 6인용 중고 구해요. 댓글로 연락주세요.',
-      likes:2, hearts:1, wows:0, comments:3 },
-    { id:21, cat:'market', author:'비자 도전 중 #412', date:'2026.05.17', isNew:false, isPublic:true,
-      title:'[판매] 자전거 삼천리 26인치 — 수원 권선구 5만원',
-      body:'1년 정도 사용한 자전거 팝니다. 타이어 새로 교체했어요. 직거래만 가능합니다.',
-      likes:7, hearts:2, wows:0, comments:6 },
-    /* ── 집구하기 게시판 샘플 ── */
-    { id:17, cat:'house', author:'비자 준비 중 #493', date:'2026.05.29', isNew:true,  isPublic:true,
-      title:'안산 원곡동 외국인 친화 고시원/원룸 추천 부탁드려요 🏠',
-      body:'이번 달에 안산으로 이사 예정인데 외국인이 살기 좋은 고시원이나 원룸 추천해주세요.',
-      likes:6, hearts:4, wows:0, comments:11 },
-    { id:18, cat:'house', author:'하노이 출신 #563', date:'2026.05.26', isNew:false, isPublic:true,
-      title:'수원 영통 쉐어하우스 2인실 룸메이트 구합니다 🤝',
-      body:'보증금 100만원/월세 30만원입니다. 깨끗하고 조용한 분이면 좋겠어요. 댓글 주세요.',
-      likes:9, hearts:5, wows:2, comments:7 },
-    { id:19, cat:'house', author:'서류 준비 중 #829', date:'2026.05.21', isNew:false, isPublic:true,
-      title:'외국인도 전세자금대출 받을 수 있나요? F-2 비자인데',
-      body:'F-2-7 비자 소지자인데 전세자금 대출이 가능한지 아시는 분 계세요?',
-      likes:11, hearts:7, wows:3, comments:15 },
-    { id:22, cat:'house', author:'D-9 유저 #382', date:'2026.05.16', isNew:false, isPublic:true,
-      title:'화성시 외국인 근로자 임대주택 신청 후기 — 합격했어요!',
-      body:'화성시 외국인 근로자 임대주택 신청했는데 합격했습니다. 절차 궁금하신 분 댓글로.',
-      likes:22, hearts:13, wows:8, comments:18 },
-    /* ── 무서운 이야기 방 샘플 ── */
-    { id:23, cat:'horror', author:'익명의 버디 #771', date:'2026.05.27', isNew:true,  isPublic:true,
-      title:'공장 야간 근무 중에 본 것... 지금도 소름 😱',
-      body:'야간 12시쯤이었어요. 혼자 기계 돌리다가 창문에 반사된 거 봤는데... 제 뒤에 아무도 없었거든요. 근데 거기 분명히 사람 형체가 있었어요. 아직도 그날 생각하면 잠이 안 옵니다.',
-      likes:34, hearts:5, wows:41, comments:28 },
-    { id:24, cat:'horror', author:'하노이 출신 #334', date:'2026.05.23', isNew:false, isPublic:true,
-      title:'고시원 옆방에서 밤마다 들리는 소리의 정체 (결말 있음)',
-      body:'이사 온 첫날부터 밤 3시면 꼭 벽 긁는 소리가 났어요. 한 달을 못 자다가 주인한테 물어봤더니... 전 세입자가 혼자 살다가 여기서 돌아가셨다고 하더라고요.',
-      likes:52, hearts:3, wows:67, comments:45 },
-    { id:25, cat:'horror', author:'출입국 단골 #219', date:'2026.05.19', isNew:false, isPublic:true,
-      title:'새벽 버스 타다가 만난 이상한 할머니 이야기',
-      body:'새벽 4시 첫차 탔는데 저 외에 할머니 한 분만 계셨어요. 종점까지 같이 타고 내렸는데, 나중에 기사한테 물어보니 그 시간대엔 저 혼자뿐이었다고...',
-      likes:28, hearts:4, wows:55, comments:33 },
-    { id:26, cat:'horror', author:'베트남 멤버 #628', date:'2026.05.14', isNew:false, isPublic:true,
-      title:'한국에서 귀신 본 사람 저만이 아니죠? 공장 화장실에서...',
-      body:'3교대 근무 중에 화장실 갔다가 거울에서 봤는데... 베트남에서도 이런 거 믿지 않았는데 한국 오고 나서 생각이 바뀌었어요.',
-      likes:19, hearts:7, wows:38, comments:22 },
-    { id:27, cat:'horror', author:'D-9 유저 #503', date:'2026.05.09', isNew:false, isPublic:true,
-      title:'기숙사 빈방에서 혼자 들었던 목소리... 베트남어였어요',
-      body:'입사하고 처음 배정받은 방이 오래 비어있던 방이었어요. 자려는데 분명히 베트남어로 누군가 말하는 소리가... 근처에 베트남 사람이 없었는데.',
-      likes:41, hearts:6, wows:49, comments:37 },
-    /* ── 한국생활정보 게시판 샘플 ── */
-    { id:31, cat:'info', author:'다낭 출신 #507', date:'2026.05.25', isNew:true,  isPublic:true,
-      title:'한국 은행 계좌 만드는 가장 쉬운 방법 (외국인용) 🏦',
-      body:'D-9 비자로 한국은행 계좌 개설했어요. 필요한 서류와 절차를 정리해드립니다. 댓글로 궁금한 점 물어봐주세요.',
-      location:{ sido:'경기도', sigungu:'수원시 팔달구', dong:'영동' },
-      likes:18, hearts:11, wows:5, comments:7 },
-    { id:32, cat:'info', author:'호치민 출신 #342', date:'2026.05.22', isNew:false, isPublic:true,
-      title:'한국 건강보험 신청부터 사용까지 완벽 가이드 💊',
-      body:'외국인도 건강보험 가입 가능합니다! 필요한 준비물과 신청 장소를 알려드립니다. 병원 갈 때 꼭 알아야 할 정보예요.',
-      location:{ sido:'서울특별시', sigungu:'강남구', dong:'개포동' },
-      likes:24, hearts:16, wows:9, comments:12 },
-    { id:33, cat:'info', author:'하노이 출신 #221', date:'2026.05.18', isNew:false, isPublic:true,
-      title:'한국 전세사기 당하지 않는 방법 — 외국인도 알아야 할 팁 🏚️',
-      body:'한국의 전세 시스템은 베트남과 다릅니다. 사기를 당하지 않으려면 이 점들을 꼭 확인하세요.',
-      location:{ sido:'인천광역시', sigungu:'남동구', dong:'논현동' },
-      likes:15, hearts:9, wows:6, comments:8 },
-    { id:34, cat:'info', author:'D-9 유저 #614', date:'2026.05.15', isNew:false, isPublic:true,
-      title:'한국 세금(소득세, 주민세) 환급받는 방법 💰',
-      body:'D-9 비자자도 연말정산으로 세금을 환급받을 수 있습니다. 절차와 필요한 서류 정보를 공유합니다.',
-      location:{ sido:'경기도', sigungu:'안산시 단원구', dong:'원곡동' },
-      likes:31, hearts:18, wows:11, comments:20 },
-    /* ── 지역 일자리 구인&구직 게시판 샘플 ── */
-    { id:41, cat:'jobs', author:'베트남 회사 #601', date:'2026.05.25', isNew:true,  isPublic:true,
-      title:'[채용] 수원 반도체 공장 정규직 모집 — 초급 가능 🏭',
-      body:'경험 무관, 초급자 환영합니다. 급여 월 270만원, 숙박 제공. 공정한 대우와 빠른 비자지원이 특징입니다.',
-      location:{ sido:'경기도', sigungu:'수원시 영통구', dong:'매탄동' },
-      likes:28, hearts:15, wows:8, comments:14 },
-    { id:42, cat:'jobs', author:'인천 제조회사 #523', date:'2026.05.22', isNew:false, isPublic:true,
-      title:'[공고] 인천 화학 공장 반입원 구인 (E-7-4 지원 가능)',
-      body:'3년 이상 경험자 우대. 월급 300만원 이상, 기숙사 제공, 정기휴가 있습니다. 한국어 기본 가능한 분.',
-      location:{ sido:'인천광역시', sigungu:'남동구', dong:'만수동' },
-      likes:22, hearts:12, wows:6, comments:11 },
-    { id:43, cat:'jobs', author:'안산 제조사 #445', date:'2026.05.18', isNew:false, isPublic:true,
-      title:'[구인] 안산 전자부품 조립 - 여성 지원자 환영! 👩‍🏭',
-      body:'시간당 9,860원(최저임금), 월 200만원 수준의 소득 가능. 기숙사 근처, 대중교통 접근성 좋습니다.',
-      location:{ sido:'경기도', sigungu:'안산시 단원구', dong:'원곡동' },
-      likes:19, hearts:10, wows:5, comments:9 },
-    { id:44, cat:'jobs', author:'화성 공단 #382', date:'2026.05.15', isNew:false, isPublic:true,
-      title:'[공고] 화성 자동차 부품 공장 - 숙련공 채용',
-      body:'5년 이상 경험자 우대. 월급 330만원 이상, 보너스 있음. E-7-1 비자 변경 지원해드립니다.',
-      location:{ sido:'경기도', sigungu:'화성시', dong:'병점동' },
-      likes:35, hearts:20, wows:12, comments:25 },
-  ];
-}
-
-
-/* ── 커스텀 훅: 게시글 (LocalStorage) ──────────────────────── */
-function usePosts() {
-  const deviceId = getDeviceId();
-  const [posts, setPosts] = useState(() => {
-    try {
-      const stored = JSON.parse(localStorage.getItem(BOARD_STORE));
-      if (!stored) return defaultPosts().map(p => ({ ...p, deviceId: 'system_default' }));
-      return stored.map(p => ({
-        ...p,
-        isPublic: p.isPublic !== undefined ? p.isPublic : true,
-        deviceId: p.deviceId || 'system_default'  // 기존 데이터에 deviceId 없으면 추가
-      }));
-    }
-    catch { return defaultPosts().map(p => ({ ...p, deviceId: 'system_default' })); }
-  });
-  const save = (next) => {
-
-    setPosts(next);
-
-    // localStorage 사용 (fallback용, file:// 프로토콜에서는 제한될 수 있음)
-    try {
-      localStorage.setItem(BOARD_STORE, JSON.stringify(next));
-      console.log('💾 LocalStorage saved - 첫 글 author:', next[0]?.author);
-    } catch (e) {
-      console.warn('⚠️ LocalStorage 사용 불가:', e.message);
-    }
-
-    // Firebase REST API로 저장 (메인 저장소)
-    console.log('🌐 Sending to Firebase...');
-    fetch(FIREBASE_POSTS_URL, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(next),
-      timeout: 10000
-    })
-      .then(res => {
-        console.log('📡 Firebase response:', res.status);
-        if (res.ok) {
-          console.log('✅ Firebase save success');
-          return res.json();
-        } else {
-          throw new Error(`Firebase error: ${res.statusText}`);
-        }
-      })
-      .catch(e => {
-        console.error('❌ Firebase save failed:', e.message);
-        console.warn('⚠️ 로컬 데이터는 저장됨. 다음 새로고침 시 firebase와 동기화됨.');
-      });
-  };
-  const addPost    = (p)         => {
-    console.log('🟢 [addPost] 받은 post:', p);
-    console.log('🟢 [addPost] post.author:', p.author);
-    console.log('🟢 [addPost] 현재 posts 배열 길이:', posts.length);
-    const newPostsArray = [p, ...posts];
-    console.log('🟢 [addPost] 새 배열의 첫 번째 글:', newPostsArray[0]);
-    save(newPostsArray);
-  };
-  const deletePost = (id)        => save(posts.filter(p => p.id !== id));
-  const updatePost = (id, edits) => save(posts.map(p => p.id === id ? { ...p, ...edits } : p));
-
-  // Firebase 실시간 리스너 — 누구든 글/댓글/반응을 바꾸는 즉시 모든 사용자 화면에 자동 반영
-  useEffect(() => {
-    const postsRef = window.database.ref('posts');
-
-    const handleValue = (snapshot) => {
-      const data = snapshot.val();
-
-      if (!data) {
-        console.log('✅ Firebase: 데이터 없음 (초기 상태)');
-        return;
-      }
-
-      // Firebase가 배열을 객체 형태로 줄 수도 있어서 방어적으로 처리
-      const dataArray = Array.isArray(data) ? data : Object.values(data);
-
-      if (!Array.isArray(dataArray)) {
-        console.warn('⚠️ Firebase 데이터가 배열이 아님:', typeof data);
-        return;
-      }
-
-      // 각 항목 검증 (id와 author 필수)
-      const validData = dataArray.filter(p => p && p.id != null && p.author);
-      console.log(`✅ [실시간] Firebase 업데이트: ${dataArray.length}개 중 ${validData.length}개 유효`);
-
-      setPosts(prev => {
-        // id를 string으로 정규화해서 비교 (안전성 향상)
-        const localOnly = prev.filter(p =>
-          !validData.some(fb => String(fb.id) === String(p.id))
-        );
-
-        const merged = [...localOnly, ...validData];
-
-        // localStorage 업데이트 시도 (실패해도 괜찮음)
-        try {
-          localStorage.setItem(BOARD_STORE, JSON.stringify(merged));
-        } catch (e) {
-          console.warn('⚠️ 실시간 업데이트 후 localStorage 업데이트 실패');
-        }
-
-        return merged;
-      });
-    };
-
-    postsRef.on('value', handleValue, (error) => {
-      console.error('❌ Firebase 실시간 리스너 오류:', error.message);
-    });
-
-    // 컴포넌트 정리 시 리스너 해제
-    return () => {
-      postsRef.off('value', handleValue);
-    };
-  }, []);
-
-  function addComment(postId, comment) {
-    save(posts.map(p => {
-      if (p.id !== postId) return p;
-      const list = [...(p.commentsData || []), { ...comment, deviceId }];
-      return { ...p, commentsData: list, comments: list.length };
-    }));
-  }
-  function deleteComment(postId, commentId) {
-    save(posts.map(p => {
-      if (p.id !== postId) return p;
-      const list = (p.commentsData || []).filter(c => c.id !== commentId);
-      return { ...p, commentsData: list, comments: list.length };
-    }));
-  }
-  function updateComment(postId, commentId, edits) {
-    save(posts.map(p => {
-      if (p.id !== postId) return p;
-      const list = (p.commentsData || []).map(c => c.id === commentId ? { ...c, ...edits } : c);
-      return { ...p, commentsData: list, comments: list.length };
-    }));
-  }
-
-  // Firebase에서 최신 데이터 다시 불러오기 (다른 기기의 변경사항 반영용)
-  const refreshPosts = async () => {
-    console.log('🔄 [refreshPosts] Firebase에서 최신 데이터 불러오는 중...');
-    try {
-      const res = await fetch(FIREBASE_POSTS_URL, { timeout: 10000 });
-      const data = await res.json();
-
-      if (!data) {
-        console.log('✅ Firebase: 데이터 없음 (초기 상태)');
-        return;
-      }
-
-      if (!Array.isArray(data)) {
-        console.warn('⚠️ Firebase 데이터가 배열이 아님:', typeof data);
-        return;
-      }
-
-      const validData = data.filter(p => p && p.id != null && p.author);
-      console.log(`✅ [refreshPosts] Firebase load: ${data.length}개 중 ${validData.length}개 유효`);
-
-      setPosts(prev => {
-        const localOnly = prev.filter(p =>
-          !validData.some(fb => String(fb.id) === String(p.id))
-        );
-
-        const merged = [...localOnly, ...validData];
-        console.log('✅ [refreshPosts] 최신 데이터 병합 완료 - 지역 글:', localOnly.length, '개');
-
-        try {
-          localStorage.setItem(BOARD_STORE, JSON.stringify(merged));
-        } catch (e) {
-          console.warn('⚠️ 새로고침 후 localStorage 업데이트 실패');
-        }
-
-        return merged;
-      });
-    } catch (e) {
-      console.error('❌ [refreshPosts] Firebase load error:', e.message);
-    }
-  };
-
-  return { posts, setPosts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId, refreshPosts };
-}
-
-/* ================================================================
-   공용 UI 컴포넌트
+   비자 관련 상수 모음 (VISA_GUIDE_DATA, VISA_ROUTES, 등)
 ================================================================ */
 
-/* 뒤로가기 헤더 */
-function BackHeader({ title, onBack, rightSlot }) {
-  return (
-    <header className="bg-white sticky top-0 z-50 shadow-sm">
-      <div className="max-w-lg mx-auto px-4 h-14 flex items-center gap-3">
-        <button onClick={onBack}
-          className="w-9 h-9 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-600 text-2xl leading-none transition tap">
-          ‹
-        </button>
-        <h1 className="text-sm font-black text-gray-800 flex-1 word-keep">{title}</h1>
-        {rightSlot}
-      </div>
-    </header>
-  );
-}
-
-/* 토스트 알림 */
-function Toast({ msg, onClose }) {
-  useEffect(() => { const t = setTimeout(onClose, 2400); return () => clearTimeout(t); }, []);
-  return (
-    <div className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs font-bold px-5 py-3 rounded-full shadow-xl z-50 whitespace-nowrap fade-in">
-      {msg}
-    </div>
-  );
-}
-
-/* 비밀번호 확인 모달 */
-function PwModal({ lang, onConfirm, onCancel }) {
-  const [pw, setPw]   = useState('');
-  const [err, setErr] = useState(false);
-  const L = LANG[lang];
-  function confirm() {
-    onConfirm(pw, () => setErr(true));
-  }
-  return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-end justify-center fade-in" onClick={onCancel}>
-      <div className="bg-white rounded-t-3xl w-full max-w-lg px-6 pt-6 pb-10 shadow-2xl" onClick={e=>e.stopPropagation()}>
-        <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5"></div>
-        <p className="text-sm font-black text-gray-800 mb-1 text-center">{L.pwModalTitle}</p>
-        <p className="text-xs text-gray-400 mb-4 text-center">{L.pwModalSub}</p>
-        <input
-          type="password" inputMode="numeric" maxLength={4}
-          value={pw}
-          onChange={e => { setPw(e.target.value.replace(/\D/g,'')); setErr(false); }}
-          placeholder={L.pwPlaceholder}
-          className="w-full border-2 border-gray-200 rounded-2xl px-4 py-3.5 text-center text-2xl tracking-[0.5em] focus:outline-none focus:border-blue-700 mb-2 transition"
-          autoFocus
-        />
-        {err && <p className="text-xs text-red-500 text-center mb-2 fade-in">{L.pwWrong}</p>}
-        <div className="grid grid-cols-2 gap-2 mt-3">
-          <button onClick={onCancel}
-            className="py-3.5 border border-gray-200 rounded-2xl text-sm font-bold text-gray-500 bg-white tap transition">
-            {L.pwCancel}
-          </button>
-          <button onClick={confirm}
-            className="py-3.5 bg-blue-700 text-white rounded-2xl text-sm font-black tap transition">
-            {L.pwConfirm}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ================================================================
-   댓글 섹션 — PostCard / TalkListView 공용
-================================================================ */
-const LANG = {
-  vi: {
-    tagline:'Cộng đồng D-9 → E-7-4 🇻🇳',
-    quickMenu:'Menu Nhanh', quickMenuSub:'Nhấn để di chuyển',
-    ddayTitle:'D-Day Hết Hạn Visa', ddaySub:'Nhập ngày hết hạn để tính tự động',
-    ddayLabel:'Ngày hết hạn visa', ddayType:'Loại visa',
-    ddayD9:'D-9 (Thương mại)', ddayE74:'E-7-4 (Lao động kỹ năng)',
-    ddayExpired:'Đã hết hạn', ddayToday:'Hết hạn hôm nay!',
-    ddayDays:'ngày còn lại', ddayApply:'Ngày có thể nộp đơn',
-    ddayApplyMsg:'Có thể nộp đơn ngay!', ddayNotSet:'Vui lòng nhập ngày hết hạn',
-    ddayApplyAvail:'Có thể nộp đơn rồi!',
-    ddayApplyNotYet:'Ngày còn lại đến khi nộp đơn',
-    officeTitle:'Liên hệ Cục Xuất Nhập Cảnh', officeSub:'Số điện thoại · Địa chỉ · Đặt lịch',
-    officeCall:'Gọi', officeBook:'Đặt lịch',
-    noticeTitle:'Thông báo từ Quản trị viên', noticeSub:'Thông tin quan trọng',
-    viewAll:'Xem tất cả', writeFab:'✏️ Viết bài', writeBtn:'✏️ Viết bài',
-    firstPost:'✏️ Viết bài đầu tiên',
-    noPost:'Chưa có bài viết.\nHãy chia sẻ trải nghiệm của bạn!',
-    privateLabel:'🔒 Bài riêng tư',
-    privateMsg:'Bài viết riêng tư.',
-    privateSub:'Chỉ quản trị viên mới xem được.',
-    reactions:'người đã phản ứng', comments:'bình luận',
-    editBtn:'Sửa', deleteBtn:'Xóa',
-    pwModalTitle:'Nhập mật khẩu 4 chữ số',
-    pwModalSub:'Nhập mật khẩu bạn đặt khi viết bài',
-    pwPlaceholder:'••••', pwConfirm:'Xác nhận', pwCancel:'Hủy',
-    pwWrong:'❌ Mật khẩu không đúng',
-    writePageTitle:'✍️ Chia sẻ trải nghiệm',
-    selectBoard:'Chọn bảng tin',
-    titlePlaceholder:'Nhập tiêu đề (tối đa 60 ký tự)',
-    bodyPlaceholder:'Nhập nội dung. (Tiếng Việt hoặc 한국어 đều được)',
-    visLabel:'Cài đặt hiển thị',
-    visPublic:'🌍 Công khai', visPublicDesc:'Mọi người đều thấy',
-    visPrivate:'🔒 Riêng tư', visPrivateDesc:'Chỉ quản trị viên',
-    pwFieldLabel:'🔑 Mật khẩu bài viết (4 chữ số)',
-    pwFieldPlaceholder:'Nhập 4 chữ số để sửa/xóa sau này',
-    pwFieldNote:'Ghi nhớ mật khẩu! Cần để sửa hoặc xóa bài.',
-    privacyTitle:'🔒 Lưu ý bảo mật — Bắt buộc đọc!',
-    privacy1:'Không nhập tên thật, số điện thoại, tên công ty',
-    privacy2:'Tuyệt đối không nhập số đăng ký ngoại kiều, số hộ chiếu',
-    privacy3:'Biệt danh tác giả được ẩn danh tự động',
-    privacy4:'Thông tin thật tuyệt đối không hiển thị trên màn hình',
-    anonNote:'Đăng ẩn danh hoàn toàn. Biệt danh được tạo tự động với bảo mật 2 lớp.',
-    cancelBtn:'Hủy', submitBtn:'Đăng bài',
-    emptyAlert:'Vui lòng nhập tiêu đề và nội dung ⚠️',
-    pwEmptyAlert:'Vui lòng nhập mật khẩu 4 chữ số ⚠️',
-    pwLengthAlert:'Mật khẩu phải đúng 4 chữ số ⚠️',
-    backToMain:'← Về trang chính',
-    noNewsErr:'Kết nối thất bại',
-    visaBoardTitle:'Bảng Tin Visa Chuyên',
-    visaBoardSub:'Diễn đàn chia sẻ kinh nghiệm E-7-4',
-    visaBoardWrite:'✏️ Viết bài',
-    visaBoardEmpty:'Chưa có bài viết.',
-    visaFilterAll:'Tất cả',
-    visaFilterHall:'🏆 Đậu',
-    visaFilterSos:'🚨 SOS',
-    visaFilterBamboo:'💬 Kinh nghiệm',
-    talkBtnLabel:'Góc Tán Gẫu', talkBtnSub:'Tán gẫu tự do · Không liên quan visa',
-    talkClose:'Đóng', talkWriteBtn:'✏️ Viết',
-    talkColTitle:'Tiêu đề', talkColAuthor:'Tác giả', talkColDate:'Ngày',
-    talkEmpty:'Chưa có bài viết. Hãy là người đầu tiên! 💬',
-    talkReport:'Báo cáo', talkReported:'Đã báo cáo',
-    talkBlinded:'[Bài viết đã bị báo cáo]',
-    talkPrivate:'[Bài riêng tư — Nhập mật khẩu để xem]',
-    cmt:'Bình luận', cmtCount:'{n} bình luận',
-    cmtPlaceholder:'Viết bình luận... (Tiếng Việt hoặc 한국어)',
-    cmtPwPlaceholder:'Mật khẩu 4 số (để xóa sau)',
-    cmtPwNote:'Không bắt buộc — nhập nếu muốn xóa sau',
-    cmtSubmit:'Gửi', cmtEmpty:'Chưa có bình luận nào.',
-    cmtDelete:'Xóa', cmtCollapse:'Thu gọn',
-    todoTopik:'Hãy bắt đầu ôn thi TOPIK 📚', todoDocs:'Hãy bắt đầu chuẩn bị hồ sơ 📋',
-    todoBooking:'Hãy đặt lịch Cục XNC ngay! 🚨', todoExpired:'Visa đã hết hạn! Cần xử lý ngay ⚠️',
-    ddayEditBtn:'Sửa', ddayTargetLabel:'Mục tiêu',
-  },
-  ko: {
-    tagline:'D-9 → E-7-4 커뮤니티 🇻🇳',
-    quickMenu:'Quick Menu', quickMenuSub:'탭 하면 바로 이동',
-    ddayTitle:'비자 만료일 D-Day', ddaySub:'만료일을 입력하면 자동 계산됩니다',
-    ddayLabel:'비자 만료일', ddayType:'비자 종류',
-    ddayD9:'D-9 (무역·주재)', ddayE74:'E-7-4 (숙련기능인력)',
-    ddayExpired:'만료됨', ddayToday:'오늘 만료!',
-    ddayDays:'일 남음', ddayApply:'신청 가능일',
-    ddayApplyMsg:'지금 신청 가능!', ddayNotSet:'만료일을 입력해주세요',
-    ddayApplyAvail:'신청 가능 (지금 접수하세요!)',
-    ddayApplyNotYet:'신청 가능일까지',
-    officeTitle:'출입국 사무소 연락처', officeSub:'전화·주소·예약 링크 모음',
-    officeCall:'전화', officeBook:'예약',
-    noticeTitle:'운영자 공지', noticeSub:'중요 안내사항',
-    viewAll:'전체 보기', writeFab:'✏️ 글쓰기', writeBtn:'✏️ 글쓰기',
-    firstPost:'✏️ 첫 글 작성하기',
-    noPost:'아직 게시글이 없어요.\n첫 번째 경험을 공유해 주세요!',
-    privateLabel:'🔒 비공개 글',
-    privateMsg:'비공개 게시글입니다.',
-    privateSub:'작성자 정보와 내용은 운영자만 확인할 수 있습니다.',
-    reactions:'명이 반응했어요', comments:'댓글',
-    editBtn:'수정', deleteBtn:'삭제',
-    pwModalTitle:'비밀번호 4자리 입력',
-    pwModalSub:'글 작성 시 입력한 비밀번호를 입력하세요',
-    pwPlaceholder:'••••', pwConfirm:'확인', pwCancel:'취소',
-    pwWrong:'❌ 비밀번호가 틀렸습니다',
-    writePageTitle:'✍️ 경험 공유하기',
-    selectBoard:'게시판 선택',
-    titlePlaceholder:'제목을 입력하세요 (최대 60자)',
-    bodyPlaceholder:'내용을 입력하세요. (한국어, Tiếng Việt 모두 가능)',
-    visLabel:'공개 설정',
-    visPublic:'🌍 공개', visPublicDesc:'모두에게 공개',
-    visPrivate:'🔒 비공개', visPrivateDesc:'운영자만 확인',
-    pwFieldLabel:'🔑 글 비밀번호 (숫자 4자리)',
-    pwFieldPlaceholder:'숫자 4자리 (수정·삭제 시 사용)',
-    pwFieldNote:'비밀번호를 꼭 기억하세요! 나중에 수정·삭제 시 필요합니다.',
-    privacyTitle:'🔒 개인정보 주의사항 — 반드시 확인!',
-    privacy1:'본명, 연락처, 회사명을 직접 입력하지 마세요',
-    privacy2:'외국인등록번호·여권번호 등 민감정보 입력 절대 금지',
-    privacy3:'작성자 닉네임은 자동 익명 처리되어 저장됩니다',
-    privacy4:'화면에는 실제 정보가 절대 표시되지 않습니다',
-    anonNote:'완전 익명으로 게시됩니다. 닉네임은 자동 생성되며, 2중 익명 처리가 적용됩니다.',
-    cancelBtn:'취소', submitBtn:'등록하기',
-    emptyAlert:'제목과 내용을 입력해주세요 ⚠️',
-    pwEmptyAlert:'비밀번호 4자리를 입력해주세요 ⚠️',
-    pwLengthAlert:'비밀번호는 숫자 4자리로 입력해주세요 ⚠️',
-    backToMain:'← 메인으로 돌아가기',
-    noNewsErr:'연결 시간 초과',
-    talkBtnLabel:'🟢 자유 토크방', talkBtnSub:'비자 외 자유 수다 · 일상 토크',
-    talkClose:'닫기', talkWriteBtn:'✏️ 글쓰기',
-    talkColTitle:'제목', talkColAuthor:'작성자', talkColDate:'날짜',
-    talkEmpty:'아직 글이 없어요. 첫 글을 남겨보세요! 💬',
-    talkReport:'신고', talkReported:'신고됨',
-    talkBlinded:'[신고된 글입니다]',
-    talkPrivate:'[비공개 글 — 비밀번호로 열람]',
-    visaBoardTitle:'비자 전문 게시판',
-    visaBoardSub:'합격·SOS·참교육 한눈에 보기',
-    visaBoardWrite:'✏️ 글쓰기',
-    visaBoardEmpty:'아직 게시글이 없어요.',
-    visaFilterAll:'전체',
-    visaFilterHall:'🏆 합격',
-    visaFilterSos:'🚨 SOS',
-    visaFilterBamboo:'💬 참교육',
-    cmt:'댓글', cmtCount:'{n}개',
-    cmtPlaceholder:'댓글을 입력하세요... (한국어, Tiếng Việt 모두)',
-    cmtPwPlaceholder:'비밀번호 4자리 (삭제용, 선택)',
-    cmtPwNote:'선택사항 — 나중에 삭제하려면 입력하세요',
-    cmtSubmit:'등록', cmtEmpty:'아직 댓글이 없어요.',
-    cmtDelete:'삭제', cmtCollapse:'접기',
-    todoTopik:'TOPIK 시험 준비를 시작하세요 📚', todoDocs:'서류 준비를 시작하세요 📋',
-    todoBooking:'출입국 예약을 서둘러주세요! 🚨', todoExpired:'비자가 만료됐어요! 즉시 확인하세요 ⚠️',
-    ddayEditBtn:'수정', ddayTargetLabel:'목표',
-  },
-};
-
-/* ================================================================
-   📢 운영자 공지
-   — DEFAULT_NOTICES: 코드 기본값 (localStorage 없을 때 사용)
-   — vb_notices: localStorage 키 (관리자 편집 내용 저장)
-================================================================ */
-const NOTICE_STORE = 'vb_notices';
-const ADMIN_PW = '88888888';
-
-const DEFAULT_NOTICES = [
-  {
-    id:1, urgent: true,
-    date:'2025.05.20',
-    ko:'📌 E-7-4 소득 기준: 반드시 세후(실수령액) 기준으로 임금대장을 작성하세요. 세전 기준 제출 시 탈락 사유가 됩니다.',
-    vi:'📌 Tiêu chuẩn thu nhập E-7-4: Bảng lương PHẢI ghi theo thu nhập thực nhận (sau thuế). Nộp theo lương trước thuế sẽ bị từ chối.',
-  },
-  {
-    id:2, urgent: false,
-    date:'2025.05.18',
-    ko:'📋 수원출입국 예약 현재 4주 대기 중. 만료 3개월 전부터 예약하는 것을 강력 권장합니다.',
-    vi:'📋 Cục XNC Suwon hiện đang chờ 4 tuần. Khuyến nghị đặt lịch từ 3 tháng trước khi hết hạn.',
-  },
-];
-
-function loadNotices() {
-  try {
-    const raw = localStorage.getItem(NOTICE_STORE);
-    if (raw) return JSON.parse(raw);
-  } catch(e) {}
-  return DEFAULT_NOTICES;
-}
-function saveNotices(arr) {
-  localStorage.setItem(NOTICE_STORE, JSON.stringify(arr));
-}
-
-/* ── 공지 상세 모달 ── */
-/* ── 관리자 공지 편집 모달 ── */
-function NoticeAdminModal({ notices, lang, onSave, onClose }) {
-  const [list, setList] = useState(notices.map(n => ({ ...n })));
-
-  function update(idx, field, val) {
-    setList(prev => prev.map((n, i) => i === idx ? { ...n, [field]: val } : n));
-  }
-  function addNotice() {
-    const newId = Math.max(...list.map(n => n.id), 0) + 1;
-    setList(prev => [...prev, { id: newId, urgent: false, date: new Date().toLocaleDateString('ko-KR').replace(/\. /g,'.').replace('.',''), ko: '', vi: '' }]);
-  }
-  function removeNotice(idx) {
-    if (list.length <= 1) return alert('공지는 최소 1개 이상 있어야 합니다.');
-    setList(prev => prev.filter((_,i) => i !== idx));
-  }
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/60" />
-      <div
-        className="relative w-full max-w-lg bg-white rounded-t-2xl px-4 pt-5 pb-8 fade-in overflow-y-auto max-h-[85vh]"
-        onClick={e => e.stopPropagation()}
-      >
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-black text-gray-800">🔧 공지 관리</h2>
-          <button onClick={onClose} className="text-gray-400 text-xl font-bold">✕</button>
-        </div>
-
-        {list.map((n, i) => (
-          <div key={n.id} className="mb-4 bg-gray-50 rounded-xl p-3 border border-gray-200">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-gray-500">공지 {i+1}</span>
-              <div className="flex items-center gap-2">
-                <label className="flex items-center gap-1 text-xs text-red-500 font-bold cursor-pointer">
-                  <input type="checkbox" checked={n.urgent} onChange={e => update(i,'urgent',e.target.checked)} className="w-3 h-3" />
-                  중요
-                </label>
-                <button onClick={() => removeNotice(i)} className="text-red-400 text-xs font-bold tap">삭제</button>
-              </div>
-            </div>
-            <input
-              type="date"
-              value={n.date.replace(/\./g,'-')}
-              onChange={e => update(i,'date', e.target.value.replace(/-/g,'.'))}
-              className="w-full text-xs border border-gray-300 rounded-lg px-2 py-1.5 mb-2"
-            />
-            <textarea
-              rows={3}
-              placeholder="한국어 공지 내용"
-              value={n.ko}
-              onChange={e => update(i,'ko',e.target.value)}
-              className="w-full text-xs border border-gray-300 rounded-lg px-2 py-1.5 mb-2 resize-none"
-            />
-            <textarea
-              rows={3}
-              placeholder="베트남어 공지 내용 (Nội dung thông báo tiếng Việt)"
-              value={n.vi}
-              onChange={e => update(i,'vi',e.target.value)}
-              className="w-full text-xs border border-gray-300 rounded-lg px-2 py-1.5 resize-none"
-            />
-          </div>
-        ))}
-
-        <button onClick={addNotice} className="w-full border-2 border-dashed border-blue-300 text-blue-500 font-bold text-sm py-2.5 rounded-xl mb-3 tap">
-          + 공지 추가
-        </button>
-        <button
-          onClick={() => { onSave(list); onClose(); }}
-          className="w-full bg-blue-700 text-white font-black py-3 rounded-xl tap"
-        >
-          저장하기
-        </button>
-      </div>
-    </div>
-  );
-}
-
-/* ── 관리자 비밀번호 입력 모달 ── */
-function AdminPwModal({ onSuccess, onClose }) {
-  const [pw, setPw] = useState('');
-  const [err, setErr] = useState(false);
-
-  function check() {
-    if (pw === ADMIN_PW) { onSuccess(); }
-    else { setErr(true); setPw(''); }
-  }
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center px-6" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/50" />
-      <div className="relative bg-white rounded-2xl p-6 w-full max-w-xs fade-in" onClick={e => e.stopPropagation()}>
-        <h3 className="text-base font-black text-gray-800 mb-1 text-center">관리자 확인</h3>
-        <p className="text-xs text-gray-400 text-center mb-4">비밀번호를 입력하세요</p>
-        <input
-          type="password"
-          value={pw}
-          onChange={e => { setPw(e.target.value); setErr(false); }}
-          onKeyDown={e => e.key === 'Enter' && check()}
-          placeholder="비밀번호"
-          className={`w-full border-2 rounded-xl px-3 py-2.5 text-sm text-center mb-1 outline-none ${err ? 'border-red-400' : 'border-gray-300 focus:border-blue-500'}`}
-          autoFocus
-        />
-        {err && <p className="text-xs text-red-500 text-center mb-2">비밀번호가 틀렸습니다.</p>}
-        <div className="flex gap-2 mt-3">
-          <button onClick={onClose} className="flex-1 border border-gray-300 text-gray-600 font-bold py-2.5 rounded-xl text-sm tap">취소</button>
-          <button onClick={check} className="flex-1 bg-blue-700 text-white font-bold py-2.5 rounded-xl text-sm tap">확인</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ── 메인 NoticeSection ── */
-
-
-/* ================================================================
-   📞 전국 출입국 사무소 데이터
-   region: seoul(서울) | gyeonggi(경기·인천) | chungcheong(충청)
-           gyeongsang(경상) | jeolla(전라) | gangwon(강원) | jeju(제주)
-================================================================ */
-const OFFICES = [
-  /* ── 서울 ── */
-  { region:'seoul',       name:'서울출입국·외국인청',       addr:'서울 양천구 목동동로 151',            tel:'02-2650-6200', book:'https://www.hikorea.go.kr' },
-  { region:'seoul',       name:'서울남부출입국·외국인사무소', addr:'서울 영등포구 버드나루로 16',          tel:'02-2650-6234', book:'https://www.hikorea.go.kr' },
-  { region:'seoul',       name:'서울동부출입국·외국인사무소', addr:'서울 광진구 구천면로 345',            tel:'02-2204-4500', book:'https://www.hikorea.go.kr' },
-  { region:'seoul',       name:'서울북부출입국·외국인사무소', addr:'서울 서대문구 통일로 97',             tel:'02-2088-5400', book:'https://www.hikorea.go.kr' },
-  /* ── 경기·인천 ── */
-  { region:'gyeonggi',    name:'인천출입국·외국인사무소',    addr:'인천 남동구 은봉로 82',               tel:'032-890-6300', book:'https://www.hikorea.go.kr' },
-  { region:'gyeonggi',    name:'수원출입국·외국인사무소',    addr:'경기 수원시 영통구 도청로 30',         tel:'031-695-2000', book:'https://www.hikorea.go.kr' },
-  { region:'gyeonggi',    name:'안산출입국·외국인사무소',    addr:'경기 안산시 단원구 적금로 113',        tel:'031-481-3400', book:'https://www.hikorea.go.kr' },
-  { region:'gyeonggi',    name:'의정부출입국·외국인사무소',  addr:'경기 의정부시 청사로 1',               tel:'031-870-3015', book:'https://www.hikorea.go.kr' },
-  { region:'gyeonggi',    name:'화성출입국·외국인사무소',    addr:'경기 화성시 병점중앙로 161',           tel:'031-8015-7800', book:'https://www.hikorea.go.kr' },
-  { region:'gyeonggi',    name:'평택출입국·외국인사무소',    addr:'경기 평택시 평택로 222',               tel:'031-640-4400', book:'https://www.hikorea.go.kr' },
-  { region:'gyeonggi',    name:'김포출입국·외국인사무소',    addr:'경기 김포시 김포한강8로 67',           tel:'031-980-5000', book:'https://www.hikorea.go.kr' },
-  /* ── 충청 ── */
-  { region:'chungcheong', name:'대전출입국·외국인사무소',    addr:'대전 서구 청사로 189',                tel:'042-480-2400', book:'https://www.hikorea.go.kr' },
-  { region:'chungcheong', name:'청주출입국·외국인사무소',    addr:'충북 청주시 상당구 상당로 82',         tel:'043-240-4200', book:'https://www.hikorea.go.kr' },
-  { region:'chungcheong', name:'천안출입국·외국인사무소',    addr:'충남 천안시 동남구 청수14로 58',       tel:'041-560-6400', book:'https://www.hikorea.go.kr' },
-  /* ── 경상 ── */
-  { region:'gyeongsang',  name:'부산출입국·외국인청',        addr:'부산 강서구 공항진입로 108',           tel:'051-620-7000', book:'https://www.hikorea.go.kr' },
-  { region:'gyeongsang',  name:'대구출입국·외국인사무소',    addr:'대구 중구 태평로 161',                tel:'053-230-6700', book:'https://www.hikorea.go.kr' },
-  { region:'gyeongsang',  name:'울산출입국·외국인사무소',    addr:'울산 중구 서원로 15',                 tel:'052-210-3100', book:'https://www.hikorea.go.kr' },
-  { region:'gyeongsang',  name:'창원출입국·외국인사무소',    addr:'경남 창원시 성산구 중앙대로 88',       tel:'055-280-4200', book:'https://www.hikorea.go.kr' },
-  { region:'gyeongsang',  name:'포항출입국·외국인사무소',    addr:'경북 포항시 남구 포항운하로 103',      tel:'054-291-3400', book:'https://www.hikorea.go.kr' },
-  { region:'gyeongsang',  name:'구미출입국·외국인사무소',    addr:'경북 구미시 송정대로 67',              tel:'054-440-6500', book:'https://www.hikorea.go.kr' },
-  /* ── 전라 ── */
-  { region:'jeolla',      name:'광주출입국·외국인사무소',    addr:'광주 북구 첨단과기로 208',             tel:'062-608-3800', book:'https://www.hikorea.go.kr' },
-  { region:'jeolla',      name:'전주출입국·외국인사무소',    addr:'전북 전주시 덕진구 팔달로 340',        tel:'063-270-3200', book:'https://www.hikorea.go.kr' },
-  { region:'jeolla',      name:'여수출입국·외국인사무소',    addr:'전남 여수시 선소동길 19',              tel:'061-659-9000', book:'https://www.hikorea.go.kr' },
-  /* ── 강원 ── */
-  { region:'gangwon',     name:'춘천출입국·외국인사무소',    addr:'강원 춘천시 수변공원길 36',            tel:'033-248-4000', book:'https://www.hikorea.go.kr' },
-  /* ── 제주 ── */
-  { region:'jeju',        name:'제주출입국·외국인사무소',    addr:'제주 제주시 도령로 97',               tel:'064-720-4400', book:'https://www.hikorea.go.kr' },
-];
-
-const OFFICE_REGIONS = [
-  { key:'all',          label:'전체',     vi:'Tất cả' },
-  { key:'seoul',        label:'서울',     vi:'Seoul' },
-  { key:'gyeonggi',     label:'경기·인천', vi:'Gyeonggi·Incheon' },
-  { key:'chungcheong',  label:'충청',     vi:'Chungcheong' },
-  { key:'gyeongsang',   label:'경상',     vi:'Gyeongsang' },
-  { key:'jeolla',       label:'전라',     vi:'Jeolla' },
-  { key:'gangwon',      label:'강원',     vi:'Gangwon' },
-  { key:'jeju',         label:'제주',     vi:'Jeju' },
-];
-
-const EMBASSIES = [
-  /* ── 한국 내 베트남 대사관·영사관 ── */
-  { region:'seoul',       name:'주(駐)대한민국 베트남 대사관',      addr:'서울 강남구 테헤란로 330 (역삼동)',       tel:'02-3430-8400', book:'https://www.vietnamembassy.or.kr' },
-  { region:'busan',       name:'주(駐)대한민국 베트남 총영사관',    addr:'부산 수영구 오륜로 57 (수영동)',          tel:'051-740-5280', book:'' },
-];
-
-const MOFA = [
-  /* ── 한국 외교부 ── */
-  { region:'seoul',       name:'대한민국 외교부',                addr:'서울 종로구 세종대로 110',               tel:'02-2100-8114', book:'https://www.mofa.go.kr' },
-  { region:'seoul',       name:'외교부 영사민원실 (비자 문의)',    addr:'서울 종로구 세종대로 110',               tel:'02-2100-8900', book:'https://www.mofa.go.kr' },
-];
-
-/* ================================================================
-   🏛️ 출입국 사무소 페이지 (전국 + 지역 필터 + 검색)
-================================================================ */
-function OfficePage({ onBack, lang }) {
-  const [tab, setTab]       = useState('immigration'); // 'immigration', 'embassy', 'mofa'
-  const [region, setRegion] = useState('all');
-  const [query, setQuery]   = useState('');
-
-  const dataSource = tab === 'immigration' ? OFFICES : tab === 'embassy' ? EMBASSIES : MOFA;
-
-  const regionOptions =
-    tab === 'immigration' ? OFFICE_REGIONS :
-    tab === 'embassy' ? [
-      { key:'all',    label:'전체',  vi:'Tất cả' },
-      { key:'seoul',  label:'서울',  vi:'Seoul' },
-      { key:'busan',  label:'부산',  vi:'Busan' }
-    ] :
-    [{ key:'all', label:'전체', vi:'Tất cả' }];
-
-  const filtered = dataSource.filter(o => {
-    const matchRegion = region === 'all' || o.region === region;
-    const q = query.trim().toLowerCase();
-    const matchQuery = !q || o.name.toLowerCase().includes(q) || o.addr.toLowerCase().includes(q);
-    return matchRegion && matchQuery;
-  });
-
-  return (
-    <div style={{ background:'#F0F2F5', minHeight:'100vh' }}>
-      {/* 헤더 */}
-      <header className="bg-blue-700 sticky top-0 z-40 shadow-sm">
-        <div className="max-w-lg mx-auto px-4 h-14 flex items-center gap-3">
-          <button onClick={onBack} className="text-white text-xl tap">←</button>
-          <div className="flex-1">
-            <p className="text-white font-black text-sm leading-none">🗂️ {lang==='ko' ? '출입국·대사관·외교부 연락처' : 'Thông tin liên hệ XNC, Đại sứ quán, Bộ Ngoại giao'}</p>
-            <p className="text-blue-200 text-[10px] mt-0.5">{lang==='ko' ? '한국 입국을 위한 기관 정보' : 'Thông tin cơ quan cần thiết cho nhập cảnh Hàn Quốc'}</p>
-          </div>
-        </div>
-      </header>
-
-      <div className="max-w-lg mx-auto px-3 pt-3 pb-24">
-
-        {/* 탭 */}
-        <div className="flex gap-2 mb-3 border-b border-gray-200">
-          <button onClick={() => { setTab('immigration'); setRegion('all'); setQuery(''); }}
-            className={`flex-1 py-2.5 text-xs font-bold text-center border-b-2 transition ${tab === 'immigration' ? 'border-blue-700 text-blue-700' : 'border-transparent text-gray-500'}`}>
-            {lang==='ko' ? '출입국청' : 'Cục XNC'}
-          </button>
-          <button onClick={() => { setTab('embassy'); setRegion('all'); setQuery(''); }}
-            className={`flex-1 py-2.5 text-xs font-bold text-center border-b-2 transition ${tab === 'embassy' ? 'border-blue-700 text-blue-700' : 'border-transparent text-gray-500'}`}>
-            {lang==='ko' ? '대사관' : 'Đại sứ quán'}
-          </button>
-          <button onClick={() => { setTab('mofa'); setRegion('all'); setQuery(''); }}
-            className={`flex-1 py-2.5 text-xs font-bold text-center border-b-2 transition ${tab === 'mofa' ? 'border-blue-700 text-blue-700' : 'border-transparent text-gray-500'}`}>
-            {lang==='ko' ? '외교부' : 'Bộ Ngoại giao'}
-          </button>
-        </div>
-
-        {/* 통합 콜센터 배너 */}
-        <a href="tel:1345" className="block mb-3">
-          <div className="bg-blue-700 rounded-2xl px-4 py-3.5 flex items-center gap-3 tap shadow">
-            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-xl flex-shrink-0">📞</div>
-            <div className="flex-1">
-              <p className="text-white font-black text-sm">{lang==='ko' ? '출입국 통합 안내 콜센터' : 'Tổng đài tư vấn xuất nhập cảnh'}</p>
-              <p className="text-blue-200 text-[11px]">{lang==='ko' ? '24시간 연결 가능 · 한국어/외국어' : 'Hoạt động 24h · Tiếng Hàn/Ngoại ngữ'}</p>
-            </div>
-            <span className="text-white font-black text-xl">1345</span>
-          </div>
-        </a>
-
-        {/* 검색창 */}
-        <div className="bg-white rounded-2xl shadow-sm px-3 py-2.5 mb-3 flex items-center gap-2">
-          <span className="text-gray-400 text-base">🔍</span>
-          <input
-            type="search"
-            placeholder={lang==='ko' ? '사무소 이름·지역으로 검색' : 'Tìm theo tên hoặc khu vực'}
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            className="flex-1 text-sm text-gray-800 outline-none placeholder-gray-300"
-          />
-          {query && (
-            <button onClick={() => setQuery('')} className="text-gray-300 font-bold text-sm tap">✕</button>
-          )}
-        </div>
-
-        {/* 지역 필터 탭 (가로 스크롤) */}
-        <div className="flex gap-2 overflow-x-auto pb-1 mb-3 scrollbar-hide" style={{ scrollbarWidth:'none' }}>
-          {regionOptions.map(r => (
-            <button
-              key={r.key}
-              onClick={() => setRegion(r.key)}
-              className={`flex-shrink-0 text-xs font-bold px-3.5 py-1.5 rounded-full transition tap ${
-                region === r.key
-                  ? 'bg-blue-700 text-white shadow'
-                  : 'bg-white text-gray-600 border border-gray-200'
-              }`}
-            >
-              {lang==='ko' ? r.label : r.vi}
-            </button>
-          ))}
-        </div>
-
-        {/* 결과 수 */}
-        <p className="text-[11px] text-gray-400 mb-2 px-1">
-          {lang==='ko' ? `${filtered.length}개 사무소` : `${filtered.length} văn phòng`}
-        </p>
-
-        {/* 사무소 목록 */}
-        {filtered.length === 0 ? (
-          <div className="bg-white rounded-2xl p-8 text-center text-gray-400 text-sm">
-            {lang==='ko' ? '검색 결과가 없습니다' : 'Không tìm thấy kết quả'}
-          </div>
-        ) : (
-          <div className="flex flex-col gap-2.5">
-            {filtered.map((o, i) => (
-              <div key={i} className="bg-white rounded-2xl shadow-sm overflow-hidden">
-                <div className="px-4 pt-3.5 pb-1">
-                  <div className="flex items-start gap-2.5">
-                    <span className="text-lg mt-0.5 flex-shrink-0">🏛️</span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-black text-gray-800 word-keep leading-snug">{o.name}</p>
-                      <p className="text-[11px] text-gray-400 mt-0.5 word-keep leading-relaxed">📍 {o.addr}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="px-3 pb-3 flex gap-2 mt-2">
-                  <a
-                    href={`tel:${o.tel}`}
-                    className="flex-1 flex items-center justify-center gap-1 bg-blue-700 text-white text-xs font-black py-2.5 rounded-xl tap shadow-sm"
-                  >
-                    📞 {o.tel}
-                  </a>
-                  <a
-                    href={o.book}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-1 bg-white border-2 border-blue-200 text-blue-700 text-xs font-black py-2.5 rounded-xl tap"
-                  >
-                    🗓️ {lang==='ko' ? 'Hi-Korea 예약' : 'Đặt lịch'}
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Hi-Korea 안내 */}
-        <div className="mt-4 bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3">
-          <p className="text-[11px] text-amber-800 font-bold mb-1">💡 {lang==='ko' ? '예약 안내' : 'Hướng dẫn đặt lịch'}</p>
-          <p className="text-[11px] text-amber-700 leading-relaxed word-keep">
-            {lang==='ko'
-              ? '온라인 예약은 Hi-Korea(www.hikorea.go.kr) 로그인 후 민원예약에서 가능합니다. 만료 3개월 전 예약을 권장합니다.'
-              : 'Đặt lịch online tại Hi-Korea (www.hikorea.go.kr) sau khi đăng nhập → Đặt lịch dịch vụ. Nên đặt trước 3 tháng khi hết hạn.'}
-          </p>
-        </div>
-
-      </div>
-    </div>
-  );
-}
-
-/* ================================================================
-   🛂 비자 테크트리 데이터
-================================================================ */
-
-/* ── 비자 루트 선택 (온보딩) ── */
-
-/* ================================================================
-   비자 가이드 데이터 — 베트남인이 관심있는 모든 비자
-================================================================ */
 const VISA_GUIDE_DATA = {
   e9: {
     code:'E-9', icon:'🏭', color:'bg-blue-600',
@@ -1421,17 +197,18 @@ const VISA_GUIDE_DATA = {
   },
   f27_d8: {
     code:'F-2-7', icon:'🌟', color:'bg-purple-600',
-    name:      { ko:'점수제 거주비자 (D-8 기업투자)',                  vi:'Visa F-2-7 (từ D-8 đầu tư)' },
-    summary:   { ko:'D-8에서 기업투자로 취득 후 점수 80점 이상 시 신청 — D-8 사업가의 영주권 진입로', vi:'Từ D-8 sau khi doanh nghiệp ổn định và đạt 80 điểm trở lên — Đây là diện visa cư trú dành cho chủ doanh nghiệp D-8 có lợi thế giải phóng quyền lợi vợ/chồng đi kèm.' },
+    name:      { ko:'점수제 거주비자 (D-8 기업투자)',                  vi:'Visa f2-7 (từ D-9 thương mại)' },
+    summary:   { ko:'D-8에서 기업투자로 취득 후 점수 80점 이상 시 신청 — D-8 사업가의 영주권 진입로', vi:'F-2-7 là visa cư trú dài hạn dành cho nhân tài theo hệ thống chấm điểm (점수제), cho phép người giữ visa hoạt động kinh tế tự do tại Hàn Quốc mà không bị ràng buộc vào một công ty hay công việc cụ thể — khác hẳn D-9 vốn gắn chặt với hoạt động kinh doanh/thương mại đã đăng ký. Đây là bước tiếp theo được nhiều người giữ visa E-7 lựa chọn, và sau 3 năm giữ F-2-7 có thể xin visa định cư F-5.' },
     maxStay:   { ko:'1~3년 단위 갱신 (점수 80점 이상 계속 유지 필수)', vi:'Gia hạn 1-3 năm, phải duy trì tổng điểm từ 80 trở lên' },
     target:    { ko:'3년 이상 F-2-7 유지 후 F-5 영주권 신청 가능 — D-8 사업가의 최종 목표', vi:'F-2-7 → sau 3-5 năm duy trì điểm → xin F-5 thường trú (vĩnh trú)' },
     steps: [
-      { ko:'[D-8에서 F-2-7로의 전환 조건] 일반적으로 D-8 취득 후 2~3년 사업 운영하면서 회사 안정성, 직원 고용 현황, 소득 수준 등이 일정 기준에 도달하면 F-2-7 신청 가능', vi:'Bước 1: Đợi D-8 ổn định và tích lũy điểm: Sau khi D-8 được cấp, tiếp tục vận hành công ty trong 2-3 năm, đảm bảo nhân viên ổn định, doanh nghiệp hoạt động bình thường.' },
-      { ko:'[점수 계산의 핵심: 개인 소득 증명] F-2-7 신청 시 점수 산정은 회사 매출이나 수익이 아니라 \"본인의 개인 소득\"(급여 또는 배당금)으로 계산됨. 국세청 소득금액증명원에 나온 최종 순소득(과세소득) 기준으로 점수 부여', vi:'Bước 2: Tính điểm F-2-7 dựa trên thu nhập cá nhân: Chuẩn bị các giấy tờ tài chính, đặc biệt là bảng tính điểm chi tiết theo chuẩn điểm F-2-7 mới nhất (lưu ý: điểm dựa trên THU NHẬP CÁ NHÂN chứ không phải doanh thu công ty).' },
-      { ko:'[한국어 능력과 소득 수준 검토] 안정적인 80점 이상을 위해 TOPIK 4급 또는 KIIP 4단계 이상을 확보하고, 가장 중요한 것은 소득금액증명원상 수치가 점수표 계산 기준을 충족하는지 미리 대조', vi:'Bước 3: Chuẩn bị hồ sơ và lịch hẹn: Tập hợp các giấy tờ cần thiết, đặt lịch nộp hồ sơ trực tuyến trên HiKorea.' },
-      { ko:'[F-2-7 취득 후의 이점] D-8 상태에서는 배우자가 F-3(동반가족)으로만 머물 수 있으나, F-2-7로 변경 후 배우자도 F-2-1으로 상향되어 제한 없이 취업 가능하고 사업 영위도 가능', vi:'Bước 4: Nộp hồ sơ và chờ kết quả: Thời gian xét duyệt thường 1-3 tháng.' },
+      { ko:'[D-8에서 F-2-7로의 전환 조건] 일반적으로 D-8 취득 후 2~3년 사업 운영하면서 회사 안정성, 직원 고용 현황, 소득 수준 등이 일정 기준에 도달하면 F-2-7 신청 가능', vi:'1. Xác nhận đối tượng đủ điều kiện nộp theo diện điểm số' },
+      { ko:'[점수 계산의 핵심: 개인 소득 증명] F-2-7 신청 시 점수 산정은 회사 매출이나 수익이 아니라 \"본인의 개인 소득\"(급여 또는 배당금)으로 계산됨. 국세청 소득금액증명원에 나온 최종 순소득(과세소득) 기준으로 점수 부여', vi:'2. Kiểm tra tiêu chí thẩm định chung' },
+      { ko:'[한국어 능력과 소득 수준 검토] 안정적인 80점 이상을 위해 TOPIK 4급 또는 KIIP 4단계 이상을 확보하고, 가장 중요한 것은 소득금액증명원상 수치가 점수표 계산 기준을 충족하는지 미리 대조', vi:'3. Tự tính điểm' },
+      { ko:'[F-2-7 취득 후의 이점] D-8 상태에서는 배우자가 F-3(동반가족)으로만 머물 수 있으나, F-2-7로 변경 후 배우자도 F-2-1으로 상향되어 제한 없이 취업 가능하고 사업 영위도 가능', vi:'4. Chuẩn bị hồ sơ cần thiết' },
+      { ko:'[F-2-7 신청 절차] F-2-7 신청 시 필요한 서류를 모두 준비하고 출입국청에 방문하여 접수합니다. 심사 시간은 일반적으로 2~4주 소요되며, 승인 후 새로운 외국인등록증이 발급됩니다.', vi:'5. Nộp hồ sơ tại Cục xuất nhập cảnh (출입국·외국인청). Thời gian xử lý thông thường: khoảng 2–4 tuần, tùy hồ sơ và cơ quan xuất nhập cảnh thụ lý. Sau khi được chấp thuận: nhận thẻ ngoại kiều mới ghi tư cách F-2-7, có thể tự do làm việc/kinh doanh mà không cần giấy phép hoạt động ngoài tư cách.' },
     ],
-    tip: { ko:'🚨 [D-8 사업가의 F-2-7 신청 3대 체크포인트] ① 회사 매출이 크더라도 \"개인 소득\"이 낮으면 점수 0점 → 배우자 급여, 본인 배당금 등으로 개인 소득 확보 필수! ② 최근 2~3년간 회사 실적이 안정적이어야 함 → 빚, 체납, 우발채무 등이 적어야 점수 유리 ③ 한국어(TOPIK 4급 이상 또는 KIIP 4단계)와 개인 소득 증명서(국세청 소득금액증명원)가 F-2-7 합격의 최종 열쇠! 💡 흔한 실수: 수십억 원 매출의 회사 대표인데도 자신의 개인 소득을 낮게 신고해서 F-2-7 탈락하는 경우 → 반드시 미리 소득금액증명원 기준으로 점수를 자체 계산 후 신청 결정! ⭐ F-2-7로 변경되면 배우자도 자동으로 상향되어 취업과 사업이 자유로워지므로, 더욱 적극적인 경제활동이 가능해집니다!', vi:'⚠️ Thu nhập cá nhân chứ không phải doanh thu công ty:\nRất nhiều chủ doanh nghiệp D-8 nhầm lẫn ở điểm này. Khi tính điểm F-2-7, Cục xuất nhập cảnh chấm điểm dựa trên Thu nhập cá nhân (소득금액) của bạn – tức là khoản lương, cổ tức mà công ty chi trả cho cá nhân bạn và bạn đã nộp thuế thu nhập cá nhân đầy đủ. Doanh thu của công ty dù có hàng tỷ won nhưng nếu bạn để lương cá nhân thấp thì điểm mục thu nhập của bạn vẫn bằng 0.\n⚠️ Kiểm tra kỹ điều kiện duy trì điểm khi gia hạn:\nVisa F-2-7 lần đầu tiên cấp từ D-8 thường có thời hạn 1–3 năm. Đến kỳ gia hạn tiếp theo, họ sẽ quét lại bảng điểm và thu nhập của năm đó. Nếu doanh nghiệp của bạn gặp khó khăn dẫn đến thu nhập cá nhân bị sụt giảm làm tổng điểm tụt xuống dưới 80 điểm, bạn sẽ không được gia hạn F-2-7 và việc quay trở lại visa D-8 gốc sẽ rất phức tạp.\nNếu bạn tự tin về vốn tiếng Hàn (đã có KIIP hoặc TOPIK) và công ty đã quyết toán thuế năm ngoái với mức lương cá nhân ổn định, hãy tiến hành làm F-2-7 ngay để giải phóng quyền lợi đi làm cho vợ/chủ hộ và mở rộng cơ hội đầu tư kinh doanh tự do tại Hàn.' },
+    tip: { ko:'🚨 [D-8 사업가의 F-2-7 신청 3대 체크포인트] ① 회사 매출이 크더라도 \"개인 소득\"이 낮으면 점수 0점 → 배우자 급여, 본인 배당금 등으로 개인 소득 확보 필수! ② 최근 2~3년간 회사 실적이 안정적이어야 함 → 빚, 체납, 우발채무 등이 적어야 점수 유리 ③ 한국어(TOPIK 4급 이상 또는 KIIP 4단계)와 개인 소득 증명서(국세청 소득금액증명원)가 F-2-7 합격의 최종 열쇠! 💡 흔한 실수: 수십억 원 매출의 회사 대표인데도 자신의 개인 소득을 낮게 신고해서 F-2-7 탈락하는 경우 → 반드시 미리 소득금액증명원 기준으로 점수를 자체 계산 후 신청 결정! ⭐ F-2-7로 변경되면 배우자도 자동으로 상향되어 취업과 사업이 자유로워지므로, 더욱 적극적인 경제활동이 가능해집니다!', vi:'2026 là năm siết chặt hơn về việc kiểm tra tính liên tục của thu nhập và nội dung công việc thực tế — nhiều trường hợp bị từ chối không phải vì thiếu điểm mà vì không khớp mã ngành nghề KSCO, đánh giá sai thu nhập, hoặc hiểu nhầm về trần điểm cộng. \nVisainfo-korea\nMã ngành nghề then chốt: cần thuộc nhóm KSCO đại phân loại 1 (quản lý) hoặc 2 (chuyên gia và nghề liên quan). \nVisainfo-korea\nNếu chưa đủ 80 điểm, chiến lược thực tế nhất là tập trung vào hai mục có thể cải thiện chủ động: nâng cấp độ tiếng Hàn (TOPIK) và hoàn thành KIIP giai đoạn 5 — vì hoàn thành KIIP 5 vừa cộng điểm mục "기본소양" (tối đa 20) vừa cộng thêm điểm gia điểm (10 điểm) cùng lúc. \nVijob\nTrường hợp D-9 chuyển sang F-2-7 nên cân nhắc kỹ về việc duy trì hay đóng đăng ký kinh doanh D-9 — vì F-2-7 không ràng buộc hoạt động cụ thể, nhưng hồ sơ thu nhập cần chứng minh tính liên tục và thực chất, tránh bị nghi vấn "hoạt động hình thức".' },
     docs: {
       change: [
         { ko:'D-8 기업투자 비자 소유자로서 개인 점수 및 기업 실태 증명 서류 필요', vi:'Vì gốc của bạn là visa đầu tư D-8, Cục Xuất nhập cảnh sẽ yêu cầu cả giấy tờ cá nhân chứng minh điểm số lẫn giấy tờ chứng minh doanh nghiệp của bạn đang hoạt động hợp pháp:' },
@@ -1952,6 +729,598 @@ const LOCKED_CAT_INFO = {
 };
 
 /* ── 클래식 테이블 게시판 ── */
+function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteComment, onUpdateComment, onDeletePost, deviceId }) {
+  const cfg = CLASSIC_BOARD_CFG[boardKey];
+  if (!cfg) { nav({page:'home'}); return null; }
+
+  // 해당 게시판의 공지사항 로드
+  const boardNotices = loadBoardNotices(boardKey);
+
+  const [search,       setSearch]       = useState('');
+  const [page,         setPage]         = useState(1);
+  const [filterSido,   setFilterSido]   = useState('');
+  const [filterSigungu,setFilterSigungu]= useState('');
+  const PER_PAGE = 10;
+  const hasLocFilter = ['market','house','travel','info','jobs'].includes(boardKey);
+
+  const boardPosts = posts.filter(p => {
+    if (!cfg.cats.includes(p.cat) || p.isPublic === false) return false;
+    if (hasLocFilter && filterSido    && p.location?.sido    !== filterSido)    return false;
+    if (hasLocFilter && filterSigungu && p.location?.sigungu !== filterSigungu) return false;
+    return true;
+  });
+  const filtered = search.trim()
+    ? boardPosts.filter(p =>
+        p.title.toLowerCase().includes(search.toLowerCase()) ||
+        p.body.toLowerCase().includes(search.toLowerCase()))
+    : boardPosts;
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+  const pagePosts  = filtered.slice((page-1)*PER_PAGE, page*PER_PAGE);
+
+  function fakeViews(p) {
+    const s = typeof p.id === 'number' ? p.id : parseInt(p.id)||1;
+    return ((s * 23 + 7) % 180) + 15;
+  }
+  function fmtDate(d) {
+    return (d||'').replace(/^20(\d\d)\.(\d\d)\.(\d\d)$/, '$1-$2-$3');
+  }
+
+  const title = lang==='vi' ? cfg.vi  : cfg.ko;
+  const desc  = lang==='vi' ? cfg.desc_vi : cfg.desc_ko;
+
+  /* 페이지 번호 배열 계산 */
+  const pageNums = (() => {
+    const start = Math.max(1, Math.min(page-2, totalPages-4));
+    return Array.from({length: Math.min(5, totalPages)}, (_, i) => start + i).filter(p => p <= totalPages);
+  })();
+
+  return (
+    <div style={{background:'#F5F6F8', minHeight:'100vh'}}>
+      {/* 헤더 */}
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div className="max-w-2xl mx-auto px-4 h-12 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <button onClick={()=>nav({page:'home'})}
+              className="w-7 h-7 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500 text-xl leading-none tap">‹</button>
+            <p className="text-sm font-black text-gray-800">{title}</p>
+          </div>
+          {/* ❌ 주소 복사 버튼 제거됨 (게시글에서만 사용) */}
+        </div>
+      </header>
+
+      <div className="max-w-2xl mx-auto px-3 pt-3 pb-24">
+        {/* 설명 */}
+        <div className="bg-white border border-gray-200 px-4 py-2.5 mb-2 rounded">
+          <p className="text-xs text-blue-600 word-keep">{desc}</p>
+        </div>
+
+        {/* ── 지역 필터 (market·house·travel만) ── */}
+        {hasLocFilter && (
+          <div className="bg-white border border-gray-200 rounded mb-2 px-3 py-2.5">
+            <div className="flex items-center gap-1.5 mb-2">
+              <span className="text-sm">📍</span>
+              <p className="text-[11px] font-black text-gray-700">
+                {lang==='vi' ? 'Lọc theo khu vực' : '지역 필터'}
+              </p>
+              {(filterSido || filterSigungu) && (
+                <button
+                  onClick={()=>{ setFilterSido(''); setFilterSigungu(''); setPage(1); }}
+                  className="ml-auto text-[10px] font-black text-red-500 bg-red-50 border border-red-200 px-2 py-0.5 rounded-full tap">
+                  ✕ {lang==='vi'?'Xóa bộ lọc':'필터 초기화'}
+                </button>
+              )}
+            </div>
+            <div className="flex gap-2">
+              {/* 시/도 */}
+              <select
+                value={filterSido}
+                onChange={e=>{ setFilterSido(e.target.value); setFilterSigungu(''); setPage(1); }}
+                className={`flex-1 border-2 rounded-xl px-2.5 py-2 text-xs focus:outline-none transition
+                  ${filterSido ? 'border-blue-400 bg-blue-50 text-blue-800 font-bold' : 'border-gray-200 text-gray-500'}`}>
+                <option value="">{lang==='vi'?'전체 시/도':'전체 시/도'}</option>
+                {Object.keys(KOREA_REGIONS).map(r=>(
+                  <option key={r} value={r}>{SIDO_SHORT[r]||r}</option>
+                ))}
+              </select>
+              {/* 구/군 */}
+              <select
+                value={filterSigungu}
+                onChange={e=>{ setFilterSigungu(e.target.value); setPage(1); }}
+                disabled={!filterSido}
+                className={`flex-1 border-2 rounded-xl px-2.5 py-2 text-xs focus:outline-none transition
+                  ${!filterSido ? 'border-gray-100 bg-gray-50 text-gray-300' : filterSigungu ? 'border-blue-400 bg-blue-50 text-blue-800 font-bold' : 'border-gray-200 text-gray-500'}`}>
+                <option value="">{lang==='vi'?'전체 구/군':'전체 구/군'}</option>
+                {filterSido && KOREA_REGIONS[filterSido]?.map(g=>(
+                  <option key={g} value={g}>{g}</option>
+                ))}
+              </select>
+            </div>
+            {/* 현재 필터 표시 */}
+            {(filterSido || filterSigungu) && (
+              <p className="text-[11px] font-black text-blue-600 mt-2">
+                📍 {SIDO_SHORT[filterSido]||filterSido}{filterSigungu ? ` ${filterSigungu}` : ''} 글만 보는 중
+                <span className="text-gray-400 font-normal ml-1">({filtered.length}개)</span>
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* 테이블 */}
+        <div className="bg-white border border-gray-200 rounded overflow-hidden">
+          {/* 헤더 행 */}
+          <div className="hidden sm:grid bg-gray-50 border-b-2 border-gray-300 text-[11px] font-black text-gray-500 px-3 py-2.5"
+            style={{gridTemplateColumns:'3.5rem 1fr 5rem 4.5rem 3.5rem 3rem'}}>
+            <span className="text-center">{lang==='vi'?'STT':'번호'}</span>
+            <span className="pl-2">{lang==='vi'?'Tiêu đề':'제목'}</span>
+            <span className="text-center">{lang==='vi'?'Tác giả':'작성자'}</span>
+            <span className="text-center">{lang==='vi'?'Ngày':'날짜'}</span>
+            <span className="text-center">{lang==='vi'?'Xem':'조회'}</span>
+            <span className="text-center">{lang==='vi'?'Thích':'추천'}</span>
+          </div>
+          {/* 모바일 헤더 */}
+          <div className="sm:hidden grid bg-gray-50 border-b-2 border-gray-300 text-[11px] font-black text-gray-500 px-3 py-2"
+            style={{gridTemplateColumns:'3rem 1fr 4rem 3.5rem'}}>
+            <span className="text-center">{lang==='vi'?'STT':'번호'}</span>
+            <span className="pl-1">{lang==='vi'?'Tiêu đề':'제목'}</span>
+            <span className="text-center">{lang==='vi'?'Tác giả':'작성자'}</span>
+            <span className="text-center">{lang==='vi'?'Xem':'조회'}</span>
+          </div>
+
+          {/* 공지 */}
+          {boardNotices.map(n => (
+            <React.Fragment key={n.id}>
+              {/* 데스크탑 공지 */}
+              <div className="hidden sm:grid border-b border-gray-100 px-3 py-2.5 hover:bg-gray-50 cursor-pointer transition"
+                style={{gridTemplateColumns:'3.5rem 1fr 5rem 4.5rem 3.5rem 3rem'}}>
+                <span className="text-[10px] font-black text-gray-500 text-center self-center">공지</span>
+                <p className="text-[12px] font-black text-gray-800 self-center pl-2 word-keep truncate">
+                  {lang==='vi' ? n.title_vi : n.title}
+                </p>
+                <span className="text-[10px] font-bold text-gray-600 text-center self-center">관리자</span>
+                <span className="text-[10px] text-gray-400 text-center self-center">{n.date}</span>
+                <span className="text-[10px] text-gray-500 text-center self-center">{n.views.toLocaleString()}</span>
+                <span className="text-[10px] font-bold text-gray-500 text-center self-center">{n.likes}</span>
+              </div>
+              {/* 모바일 공지 */}
+              <div className="sm:hidden grid border-b border-gray-100 px-3 py-2.5 hover:bg-gray-50 cursor-pointer transition"
+                style={{gridTemplateColumns:'3rem 1fr 4rem 3.5rem'}}>
+                <span className="text-[9px] font-black text-gray-500 text-center self-center">공지</span>
+                <p className="text-[11px] font-black text-gray-800 self-center pl-1 word-keep truncate">
+                  {lang==='vi' ? n.title_vi : n.title}
+                </p>
+                <span className="text-[10px] text-gray-500 text-center self-center">관리자</span>
+                <span className="text-[10px] text-gray-500 text-center self-center">{n.views.toLocaleString()}</span>
+              </div>
+            </React.Fragment>
+          ))}
+
+          {/* 일반 게시글 */}
+          {pagePosts.length === 0 ? (
+            <div className="py-14 text-center text-sm text-gray-400">
+              {lang==='vi' ? 'Chưa có bài viết.' : '게시글이 없습니다.'}
+            </div>
+          ) : pagePosts.map((p, i) => {
+            const num   = filtered.length - ((page-1)*PER_PAGE) - i;
+            const cmts  = p.commentsData?.length || p.comments || 0;
+            const views = fakeViews(p);
+            const total = (p.likes||0)+(p.hearts||0)+(p.wows||0);
+            const isHot = total >= 10 || cmts >= 10;
+            return (
+              <React.Fragment key={p.id}>
+                {/* 데스크탑 행 */}
+                <div
+                  onClick={()=>nav({page:'postDetail', boardKey, postId:p.id})}
+                  className={`hidden sm:grid border-b border-gray-100 last:border-0 px-3 py-2.5 cursor-pointer transition
+                    ${isHot ? 'hover:bg-blue-50 bg-blue-50/20' : 'hover:bg-gray-50 bg-white'}`}
+                  style={{gridTemplateColumns:'3.5rem 1fr 5rem 4.5rem 3.5rem 3rem'}}>
+                  <span className="text-[11px] text-gray-400 text-center self-center">{num}</span>
+                  <div className="pl-2 min-w-0 self-center">
+                    <div className="flex items-center gap-1.5">
+                      {p.location?.sido && (
+                        <span className="text-[8px] font-black text-blue-600 bg-blue-50 border border-blue-200 px-1.5 py-0.5 rounded-full flex-shrink-0 whitespace-nowrap">
+                          📍{fmtLocation(p.location)}
+                        </span>
+                      )}
+                      <p className={`text-[12px] truncate word-keep flex-1 ${isHot?'font-bold text-blue-700':'text-gray-700'}`}>{p.title}</p>
+                      {p.images?.length > 0 && <span className="text-[10px] flex-shrink-0" title="사진 있음">📷</span>}
+                      {cmts > 0 && <span className="text-[10px] text-blue-400 font-bold flex-shrink-0">💬 {cmts}</span>}
+                      {p.isNew && <span className="text-[8px] font-black text-white bg-red-500 px-1.5 py-0.5 rounded-full flex-shrink-0">N</span>}
+                    </div>
+                  </div>
+                  <span className="text-[10px] text-gray-500 text-center self-center truncate px-1">{safeAuthor(p).replace(/ #\d+$/,'')}</span>
+                  <span className="text-[10px] text-gray-400 text-center self-center">{fmtDate(p.date)}</span>
+                  <span className="text-[10px] text-gray-500 text-center self-center">{views}</span>
+                  <span className={`text-[10px] text-center self-center font-bold ${total>0?'text-blue-600':'text-gray-300'}`}>{total||0}</span>
+                </div>
+                {/* 모바일 행 */}
+                <div
+                  onClick={()=>nav({page:'postDetail', boardKey, postId:p.id})}
+                  className={`sm:hidden grid border-b border-gray-100 last:border-0 px-3 py-2.5 cursor-pointer transition
+                    ${isHot ? 'hover:bg-blue-50 bg-blue-50/20' : 'hover:bg-gray-50 bg-white'}`}
+                  style={{gridTemplateColumns:'3rem 1fr 4rem 3.5rem'}}>
+                  <span className="text-[10px] text-gray-400 text-center self-center">{num}</span>
+                  <div className="pl-1 min-w-0 self-center">
+                    <div className="flex items-center gap-1">
+                      <p className={`text-[11px] truncate word-keep flex-1 ${isHot?'font-bold text-blue-700':'text-gray-700'}`}>{p.title}</p>
+                      {cmts > 0 && <span className="text-[9px] text-blue-400 font-bold flex-shrink-0">💬{cmts}</span>}
+                      {p.isNew && <span className="text-[7px] font-black text-white bg-red-500 px-1 py-0.5 rounded-full flex-shrink-0">N</span>}
+                    </div>
+                    <span className="text-[9px] text-gray-400">{fmtDate(p.date)}</span>
+                  </div>
+                  <span className="text-[9px] text-gray-500 text-center self-center truncate px-0.5">{safeAuthor(p).replace(/ #\d+$/,'')}</span>
+                  <span className="text-[9px] text-gray-500 text-center self-center">{views}</span>
+                </div>
+              </React.Fragment>
+            );
+          })}
+        </div>
+
+        {/* 하단: 검색 + 페이지네이션 + 글쓰기 */}
+        <div className="flex items-center justify-between mt-3 gap-2 flex-wrap">
+          {/* 검색 */}
+          <div className="flex items-center border border-gray-300 rounded bg-white px-2.5 py-2 gap-1.5">
+            <input
+              type="search"
+              value={search}
+              onChange={e=>{ setSearch(e.target.value); setPage(1); }}
+              placeholder={lang==='vi'?'Tìm kiếm':'검색'}
+              className="text-xs outline-none w-24 text-gray-700 placeholder-gray-300 bg-transparent"
+            />
+            <span className="text-gray-400 text-sm">🔍</span>
+          </div>
+
+          {/* 페이지네이션 */}
+          <div className="flex items-center gap-1">
+            {page > 1 && (
+              <button onClick={()=>setPage(p=>p-1)}
+                className="text-[11px] text-gray-600 bg-white border border-gray-300 px-2.5 h-7 rounded tap hover:bg-gray-50">
+                {lang==='vi'?'Trước':'이전'}
+              </button>
+            )}
+            {pageNums.map(p=>(
+              <button key={p} onClick={()=>setPage(p)}
+                className={`w-7 h-7 rounded text-[11px] font-bold tap transition
+                  ${page===p ? 'bg-blue-600 text-white shadow-sm' : 'bg-white border border-gray-300 text-gray-600 hover:bg-gray-50'}`}>
+                {p}
+              </button>
+            ))}
+            {page < totalPages && (
+              <button onClick={()=>setPage(p=>Math.min(p+1,totalPages))}
+                className="text-[11px] text-gray-600 bg-white border border-gray-300 px-2.5 h-7 rounded tap hover:bg-gray-50">
+                {lang==='vi'?'Sau':'다음'}
+              </button>
+            )}
+          </div>
+
+          {/* 글쓰기 */}
+          <button onClick={()=>nav({page:'write', param:cfg.writeParam})}
+            className="bg-blue-600 text-white text-xs font-black px-4 py-2 rounded tap hover:bg-blue-700 transition shadow-sm">
+            {lang==='vi'?'Viết bài':'글쓰기'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── 게시글 상세 페이지 ── */
+function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDeleteComment, onUpdateComment, onDeletePost, onEditPost, deviceId }) {
+  const post = posts.find(p => p.id === postId || p.id === Number(postId));
+  const cfg  = CLASSIC_BOARD_CFG[boardKey];
+
+  const [r,        setR]        = useState({ likes:post?.likes||0, hearts:post?.hearts||0, wows:post?.wows||0 });
+  const [act,      setAct]      = useState(null);
+  const [lightbox, setLightbox] = useState(null);
+  const [shareModal, setShareModal] = useState(false);
+  const [shareMsg, setShareMsg] = useState('');
+  const lbTouchX = useRef(null);
+
+  // post 변경 시 반응수 동기화
+  useEffect(() => {
+    if (post) {
+      setR({ likes: post.likes||0, hearts: post.hearts||0, wows: post.wows||0 });
+    }
+  }, [post?.id, post?.likes, post?.hearts, post?.wows]);
+
+  // Open Graph 메타 태그 설정
+  useEffect(() => {
+    if (post) {
+      const title = post.title || '게시글';
+      const description = (post.body || '').substring(0, 150).replace(/<[^>]*>/g, '') || cfg?.ko || '';
+      const url = `${window.location.origin}${window.location.pathname}#/postDetail/${boardKey}/${postId}`;
+
+      document.title = title;
+
+      // og:title
+      let ogTitle = document.querySelector('meta[property="og:title"]');
+      if (!ogTitle) {
+        ogTitle = document.createElement('meta');
+        ogTitle.setAttribute('property', 'og:title');
+        document.head.appendChild(ogTitle);
+      }
+      ogTitle.setAttribute('content', title);
+
+      // og:description
+      let ogDesc = document.querySelector('meta[property="og:description"]');
+      if (!ogDesc) {
+        ogDesc = document.createElement('meta');
+        ogDesc.setAttribute('property', 'og:description');
+        document.head.appendChild(ogDesc);
+      }
+      ogDesc.setAttribute('content', description);
+
+      // og:url
+      let ogUrl = document.querySelector('meta[property="og:url"]');
+      if (!ogUrl) {
+        ogUrl = document.createElement('meta');
+        ogUrl.setAttribute('property', 'og:url');
+        document.head.appendChild(ogUrl);
+      }
+      ogUrl.setAttribute('content', url);
+    }
+  }, [post?.id, post?.title, post?.body, boardKey, postId]);
+// 내 글이면 댓글 읽음 처리
+useEffect(() => {
+  if (post && post.deviceId === deviceId) {
+    const current = post.commentsData?.length || post.comments || 0;
+    markPostSeen(post.id, current);
+  }
+}, [post?.id, post?.commentsData?.length, post?.comments, deviceId]);
+  if (!post) return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="text-center px-6">
+        <p className="text-3xl mb-3">📭</p>
+        <p className="text-gray-400 text-sm mb-4">{lang==='vi'?'Không tìm thấy bài viết.':'게시글을 찾을 수 없습니다.'}</p>
+        <button onClick={()=>nav({page:'classicBoard', param:boardKey})}
+          className="text-blue-600 font-bold text-sm">← {lang==='vi'?'Quay lại':'돌아가기'}</button>
+      </div>
+    </div>
+  );
+
+  function react(type) {
+    const same = act === type;
+    setR(p=>{ const n={...p}; if(same) n[type]=Math.max(0,n[type]-1); else{ if(act) n[act]=Math.max(0,n[act]-1); n[type]++; } return n; });
+    setAct(same?null:type);
+  }
+
+  const BTNS = [
+    { t:'likes',  i:'👍', ko:'좋아요',  vi:'Thích', on:'text-blue-600 bg-blue-50 border-blue-300' },
+    { t:'hearts', i:'❤️', ko:'최고예요', vi:'Tuyệt', on:'text-red-500 bg-red-50 border-red-300' },
+    { t:'wows',   i:'😮', ko:'놀라워요', vi:'Wow',   on:'text-amber-500 bg-amber-50 border-amber-300' },
+  ];
+
+  const boardTitle = cfg ? (lang==='vi'?cfg.vi:cfg.ko) : '';
+
+  return (
+    <div style={{background:'#F5F6F8', minHeight:'100vh'}}>
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div className="max-w-2xl mx-auto px-4 h-12 flex items-center gap-2">
+          <button onClick={()=>nav({page:'classicBoard', param:boardKey})}
+            className="w-7 h-7 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500 text-xl leading-none tap">‹</button>
+          <p className="text-sm font-black text-gray-600 truncate">{boardTitle}</p>
+        </div>
+      </header>
+
+      <div className="max-w-2xl mx-auto px-3 pt-4 pb-24">
+        <div className="bg-white border border-gray-200 rounded overflow-hidden">
+          {/* 제목 + 작성자 */}
+          <div className="px-5 pt-5 pb-4 border-b border-gray-100">
+            {post.location?.sido && (
+              <div className="mb-2">
+                <span className="text-[10px] font-black text-blue-600 bg-blue-50 border border-blue-200 px-2.5 py-1 rounded-full">
+                  📍 {fmtLocation(post.location)}
+                </span>
+              </div>
+            )}
+            <h1 className="text-[15px] font-black text-gray-900 word-keep leading-snug mb-4">{post.title}</h1>
+            <div className="flex items-center gap-3">
+              <div className={`w-9 h-9 rounded-full ${safeAvatarColor(post)} flex items-center justify-center text-white text-sm font-black flex-shrink-0`}>
+                {safeAvatarChar(post)}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-bold text-gray-700">{safeAuthor(post)}</p>
+                <p className="text-[10px] text-gray-400">{post.date}</p>
+              </div>
+              {post.deviceId === deviceId && (
+                <div className="flex gap-1 ml-2 flex-shrink-0">
+                  <button onClick={() => nav({ page:'write', param:post.cat, editPost:post })}
+                    className="text-[10px] text-blue-400 hover:text-blue-600 border border-blue-100 hover:border-blue-300 px-2 py-0.5 rounded tap transition">
+                    {lang==='vi'?'Sửa':'수정'}
+                  </button>
+                  <button onClick={() => {
+                    if (confirm(lang==='vi'?'Xóa bài viết?':'글을 삭제하시겠어요?')) {
+                      onDeletePost(post.id);
+                      nav({page:'classicBoard', param:boardKey});
+                    }
+                  }}
+                    className="text-[10px] text-red-400 hover:text-red-600 border border-red-100 hover:border-red-300 px-2 py-0.5 rounded tap transition">
+                    {lang==='vi'?'Xóa':'삭제'}
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* 본문 */}
+          <div className="px-5 py-5 border-b border-gray-100">
+            <p className="text-sm text-gray-700 leading-relaxed word-keep whitespace-pre-wrap">{post.body}</p>
+          </div>
+
+          {/* 첨부 이미지 */}
+          {post.images && post.images.length > 0 && (
+            <div className="px-5 py-4 border-b border-gray-100">
+              <p className="text-[10px] font-black text-gray-400 mb-2">📷 {lang==='vi'?`${post.images.length}장의 사진`:`첨부 사진 ${post.images.length}장`}</p>
+              <div className={`grid gap-2 ${post.images.length === 1 ? 'grid-cols-1' : post.images.length <= 4 ? 'grid-cols-2' : 'grid-cols-3'}`}>
+                {post.images.map((src, i) => (
+                  <div key={i} className="relative overflow-hidden rounded-xl bg-gray-100">
+                    <img
+                      src={src}
+                      alt={`사진 ${i+1}`}
+                      className="w-full object-cover rounded-xl"
+                      style={{cursor:'pointer', maxHeight: post.images.length===1?'360px':post.images.length<=4?'220px':'160px'}}
+                      onClick={() => setLightbox(i)}
+                    />
+                  </div>
+                ))}
+              </div>
+              <p className="text-[9px] text-gray-300 mt-1.5">{lang==='vi'?'Nhấn vào ảnh để xem toàn màn hình':'이미지를 탭하면 전체화면으로 볼 수 있어요'}</p>
+            </div>
+          )}
+
+          {/* 리액션 + 공유 */}
+          <div className="px-5 py-3 border-b border-gray-100 flex items-center gap-2 flex-wrap">
+            {BTNS.map(b=>(
+              <button key={b.t} onClick={()=>react(b.t)}
+                className={`flex items-center gap-1 px-3 py-1.5 rounded-full border text-xs font-bold tap transition
+                  ${act===b.t ? b.on : 'text-gray-500 border-gray-200 hover:bg-gray-50'}`}>
+                <span>{b.i}</span>
+                <span>{r[b.t]>0 ? r[b.t] : (lang==='vi'?b.vi:b.ko)}</span>
+              </button>
+            ))}
+            {/* 공유 버튼 */}
+            <button
+              onClick={() => setShareModal(true)}
+              className="ml-auto flex items-center gap-1 px-3 py-1.5 rounded-full border text-xs font-bold tap transition text-gray-500 border-gray-200 hover:bg-gray-50">
+              <span>📤</span>
+              <span>{lang==='vi'?'Chia sẻ':'공유'}</span>
+            </button>
+          </div>
+
+          {/* 댓글 */}
+          <CommentSection post={post} lang={lang}
+            onAddComment={onAddComment} onDeleteComment={onDeleteComment} onUpdateComment={onUpdateComment} deviceId={deviceId} />
+        </div>
+
+        <button onClick={()=>nav({page:'classicBoard', param:boardKey})}
+          className="mt-4 w-full bg-white border border-gray-300 text-gray-600 font-bold py-3 rounded text-sm tap hover:bg-gray-50 transition">
+          ← {lang==='vi'?'Quay lại danh sách':'목록으로 돌아가기'}
+        </button>
+      </div>
+
+      {/* 라이트박스 */}
+      {lightbox !== null && post.images?.[lightbox] && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center fade-in select-none"
+          onTouchStart={e => {
+            lbTouchX.current = e.touches[0]?.clientX ?? null;
+          }}
+          onTouchEnd={e => {
+            if (lbTouchX.current === null) return;
+            const endX = e.changedTouches[0]?.clientX;
+            if (endX == null) { lbTouchX.current = null; return; }
+            const dx = endX - lbTouchX.current;
+            lbTouchX.current = null;
+            if      (dx >  50) setLightbox(p => Math.max(0, p - 1));
+            else if (dx < -50) setLightbox(p => Math.min(post.images.length - 1, p + 1));
+          }}>
+
+          {/* 이미지 (pointer-events-none으로 터치 이벤트 투과) */}
+          <img
+            src={post.images[lightbox]}
+            alt=""
+            className="max-w-full object-contain pointer-events-none"
+            style={{maxWidth:'100vw', maxHeight:'88vh'}}
+          />
+
+          {/* 카운터 */}
+          <div className="absolute top-5 left-0 right-0 flex justify-center pointer-events-none">
+            <span className="bg-black/60 text-white text-sm font-bold px-4 py-1.5 rounded-full">
+              {lightbox + 1} / {post.images.length}
+            </span>
+          </div>
+
+          {/* 닫기 */}
+          <button
+            onTouchEnd={e => { e.stopPropagation(); setLightbox(null); }}
+            onClick={e => { e.stopPropagation(); setLightbox(null); }}
+            className="absolute top-4 right-4 w-12 h-12 bg-white/25 rounded-full flex items-center justify-center text-white text-2xl font-black tap z-10">
+            ✕
+          </button>
+
+          {/* 이전 버튼 */}
+          {lightbox > 0 && (
+            <button
+              onTouchEnd={e => { e.stopPropagation(); setLightbox(p => Math.max(0, p - 1)); }}
+              onClick={e => { e.stopPropagation(); setLightbox(p => Math.max(0, p - 1)); }}
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-14 h-14 bg-white/20 rounded-full flex items-center justify-center text-white text-4xl font-black tap z-10">
+              ‹
+            </button>
+          )}
+
+          {/* 다음 버튼 */}
+          {lightbox < post.images.length - 1 && (
+            <button
+              onTouchEnd={e => { e.stopPropagation(); setLightbox(p => Math.min(post.images.length - 1, p + 1)); }}
+              onClick={e => { e.stopPropagation(); setLightbox(p => Math.min(post.images.length - 1, p + 1)); }}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-14 h-14 bg-white/20 rounded-full flex items-center justify-center text-white text-4xl font-black tap z-10">
+              ›
+            </button>
+          )}
+
+          {/* 하단 점 인디케이터 */}
+          {post.images.length > 1 && (
+            <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2">
+              {post.images.map((_, i) => (
+                <button key={i}
+                  onTouchEnd={e => { e.stopPropagation(); setLightbox(i); }}
+                  onClick={e => { e.stopPropagation(); setLightbox(i); }}
+                  className={`w-2.5 h-2.5 rounded-full transition-all tap ${i===lightbox?'bg-white scale-125':'bg-white/40'}`} />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* 공유하기 모달 */}
+      {shareModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-end z-50">
+          <div className="w-full bg-white rounded-t-2xl animate-slideUp">
+            <div className="p-4 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <p className="text-lg font-black text-gray-800">{lang==='vi'?'Chia sẻ':'공유하기'}</p>
+                <button onClick={() => setShareModal(false)} className="text-2xl text-gray-400">✕</button>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">{lang==='vi'?'Chia sẻ trang này':'이 페이지를 공유하세요'}</p>
+            </div>
+
+            <div className="p-4">
+              <div className="bg-gray-50 rounded-lg p-3 mb-3">
+                <p className="text-xs text-gray-500 mb-2">{lang==='vi'?'URL':'주소'}</p>
+                <p className="text-sm font-semibold text-gray-700 break-all">{window.location.href}</p>
+              </div>
+
+              <button
+                onClick={() => {
+                  const shareUrl = `${window.location.origin}${window.location.pathname}#/postDetail/${boardKey}/${postId}`;
+                  navigator.clipboard.writeText(shareUrl);
+                  setShareMsg(true);
+                  setTimeout(() => setShareMsg(false), 2000);
+                }}
+                className="w-full bg-blue-600 text-white font-bold py-3 rounded-lg tap transition hover:bg-blue-700 mb-2">
+                {lang==='vi'?'Sao chép URL':'URL 복사'}
+              </button>
+
+              {shareMsg && (
+                <p className="text-center text-sm text-blue-600 font-semibold">{lang==='vi'?'URL đã sao chép!':'주소가 복사되었습니다!'}</p>
+              )}
+
+              <button
+                onClick={() => setShareModal(false)}
+                className="w-full text-gray-600 font-bold py-3 rounded-lg tap transition hover:bg-gray-100">
+                {lang==='vi'?'Đóng':'닫기'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ================================================================
+   마스터 그리드 — 5대 채널 + 더보기
+================================================================ */
 const MASTER_BTNS = [
   { e:'📘', ko:'비자 변경\n및 연장',       vi:'Đổi và gia hạn\nVisa',       sub_ko:'모든 비자 가이드',    sub_vi:'Hướng dẫn tất cả visa', bg:'bg-blue-600',   act:()=>({page:'visaHub'}) },
   { e:'📸', ko:'여행 및\n맛집 소개',      vi:'Du lịch và ẩm\nthực',  sub_ko:'주말 감성 핫플',       sub_vi:'Địa điểm hot, quán ăn ngon',     bg:'bg-pink-500',   act:()=>({page:'classicBoard', param:'travel'}) },
@@ -2097,6 +1466,151 @@ const CAT_BOARD_MAP = {
   jobs:   { key:'jobs',   emoji:'💼', bg:'bg-indigo-600', ko:'지역일자리',     vi:'Việc làm' },
 };
 
+function HotFeed({ posts, nav, lang }) {
+  const BOARD_LOOKUP = {};
+  BOARD_HOT_CFG.forEach(b => b.cats.forEach(c => { BOARD_LOOKUP[c] = b; }));
+
+  function ageDays(p) {
+    try { return Math.max(0, (Date.now() - new Date((p.date||'').replace(/\./g,'-')).getTime()) / 86400000); }
+    catch { return 999; }
+  }
+
+  /* 실시간 랭킹: 참여도 × 시간 가중치 */
+  const hotItems = [...posts]
+    .filter(p => p.isPublic !== false && p.title && p.id && p.cat)
+    .map(p => {
+      const d   = ageDays(p);
+      const eng = (p.likes||0)+(p.hearts||0)+(p.wows||0) + (p.commentsData?.length||p.comments||0)*2;
+      const mult = d <= 1 ? 3.0 : d <= 7 ? 1.8 : d <= 30 ? 1.2 : 1.0;
+      return { ...p, _sc: eng * mult, _age: d };
+    })
+    .sort((a,b) => b._sc - a._sc)
+    .slice(0, 10)
+    .map(p => {
+      const boardInfo = BOARD_LOOKUP[p.cat] || BOARD_HOT_CFG[2];
+      return { post: p, ...boardInfo };
+    });
+
+  return (
+    <section className="mt-3 px-3">
+      <div className="bg-white rounded-t-2xl px-4 py-3 border-b border-gray-100">
+        <p className="text-sm font-black text-gray-800">
+          🔥 {lang==='vi' ? 'Bài viết hot' : '실시간 인기글'}
+        </p>
+      </div>
+
+      <div className="bg-white rounded-b-2xl overflow-hidden shadow-sm">
+        {hotItems.length === 0 ? (
+          <div className="py-12 text-center text-gray-400 text-sm">
+            {lang==='vi' ? 'Chưa có bài viết nào.' : '아직 게시글이 없어요.'}
+          </div>
+        ) : hotItems.map((item, i) => {
+          const p     = item.post;
+          const total = (p.likes||0)+(p.hearts||0)+(p.wows||0);
+          const cmts  = p.commentsData?.length || p.comments || 0;
+          const isNew24 = p._age <= 1;
+          return (
+            <div key={p.id}
+              onClick={() => nav({ page:'postDetail', boardKey:item.key, postId:p.id })}
+              className="flex items-start gap-3 px-4 py-3.5 border-b border-gray-50 last:border-0 cursor-pointer active:bg-gray-50 tap">
+              {/* 썸네일 */}
+              <div className="w-14 h-14 rounded-xl flex-shrink-0 overflow-hidden shadow-sm">
+                {p.images?.length > 0
+                  ? <img src={p.images[0]} alt="" className="w-full h-full object-cover" />
+                  : <div className={`w-full h-full ${item.bg} flex items-center justify-center text-2xl`}>{item.emoji}</div>
+                }
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 mb-0.5 flex-wrap">
+                  <span className={`text-[9px] font-black text-white ${item.bg} px-2 py-0.5 rounded-full`}>
+                    {lang==='vi' ? item.vi : item.ko}
+                  </span>
+                  {isNew24 && <span className="text-[8px] font-black text-orange-500 bg-orange-50 border border-orange-200 px-1.5 py-0.5 rounded-full">🔥24h</span>}
+                </div>
+                <p className="text-[12px] font-black text-gray-800 word-keep leading-snug line-clamp-2">{p.title}</p>
+                <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                  <span className="text-[10px] text-gray-400 truncate max-w-[80px]">{safeAuthor(p).replace(/ #\d+$/,'')}</span>
+                  <span className="text-[10px] text-red-400 font-bold">❤️ {total}</span>
+                  <span className="text-[10px] text-blue-400 font-bold">💬 {cmts}</span>
+                </div>
+              </div>
+              <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-[10px] font-black text-white
+                ${i===0?'bg-amber-400':i===1?'bg-gray-400':i===2?'bg-orange-400':'bg-gray-300'}`}>
+                {i+1}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+/* ── 최신글 피드 ── */
+function LatestFeed({ posts, nav, lang }) {
+  const latestPosts = [...posts]
+    .filter(p => p.isPublic !== false && p.title && p.id)
+    .sort((a, b) => {
+      const aDate = (a.date||'').replace(/\./g, '-');
+      const bDate = (b.date||'').replace(/\./g, '-');
+      return new Date(bDate).getTime() - new Date(aDate).getTime();
+    })
+    .slice(0, 5);
+
+  return (
+    <section className="mt-3 px-3 pb-4">
+      <div className="bg-white rounded-t-2xl px-4 py-3 border-b border-gray-100">
+        <p className="text-sm font-black text-gray-800">
+          🆕 {lang==='vi' ? 'Bài viết mới nhất' : '최신글'}
+        </p>
+      </div>
+      <div className="bg-white rounded-b-2xl overflow-hidden shadow-sm">
+        {latestPosts.length === 0 ? (
+          <div className="py-10 text-center text-gray-400 text-sm">
+            {lang==='vi' ? 'Chưa có bài viết nào.' : '아직 게시글이 없어요.'}
+          </div>
+        ) : latestPosts.map(p => {
+          const brd   = CAT_BOARD_MAP[p.cat] || CAT_BOARD_MAP.bamboo;
+          const total = (p.likes||0)+(p.hearts||0)+(p.wows||0);
+          const cmts  = p.commentsData?.length || p.comments || 0;
+          return (
+            <div key={p.id}
+              onClick={() => nav({ page:'postDetail', boardKey:brd.key, postId:p.id })}
+              className="flex items-center gap-3 px-4 py-3 border-b border-gray-50 last:border-0 cursor-pointer active:bg-gray-50 tap">
+              {/* 썸네일: 이미지 있으면 사진, 없으면 게시판 배지 */}
+              <div className="w-11 h-11 rounded-lg flex-shrink-0 overflow-hidden shadow-sm">
+                {p.images?.length > 0
+                  ? <img src={p.images[0]} alt="" className="w-full h-full object-cover" />
+                  : <div className={`w-full h-full ${brd.bg} flex items-center justify-center text-lg`}>{brd.emoji}</div>
+                }
+              </div>
+              {/* 내용 */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 mb-0.5">
+                  <span className={`text-[8px] font-black text-white ${brd.bg} px-1.5 py-0.5 rounded-full`}>
+                    {lang==='vi' ? brd.vi : brd.ko}
+                  </span>
+                  {p.isNew && <span className="text-[7px] font-black text-white bg-red-500 px-1 py-0.5 rounded-full">N</span>}
+                </div>
+                <p className="text-[11px] font-bold text-gray-800 word-keep truncate">{p.title}</p>
+              </div>
+              {/* 날짜 + 반응수 */}
+              <div className="flex flex-col items-end gap-0.5 flex-shrink-0 ml-2">
+                <span className="text-[9px] text-gray-400">{(p.date||'').slice(5)}</span>
+                <div className="flex items-center gap-1.5">
+                  {total > 0 && <span className="text-[9px] text-red-400 font-bold">❤️{total}</span>}
+                  {cmts  > 0 && <span className="text-[9px] text-blue-400 font-bold">💬{cmts}</span>}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+/* ── 전체 검색 결과 ── */
 const SEARCH_BOARD_INFO = {
   hall:   { key:'d9',     emoji:'📘', ko:'비자 정보',   vi:'Visa',        bg:'bg-blue-600' },
   sos:    { key:'d9',     emoji:'📘', ko:'비자 정보',   vi:'Visa',        bg:'bg-blue-600' },
@@ -2110,36 +1624,6 @@ const SEARCH_BOARD_INFO = {
   jobs:   { key:'jobs', emoji:'💼', ko:'지역일자리',   vi:'Việc làm',           bg:'bg-indigo-600' },
 };
 
-function MoreDrawer({ nav, lang, onClose }) {
-  const ALL_CHANNELS = [
-    { e:'👻', ko:'무서운 이야기 방',       vi:'Phòng Chuyện Ma',        act:()=>({page:'classicBoard', param:'horror'}) },
-  ];
-  return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center fade-in" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/50" />
-      <div className="relative w-full max-w-lg bg-white rounded-t-3xl pb-8 fade-in" onClick={e=>e.stopPropagation()}>
-        <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-3" />
-        <div className="flex items-center justify-between px-4 pb-3 border-b border-gray-100">
-          <p className="text-sm font-black text-gray-800">☰ {lang==='vi'?'Toàn bộ kênh':'전체 채널'}</p>
-          <button onClick={onClose} className="text-gray-400 text-xl font-bold tap">✕</button>
-        </div>
-        <div className="px-3 pt-3 grid grid-cols-2 gap-2 max-h-[60vh] overflow-y-auto">
-          {ALL_CHANNELS.map((c, i) => (
-            <button key={i} onClick={()=>{nav(c.act()); onClose();}}
-              className="bg-gray-50 rounded-xl px-3 py-3 text-left flex items-center gap-2.5 tap hover:bg-gray-100 transition">
-              <span className="text-xl flex-shrink-0">{c.e}</span>
-              <p className="text-[11px] font-black text-gray-800 word-keep leading-tight">{lang==='vi'?c.vi:c.ko}</p>
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ================================================================
-   비자 가이드 허브 페이지
-================================================================ */
 const VISA_ROUTES = [
   {
     key: 'student',
@@ -2220,6 +1704,350 @@ const VISA_ROUTES = [
   },
 ];
 
+function VisaHubPage({ nav, lang, posts = [] }) {
+  const savedState = window.__visaState;
+  const [selectedRoute,    setSelectedRoute]    = useState(savedState?.visaRoute || null);
+  const [selectedSubRoute, setSelectedSubRoute] = useState(savedState?.visaSubRoute || null);
+  const [selectedStep,     setSelectedStep]     = useState(savedState?.visaStep || null);
+  const [boardPage,        setBoardPage]        = useState(1);
+  const BOARD_PER = 10;
+  const route = VISA_ROUTES.find(r => r.key === selectedRoute);
+  const subRoute = route?.subRoutes?.find(sr => sr.key === selectedSubRoute);
+  const steps = subRoute?.steps || route?.steps || [];
+
+  /* 비자 게시판 글 (hall · sos · talk · bamboo) */
+  const boardPosts = posts.filter(p => ['hall','sos','talk'].includes(p.cat) && p.isPublic !== false);
+  const totalBoardPages = Math.max(1, Math.ceil(boardPosts.length / BOARD_PER));
+  const pageBoardPosts  = boardPosts.slice((boardPage-1)*BOARD_PER, boardPage*BOARD_PER);
+
+  const CAT_BADGE = {
+    hall:   { emoji:'🏆', ko:'합격',  vi:'Đậu',  bg:'bg-amber-100',  text:'text-amber-700' },
+    sos:    { emoji:'🚨', ko:'SOS',   vi:'SOS',  bg:'bg-red-100',    text:'text-red-600' },
+    talk:   { emoji:'💬', ko:'참교육', vi:'KN',   bg:'bg-orange-100', text:'text-orange-600' },
+  };
+
+  function fmtDate(d) { return (d||'').replace(/^20(\d\d)\.(\d\d)\.(\d\d)$/, '$1-$2-$3'); }
+
+  function T(obj) { return obj ? (obj[lang==='vi'?'vi':'ko'] || obj.ko) : ''; }
+
+  return (
+    <div style={{background:'#F0F2F5', minHeight:'100vh'}}>
+      {/* 헤더 */}
+      <header className="bg-blue-700 sticky top-0 z-40 shadow-md">
+        <div className="max-w-lg mx-auto px-4 h-14 flex items-center gap-3">
+          <button onClick={()=>nav({page:'home'})} className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white text-xl tap">‹</button>
+          <div className="flex-1 min-w-0">
+            <p className="text-white font-black text-sm leading-tight">📘 {lang==='vi'?'Hướng dẫn đổi và gia hạn visa':'비자 변경 및 연장 방법'}</p>
+            <p className="text-blue-200 text-[10px] leading-none mt-0.5">
+              {lang==='vi'?'Tất cả visa người Việt cần biết tại Hàn Quốc':'재한 베트남인이 알아야 할 모든 비자'}
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-lg mx-auto px-3 pt-3 pb-24" data-section="visaChangeMethod">
+
+        {/* ── Section A: 상황 선택 카드 ── */}
+        {!selectedRoute && (
+          <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-3" data-section="visaChangeMethod">
+            <div className="bg-gradient-to-r from-blue-700 to-indigo-700 px-4 py-4">
+              <p className="text-white font-black text-base">🗺️ {lang==='vi'?'Tìm lộ trình visa của bạn':'당신의 K-비자 여정을 찾아보세요'}</p>
+              <p className="text-blue-200 text-[10px] mt-1">{lang==='vi'?'Chọn tình trạng để xem từng bước':'당신의 상황에 맞는 경로를 선택하세요'}</p>
+            </div>
+            <div className="grid grid-cols-2 gap-2 p-3">
+              {VISA_ROUTES.map(r => (
+                <button key={r.key} onClick={()=>{
+                  setSelectedRoute(r.key);
+                  if(r.subRoutes) {
+                    setSelectedSubRoute(r.subRoutes[0].key);
+                    setSelectedStep(r.subRoutes[0].steps[0].key);
+                  } else {
+                    setSelectedStep(r.steps[0].key);
+                  }
+                }}
+                  className="bg-white border-2 border-gray-200 rounded-xl px-3 py-3 tap transition hover:border-blue-400 hover:bg-blue-50 text-left">
+                  <div className={`w-8 h-8 ${r.color} rounded-lg flex items-center justify-center text-lg mb-2`}>{r.emoji}</div>
+                  <p className="text-[11px] font-black text-gray-800 word-keep leading-tight mb-1">{lang==='vi'?r.vi:r.ko}</p>
+                  <p className="text-[9px] text-gray-500 word-keep leading-tight">{T(r.desc)}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── Section B: 나의 비자 여정 ── */}
+        {selectedRoute && route && (
+          <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-3">
+            <div className="bg-gradient-to-r from-blue-700 to-blue-600 px-4 py-3">
+              <div className="flex items-center justify-between">
+                <div className="flex-1">
+                  <p className="text-white font-black text-sm">📍 {lang==='vi'?'Lộ trình của bạn':'나의 비자 여정'}</p>
+                  <p className="text-blue-200 text-[10px] mt-0.5">{T(subRoute?.desc || route.desc)}</p>
+                </div>
+                <button onClick={()=>{ setSelectedRoute(null); setSelectedSubRoute(null); setSelectedStep(null); }}
+                  className="text-white text-2xl font-black tap">×</button>
+              </div>
+            </div>
+
+            {/* 서브경로 선택 (유학생인 경우만) */}
+            {route.subRoutes && (
+              <>
+                <div className="px-4 py-3 bg-blue-50 border-b border-blue-100 flex gap-2">
+                  {route.subRoutes.map(sr => (
+                    <button key={sr.key} onClick={()=>{ setSelectedSubRoute(sr.key); setSelectedStep(sr.steps[0].key); }}
+                      className={`flex-1 px-3 py-2 rounded-lg font-black text-[10px] tap transition border-2 text-center
+                        ${selectedSubRoute===sr.key ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white border-blue-400 text-blue-900'}`}>
+                      {sr.emoji} {lang==='vi'?sr.vi:sr.ko}
+                    </button>
+                  ))}
+                </div>
+                {subRoute && (
+                  <div className="px-4 py-2 bg-blue-100 border-b border-blue-200">
+                    <p className="text-[10px] text-blue-700 font-semibold word-keep">{T(subRoute.desc)}</p>
+                  </div>
+                )}
+              </>
+            )}
+
+            <div className="px-4 py-3 overflow-x-auto flex items-center gap-2">
+              {steps.map((step, i) => (
+                <React.Fragment key={i}>
+                  <button onClick={()=>setSelectedStep(step.key)}
+                    className={`flex-shrink-0 px-3 py-2 rounded-lg font-black text-[11px] tap transition whitespace-nowrap
+                      ${selectedStep===step.key ? `${route.color} text-white` : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+                    {step.code} {selectedStep===step.key && '▼'}
+                  </button>
+                  {i < steps.length-1 && <span className="text-gray-300 font-black flex-shrink-0">→</span>}
+                </React.Fragment>
+              ))}
+              <span className="text-xl flex-shrink-0 ml-2">{selectedStep===steps[steps.length-1]?.key?'👑':'🏁'}</span>
+            </div>
+          </div>
+        )}
+
+        {/* ── Section C: 선택된 비자 상세 ── */}
+        {selectedRoute && selectedStep && VISA_GUIDE_DATA[selectedStep] && (() => {
+          const guide = VISA_GUIDE_DATA[selectedStep];
+          const stepIndex = steps.findIndex(s => s.key === selectedStep);
+          const currentStep = steps[stepIndex];
+          return (
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-3 fade-in">
+              <div className="px-4 py-3 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-100">
+                <p className="text-[10px] text-gray-600 font-bold">{T(subRoute?.desc || route.desc)} • {stepIndex+1}/{steps.length}</p>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className={`text-lg`}>{guide.icon}</span>
+                  <p className="text-sm font-black text-gray-800">{T(guide.name)}</p>
+                </div>
+                {guide.summary && (
+                  <p className="text-sm font-semibold text-gray-700 mt-2.5 word-keep leading-relaxed">{T(guide.summary)}</p>
+                )}
+              </div>
+
+              <div className="px-4 py-4">
+                {/* 체류기간 + 다음목표 */}
+                <div className="grid grid-cols-2 gap-2 mb-3">
+                  <div className="bg-blue-50 rounded-xl px-3 py-2.5">
+                    <p className="text-[9px] font-black text-blue-400 mb-0.5">⏰ {lang==='vi'?'Thời hạn':'체류기간'}</p>
+                    <p className="text-[11px] font-bold text-blue-700 word-keep leading-tight whitespace-pre-wrap">{T(guide.maxStay)}</p>
+                  </div>
+                  <div className="bg-green-50 rounded-xl px-3 py-2.5">
+                    <p className="text-[9px] font-black text-green-500 mb-0.5">🎯 {lang==='vi'?'Tiếp theo':'다음 목표'}</p>
+                    <p className="text-[11px] font-bold text-green-700 word-keep leading-tight">{T(guide.target)}</p>
+                  </div>
+                </div>
+
+                {/* 신청 절차 */}
+                <p className="text-[10px] font-black text-gray-500 mb-2.5">📌 {lang==='vi'?'Quy trình:':'절차:'}</p>
+                <ol className="flex flex-col gap-2 mb-3">
+                  {guide.steps.map((step, i) => (
+                    <li key={i} className="flex items-start gap-2.5">
+                      <span className={`w-5 h-5 ${guide.color} rounded-full text-white text-[9px] font-black flex items-center justify-center flex-shrink-0 mt-0.5`}>{i+1}</span>
+                      <p className="text-[11px] text-gray-700 word-keep leading-relaxed">{T(step)}</p>
+                    </li>
+                  ))}
+                </ol>
+
+                {/* 핵심 팁 */}
+                <div className="bg-amber-50 border border-amber-200 rounded-xl px-3 py-2.5">
+                  <p className="text-[9px] font-black text-amber-600 mb-1">💡 {lang==='vi'?'Mẹo quan trọng':'핵심 팁'}</p>
+                  <p className="text-[11px] text-amber-700 word-keep leading-relaxed whitespace-pre-wrap">{T(guide.tip)}</p>
+                </div>
+
+                {/* E-7-4 점수 계산기 버튼 */}
+                {/* 다른 경로로 이동 (nextPaths) */}
+                {guide.nextPaths && guide.nextPaths.length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-gray-200">
+                    <p className="text-[9px] font-black text-gray-500 mb-2">🔀 {lang==='vi'?'Chuyển sang đường khác':'다른 경로로 이동'}</p>
+                    <div className="grid grid-cols-1 gap-2">
+                      {guide.nextPaths.map((np, i) => (
+                        <button key={i}
+                          onClick={() => {
+                            if (np.code === 'D-8') {
+                              setSelectedRoute('d8route');
+                              setSelectedSubRoute(null);
+                              setSelectedStep('d8');
+                            } else if (np.code === 'D-9') {
+                              setSelectedRoute('d9route');
+                              setSelectedSubRoute(null);
+                              setSelectedStep('d9');
+                            }
+                          }}
+                          className="bg-gradient-to-r from-purple-50 to-indigo-50 border-2 border-purple-200 rounded-lg px-3 py-2.5 tap transition hover:border-purple-400 text-left">
+                          <div className="flex items-start gap-2">
+                            <span className="text-lg flex-shrink-0">🌉</span>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-[11px] font-black text-gray-800">{np.code} • {lang==='vi'?np.vi:np.ko}</p>
+                              <p className="text-[9px] text-gray-600 mt-0.5 word-keep">{lang==='vi'?np.desc_vi:np.desc_ko}</p>
+                            </div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+            </div>
+          );
+        })()}
+
+        {/* ── Section D: 유용한 도구 (경로 선택 후 표시) ── */}
+        {selectedRoute && selectedStep && (
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-3">
+          <div className="px-4 py-3 border-b border-gray-100">
+            <p className="text-sm font-black text-gray-800">🔧 {lang==='vi'?'Công cụ hữu ích':'유용한 도구'}</p>
+          </div>
+          <div className="grid grid-cols-2 gap-2 p-3">
+            {[
+              ...(selectedStep === 'e74' ? [{ e:'📊', ko:'E-7-4 점수 계산기',   vi:'Tính điểm E-7-4',      bg:'bg-amber-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_e74', prevPage:'visaHub'}) } }] : []),
+              ...(selectedStep === 'f27' ? [{ e:'📊', ko:'F-2-7 점수 계산기',   vi:'Tính điểm F-2-7',      bg:'bg-purple-500',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'checklist', param:'score_f27', prevPage:'visaHub'}) } }] : []),
+              ...(selectedStep === 'f27_e71' ? [{ e:'👥', ko:'점수 방법',   vi:'Bảng tính điểm',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f27_e71', prevPage:'visaHub'}) } }, { e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:'f27_e71', prevPage:'visaHub'}) } }] : []),
+              ...(selectedStep === 'f6' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f6', prevPage:'visaHub'}) } }, { e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:null, prevPage:'visaHub'}) } }] : []),
+              ...(selectedStep === 'f5_marriage_naturalization' ? [{ e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:null, prevPage:'visaHub'}) } }, { e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f5_marriage_naturalization', prevPage:'visaHub'}) } }] : []),
+              ...(selectedStep === 'd8' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'d8', prevPage:'visaHub'}) } }] : []),
+              ...(selectedStep === 'd9' ? [{ e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ nav({page:'assessment', param:'d9', prevPage:'visaHub'}) } }] : []),
+              ...(selectedStep === 'f5_marriage' ? [{ e:'👥', ko:'대상 적용',   vi:'Đối tượng áp dụng',      bg:'bg-blue-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'eligibility', param:'f5_marriage', prevPage:'visaHub'}) } }, { e:'📋', ko:'심사 기준',   vi:'Điều kiện thẩm định',      bg:'bg-sky-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'assessment', param:'f5_marriage', prevPage:'visaHub'}) } }] : []),
+              { e:'📋', ko:'필수 서류 준비',   vi:'Danh sách hồ sơ',       bg:'bg-green-600',   act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'docsChecklist', param:selectedStep, prevPage:'visaHub'}) } },
+              { e:'🗂️', ko:'출입국·대사관·외교부 연락처',  vi:'Thông tin liên hệ XNC, Đại sứ quán, Bộ Ngoại giao',      bg:'bg-violet-600',  act:()=>{ window.__visaState = {visaRoute:selectedRoute, visaSubRoute:selectedSubRoute, visaStep:selectedStep}; nav({page:'office',    param:null, prevPage:'visaHub'}) } },
+            ].map((t,i)=>(
+              <button key={i} onClick={t.act}
+                className={`${t.bg} rounded-xl px-3 py-3.5 flex items-center gap-2 tap transition`}>
+                <span className="text-2xl">{t.e}</span>
+                <p className="text-[11px] font-black text-white word-keep leading-tight text-left">{lang==='vi'?t.vi:t.ko}</p>
+              </button>
+            ))}
+          </div>
+        </div>
+        )}
+
+        {/* ── Section E: 비자 커뮤니티 게시판 ── */}
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden" data-section="visaBoardSection">
+          {/* 헤더 */}
+          <div className="px-4 py-4 flex items-center justify-between border-b border-gray-100">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-blue-700 rounded-xl flex items-center justify-center text-white text-xl">💬</div>
+              <div className="text-left">
+                <p className="text-sm font-black text-gray-800">{lang==='vi'?'Cộng đồng visa':'비자 커뮤니티 게시판'}</p>
+                <p className="text-[10px] text-gray-400 mt-0.5">
+                  {lang==='vi'?'Hỏi đáp, chia sẻ kinh nghiệm':'합격 후기·SOS·참교육 — 실제 경험 공유'}
+                  {boardPosts.length > 0 && <span className="ml-1 text-blue-500 font-bold">{boardPosts.length}개</span>}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* 게시판 본문 */}
+          <div>
+              {/* 공지 + 게시글 테이블 */}
+              <div>
+                {/* 테이블 헤더 */}
+                <div className="grid bg-gray-50 border-b border-gray-200 text-[10px] font-black text-gray-500 px-3 py-2"
+                  style={{gridTemplateColumns:'2.5rem 1.2rem 1fr 4rem 3.5rem'}}>
+                  <span className="text-center">{lang==='vi'?'STT':'번호'}</span>
+                  <span></span>
+                  <span className="pl-1">{lang==='vi'?'Tiêu đề':'제목'}</span>
+                  <span className="text-center">{lang==='vi'?'Tác giả':'작성자'}</span>
+                  <span className="text-center">{lang==='vi'?'Ngày':'날짜'}</span>
+                </div>
+
+                {/* 공지 2개 */}
+                {loadBoardNotices('hall').map(n => (
+                  <div key={n.id} className="grid border-b border-gray-50 px-3 py-2.5 bg-gray-50/60"
+                    style={{gridTemplateColumns:'2.5rem 1.2rem 1fr 4rem 3.5rem'}}>
+                    <span className="text-[9px] font-black text-gray-400 text-center self-center">공지</span>
+                    <span></span>
+                    <p className="text-[11px] font-black text-gray-700 self-center pl-1 truncate">{lang==='vi'?n.title_vi:n.title}</p>
+                    <span className="text-[9px] text-gray-400 text-center self-center">관리자</span>
+                    <span className="text-[9px] text-gray-400 text-center self-center">{n.date}</span>
+                  </div>
+                ))}
+
+                {/* 게시글 목록 */}
+                {pageBoardPosts.length === 0 ? (
+                  <div className="py-10 text-center text-sm text-gray-400">
+                    {lang==='vi'?'Chưa có bài viết.':'게시글이 없습니다.'}
+                  </div>
+                ) : pageBoardPosts.map((p, i) => {
+                  const num  = boardPosts.length - ((boardPage-1)*BOARD_PER) - i;
+                  const badge = CAT_BADGE[p.cat] || CAT_BADGE.bamboo;
+                  const cmts  = p.commentsData?.length || p.comments || 0;
+                  return (
+                    <div key={p.id}
+                      onClick={()=>nav({page:'postDetail', boardKey:'d9', postId:p.id})}
+                      className="grid border-b border-gray-50 last:border-0 px-3 py-2.5 cursor-pointer hover:bg-blue-50/40 transition tap"
+                      style={{gridTemplateColumns:'2.5rem 1.2rem 1fr 4rem 3.5rem'}}>
+                      <span className="text-[10px] text-gray-400 text-center self-center">{num}</span>
+                      <span className={`text-[9px] font-black ${badge.text} self-center`}>{badge.emoji}</span>
+                      <div className="pl-1 min-w-0 self-center flex items-center gap-1">
+                        <p className="text-[11px] text-gray-800 truncate flex-1">{p.title}</p>
+                        {cmts > 0 && <span className="text-[9px] text-blue-400 font-bold flex-shrink-0">💬{cmts}</span>}
+                        {p.isNew  && <span className="text-[7px] font-black text-white bg-red-500 px-1 rounded-full flex-shrink-0">N</span>}
+                      </div>
+                      <span className="text-[9px] text-gray-500 text-center self-center truncate">{safeAuthor(p).replace(/ #\d+$/,'')}</span>
+                      <span className="text-[9px] text-gray-400 text-center self-center">{fmtDate(p.date)}</span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* 페이지네이션 + 글쓰기 */}
+              <div className="flex items-center justify-between px-3 py-3 border-t border-gray-100 bg-gray-50/50">
+                {/* 페이지 버튼 */}
+                <div className="flex items-center gap-1">
+                  {boardPage > 1 && (
+                    <button onClick={()=>setBoardPage(p=>p-1)}
+                      className="text-[10px] bg-white border border-gray-300 text-gray-600 px-2 h-6 rounded tap">
+                      {lang==='vi'?'Trước':'이전'}
+                    </button>
+                  )}
+                  {Array.from({length: Math.min(totalBoardPages,5)}, (_,i)=> Math.max(1,Math.min(boardPage-2,totalBoardPages-4))+i)
+                    .filter(p=>p<=totalBoardPages)
+                    .map(p=>(
+                    <button key={p} onClick={()=>setBoardPage(p)}
+                      className={`w-6 h-6 rounded text-[10px] font-bold tap transition
+                        ${boardPage===p?'bg-blue-700 text-white':'bg-white border border-gray-300 text-gray-600'}`}>
+                      {p}
+                    </button>
+                  ))}
+                  {boardPage < totalBoardPages && (
+                    <button onClick={()=>setBoardPage(p=>Math.min(p+1,totalBoardPages))}
+                      className="text-[10px] bg-white border border-gray-300 text-gray-600 px-2 h-6 rounded tap">
+                      {lang==='vi'?'Sau':'다음'}
+                    </button>
+                  )}
+                </div>
+                {/* 글쓰기 */}
+                <button onClick={()=>nav({page:'write', param:'hall', fromPage:'visaHub'})}
+                  className="bg-blue-700 text-white text-[11px] font-black px-3 py-1.5 rounded-lg tap">
+                  {lang==='vi'?'✏️ Viết bài':'✏️ 글쓰기'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  );
+}
 
 /* ================================================================
    D-day + 목표비자 위젯
@@ -2884,7 +2712,7 @@ function ScorePage({ type='e74', onBack, lang }) {
    페이지: 필수 서류 다운로드
    driveId: 구글 드라이브 파일 ID (실제 파일 업로드 후 교체 필요)
    다운로드 URL 형식: https://drive.google.com/uc?export=download&id={driveId}
-================================================================ */
+
 const DOCS = [
   {
     id:'통합신청서', icon:'📄', name:'통합신청서 (체류자격 변경·연장, 양식번호 34)', vi_name:'Đơn tổng hợp (thay đổi·gia hạn tư cách lưu trú, mẫu số 34)',
@@ -3279,1602 +3107,3 @@ const ADDITIONAL_DOCS_BY_VISA = {
   f5_marriage: [],
   f6: [],
 };
-
-function DocsPage({ visaStep, onBack, lang }) {
-  // Naturalization docs content
-  if (visaStep === 'naturalization') {
-    return (
-      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
-        <BackHeader title="📋 Hồ sơ nhập tịch Hàn Quốc" onBack={onBack} />
-        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
-          <div className="bg-white rounded-2xl shadow-sm px-4 py-3 mb-4">
-            <p className="text-xs text-gray-600 word-keep leading-relaxed">Để chuẩn bị hồ sơ nhập tịch Hàn Quốc, đối với diện Nhập tịch đơn giản (간이귀화) dành cho cô dâu cư trú theo diện Hôn nhân kết hôn (Visa F-6), bộ hồ sơ chuẩn chỉnh và đầy đủ nhất bao gồm các đầu mục giấy tờ được chia làm 3 nhóm chính dưới đây:</p>
-          </div>
-
-          {[
-            { title: '📂 1. Hồ sơ phía Bạn (Người nước ngoài chuẩn bị)', items: ['Đơn xin nhập quốc tịch (귀화허가신청서): Điền đầy đủ thông tin theo mẫu, dán kèm 1 ảnh thẻ nền trắng (3.5cm x 4.5cm, chụp trong 6 tháng gần nhất)', 'Hộ chiếu Việt Nam (Bản gốc): Còn thời hạn lưu trú hợp pháp', 'Thẻ đăng ký người nước ngoài (ARC gốc): Diện visa F-6 còn hạn', 'Phiếu Lý lịch tư pháp số 2 (Bản gốc từ Việt Nam): Xác nhận không có tiền án, bắt buộc dịch thuật công chứng tiếng Hàn', 'Bằng chứng nhận đỗ kỳ thi tổng hợp KIIP Lớp 5 (귀화용 종합평가 합격증): Giấy chứng nhận ≥60/100 điểm để được miễn kỳ thi viết'] },
-            { title: '📂 2. Hồ sơ phía Chồng Hàn Quốc (Người bảo lãnh chuẩn bị)', items: ['Giấy chứng nhận quan hệ hôn nhân chi tiết (혼인관계증명서 - 상세): Thể hiện rõ lịch sử kết hôn', 'Giấy chứng nhận quan hệ gia đình chi tiết (가족관계증명서 - 상세): Liệt kê các thành viên gia đình', 'Bản sao Hộ khẩu gia đình (주민등록등본): Chứng minh thực sự sống chung', 'Bản sao Căn cước công dân của chồng (주민등록증 사본)', 'Nếu có con chung: Giấy chứng nhận quan hệ gia đình của con và bản sao căn cước/khai sinh để hồ sơ được ưu tiên xét duyệt'] },
-            { title: '📂 3. Hồ sơ Chứng minh năng lực Kinh tế (Tài chính)', items: ['Phương án bất động sản: Bản sao Hợp đồng thuê nhà (Jeonse/Wolse) ≥30 triệu won HOẶC Giấy chứng nhận quyền sở hữu bất động sản', 'Phương án tài chính: Giấy xác nhận số dư tài khoản ngân hàng (잔액증명서) liên tục ≥30 triệu won', 'Phương án công việc: Giấy chứng nhận việc làm (재직증명서) + Giấy chứng nhận thu nhập thuế (소득금액증명원) để chứng minh có nguồn thu nhập ổn định'] },
-            { title: '⚠️ 3 Lưu ý quan trọng khi nộp hồ sơ', items: ['Lệ phí nộp hồ sơ: 300.000 KRW/hồ sơ (nộp bằng tem phiếu tại Cục)', 'Kiểm tra kỹ nợ thuế: Cục sẽ quét hệ thống thuế ngay khi tiếp nhận. Hai vợ chồng tuyệt đối không được nợ bất kỳ khoản thuế nào, nếu không hồ sơ sẽ bị từ chối ngay', 'Duy trì visa gốc: Thời gian chờ xét duyệt có thể kéo dài vài tháng đến >1 năm. Phải gia hạn Visa F-6 khi gần hết hạn để duy trì tư cách cư trú hợp pháp'], isDanger: true }
-          ].map((sec, i) => (
-            <div key={i} className={`bg-white rounded-2xl shadow-sm overflow-hidden mb-3 fade-in ${sec.isDanger ? 'border-l-4 border-red-600' : ''}`}>
-              <div className="px-4 py-3 border-b border-gray-100">
-                <p className="text-sm font-black text-gray-800">{sec.title}</p>
-              </div>
-              <div className="p-4 space-y-2">
-                {sec.items.map((item, j) => (
-                  <div key={j} className="flex gap-3">
-                    <span className="text-lg flex-shrink-0">[ ]</span>
-                    <p className="text-sm text-gray-700 word-keep leading-relaxed">{item}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div style={{ background:'#F0F2F5' }} className="min-h-screen">
-      <BackHeader title={lang==='vi' ? '📋 Tải hồ sơ cần thiết' : '📋 필수 서류 다운로드'} onBack={onBack} />
-      <div className="max-w-lg mx-auto px-4 py-4 pb-12">
-
-        {/* 안내 배너 */}
-        <div className="bg-blue-50 border border-blue-200 rounded-2xl px-4 py-3 mb-2 fade-in">
-          <p className="text-xs font-black text-blue-800 mb-1">📌 {lang==='vi' ? 'Cách nhận hồ sơ' : '서류 받는 방법'}</p>
-          <p className="text-xs text-blue-700 word-keep">
-            {lang==='vi' ? <>
-              ⬇️ Nút <strong>Tải xuống</strong>: Lưu file ngay từ Google Drive (biểu mẫu do quản trị viên chuẩn bị)<br/>
-              🔗 Nút <strong>Trang chính thức</strong>: Chuyển đến trang Bộ Tư pháp / Hometax
-            </> : <>
-              ⬇️ <strong>다운로드</strong> 버튼: 구글 드라이브에서 파일 즉시 저장 (운영자가 준비한 양식)<br/>
-              🔗 <strong>공식 사이트</strong> 버튼: 법무부·홈택스 공식 페이지로 이동
-            </>}
-          </p>
-        </div>
-
-        {/* 드라이브 ID 미설정 안내 (개발용) */}
-        <div className="bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 mb-4 fade-in">
-          <p className="text-[10px] text-amber-700 word-keep">
-            🛠 <strong>{lang==='vi' ? 'Hướng dẫn quản trị viên' : '운영자 안내'}:</strong> {lang==='vi'
-              ? <>Sau khi tải file lên Google Drive, hãy thay giá trị <code className="bg-amber-100 px-1 rounded">driveId</code> bằng ID file thực tế.</>
-              : <>구글 드라이브에 파일 업로드 후 <code className="bg-amber-100 px-1 rounded">driveId</code> 값을 실제 파일 ID로 교체하세요.</>}
-          </p>
-        </div>
-
-        <div className="flex flex-col gap-3">
-          {DOCS.map((doc, i) => {
-            const driveUrl = doc.driveId && !doc.driveId.includes('PLACEHOLDER')
-              ? `https://drive.google.com/uc?export=download&id=${doc.driveId}`
-              : null;
-            return (
-              <div key={i} className="bg-white rounded-2xl shadow-sm overflow-hidden fade-in">
-                {/* 서류 정보 */}
-                <div className="px-4 pt-4 pb-3 flex items-start gap-3">
-                  <span className="text-3xl flex-shrink-0">{doc.icon}</span>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-0.5 flex-wrap">
-                      <p className="text-sm font-black text-gray-800 word-keep">{lang==='vi' && doc.vi_name ? doc.vi_name : doc.name}</p>
-                      <span className="text-[9px] font-bold text-blue-600 bg-blue-50 border border-blue-100 px-1.5 py-0.5 rounded-full flex-shrink-0">{doc.badge}</span>
-                    </div>
-                    <p className="text-xs text-gray-500 word-keep">{lang==='vi' && doc.vi_desc ? doc.vi_desc : doc.desc}</p>
-                  </div>
-                </div>
-
-                {/* 버튼 영역 */}
-                <div className="px-4 pb-3 flex gap-2 border-t border-gray-50 pt-3">
-                  {doc.driveId ? (
-                    driveUrl ? (
-                      <a href={driveUrl} download={doc.fileName}
-                        className="flex-1 bg-blue-700 text-white text-xs font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 tap transition active:bg-blue-800">
-                        ⬇️ {lang==='vi' ? 'Tải xuống' : '다운로드'}
-                      </a>
-                    ) : (
-                      <button disabled
-                        className="flex-1 bg-gray-100 text-gray-400 text-xs font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5 cursor-not-allowed">
-                        ⬇️ {lang==='vi' ? 'Đang chuẩn bị...' : '준비 중'}
-                      </button>
-                    )
-                  ) : null}
-                  <a href={doc.official} target="_blank" rel="noopener noreferrer"
-                    className={`text-xs font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5 tap transition border ${doc.driveId ? 'flex-shrink-0 px-4 border-gray-200 text-gray-500 hover:border-blue-300 hover:text-blue-600' : 'flex-1 border-blue-200 text-blue-600 bg-blue-50 hover:bg-blue-100'}`}>
-                    🔗 {lang==='vi' ? 'Trang chính thức' : '공식 사이트'}
-                  </a>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="bg-red-50 border border-red-200 rounded-2xl px-4 py-3 mt-4 fade-in">
-          <p className="text-xs text-red-700 word-keep">
-            {lang==='vi'
-              ? '⚠️ Mỗi Cục XNC có thể yêu cầu thêm hồ sơ. Hãy gọi điện xác nhận trước khi đến.'
-              : '⚠️ 관할 출입국마다 추가 서류를 요구할 수 있습니다. 방문 전 반드시 전화로 확인하세요.'}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ================================================================
-   페이지: F-6 대상 적용 (적격 기준)
-================================================================ */
-function EligibilityPage({ visaStep, onBack, lang }) {
-  if (visaStep !== 'f6' && visaStep !== 'f5_marriage' && visaStep !== 'naturalization' && visaStep !== 'f5_marriage_naturalization' && visaStep !== 'd8' && visaStep !== 'f27_e71') return null;
-
-  // Naturalization eligibility content
-  const naturalizationContent = lang === 'vi' ? {
-    title: '👥 Đối tượng áp dụng',
-    subtitle: 'Điều kiện nhập tịch Hàn Quốc (Nhập tịch đơn giản - 간이귀화)',
-    sections: [
-      {
-        icon: '📋',
-        title: 'Giới thiệu',
-        items: ['Hàn Quốc chia quy định nhập tịch làm nhiều diện (nhập tịch thông thường, nhập tịch diện nhân tài chuyên gia...). Tuy nhiên, đối với người nước ngoài đang cư trú theo diện Hôn nhân kết hôn (Visa F-6), luật áp dụng diện 간이귀화 (Nhập tịch đơn giản/Giản dị).', 'Để làm hồ sơ nhập tịch theo diện này, bạn cần thỏa mãn đầy đủ các điều kiện "cứng" cốt lõi sau đây của Bộ Tư pháp Hàn Quốc:']
-      },
-      {
-        icon: '⏰',
-        title: '1. Điều kiện về Thời gian cư trú hợp pháp',
-        items: ['Trường hợp 1: Duy trì hôn nhân và cư trú liên tục tại Hàn Quốc từ 2 năm trở lên kể từ ngày làm thẻ đăng ký người nước ngoài (ARC).', 'Trường hợp 2: Hai vợ chồng kết hôn được 3 năm trở lên, và bạn có thời gian cư trú liên tục tại Hàn Quốc từ 1 năm trở lên.', '💡 Ngoại lệ (Hôn nhân đứt gãy): Nếu chưa đủ thời gian trên nhưng người chồng Hàn Quốc bị tử vong, mất tích, hoặc hai người ly hôn nhưng lỗi hoàn toàn thuộc về phía người chồng (bạo hành, cờ bạc...) và bạn được tòa phán quyết quyền nuôi con hoặc không có lỗi, bạn vẫn được phép nộp đơn.']
-      },
-      {
-        icon: '💰',
-        title: '2. Điều kiện Năng lực Kinh tế (Chứng minh tài chính)',
-        items: ['Khác với diện nhập tịch thông thường yêu cầu tài sản rất cao, diện kết hôn F-6 chỉ cần chứng minh năng lực tài chính ở mức tối thiểu để đảm bảo cuộc sống chung. Bạn hoặc chồng (người cùng chung hộ khẩu) phải cung cấp được một trong các giấy tờ sau:', 'Sở hữu tài sản tài chính (tiền gửi tiết kiệm, số dư ngân hàng, chứng khoán...) trị giá từ 30.000.000 KRW trở lên.', 'Sở hữu bất động sản (nhà đất tính theo giá công thị trường) hoặc Hợp đồng thuê nhà có giá trị tiền cọc (Jeonse/Wolse) từ 30.000.000 KRW trở lên.', 'Có Giấy chứng nhận việc làm (재직증명서) hoặc Giấy xác nhận dự kiến tiếp nhận lao động để chứng minh thu nhập ổn định.']
-      },
-      {
-        icon: '🗣️',
-        title: '3. Điều kiện Năng lực tiếng Hàn & Hội nhập xã hội',
-        items: ['Bạn bắt buộc phải nắm vững các kiến thức cơ bản về ngôn ngữ, lịch sử, văn hóa và phong tục của Hàn Quốc.', 'Yêu cầu thực tế: Hoàn thành chương trình Hội nhập xã hội KIIP Lớp 5 và thi đỗ kỳ thi tổng hợp dành cho diện nhập tịch (귀화용 종합평가) đạt từ 60/100 điểm trở lên.', 'Khi có chứng nhận này, bạn sẽ được miễn kỳ thi viết quốc tịch.']
-      },
-      {
-        icon: '⚖️',
-        title: '4. Điều kiện Nhân thân và Phẩm hạnh (품행단정)',
-        items: ['Đây là rào cản hành chính rất gắt gao của Bộ Tư pháp:', 'Bạn phải có lý lịch trong sạch, phẩm hạnh đoan chính.', 'Không có tiền án tiền sự nghiêm trọng ở cả Việt Nam (chứng minh qua Lý lịch tư pháp số 2) và Hàn Quốc.', 'Lưu ý đặc biệt: Nếu bạn từng có lịch sử vi phạm giao thông bị phạt tiền nặng, trốn thuế, nợ thuế hoặc từng cư trú bất hợp pháp trước đây rồi quay lại chính ngạch, bạn thường sẽ bị hạn chế quyền nộp đơn nhập tịch trong vòng 5 năm kể từ ngày nộp phạt.', 'Hồ sơ sẽ bị đánh trượt ngay nếu chưa đủ thời gian thử thách xóa án tích.'],
-        isDanger: true
-      },
-      {
-        icon: '⭐',
-        title: '(*) Điều kiện duy trì sau khi nhập tịch (Giữ song tịch)',
-        items: [
-          '🔹 Hàn Quốc cho phép người nhập tịch theo diện kết hôn (F-6) được giữ cả quốc tịch gốc (Việt Nam) và quốc tịch mới (Hàn Quốc), nhưng bạn phải thỏa mãn điều kiện cứng sau:',
-          '',
-          '📌 Cam kết không sử dụng quốc tịch nước ngoài:',
-          'Trong vòng 1 năm kể từ ngày nhận quyết định nhập tịch, bạn bắt buộc phải nộp Đơn cam kết không sử dụng quyền công dân nước ngoài (Việt Nam) khi đang lưu trú trên lãnh thổ Hàn Quốc.',
-          '',
-          '⚠️ Hệ quả nếu vi phạm:',
-          'Nếu quá thời hạn 1 năm mà bạn không nộp đơn cam kết này, bạn sẽ bị tước quốc tịch Hàn Quốc tự động theo luật định.'
-        ],
-        isSpecial: true
-      }
-    ]
-  } : {
-    title: '👥 대상 적용',
-    subtitle: '귀화 적격 기준 (간이귀화)',
-    sections: [
-      { icon: '⏰', title: '1. 거주 기간', items: ['경우 1: 2년 연속 거주', '경우 2: 3년 혼인 + 1년 거주'] },
-      { icon: '💰', title: '2. 경제 능력', items: ['금융 자산 ≥3천만원 또는', '부동산 ≥3천만원 또는', '재직증명서 (안정적 소득)'] },
-      { icon: '🗣️', title: '3. 한국어·사회통합', items: ['KIIP 5단계 수료', '귀화용 종합평가 ≥60점'] },
-      { icon: '⚖️', title: '4. 품행단정', items: ['베트남·한국 모두 범죄 전과 없음', '신원이 명확하고 깨끗함'], isDanger: true }
-    ]
-  };
-
-  // F-5-2 eligibility content
-  const f5MarriageContent = lang === 'vi' ? {
-    title: '👥 Đối tượng áp dụng',
-    subtitle: 'Điều kiện nâng cấp lên F-5-2',
-    sections: [
-      {
-        icon: '✅',
-        title: 'Đối tượng chính',
-        items: [
-          'Đang giữ visa F-6 (diện kết hôn với người Hàn hoặc mang quốc tịch Hàn), muốn nâng cấp lên F-5-2',
-          'Vợ/chồng của công dân Hàn Quốc: người đã kết hôn với người Hàn Quốc và cư trú trên 2 năm'
-        ],
-        highlight: true
-      },
-      {
-        icon: '⚖️',
-        title: 'Trường hợp đặc biệt (Ly hôn)',
-        items: [
-          'Ly hôn do lỗi của người chồng/vợ Hàn (có giấy tòa chứng nhận): CÓ ĐỦ ĐIỀU KIỆN',
-          'Vẫn có quyền/trách nhiệm nuôi con chung sau ly hôn: CÓ ĐỦ ĐIỀU KIỆN',
-          '⛔ Ly hôn thuận tình (thỏa thuận): KHÔNG ĐỦ ĐIỀU KIỆN'
-        ],
-        isDanger: true
-      }
-    ]
-  } : {
-    title: '👥 대상 적용',
-    subtitle: 'F-5-2 적격 기준',
-    sections: [
-      {
-        icon: '✅',
-        title: '주요 대상',
-        items: [
-          'F-6 비자 소유자로서 F-5-2로 업그레이드하고자 하는 자',
-          '한국인 배우자와 결혼하여 2년 이상 거주한 자'
-        ],
-        highlight: true
-      },
-      {
-        icon: '⚖️',
-        title: '특수 경우 (이혼)',
-        items: [
-          '한국인 배우자의 귀책사유로 인한 이혼 (법원 판결서 있음): 조건 충족',
-          '공동 자녀 양육권/책임 있음: 조건 충족',
-          '⛔ 합의이혼: 조건 미충족'
-        ],
-        isDanger: true
-      }
-    ]
-  };
-
-  // Select content based on visaStep
-  let content;
-  if (visaStep === 'f5_marriage') {
-    content = f5MarriageContent;
-  } else if (visaStep === 'f27_e71') {
-    // F-2-7 eligibility
-    content = lang === 'vi' ? {
-      title: "📊 Hệ thống tính điểm F-2-7",
-      subtitle: "Tổng 170 điểm, cần 80 điểm để được cấp visa",
-      sections: [
-        { icon: "👤", title: "1. Tuổi tác – Tối đa 25 điểm", items: ["25-29: 25 điểm | 18-24, 30-34: 23 điểm | 35-39: 20 điểm | 40-44: 12 điểm..."] },
-        { icon: "🎓", title: "2. Học vị – Tối đa 25 điểm", items: ["Tiến sĩ (이공계): 25 | Tiến sĩ (khác): 20 | Thạc sĩ (이공계): 20 | Thạc sĩ (khác): 17 | Cử nhân (이공계): 17 | Cử nhân (khác): 15 | Cao đẳng (이공계): 15 | Cao đẳng (khác): 10"] },
-        { icon: "🗣️", title: "3. Tiếng Hàn – Tối đa 20 điểm", items: ["TOPIK 5-6 / KIIP 5: 20 | TOPIK 4 / KIIP 4: 15 | TOPIK 3 / KIIP 3: 10 | TOPIK 2: 5 | TOPIK 1: 3"] },
-        { icon: "💰", title: "4. Thu nhập hàng năm – Tối đa 60 điểm", items: ["100+: 60 | 90-100: 58 | 80-90: 56 | 70-80: 53 | 60-70: 50 | 50-60: 45 | 40-50: 40 | 30-40: 30 | Tối thiểu-30: 10"] },
-        { icon: "⭐", title: "5. Điểm cộng – Tối đa 40 điểm", items: ["Chuyên gia xuất sắc: +20 | Tiến cử hành chính: +20 | KIIP 5+: +10 | Tốt nghiệp thế giới: +30/20/15 | Tốt nghiệp Hàn: +10/7/5 | Tình nguyện: +7/5/1"] },
-        { icon: "📋", title: "Bảng điểm chi tiết", items: ["Xem ảnh K-point E74 dưới đây"] }
-      ],
-      hasImage: true
-    } : {
-      title: '👥 대상 적용',
-      subtitle: 'F-2-99로 변경 가능 대상',
-      sections: [
-        {
-          icon: '📌',
-          title: '다음 중 하나의 비자로 합법 거주 중이어야 함:',
-          items: [
-            '✅ 전문인력/기술자 비자: E-1, E-2, E-3, E-4, E-5, E-6 (E-6-2 제외), E-7',
-            '✅ 투자/무역 비자: D-1, D-5, D-6, D-7, D-8, D-9',
-            '✅ 부양/가족 비자: F-1, F-3 (위 비자 소유자의 부양가족)'
-          ]
-        },
-        {
-          icon: '⚠️',
-          title: 'E-9, E-10, H-2 주의:',
-          items: [
-            '일반 저숙련 노동자 비자는 F-2-99로 직접 변경 불가능. 먼저 E-7-4 (숙련기술자)로 변경 후 시간을 쌓아야 F-2-99 신청 가능.'
-          ],
-          isDanger: true
-        }
-      ]
-    };
-  } else if (visaStep === 'f5_marriage_naturalization') {
-    // F-5-2 Naturalization eligibility (simplified)
-    content = lang === 'vi' ? {
-      title: '👥 Đối tượng áp dụng',
-      subtitle: 'Điều kiện nhập tịch từ F-5-2',
-      sections: [
-        {
-          icon: '✅',
-          title: 'Đối tượng chính',
-          items: [
-            'Người kết hôn với người Hàn Quốc và cùng chung sống liên tục ≥2 năm, hoặc kết hôn ≥3 năm và duy trì trạng thái chung sống ≥1 năm.'
-          ],
-          highlight: true
-        },
-        {
-          icon: '⚖️',
-          title: 'Bao gồm cả trường hợp:',
-          items: [
-            'Chồng/vợ mất',
-            'Ly hôn nhưng lỗi thuộc về người chồng/vợ Hàn (có giấy tòa xác nhận)',
-            'Ly hôn nhưng có quyền/trách nhiệm nuôi con chung'
-          ]
-        }
-      ]
-    } : {
-      title: '👥 대상 적용',
-      subtitle: 'F-5-2 귀화 적격 기준',
-      sections: [
-        {
-          icon: '✅',
-          title: '주요 대상',
-          items: [
-            '한국인과 결혼하여 연속 2년 이상 함께 거주, 또는 결혼 3년 이상이고 한국 거주 1년 이상'
-          ],
-          highlight: true
-        },
-        {
-          icon: '⚖️',
-          title: '특수 경우 포함:',
-          items: [
-            '배우자 사망',
-            '배우자의 귀책사유로 인한 이혼 (법원 판결서 있음)',
-            '이혼 후에도 자녀 양육권/책임 있음'
-          ]
-        }
-      ]
-    };
-  } else if (visaStep === 'naturalization') {
-    content = naturalizationContent;
-  } else {
-    content = lang === 'vi' ? {
-      title: '👥 Đối tượng áp dụng',
-      subtitle: 'Điều kiện hợp lệ chuyển đổi visa F-6',
-    sections: [
-      {
-        icon: '✅',
-        title: 'Đối tượng được phép chuyển đổi F-6 trong nước',
-        items: [
-          'Người nước ngoài đang lưu trú hợp pháp tại Hàn Quốc và là vợ/chồng của công dân Hàn Quốc.'
-        ],
-        highlight: true
-      },
-      {
-        icon: '⭐',
-        title: 'Ngoại lệ đặc biệt',
-        items: [
-          'Người Đức nhập cảnh theo diện miễn thị thực (B-1) được phép chuyển đổi sang F-6 trong nước.'
-        ],
-        isSpecial: true
-      },
-      {
-        icon: '❌',
-        title: 'Đối tượng KHÔNG ĐƯỢC chuyển đổi trong nước (Phải về nước xin visa)',
-        items: [
-          'Người đang giữ visa du lịch/ngắn hạn (B-1, B-2, C-1 đến C-4)',
-          'Người giữ visa Du lịch làm việc (H-1)',
-          'Người cư trú bất hợp pháp (bao gồm nhập cảnh lậu, dùng hộ chiếu giả)',
-          'Người được gia hạn thời gian lưu trú để xuất cảnh (hoặc hoãn thời hạn xuất cảnh)',
-          'Tội phạm hình sự thông thường (trừ trường hợp chỉ bị phạt tiền đơn thuần)',
-          'Người đang giữ visa G-1 (được cấp trong thời gian lưu trú với tư cách thuộc 4 nhóm trên)'
-        ],
-        isDanger: true
-      },
-      {
-        icon: '🆘',
-        title: '⚠️ Trường hợp nhân đạo (Ngoại lệ)',
-        items: [
-          'Nếu thuộc nhóm bị cấm ở trên nhưng có lý do bất khả kháng như mang thai, sinh con, hoặc đang nuôi con vị thành niên sinh ra trong mối quan hệ của hai vợ chồng, Cục Quản lý Xuất nhập cảnh sẽ xem xét và quyết định có cho phép đổi visa hay không.'
-        ],
-        isWarning: true
-      }
-    ]
-  } : {
-    title: '👥 대상 적용',
-    subtitle: 'F-6 비자 변경 적격 기준',
-    sections: [
-      {
-        icon: '✅',
-        title: '국내 변경 가능한 대상',
-        items: [
-          '한국에서 합법 체류 중인 외국인 + 한국 국민 배우자'
-        ],
-        highlight: true
-      },
-      {
-        icon: '⭐',
-        title: '특별 예외',
-        items: [
-          '독일 국민이 무비자 (B-1) 입국한 경우 국내 변경 가능'
-        ],
-        isSpecial: true
-      },
-      {
-        icon: '❌',
-        title: '국내 변경 불가능한 대상 (귀국 후 신청 필수)',
-        items: [
-          '관광·단기비자 소유자 (B-1, B-2, C-1~C-4)',
-          '워킹홀리데이 (H-1) 소유자',
-          '불법 체류자 (밀입국, 위조 여권 포함)',
-          '출국 기한 연장 또는 유예 중인 자',
-          '형사 범죄 전과자 (벌금형만 제외)',
-          'G-1 비자 (위의 4개 그룹에 해당하는 자에게 발급된 경우)'
-        ],
-        isDanger: true
-      },
-      {
-        icon: '🆘',
-        title: '⚠️ 인도적 특수 사유 (예외 인정)',
-        items: [
-          '상기 금지 대상이더라도 임신·출산·미성년 자녀 양육 등 불가피한 인도적 사유가 있으면 출입국청이 심사 후 인정 여부 결정'
-        ],
-        isWarning: true
-      }
-    ]
-  };
-  }
-
-  return (
-    <div style={{ background:'#F0F2F5' }} className="min-h-screen">
-      <BackHeader title={content.title} onBack={onBack} />
-      <div className="max-w-lg mx-auto px-4 py-4 pb-12">
-
-        {/* 부제목 */}
-        <div className="bg-white rounded-2xl shadow-sm px-4 py-3 mb-4">
-          <p className="text-xs text-gray-600">{content.subtitle}</p>
-        </div>
-
-        {/* 섹션 */}
-        {content.sections.map((section, idx) => (
-          <div key={idx} className="mb-4">
-            <div className={`px-3 py-2 rounded-lg mb-3 border-l-4 ${
-              section.highlight ? 'bg-green-50 border-green-600' :
-              section.isSpecial ? 'bg-blue-50 border-blue-600' :
-              section.isDanger ? 'bg-red-50 border-red-600' :
-              section.isWarning ? 'bg-yellow-50 border-yellow-600' :
-              'bg-gray-50 border-gray-300'
-            }`}>
-              <p className={`text-sm font-black ${
-                section.highlight ? 'text-green-700' :
-                section.isSpecial ? 'text-blue-700' :
-                section.isDanger ? 'text-red-700' :
-                section.isWarning ? 'text-yellow-700' :
-                'text-gray-700'
-              }`}>
-                {section.icon} {section.title}
-              </p>
-            </div>
-            <div className="space-y-2">
-              {section.items.map((item, i) => (
-                <div key={i} className="bg-white rounded-xl shadow-sm px-4 py-3 border-l-2 border-gray-300">
-                  <p className="text-sm text-gray-700 word-keep leading-relaxed">{item}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-
-        {/* 이미지 표시 */}
-        {content.hasImage && (
-          <div className="mt-8 mb-6">
-            <img src="/images/f27_scoring_table.jpg.jpg" alt="F-2-7 Scoring Table" className="w-full rounded-xl shadow-lg" />
-          </div>
-        )}
-
-      </div>
-    </div>
-  );
-}
-
-/* ================================================================
-   페이지: F-6 심사 기준 (소득 기준표 포함)
-================================================================ */
-function AssessmentCriteriaPage({ assessmentParam, onBack, lang }) {
-  // F-5-2 Naturalization Assessment
-  if (!assessmentParam || assessmentParam === null) {
-    return (
-      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
-        <BackHeader title={lang==='vi' ? '📋 Điều kiện thẩm định' : '📋 심사 기준'} onBack={onBack} />
-        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
-          <div className="space-y-3">
-            {[
-              { title: lang==='vi' ? 'Hồ sơ xét duyệt dựa trên các tiêu chí "cứng"' : '심사는 "체크리스트" 기준으로 진행됩니다', ko:'심사는 "체크리스트" 기준으로 진행됩니다', vi:'Hồ sơ xét duyệt dựa trên các tiêu chí "cứng"', items: [
-                { ko:'시간 요건: 연속 5년 이상 합법 거주 (D-2, D-4 학기는 일반적으로 미포함)', vi:'Thời gian cư trú liên tục: Đã lưu trú hợp pháp tại Hàn Quốc liên tục từ 5 năm trở lên tính đến ngày nộp hồ sơ. (Thời gian du học D-2 hoặc học tiếng D-4 thường không được tính vào thời gian tích lũy này).' },
-                { ko:'업무 & 나이: 19세 이상 성인, 안정적인 일자리 보유, 완전히 납세 중', vi:'Điều kiện công việc và tuổi tác: Phải là người thành niên (trên 19 tuổi) và đang có công việc ổn định, đóng thuế đầy đủ tại Hàn Quốc.' },
-                { ko:'소득: 전년도 총 소득 ≥ GNI 수준 (국세청 소득금액증명원 기준)', vi:'Năng lực kinh tế - Thu nhập: Tổng thu nhập của năm gần nhất (thể hiện trên Giấy chứng nhận thu nhập của Cục Thuế) phải đạt bằng hoặc cao hơn mức GNI (Thu nhập quốc dân bình quân đầu người) của Hàn Quốc.' },
-                { ko:'자산: 부양인/동반 가족은 은행 잔액 및 전세금 최소 3천만 KRW 이상', vi:'Năng lực kinh tế - Tài sản: Người phụ thuộc (vợ/chồng ăn theo) cần chứng minh gia đình có tài sản tích lũy (số dư tài khoản ngân hàng, hợp đồng nhà Jeonse/Wolse) tối thiểu theo quy định của Bộ Tư pháp (thường từ 30 triệu KRW trở lên).' },
-                { ko:'언어: TOPIK 4급 이상 또는 KIIP 4단계 이상 수료', vi:'Năng lực ngôn ngữ và hòa nhập: Đạt chứng chỉ TOPIK cấp 4 trở lên hoặc hoàn thành Chương trình Hội nhập Xã hội (KIIP) từ Lớp 4 trở lên.' },
-                { ko:'품행: 출입국법 중대 위반 없음, 전과 없음', vi:'Tư cách phẩm chất: Không vi phạm nghiêm trọng Luật quản lý xuất nhập cảnh và không có tiền án tiền sự nghiêm trọng.' }
-              ]}
-            ].map((section, idx) => (
-              <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden">
-                <div className="px-4 py-3 bg-blue-50 border-b border-blue-200">
-                  <p className="text-sm font-black text-blue-700">{lang==='vi' ? section.title : section.ko}</p>
-                </div>
-                <div className="p-4 space-y-2">
-                  {section.items.map((item, j) => (
-                    <p key={j} className="text-sm text-gray-700 word-keep leading-relaxed">• {lang==='vi' ? item.vi : item.ko}</p>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // F-2-7 Assessment (f27_e71)
-  if (assessmentParam === 'f27_e71') {
-    return (
-      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
-        <BackHeader title={lang==='vi' ? '📋 ĐIỀU KIỆN ĐỂ ĐỔI VISA F-2-7' : '📋 F-2-7 심사 기준'} onBack={onBack} />
-        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
-          <div className="space-y-3">
-            {[
-              { title: lang==='vi' ? 'Thuộc đối tượng áp dụng:' : '대상 조건:', ko:'대상 조건:', vi:'Thuộc đối tượng áp dụng:', items: [
-                { ko:'✅ 현재 E-1~E-7-1, D-5~D-9 비자로 한국에 합법 거주 중: 3년 이상 연속 거주', vi:'✅ Đang giữ visa chuyên gia (E-1 đến E-7-1, D-5 đến D-9) liên tục từ 3 năm trở lên tại Hàn Quốc.' },
-                { ko:'✅ 또는 한국 대학원 석사/박사 졸업 후 5년 이내에 전문직(E-1~E-7-1) 취직', vi:'✅ HOẶC: Tốt nghiệp Thạc sĩ/Tiến sĩ tại Hàn Quốc và tìm được công việc chuyên môn (E-1 đến E-7-1) trong vòng 5 năm kể từ ngày tốt nghiệp.' },
-                { ko:'⚠️ 예외: 전년도 소득 40,000,000 KRW 이상이면 3년 기다리지 않고 즉시 신청 가능', vi:'⚠️ Ngoại lệ: Nếu thu nhập năm gần nhất đạt từ 40.000.000 KRW trở lên, bạn được MIỄN thời gian chờ 3 năm này và có thể đổi ngay.' }
-              ]},
-              { title: lang==='vi' ? 'Đạt chuẩn hệ thống tính điểm:' : '점수 기준:', ko:'점수 기준:', vi:'Đạt chuẩn hệ thống tính điểm:', items: [
-                { ko:'✅ 최소 170점 만점에 80점 이상 필수', vi:'✅ Đạt tối thiểu 80 điểm trên tổng số 170 điểm' },
-                { ko:'포함 항목: 나이, 학력, 한국어(TOPIK/KIIP), 전년도 소득, 가산점/감점', vi:'📋 Gồm các mục: Tuổi tác, Học vị, Tiếng Hàn TOPIK/KIIP, Thu nhập năm gần nhất, và Điểm cộng/Điểm trừ' }
-              ]},
-              { title: lang==='vi' ? 'Quy trình nộp đơn:' : '신청 절차:', ko:'신청 절차:', vi:'Quy trình nộp đơn:', items: [
-                { ko:'Bước 1: 점수표로 자신의 점수 계산 → 80점 이상 확인 + 소득금액증명원 준비', vi:'Bước 1: Tự tính điểm dựa trên bảng điểm chuẩn. Đảm bảo trên 80 điểm và có tờ 소득금액증명원 từ Cục thuế.' },
-                { ko:'Bước 2: HiKorea 웹사이트에서 온라인 예약', vi:'Bước 2: Đặt lịch hẹn trên website HiKorea.' },
-                { ko:'Bước 3: 자신의 거주지 관할 출입국청에 직접 방문 + 서류 제출', vi:'Bước 3: Nộp hồ sơ tại Cục Xuất nhập cảnh quản lý khu vực cư trú.' },
-                { ko:'Bước 4: 심사 기간은 일반적으로 4~6주 소요', vi:'Bước 4: Chờ xét duyệt (thời gian quét hồ sơ F-2-7 khá lâu, thông thường mất từ 4 - 6 tuần).' }
-              ]}
-            ].map((section, idx) => (
-              <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden">
-                <div className="px-4 py-3 bg-blue-50 border-b border-blue-200">
-                  <p className="text-sm font-black text-blue-700">{lang==='vi' ? section.title : section.ko}</p>
-                </div>
-                <div className="p-4 space-y-2">
-                  {section.items.map((item, j) => (
-                    <p key={j} className="text-sm text-gray-700 word-keep leading-relaxed">{lang==='vi' ? item.vi : item.ko}</p>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // D-9 Assessment
-  if (assessmentParam === 'd9') {
-    return (
-      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
-        <BackHeader title={lang==='vi' ? '📋 Điều kiện thẩm định' : '📋 심사 기준'} onBack={onBack} />
-        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
-          <div className="space-y-3">
-            {[
-              { title: lang==='vi' ? '🔄 Điều kiện chuyển đổi - Diện D-9-1 (Hệ thống tính điểm)' : '🔄 Điều kiện chuyển đổi - Diện D-9-1', ko:'🔄 Điều kiện chuyển đổi - Diện D-9-1', vi:'🔄 Điều kiện chuyển đổi - Diện D-9-1', items: [
-                { ko:'D-10과 유사한 점수제 적용: 최소 60/100점 필수', vi:'Áp dụng thang điểm giống D-10, cần đạt tối thiểu 60/100 điểm' },
-                { ko:'필수 항목: 최소 10점 이상 필수 (무역교육 이수 시 10점 가산)', vi:'Ở hạng mục bắt buộc phải đạt tối thiểu 10 điểm (hoàn thành lớp học mậu dịch được cộng 10 điểm)' },
-                { ko:'사업등록 필수 (사업자등록증 확보)', vi:'Đã đăng ký hoạt động kinh doanh (사업자등록)' },
-                { ko:'한국 대학 석사 이상 학위 소유 (또는 졸업 예정)는 가산점/필수 조건 중 하나', vi:'Có bằng Thạc sĩ trở lên tại trường đại học Hàn Quốc (hoặc đang chuẩn bị tốt nghiệp) là một trong các điều kiện cộng điểm/đủ điều kiện' },
-                { ko:'D-8과 다른 점: 실제 수출입 실적(무역실적)이 필수 — 단순 세금신고 + 매출증명만으로는 불충분', vi:'Phải có hoạt động xuất khẩu thực tế (무역실적) để duy trì/gia hạn visa — khác với D-8 chỉ cần khai thuế + giấy chứng nhận doanh thu' }
-              ]},
-              { title: lang==='vi' ? '💰 Điều kiện tài chính' : '💰 Điều kiện tài chính', ko:'💰 Điều kiện tài chính', vi:'💰 Điều kiện tài chính', items: [
-                { ko:'투자 자금: 최소 약 100 triệu won (최소 50 triệu won는 해외에서 송금 필수) — 단, D-9-1 점수제는 D-8처럼 100 triệu won 필수가 아님이 장점', vi:'Một số nguồn ghi nhận vốn đầu tư tối thiểu khoảng 100 triệu won, trong đó ít nhất 50 triệu won phải chuyển từ nước ngoài vào — tuy nhiên mức này áp dụng rõ hơn cho D-8/D-9-5; với D9-1 (điểm số) thì không cần vốn đầu tư 100 triệu won như D-8, đây chính là ưu điểm giúp hồ sơ đơn giản hơn.' },
-                { ko:'최소 재정 증명: 일부 사례에서 5,000 USD 이상 (경우에 따라 다름) - 생활비 자력 해결 가능성 입증', vi:'Chứng minh tài chính tối thiểu (một số trường hợp ghi nhận từ 5.000 USD trở lên tùy diện) để đảm bảo khả năng tự chi trả sinh hoạt.' }
-              ]}
-            ].map((section, idx) => (
-              <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden">
-                <div className="px-4 py-3 bg-blue-50 border-b border-blue-200">
-                  <p className="text-sm font-black text-blue-700">{lang==='vi' ? section.title : section.ko}</p>
-                </div>
-                <div className="p-4 space-y-2">
-                  {section.items.map((item, j) => (
-                    <p key={j} className="text-sm text-gray-700 word-keep leading-relaxed">• {lang==='vi' ? item.vi : item.ko}</p>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // F-5-2 Assessment
-  if (assessmentParam === 'f5_marriage') {
-    return (
-      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
-        <BackHeader title={lang==='vi' ? '📋 Điều kiện thẩm định' : '📋 심사 기준'} onBack={onBack} />
-        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
-          <div className="space-y-3">
-            {[
-              { title: lang==='vi' ? 'a) Thời gian' : 'a) 기간', ko:'a) 기간', vi:'a) Thời gian', items: [
-                { ko:'법적 혼인 유지: 최소 2년', vi:'Duy trì hôn nhân hợp pháp với người Hàn tối thiểu 2 năm' },
-                { ko:'한국 공동거주: 1년 이상', vi:'Đã sinh sống chung tại Hàn Quốc trên 1 năm' }
-              ]},
-              { title: lang==='vi' ? 'b) Thu nhập/tài sản' : 'b) 소득/자산', ko:'b) 소득/자산', vi:'b) Thu nhập/tài sản', items: [
-                { ko:'생계유지 능력 증명 (근로소득, 사업소득, 임차료, 배당금 모두 인정)', vi:'Cần chứng minh khả năng duy trì kế sinh nhai (thu nhập lao động, kinh doanh, cho thuê bất động sản, cổ tức... đều được tính)' },
-                { ko:'자산: 신청 전 6개월 이상 보유, 최소 약 30,000,000 KRW (예금, 적금, 부동산)', vi:'Tài sản (tiền gửi, tiết kiệm, bất động sản) cần sở hữu liên tục ≥6 tháng trước ngày nộp hồ sơ, tối thiểu khoảng 30 triệu won' },
-                { ko:'소득 기준 50% 감면 가능: 미성년 자녀 양육 중, 중병/장애, 또는 한국 거주 5년 이상', vi:'Có thể giảm đến 50% tiêu chuẩn thu nhập nếu: đang nuôi con nhỏ, có bệnh nặng/khuyết tật, hoặc đã cư trú tại Hàn trên 5 năm' }
-              ]},
-              { title: lang==='vi' ? 'c) Tiếng Hàn / Hội nhập xã hội' : 'c) 한국어/사회통합', ko:'c) 한국어/사회통합', vi:'c) Tiếng Hàn / Hội nhập xã hội', items: [
-                { ko:'KIIP 5단계 (70시간) 수료 또는 영주용 종합평가 합격', vi:'Hoàn thành lớp 5 (70 giờ) chương trình KIIP, hoặc thi đỗ kỳ thi tổng hợp 영주용종합평가' },
-                { ko:'실질적으로 KIIP 완료가 거의 필수이며, 완료 시 소득 기준 완화 등 혜택 제공', vi:'Trên thực tế, việc hoàn thành KIIP gần như là bắt buộc, hoặc mang lại lợi ích lớn như nới lỏng điều kiện thu nhập' }
-              ]},
-              { title: lang==='vi' ? 'd) Lý lịch' : 'd) 품행', ko:'d) 품행', vi:'d) Lý lịch', items: [
-                { ko:'범죄경력 문제 없음, 최근 3년 이내 출입국법 위반 없음', vi:'Không có vấn đề về lý lịch tư pháp, không vi phạm Luật Di trú trong vòng 3 năm gần đây' }
-              ]}
-            ].map((section, idx) => (
-              <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden">
-                <div className="px-4 py-3 bg-blue-50 border-b border-blue-200">
-                  <p className="text-sm font-black text-blue-700">{lang==='vi' ? section.title : section.ko}</p>
-                </div>
-                <div className="p-4 space-y-2">
-                  {section.items.map((item, j) => (
-                    <p key={j} className="text-sm text-gray-700 word-keep leading-relaxed">• {lang==='vi' ? item.vi : item.ko}</p>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  const incomeStandards = [
-    { family: 2, amount: '23,595,948' },
-    { family: 3, amount: '30,152,118' },
-    { family: 4, amount: '36,586,638' },
-    { family: 5, amount: '42,649,152' },
-    { family: 6, amount: '48,388,830' },
-    { family: 7, amount: '53,930,568' },
-  ];
-
-  return (
-    <div style={{ background:'#F0F2F5' }} className="min-h-screen">
-      <BackHeader title={lang==='vi' ? '📋 Điều kiện thẩm định' : '📋 심사 기준'} onBack={onBack} />
-      <div className="max-w-lg mx-auto px-4 py-4 pb-12">
-
-        {/* 주요 기준 */}
-        <div className="space-y-3 mb-6">
-          <div className="bg-white rounded-2xl shadow-sm p-4">
-            <p className="text-sm font-black text-gray-800 mb-2">✅ {lang==='vi' ? 'Tính chân thực của hôn nhân' : '결혼의 진정성'}</p>
-            <p className="text-xs text-gray-600 word-keep">{lang==='vi' ? 'Lịch sử quen biết, ảnh cưới, tin nhắn SNS minh chứng không phải kết hôn giả.' : '연애 기간, 결혼식 사진, SNS 메시지 등으로 가짜 결혼이 아님을 증명합니다.'}</p>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-sm p-4">
-            <p className="text-sm font-black text-gray-800 mb-2">⚖️ {lang==='vi' ? 'Hôn nhân hợp pháp' : '합법적 혼인'}</p>
-            <p className="text-xs text-gray-600 word-keep">{lang==='vi' ? 'Đã hoàn thành đăng ký kết hôn theo đúng luật pháp của cả hai nước.' : '양국 법에 따라 정식으로 혼인신고를 완료해야 합니다.'}</p>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-sm p-4">
-            <p className="text-sm font-black text-gray-800 mb-2">🏠 {lang==='vi' ? 'Điều kiện nhà ở' : '주거 조건'}</p>
-            <p className="text-xs text-gray-600 word-keep">{lang==='vi' ? 'Người bảo lãnh phải có không gian nhà ở ổn định, đủ cho hai vợ chồng sinh sống (thuộc sở hữu hoặc thuê).' : '보증인이 부부가 함께 생활할 수 있는 안정적인 주거공간을 보유해야 합니다 (소유 또는 임차).'}</p>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-sm p-4">
-            <p className="text-sm font-black text-gray-800 mb-2">🗣️ {lang==='vi' ? 'Khả năng giao tiếp' : '의사소통 능력'}</p>
-            <p className="text-xs text-gray-600 word-keep">{lang==='vi' ? 'Người vợ/chồng nước ngoài phải có chứng chỉ TOPIK cấp 1 trở lên, hoàn thành lớp KIIP cấp 2 trở lên, hoặc chứng minh hai người có ngôn ngữ chung (tiếng Anh, tiếng bản địa của bên kia nếu người Hàn đã ở nước đó trên 1 năm).' : '외국인 배우자가 TOPIK 1급 이상, KIIP 2단계 이상 수료증, 또는 공통 언어 증명이 필요합니다 (영어 또는 한국인이 해당 국가에 1년 이상 거주한 경우 해당 언어).'}</p>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-sm p-4">
-            <p className="text-sm font-black text-gray-800 mb-2">🏥 {lang==='vi' ? 'Sức khỏe và Lý lịch tư pháp' : '건강진단 & 범죄경력'}</p>
-            <p className="text-xs text-gray-600 word-keep">{lang==='vi' ? 'Cả hai phải cung cấp phiếu khám sức khỏe và lý lịch tư pháp (bắt buộc đối với tất cả quốc tịch từ ngày 13/4/2023).' : '부부 모두가 건강진단서와 범죄경력증명서를 제출해야 합니다 (모든 국적에 대해 2023년 4월 13일부터 의무화).'}</p>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-sm p-4">
-            <p className="text-sm font-black text-gray-800 mb-2">⏰ {lang==='vi' ? 'Hạn chế số lần mời' : '초청 제한'}</p>
-            <p className="text-xs text-gray-600 word-keep">{lang==='vi' ? 'Người Hàn Quốc không được mời vợ/chồng khác diện F-6 trong vòng 5 năm gần nhất.' : '한국인이 지난 5년 이내에 다른 F-6 배우자를 초청할 수 없습니다.'}</p>
-          </div>
-        </div>
-
-        {/* 소득 기준 */}
-        <div className="mb-6">
-          <div className="px-3 py-2 bg-blue-50 border-l-4 border-blue-600 mb-3 rounded-sm">
-            <p className="text-sm font-black text-blue-700">💰 {lang==='vi' ? 'Tiêu chuẩn thu nhập (Cập nhật 2025)' : '소득 기준 (2025년 기준)'}</p>
-          </div>
-          <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-100 border-b border-gray-200">
-                <tr>
-                  <th className="px-4 py-2 text-left font-black text-gray-700">{lang==='vi' ? 'Quy mô gia đình' : '가족 규모'}</th>
-                  <th className="px-4 py-2 text-right font-black text-gray-700">{lang==='vi' ? 'Mức thu nhập bắt buộc (KRW)' : '최저 소득 기준 (KRW)'}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {incomeStandards.map((std, idx) => (
-                  <tr key={idx} className={idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                    <td className="px-4 py-3 font-medium text-gray-800">
-                      {lang==='vi' ? `Gia đình ${std.family} người` : `${std.family}인 가족`}
-                    </td>
-                    <td className="px-4 py-3 text-right font-black text-blue-600">{std.amount}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mt-3">
-            <p className="text-xs text-amber-700 word-keep">
-              {lang==='vi'
-                ? '(Nếu gia đình từ 8 người trở lên: Mỗi một thành viên cộng thêm sẽ tăng thêm 5,541,738 KRW)'
-                : '(8인 가족 이상: 추가 1인당 5,541,738 KRW 추가)'}
-            </p>
-          </div>
-        </div>
-
-        {/* 예외 사항 */}
-        <div className="bg-green-50 border-l-4 border-green-600 rounded-lg px-4 py-3">
-          <p className="text-sm font-black text-green-700 mb-2">💡 {lang==='vi' ? 'Miễn trừ điều kiện' : '예외 조건'}</p>
-          <p className="text-xs text-green-700 word-keep leading-relaxed">
-            {lang==='vi'
-              ? '💡 Miễn trừ điều kiện thu nhập và giao tiếp: Nếu hai vợ chồng đã có con chung (được khai sinh hợp pháp), các điều kiện về thu nhập, năng lực tiếng Hàn và chương trình hướng dẫn kết hôn quốc tế sẽ được miễn giảm hoàn toàn.'
-              : '💡 소득·한국어 조건 면제: 부부가 혼생 미성년 자녀를 두고 있으면, 소득 기준, 한국어 능력, 국제결혼중매 프로그램 조건이 모두 면제됩니다.'}
-          </p>
-        </div>
-
-      </div>
-    </div>
-  );
-}
-
-/* ================================================================
-   페이지: 필수 서류 준비 (비자별 맞춤)
-================================================================ */
-function DocsChecklistPage({ visaStep, onBack, lang }) {
-  // F-2-7 from D-8 docs page
-  if (visaStep === 'f27_d8') {
-    return (
-      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
-        <BackHeader title={lang==='vi' ? '📋 Danh sách hồ sơ cần thiết' : '📋 필수 서류 준비'} onBack={onBack} />
-        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
-          <div className="bg-white rounded-2xl shadow-sm px-4 py-3 mb-4">
-            <p className="text-xs text-gray-600 word-keep leading-relaxed">{lang==='vi' ? 'Vì gốc của bạn là visa đầu tư D-8, Cục Xuất nhập cảnh sẽ yêu cầu cả giấy tờ cá nhân chứng minh điểm số lẫn giấy tờ chứng minh doanh nghiệp của bạn đang hoạt động hợp pháp:' : 'D-8 기업투자 비자 소유자로서 개인 점수 및 기업 실태 증명 서류 필요'}</p>
-          </div>
-          {[
-            { title: lang==='vi' ? '📂 Giấy tờ cá nhân (Chứng minh điểm số F-2-7)' : '📂 개인 신청 서류 (점수 증명용)', items: [
-              { ko: '통합신청서 + 여권 + 외국인등록증(ARC) 원본', vi: 'Đơn xin chuyển đổi visa, Hộ chiếu, Thẻ đăng ký người nước ngoài (ARC) gốc.' },
-              { ko: '점수표 (자신의 점수 정확히 계산)', vi: 'Bảng tính điểm F-2-7 tự khai (theo mẫu).' },
-              { ko: '학위증명서 (해외 학위는 영사 인증 또는 아포스티유 필수)', vi: 'Bằng tốt nghiệp Đại học/Thạc sĩ/Tiến sĩ (nếu bằng nước ngoài phải hợp pháp hóa lãnh sự hoặc có chứng nhận Apostille).' },
-              { ko: '한국어 능력 증명 (TOPIK 또는 KIIP 수료증)', vi: 'Chứng chỉ tiếng Hàn (TOPIK) hoặc Giấy chứng nhận hoàn thành chương trình Hội nhập xã hội (KIIP).' },
-              { ko: '소득금액증명원 (국세청 발급 - 최근 연도)', vi: 'Giấy chứng nhận thu nhập (소득금액증명원) của bạn do Cục thuế cấp cho năm gần nhất.' },
-              { ko: '범죄경력증명서 (베트남 발급, 영사 인증 완료)', vi: 'Lý lịch tư pháp số 2 từ Việt Nam (đã hợp pháp hóa lãnh sự).' },
-            ] },
-            { title: lang==='vi' ? '📂 Giấy tờ doanh nghiệp D-8 (Chứng minh tư cách gốc)' : '📂 기업 실태 증명 서류 (D-8 자격 유지 증명용)', items: [
-              { ko: '사업자등록증 (사업자번호 및 등록 상태 확인)', vi: 'Giấy đăng ký kinh doanh của công ty (사업자등록증).' },
-              { ko: '외국인투자기업등록증 (D-8 기업임을 증명)', vi: 'Giấy chứng nhận doanh nghiệp đầu tư nước ngoài (외국인투자기업등록증).' },
-              { ko: '최근 회계감사보고서 또는 재무제표 (회사 실제 운영 증명)', vi: 'Báo cáo tài chính, chứng từ nộp thuế của công ty năm gần nhất (để chứng minh công ty hoạt động thật, không phải công ty "ma" thành lập để mua visa).' },
-              { ko: '사무실 임차계약서 (영업 장소 확인)', vi: 'Hợp đồng thuê văn phòng công ty.' },
-            ] }
-          ].map((sec, i) => (
-            <div key={i} className={`bg-white rounded-2xl shadow-sm overflow-hidden mb-3 fade-in`}>
-              <div className="px-4 py-3 border-b border-gray-100">
-                <p className="text-sm font-black text-gray-800">{sec.title}</p>
-              </div>
-              <div className="p-4 space-y-2">
-                {sec.items.map((item, j) => (
-                  <div key={j} className="flex gap-3">
-                    <span className="text-lg flex-shrink-0">[ ]</span>
-                    <p className="text-sm text-gray-700 word-keep leading-relaxed">{lang==='vi' ? item.vi : item.ko}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  // D-9 docs page
-  if (visaStep === 'd9') {
-    return (
-      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
-        <BackHeader title={lang==='vi' ? '📋 Danh sách hồ sơ cần thiết' : '📋 필수 서류 준비'} onBack={onBack} />
-        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
-          {[
-            { title: lang==='vi' ? '📂 Giấy tờ cá nhân' : '📂 개인 서류', items: [
-              { ko: '통합신청서 (비자 신청서 양식) + 여권 + 외국인등록증(ARC) 사본 (있는 경우)', vi: 'Đơn xin cấp visa (theo mẫu), Hộ chiếu, Thẻ đăng ký người nước ngoài (ARC) nếu có.' },
-              { ko: '증명사진 1장 (3.5cm x 4.5cm 흰색 배경)', vi: '1 Ảnh thẻ nền trắng (3.5cm x 4.5cm).' },
-              { ko: '학위증명서 + 자력경력서(CV) - 무역 경험 증명', vi: 'Giấy tờ chứng minh học vấn, lý lịch trích ngang (CV) chứng minh kinh nghiệm làm thương mại.' },
-              { ko: '범죄경력증명서 (베트남 발급, 영사 인증 완료)', vi: 'Lý lịch tư pháp số 2 (Việt Nam) đã hợp pháp hóa lãnh sự.' },
-            ] },
-            { title: lang==='vi' ? '📂 Giấy tờ chứng minh nguồn vốn đầu tư (Cực kỳ quan trọng)' : '📂 투자 자금 증명 (매우 중요)', items: [
-              { ko: '자금 출처 상세 설명 (100 triệu KRW가 청정 자금임을 입증)', vi: 'Báo cáo chi tiết về nguồn gốc dòng vốn (chứng minh số tiền 100 triệu KRW là tiền sạch, hợp pháp).' },
-              { ko: '국제 송금 확인서 (베트남에서 한국으로 송금한 증명)', vi: 'Giấy chứng nhận chuyển tiền quốc tế từ Việt Nam sang Hàn Quốc (외화매입증명서).' },
-              { ko: '외국인 투자 신고서', vi: 'Thông báo khai báo đầu tư nước ngoài.' },
-            ] },
-            { title: lang==='vi' ? '📂 Giấy tờ doanh nghiệp tại Hàn Quốc' : '📂 한국 내 사업 관련 서류', items: [
-              { ko: '사업자등록증 + 법인등기부등본 (법인인 경우)', vi: 'Giấy đăng ký kinh doanh của công ty (사업자등록증).' },
-              { ko: '외국인투자기업등록증', vi: 'Giấy chứng nhận doanh nghiệp đầu tư nước ngoài (외국인투자기업등록증).' },
-              { ko: '최근 회계감사보고서 또는 재무제표 (회사 실제 운영 증명)', vi: 'Báo cáo tài chính, chứng từ nộp thuế của công ty năm gần nhất (để chứng minh công ty hoạt động thật, không phải công ty "ma" thành lập để mua visa).' },
-              { ko: '사무실 임차계약서 (반드시 상업용 사무실, 주거용 불가)', vi: 'Hợp đồng thuê văn phòng công ty.' },
-            ] }
-          ].map((sec, i) => (
-            <div key={i} className={`bg-white rounded-2xl shadow-sm overflow-hidden mb-3 fade-in`}>
-              <div className="px-4 py-3 border-b border-gray-100">
-                <p className="text-sm font-black text-gray-800">{sec.title}</p>
-              </div>
-              <div className="p-4 space-y-2">
-                {sec.items.map((item, j) => (
-                  <div key={j} className="flex gap-3">
-                    <span className="text-lg flex-shrink-0">[ ]</span>
-                    <p className="text-sm text-gray-700 word-keep leading-relaxed">{lang==='vi' ? item.vi : item.ko}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  // D-8 docs page
-  if (visaStep === 'd8') {
-    return (
-      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
-        <BackHeader title="📋 Hồ sơ xin D-8" onBack={onBack} />
-        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
-          <div className="bg-white rounded-2xl shadow-sm px-4 py-3 mb-4">
-            <p className="text-xs text-gray-600 word-keep leading-relaxed">Hồ sơ xin visa D-8 được chia làm 3 nhóm chứng minh riêng biệt theo hạng mục:</p>
-          </div>
-          {[
-            { title: '📂 1. Hồ sơ pháp nhân và cơ sở kinh doanh tại Hàn Quốc', items: ['Giấy đăng ký kinh doanh (사업자등록증): Do Cục Thuế Hàn Quốc cấp.', 'Giấy chứng nhận đăng ký pháp nhân (법인등기부등본): Nếu bạn thành lập công ty theo mô hình Tập đoàn/Công ty cổ phần/TNHH (법인).', 'Giấy chứng nhận doanh nghiệp đầu tư nước ngoài (외국인투자기업등록증): Đây là giấy tờ đặc chủng do ngân hàng hoặc cơ quan KOTRA cấp sau khi dòng tiền đầu tư của bạn được xác nhận hợp lệ.', 'Danh sách cổ đông (주주명부): Chứng minh bạn nắm giữ ≥10% cổ phần công ty.', 'Hợp đồng thuê văn phòng/mặt bằng kinh doanh: Phải đứng tên công ty/pháp nhân.', 'Hình ảnh thực tế: Ảnh chụp toàn cảnh mặt tiền (có biển hiệu công ty), không gian làm việc bên trong, máy móc thiết bị.'] },
-            { title: '📂 2. Hồ sơ chứng minh dòng tiền "Sạch" (Trọng tâm xét duyệt)', items: ['Giấy báo có của ngân hàng tại Hàn Quốc: Xác nhận đã nhận tiền từ nước ngoài chuyển về dưới dạng "Vốn đầu tư trực tiếp nước ngoài" (FDI).', 'Giấy xác nhận hoán đổi ngoại tệ (외환매입증명서): Chứng từ ngân hàng chuyển đổi tiền USD hoặc ngoại tệ khác sang tiền Won (KRW).', 'Chứng từ từ phía Việt Nam: Sao kê tài khoản ngân hàng chuyển tiền đi, tờ khai hải quan (nếu mang tiền mặt qua sân bay hợp pháp).'] },
-            { title: '📂 3. Hồ sơ cá nhân của nhà đầu tư', items: ['Đơn xin cấp visa tổng hợp (통합신청서) kèm ảnh thẻ nền trắng 3.5cm x 4.5cm.', 'Hộ chiếu gốc và Thẻ ARC hiện tại (nếu có).', 'Bản kế hoạch kinh doanh (사업계획서): Bản thuyết minh bằng tiếng Hàn chi tiết về lộ trình kinh doanh, dự toán thu chi, phương án marketing và kế hoạch nhân sự.', 'Phiếu lý lịch tư pháp số 2: Được dịch thuật công chứng tiếng Hàn và Hợp pháp hóa lãnh sự tại Đại sứ quán.'] }
-          ].map((sec, i) => (
-            <div key={i} className={`bg-white rounded-2xl shadow-sm overflow-hidden mb-3 fade-in`}>
-              <div className="px-4 py-3 border-b border-gray-100">
-                <p className="text-sm font-black text-gray-800">{sec.title}</p>
-              </div>
-              <div className="p-4 space-y-2">
-                {sec.items.map((item, j) => (
-                  <div key={j} className="flex gap-3">
-                    <span className="text-lg flex-shrink-0">[ ]</span>
-                    <p className="text-sm text-gray-700 word-keep leading-relaxed">{item}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  // F-5-2 Naturalization docs page
-  if (visaStep === 'f5_marriage_naturalization') {
-    return (
-      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
-        <BackHeader title="📋 Hồ sơ nhập tịch từ F-5-2" onBack={onBack} />
-        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
-          <div className="bg-white rounded-2xl shadow-sm px-4 py-3 mb-4">
-            <p className="text-xs text-gray-600 word-keep leading-relaxed">F-5-2 từ nhập tịch kết hôn (혼인귀화) được chuẩn bị theo 3 nhóm tài liệu chính. Lưu ý: Bạn đã chứng minh tài chính khi xin F-5-2 nên diện này chỉ cần 30 triệu won tài sản đơn giản hơn:</p>
-          </div>
-          {[
-            { title: '📂 A. Hồ sơ phía Bạn (Người nộp đơn)', items: ['Đơn xin nhập quốc tịch (귀화허가신청서): Điền theo mẫu của Bộ Tư pháp, dán kèm 1 ảnh thẻ nền trắng (3.5cm x 4.5cm).', 'Hộ chiếu Việt Nam (Bản gốc): Còn hạn.', 'Thẻ cư trú vĩnh viễn F-5-2 (Bản gốc).', 'Bằng chứng nhận đỗ kỳ thi tổng hợp KIIP Lớp 5 (귀화용/영주용): Lưu ý: Nếu đã thi Nhập tịch (귀화용) và đạt ≥60/100, chỉ cần nộp bằng cũ. Nếu chỉ thi Vĩnh trú (영주용), phải đăng ký thi bổ sung.', 'Phiếu Lý lịch tư pháp số 2 (Bản gốc từ Việt Nam): Cấp trong 3 tháng gần nhất, dịch thuật & hợp pháp hóa lãnh sự đầy đủ.'] },
-            { title: '📂 B. Hồ sơ phía Chồng Hàn Quốc (Chi tiết - 상세)', items: ['Giấy chứng nhận quan hệ hôn nhân chi tiết (혼인관계증명서 - 상세).', 'Giấy chứng nhận quan hệ gia đình chi tiết (가족관계증명서 - 상세).', 'Bản sao Hộ khẩu gia đình (주민등록등본) chứng minh hai vợ chồng cùng chung hộ khẩu.', 'Bản sao Căn cước công dân của chồng.', 'Nếu có con chung: Nộp thêm Giấy chứng nhận quan hệ gia đình và căn cước/khai sinh của con để ưu tiên duyệt nhanh.'] },
-            { title: '📂 C. Hồ sơ Năng lực Tài chính (Đơn giản hơn F-5)', items: ['Vì bạn đã chứng minh 100% GNI để đạt F-5-2, lúc này chỉ cần chứng minh ≥30 triệu won:', 'Hợp đồng thuê nhà (Jeonse/Wolse) hoặc Giấy chứng nhận sở hữu nhà đất đứng tên vợ/chồng.', 'Giấy xác nhận số dư tài khoản ngân hàng hoặc sổ tiết kiệm liên tục ≥30 triệu won.', 'Giấy chứng nhận việc làm (재직증명서) & Giấy chứng nhận thu nhập thuế (소득금액증명원).'] },
-            { title: '⚠️ Lưu ý quan trọng', items: ['Lệ phí: 300.000 KRW/hồ sơ', 'Tuyệt đối không nợ thuế: Cục quét hệ thống thuế kỹ. Nợ dù 1 khoản nhỏ = bị trượt.', 'Giữ F-5-2: Trong quá trình chờ kết quả, vẫn là F-5-2 nên phải tuân thủ quy tắc 2 năm xuất nhập cảnh. Nếu ở nước ngoài quá 2 năm, F-5-2 và hồ sơ nhập tịch đều bị hủy.'], isDanger: true }
-          ].map((sec, i) => (
-            <div key={i} className={`bg-white rounded-2xl shadow-sm overflow-hidden mb-3 fade-in ${sec.isDanger ? 'border-l-4 border-red-600' : ''}`}>
-              <div className="px-4 py-3 border-b border-gray-100">
-                <p className="text-sm font-black text-gray-800">{sec.title}</p>
-              </div>
-              <div className="p-4 space-y-2">
-                {sec.items.map((item, j) => (
-                  <div key={j} className="flex gap-3">
-                    <span className="text-lg flex-shrink-0">[ ]</span>
-                    <p className="text-sm text-gray-700 word-keep leading-relaxed">{item}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  // Naturalization docs page
-  if (visaStep === 'naturalization') {
-    return (
-      <div style={{ background:'#F0F2F5' }} className="min-h-screen">
-        <BackHeader title="📋 Hồ sơ nhập tịch Hàn Quốc" onBack={onBack} />
-        <div className="max-w-lg mx-auto px-4 py-4 pb-12">
-          <div className="bg-white rounded-2xl shadow-sm px-4 py-3 mb-4">
-            <p className="text-xs text-gray-600 word-keep leading-relaxed">Để chuẩn bị hồ sơ nhập tịch Hàn Quốc, đối với diện Nhập tịch đơn giản (간이귀화) dành cho cô dâu cư trú theo diện Hôn nhân kết hôn (Visa F-6), bộ hồ sơ chuẩn chỉnh và đầy đủ nhất bao gồm các đầu mục giấy tờ được chia làm 3 nhóm chính dưới đây:</p>
-          </div>
-          {[
-            { title: '📂 1. Hồ sơ phía Bạn (Người nước ngoài chuẩn bị)', items: ['Đơn xin nhập quốc tịch (귀화허가신청서): Điền đầy đủ thông tin theo mẫu, dán kèm 1 ảnh thẻ nền trắng (3.5cm x 4.5cm, chụp trong 6 tháng gần nhất)', 'Hộ chiếu Việt Nam (Bản gốc): Còn thời hạn lưu trú hợp pháp', 'Thẻ đăng ký người nước ngoài (ARC gốc): Diện visa F-6 còn hạn', 'Phiếu Lý lịch tư pháp số 2 (Bản gốc từ Việt Nam): Xác nhận không có tiền án, bắt buộc dịch thuật công chứng tiếng Hàn', 'Bằng chứng nhận đỗ kỳ thi tổng hợp KIIP Lớp 5 (귀화용 종합평가 합격증): Giấy chứng nhận ≥60/100 điểm để được miễn kỳ thi viết'] },
-            { title: '📂 2. Hồ sơ phía Chồng Hàn Quốc (Người bảo lãnh chuẩn bị)', items: ['Giấy chứng nhận quan hệ hôn nhân chi tiết (혼인관계증명서 - 상세): Thể hiện rõ lịch sử kết hôn', 'Giấy chứng nhận quan hệ gia đình chi tiết (가족관계증명서 - 상세): Liệt kê các thành viên gia đình', 'Bản sao Hộ khẩu gia đình (주민등록등본): Chứng minh thực sự sống chung', 'Bản sao Căn cước công dân của chồng (주민등록증 사본)', 'Nếu có con chung: Giấy chứng nhận quan hệ gia đình của con và bản sao căn cước/khai sinh để hồ sơ được ưu tiên xét duyệt'] },
-            { title: '📂 3. Hồ sơ Chứng minh năng lực Kinh tế (Tài chính)', items: ['Phương án bất động sản: Bản sao Hợp đồng thuê nhà (Jeonse/Wolse) ≥30 triệu won HOẶC Giấy chứng nhận quyền sở hữu bất động sản', 'Phương án tài chính: Giấy xác nhận số dư tài khoản ngân hàng (잔액증명서) liên tục ≥30 triệu won', 'Phương án công việc: Giấy chứng nhận việc làm (재직증명서) + Giấy chứng nhận thu nhập thuế (소득금액증명원) để chứng minh có nguồn thu nhập ổn định'] },
-            { title: '⚠️ 3 Lưu ý quan trọng khi nộp hồ sơ', items: ['Lệ phí nộp hồ sơ: 300.000 KRW/hồ sơ (nộp bằng tem phiếu tại Cục)', 'Kiểm tra kỹ nợ thuế: Cục sẽ quét hệ thống thuế ngay khi tiếp nhận. Hai vợ chồng tuyệt đối không được nợ bất kỳ khoản thuế nào, nếu không hồ sơ sẽ bị từ chối ngay', 'Duy trì visa gốc: Thời gian chờ xét duyệt có thể kéo dài vài tháng đến >1 năm. Phải gia hạn Visa F-6 khi gần hết hạn để duy trì tư cách cư trú hợp pháp'], isDanger: true }
-          ].map((sec, i) => (
-            <div key={i} className={`bg-white rounded-2xl shadow-sm overflow-hidden mb-3 fade-in ${sec.isDanger ? 'border-l-4 border-red-600' : ''}`}>
-              <div className="px-4 py-3 border-b border-gray-100">
-                <p className="text-sm font-black text-gray-800">{sec.title}</p>
-              </div>
-              <div className="p-4 space-y-2">
-                {sec.items.map((item, j) => (
-                  <div key={j} className="flex gap-3">
-                    <span className="text-lg flex-shrink-0">[ ]</span>
-                    <p className="text-sm text-gray-700 word-keep leading-relaxed">{item}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  const [checkedDocs, setCheckedDocs] = useState({});
-
-  const requiredIds = REQUIRED_DOCS_BY_VISA[visaStep] || [];
-  const additionalIds = ADDITIONAL_DOCS_BY_VISA[visaStep] || [];
-
-  const requiredDocs = requiredIds.map(id => DOCS.find(d => d.id === id)).filter(Boolean);
-  const additionalDocs = additionalIds.map(id => DOCS.find(d => d.id === id)).filter(Boolean);
-
-  const handleToggle = (id) => {
-    setCheckedDocs(prev => ({ ...prev, [id]: !prev[id] }));
-  };
-
-  const DocCard = ({ doc, idx, isAdditional }) => (
-    <div className="bg-white rounded-2xl shadow-sm overflow-hidden fade-in">
-      <div className="px-4 py-3">
-        <div className="flex items-center gap-2 flex-wrap mb-1">
-          <span className="text-lg font-black text-gray-600 w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">{idx + 1}</span>
-          <p className="text-sm font-black text-gray-800">{lang==='vi' ? doc.vi_name : doc.name}</p>
-          {isAdditional && <span className="text-[9px] font-black bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">권장</span>}
-        </div>
-        {(doc.desc || doc.vi_desc) && (
-          <p className="text-xs text-gray-500 word-keep pl-8">{lang==='vi' ? doc.vi_desc : doc.desc}</p>
-        )}
-      </div>
-    </div>
-  );
-
-  return (
-    <div style={{ background:'#F0F2F5' }} className="min-h-screen">
-      <BackHeader title={lang==='vi' ? '📋 Danh sách hồ sơ cần thiết' : '📋 필수 서류 준비'} onBack={onBack} />
-      <div className="max-w-lg mx-auto px-4 py-4 pb-12">
-
-        {/* D-10, E-7-1, E-7-4, F-2-7, F-5, F-6 특별 처리: 변경/연장 섹션 */}
-        {(visaStep === 'd10' || visaStep === 'e71' || visaStep === 'e74' || visaStep === 'f27' || visaStep === 'f27_e71' || visaStep === 'f5' || visaStep === 'f5_veteran' || visaStep === 'f5_marriage' || visaStep === 'f6') && VISA_GUIDE_DATA[visaStep]?.docs && (
-          <>
-            {/* F-6, F-5-2: 섹션 기반 문서 */}
-            {(visaStep === 'f6' || visaStep === 'f5_marriage') && VISA_GUIDE_DATA[visaStep].docs.change_sections && (
-              <div className="space-y-4">
-                {VISA_GUIDE_DATA[visaStep].docs.change_sections.map((section, idx) => (
-                  <div key={idx} className="mb-5">
-                    <div className="px-3 py-2 bg-blue-50 border-l-4 border-blue-600 mb-3 rounded-sm">
-                      <p className="text-sm font-black text-blue-700">{lang==='vi' ? section.title.vi : section.title.ko}</p>
-                    </div>
-                    <div className="bg-white rounded-2xl shadow-sm p-4">
-                      <p className="text-sm text-gray-700 word-keep leading-relaxed whitespace-pre-wrap">{lang==='vi' ? section.content.vi : section.content.ko}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* 다른 비자: 기존 방식 */}
-            {visaStep !== 'f6' && VISA_GUIDE_DATA[visaStep].docs.change && (
-              <div className="mb-6">
-                <div className="px-3 py-2 bg-green-50 border-l-4 border-green-600 mb-3 rounded-sm">
-                  <p className="text-sm font-black text-green-700">🔄 {lang==='vi' ? (visaStep === 'd10' ? 'Đổi visa (D-2 → D-10)' : visaStep === 'e71' ? 'Đổi visa (D-10 → E-7-1)' : visaStep === 'e74' ? 'Đổi visa (E-9 → E-7-4)' : visaStep.startsWith('f5') ? 'Cấp thẻ vĩnh trú (F-5)' : 'Đổi visa sang F-2-7') : (visaStep === 'd10' ? '비자 변경 (D-2 → D-10)' : visaStep === 'e71' ? '비자 변경 (D-10 → E-7-1)' : visaStep === 'e74' ? 'E-7-4 비자 변경' : visaStep.startsWith('f5') ? 'F-5 영주권 신청' : 'F-2-7 비자 변경')} ({VISA_GUIDE_DATA[visaStep].docs.change.length})</p>
-                </div>
-                <div className="space-y-2">
-                  {VISA_GUIDE_DATA[visaStep].docs.change.map((doc, idx) => (
-                    <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden fade-in">
-                      <div className="px-4 py-3">
-                        <div className="flex items-center gap-2 flex-wrap mb-1">
-                          <span className="text-lg font-black text-gray-600 w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">{idx + 1}</span>
-                          <p className="text-sm font-black text-gray-800">{lang==='vi' ? doc.vi : doc.ko}</p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* 비자 연장 */}
-            {VISA_GUIDE_DATA[visaStep].docs.extension && (
-              <div className="mb-6">
-                <div className="px-3 py-2 bg-blue-50 border-l-4 border-blue-600 mb-3 rounded-sm">
-                  <p className="text-sm font-black text-blue-700">🔁 {lang==='vi' ? (visaStep === 'd10' ? 'Gia hạn visa (D-10)' : visaStep === 'e71' ? 'Gia hạn visa (E-7-1)' : visaStep === 'e74' ? 'Gia hạn visa (E-7-4)' : visaStep.startsWith('f5') ? 'Gia hạn thẻ vĩnh trú (F-5)' : 'Gia hạn visa F-2-7') : (visaStep === 'd10' ? '비자 연장 (D-10)' : visaStep === 'e71' ? '비자 연장 (E-7-1)' : visaStep === 'e74' ? 'E-7-4 비자 연장' : visaStep.startsWith('f5') ? 'F-5 영주증 갱신' : 'F-2-7 비자 연장')} ({VISA_GUIDE_DATA[visaStep].docs.extension.length})</p>
-                </div>
-                <div className="space-y-2">
-                  {VISA_GUIDE_DATA[visaStep].docs.extension.map((doc, idx) => (
-                    <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden fade-in">
-                      <div className="px-4 py-3">
-                        <div className="flex items-center gap-2 flex-wrap mb-1">
-                          <span className="text-lg font-black text-gray-600 w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">{idx + 1}</span>
-                          <p className="text-sm font-black text-gray-800">{lang==='vi' ? doc.vi : doc.ko}</p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </>
-        )}
-
-        {/* E-9 특별 설명 */}
-        {visaStep === 'e9' && VISA_GUIDE_DATA['e9']?.docs?.description && (
-          <div className="mb-6 px-6 py-6 bg-yellow-50 border-l-4 border-yellow-600 rounded-lg">
-            <p className="text-base text-gray-800 word-keep leading-relaxed font-medium">{lang==='vi' ? VISA_GUIDE_DATA['e9'].docs.description.vi : VISA_GUIDE_DATA['e9'].docs.description.ko}</p>
-          </div>
-        )}
-
-        {/* 다른 비자: 기존 방식 */}
-        {visaStep !== 'd10' && visaStep !== 'e71' && visaStep !== 'e74' && visaStep !== 'f27' && visaStep !== 'f27_e71' && visaStep !== 'f5' && visaStep !== 'f5_veteran' && visaStep !== 'f5_marriage' && visaStep !== 'e9' && (
-          <>
-            {/* ── 필수 서류 섹션 ── */}
-            {requiredDocs.length > 0 && (
-              <div className="mb-6">
-                <div className="px-3 py-2 bg-red-50 border-l-4 border-red-600 mb-3 rounded-sm">
-                  <p className="text-sm font-black text-red-700">🔴 {lang==='vi' ? 'Danh sách hồ sơ cần thiết' : '필수 서류 준비'} ({requiredDocs.length})</p>
-                </div>
-                <div className="space-y-2">
-                  {requiredDocs.map((doc, idx) => <DocCard key={idx} doc={doc} idx={idx} isAdditional={false} />)}
-                </div>
-              </div>
-            )}
-
-            {/* ── 권장 서류 섹션 ── */}
-            {additionalDocs.length > 0 && (
-              <div className="mb-6">
-                <div className="px-3 py-2 bg-blue-50 border-l-4 border-blue-600 mb-3 rounded-sm">
-                  <p className="text-sm font-black text-blue-700">🔵 {lang==='vi' ? 'Danh sách hồ sơ được khuyến cáo' : '권장 서류 준비'} ({additionalDocs.length})</p>
-                </div>
-                <div className="space-y-2">
-                  {additionalDocs.map((doc, idx) => <DocCard key={idx} doc={doc} idx={idx} isAdditional={true} />)}
-                </div>
-              </div>
-            )}
-
-            {/* 비어있는 경우 */}
-            {requiredDocs.length === 0 && additionalDocs.length === 0 && (
-              <div className="bg-white rounded-2xl shadow-sm p-8 text-center text-gray-400">
-                {lang==='vi' ? 'Không cần hồ sơ' : '서류가 필요하지 않습니다'}
-              </div>
-            )}
-          </>
-        )}
-
-        {/* 안내 메시지 */}
-        <div className="bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 mt-6 fade-in">
-          <p className="text-xs text-amber-700 word-keep">
-            {lang==='vi'
-              ? '⚠️ Mỗi Cục XNC có thể yêu cầu thêm hồ sơ. Hãy gọi điện xác nhận trước khi đến.'
-              : '⚠️ 관할 출입국마다 추가 서류를 요구할 수 있습니다. 방문 전 반드시 전화로 확인하세요.'}
-          </p>
-        </div>
-
-      </div>
-    </div>
-  );
-}
-
-/* ================================================================
-   한국 행정구역 데이터
-================================================================ */
-const KOREA_REGIONS = {
-  '서울특별시':['강남구','강동구','강북구','강서구','관악구','광진구','구로구','금천구','노원구','도봉구','동대문구','동작구','마포구','서대문구','서초구','성동구','성북구','송파구','양천구','영등포구','용산구','은평구','종로구','중구','중랑구'],
-  '부산광역시':['강서구','금정구','기장군','남구','동구','동래구','부산진구','북구','사상구','사하구','서구','수영구','연제구','영도구','중구','해운대구'],
-  '인천광역시':['강화군','계양구','남동구','동구','미추홀구','부평구','서구','연수구','옹진군','중구'],
-  '대구광역시':['달성군','남구','달서구','동구','북구','서구','수성구','중구'],
-  '광주광역시':['광산구','남구','동구','북구','서구'],
-  '대전광역시':['대덕구','동구','서구','유성구','중구'],
-  '울산광역시':['울주군','남구','동구','북구','중구'],
-  '세종특별자치시':['조치원읍','금남면','부강면','연동면','연서면','전의면','전동면','소정면','나성동','다정동','도담동','반곡동','새롬동','소담동','아름동','어진동','종촌동','한솔동','고운동','보람동','대평동','가람동','해밀동'],
-  '경기도':['가평군','고양시 덕양구','고양시 일산동구','고양시 일산서구','과천시','광명시','광주시','구리시','군포시','김포시','남양주시','동두천시','부천시','성남시 분당구','성남시 수정구','성남시 중원구','수원시 권선구','수원시 영통구','수원시 장안구','수원시 팔달구','시흥시','안산시 단원구','안산시 상록구','안성시','안양시 동안구','안양시 만안구','양주시','양평군','여주시','연천군','오산시','용인시 기흥구','용인시 수지구','용인시 처인구','의왕시','의정부시','이천시','파주시','평택시','포천시','하남시','화성시'],
-  '강원도':['강릉시','고성군','동해시','삼척시','속초시','양구군','양양군','영월군','원주시','인제군','정선군','철원군','춘천시','태백시','평창군','홍천군','화천군','횡성군'],
-  '충청북도':['괴산군','단양군','보은군','영동군','옥천군','음성군','제천시','증평군','진천군','청주시 상당구','청주시 서원구','청주시 청원구','청주시 흥덕구','충주시'],
-  '충청남도':['계룡시','공주시','금산군','논산시','당진시','보령시','부여군','서산시','서천군','아산시','예산군','천안시 동남구','천안시 서북구','청양군','태안군','홍성군'],
-  '전라북도':['고창군','군산시','김제시','남원시','무주군','부안군','순창군','완주군','익산시','임실군','장수군','전주시 덕진구','전주시 완산구','정읍시','진안군'],
-  '전라남도':['강진군','고흥군','곡성군','광양시','구례군','나주시','담양군','목포시','무안군','보성군','순천시','신안군','여수시','영광군','영암군','완도군','장성군','장흥군','진도군','함평군','해남군','화순군'],
-  '경상북도':['경산시','경주시','고령군','구미시','군위군','김천시','문경시','봉화군','상주시','성주군','안동시','영덕군','영양군','영주시','영천시','예천군','울릉군','울진군','의성군','청도군','청송군','칠곡군','포항시 남구','포항시 북구'],
-  '경상남도':['거제시','거창군','고성군','김해시','남해군','밀양시','사천시','산청군','양산시','의령군','진주시','창녕군','창원시 마산합포구','창원시 마산회원구','창원시 성산구','창원시 의창구','창원시 진해구','통영시','하동군','함안군','함양군','합천군'],
-  '제주특별자치도':['서귀포시','제주시'],
-};
-
-const LOCATION_CATS = ['travel', 'market', 'house', 'info', 'jobs']; // 지역 선택이 필요한 카테고리
-
-/* 시/도 축약 표시 */
-const SIDO_SHORT = {
-  '서울특별시':'서울',  '부산광역시':'부산',  '인천광역시':'인천',
-  '대구광역시':'대구',  '광주광역시':'광주',  '대전광역시':'대전',
-  '울산광역시':'울산',  '세종특별자치시':'세종', '경기도':'경기',
-  '강원도':'강원',     '충청북도':'충북',   '충청남도':'충남',
-  '전라북도':'전북',   '전라남도':'전남',   '경상북도':'경북',
-  '경상남도':'경남',   '제주특별자치도':'제주',
-};
-
-/* 위치 한 줄 텍스트: 시도축약 + 구군 (+ 동 있으면) */
-function fmtLocation(loc) {
-  if (!loc?.sido) return '';
-  return `${SIDO_SHORT[loc.sido] || loc.sido} ${loc.sigungu}`;
-}
-
-/* ── 이미지 압축 유틸 (Canvas, max 800px, quality 0.72) ── */
-function compressImage(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onerror = reject;
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onerror = reject;
-      img.onload = () => {
-        const MAX = 800;
-        let w = img.width, h = img.height;
-        if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
-        if (h > MAX) { w = Math.round(w * MAX / h); h = MAX; }
-        const canvas = document.createElement('canvas');
-        canvas.width = w; canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        resolve(canvas.toDataURL('image/jpeg', 0.72));
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
-/* ================================================================
-   페이지: 글쓰기
-================================================================ */
-const CAT_OPTS = [
-  { v:'hall',   e:'🏆', label:'합격 명예의 전당', desc:'합격 인증, 점수 스펙 공유',  sel:'border-yellow-300 bg-yellow-50', t:'text-yellow-700', d:'text-yellow-500' },
-  { v:'sos',    e:'🚨', label:'비자 119 SOS',     desc:'긴급 서류·절차 질문',        sel:'border-red-300 bg-red-50',       t:'text-red-700',    d:'text-red-500' },
-  { v:'talk',   e:'💬', label:'출입국 참교육방',  desc:'반려·실패담, 출입국 썰',      sel:'border-orange-300 bg-orange-50', t:'text-orange-700', d:'text-orange-500' },
-  { v:'bamboo', e:'🤫', label:'대나무숲 완전 익명', desc:'익명으로 자유롭게 대화',    sel:'border-orange-300 bg-orange-50', t:'text-orange-700', d:'text-orange-500' },
-];
-
-const CAT_LABELS_VI = {
-  hall:   { vi:'Bảng Vàng',           desc_vi:'Chia sẻ kết quả đậu' },
-  sos:    { vi:'Cứu Trợ Khẩn Cấp',   desc_vi:'Câu hỏi khẩn về hồ sơ/thủ tục' },
-  talk:   { vi:'Kinh nghiệm Thực tế', desc_vi:'Trải nghiệm bị từ chối' },
-  bamboo: { vi:'Rừng Tre Ẩn Danh',   desc_vi:'Nói chuyện ẩn danh tự do' },
-};
-
-/* ── 관리자 페이지 ── */
-function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [password, setPassword] = useState('');
-  const [notices, setNotices] = useState(() => loadNotices());
-  const [hotline, setHotline] = useState(localStorage.getItem('hotline') || '🔥 최신 공지를 확인하세요!');
-  const [boardNoticesByCategory, setBoardNoticesByCategory] = useState(() => loadBoardNoticesByCat());
-  const [selectedBoardForNotices, setSelectedBoardForNotices] = useState('market');
-  const [selectedBoardForPosts, setSelectedBoardForPosts] = useState('market');
-  const [noticeForm, setNoticeForm] = useState({ ko:'', vi:'', date:'' });
-  const [isAddingNotice, setIsAddingNotice] = useState(false);
-  const [boardNoticeForm, setBoardNoticeForm] = useState({ title:'', title_vi:'' });
-  const [isAddingBoardNotice, setIsAddingBoardNotice] = useState(false);
-
-  const handleLogin = () => {
-    if (password === '88888888') {
-      setIsAuthenticated(true);
-      setPassword('');
-    } else {
-      alert('비밀번호가 틀렸습니다!');
-      setPassword('');
-    }
-  };
-
-  const handleHotlineUpdate = () => {
-    localStorage.setItem('hotline', hotline);
-    alert('✅ 실시간 핫라인이 업데이트되었습니다!');
-  };
-
-  if (!isAuthenticated) {
-    return (
-      <div style={{background:'#F5F6F8', minHeight:'100vh'}} className="flex items-center justify-center">
-        <div className="bg-white rounded-lg p-8 w-full max-w-sm mx-4 text-center">
-          <p className="text-2xl mb-4">🔐</p>
-          <p className="font-black text-gray-800 mb-6">관리자 인증</p>
-          <input
-            type="password"
-            placeholder="비밀번호"
-            value={password}
-            onChange={(e)=>setPassword(e.target.value)}
-            onKeyPress={(e)=>e.key==='Enter' && handleLogin()}
-            className="w-full border-2 border-gray-300 rounded p-3 mb-4 text-center font-bold"
-            autoFocus
-          />
-          <button onClick={handleLogin} className="w-full bg-blue-600 text-white py-3 rounded font-bold">입장</button>
-        </div>
-      </div>
-    );
-  }
-
-  const handleAddNotice = () => {
-    if (!noticeForm.ko.trim() && !noticeForm.vi.trim()) return;
-    const newNotice = {
-      id: Math.max(...notices.map(n => n.id), 0) + 1,
-      ko: noticeForm.ko,
-      vi: noticeForm.vi,
-    };
-    const updated = [...notices, newNotice];
-    setNotices(updated);
-    saveNotices(updated);
-    setNoticeForm({ ko:'', vi:'', date:'' });
-    setIsAddingNotice(false);
-    alert('✅ 공지가 추가되었습니다!');
-  };
-
-  const handleDeleteNotice = (id) => {
-    const updated = notices.filter(n => n.id !== id);
-    setNotices(updated);
-    saveNotices(updated);
-  };
-
-  const handleAddBoardNotice = () => {
-    if (!boardNoticeForm.title.trim() && !boardNoticeForm.title_vi.trim()) return;
-    const catNotices = boardNoticesByCategory[selectedBoardForNotices] || [];
-    const newNotice = {
-      id: 'b' + (Math.max(...catNotices.map(n => parseInt(n.id.substring(1))||0), 0) + 1),
-      title: boardNoticeForm.title,
-      title_vi: boardNoticeForm.title_vi,
-      date: new Date().toISOString().split('T')[0],
-      views: 0,
-      likes: 0
-    };
-    const updated = { ...boardNoticesByCategory, [selectedBoardForNotices]: [...catNotices, newNotice] };
-    setBoardNoticesByCategory(updated);
-    saveBoardNoticesByCat(updated);
-    setBoardNoticeForm({ title:'', title_vi:'' });
-    setIsAddingBoardNotice(false);
-    alert('✅ 공지가 추가되었습니다!');
-  };
-
-  const handleDeleteBoardNotice = (id) => {
-    const catNotices = boardNoticesByCategory[selectedBoardForNotices] || [];
-    const updated = { ...boardNoticesByCategory, [selectedBoardForNotices]: catNotices.filter(n => n.id !== id) };
-    setBoardNoticesByCategory(updated);
-    saveBoardNoticesByCat(updated);
-  };
-
-  return (
-    <div style={{background:'#F5F6F8', minHeight:'100vh'}}>
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="max-w-4xl mx-auto px-4 h-12 flex items-center">
-          <button onClick={()=>nav({page:'home'})} className="text-gray-500 mr-4">‹</button>
-          <p className="text-sm font-black text-gray-800">📋 관리자</p>
-        </div>
-      </header>
-
-      <div className="max-w-4xl mx-auto px-3 pt-4 pb-6">
-        {/* 통계 */}
-        <div className="grid grid-cols-3 gap-2 mb-4">
-          <div className="bg-blue-500 text-white p-3 rounded-lg text-center">
-            <p className="text-2xl font-black">{posts.length}</p>
-            <p className="text-xs">전체 글</p>
-          </div>
-          <div className="bg-green-500 text-white p-3 rounded-lg text-center">
-            <p className="text-2xl font-black">{notices.length}</p>
-            <p className="text-xs">공지</p>
-          </div>
-          <div className="bg-purple-500 text-white p-3 rounded-lg text-center">
-            <p className="text-2xl font-black">{new Set(posts.map(p=>p.deviceId)).size}</p>
-            <p className="text-xs">활동 사용자</p>
-          </div>
-        </div>
-
-        {/* 🔥 실시간 핫라인 */}
-        <div className="bg-white rounded-lg p-4 mb-4">
-          <p className="font-black text-gray-800 mb-3">🔥 실시간 핫라인</p>
-          <textarea
-            value={hotline}
-            onChange={(e)=>setHotline(e.target.value)}
-            className="w-full border-2 border-gray-300 rounded p-2 text-sm mb-2"
-            rows="2"
-            placeholder="실시간 공지 내용"
-          />
-          <button onClick={handleHotlineUpdate} className="w-full bg-red-600 text-white py-2 rounded font-bold text-sm">📢 업데이트</button>
-        </div>
-
-        {/* ⚡ 실시간 핫 한 줄 전광판 관리 */}
-        <div className="bg-white rounded-lg p-4 mb-4">
-          <p className="font-black text-gray-800 mb-3">⚡ 실시간 핫 한 줄 전광판</p>
-          <p className="text-xs text-gray-500 mb-3">메인화면 노란색 전광판에 즉시 반영됩니다</p>
-
-          <div className="space-y-2 max-h-64 overflow-y-auto mb-3">
-            {notices.map(notice => (
-              <div key={notice.id} className="flex justify-between items-start gap-2 bg-yellow-50 border border-yellow-200 p-2 rounded text-sm">
-                <div className="flex-1">
-                  <p className="font-bold text-gray-800">🔥 {notice.ko}</p>
-                  <p className="text-xs text-gray-600">{notice.vi}</p>
-                </div>
-                <button onClick={()=>handleDeleteNotice(notice.id)} className="text-red-500 font-bold text-xs flex-shrink-0 mt-0.5">삭제</button>
-              </div>
-            ))}
-          </div>
-
-          {!isAddingNotice ? (
-            <button onClick={()=>setIsAddingNotice(true)} className="w-full bg-blue-600 text-white py-2 rounded font-bold text-sm">+ 공지 추가</button>
-          ) : (
-            <div className="space-y-2">
-              <textarea
-                placeholder="한국어 공지"
-                value={noticeForm.ko}
-                onChange={(e)=>setNoticeForm({...noticeForm, ko:e.target.value})}
-                className="w-full border-2 border-gray-300 rounded p-2 text-sm"
-                rows="2"
-              />
-              <textarea
-                placeholder="베트남어 공지"
-                value={noticeForm.vi}
-                onChange={(e)=>setNoticeForm({...noticeForm, vi:e.target.value})}
-                className="w-full border-2 border-gray-300 rounded p-2 text-sm"
-                rows="2"
-              />
-              <div className="flex gap-2">
-                <button onClick={handleAddNotice} className="flex-1 bg-green-600 text-white py-2 rounded font-bold text-sm">저장</button>
-                <button onClick={()=>setIsAddingNotice(false)} className="flex-1 bg-gray-400 text-white py-2 rounded font-bold text-sm">취소</button>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* 📌 게시판 공지사항 관리 */}
-        <div className="bg-white rounded-lg p-4 mb-4">
-          <p className="font-black text-gray-800 mb-3">📌 게시판 공지사항 관리</p>
-
-          <div className="mb-3">
-            <select value={selectedBoardForNotices} onChange={(e)=>setSelectedBoardForNotices(e.target.value)} className="w-full border-2 border-gray-300 rounded p-2 text-sm">
-              <option value="market">🥕 당근마켓 꿀매물</option>
-              <option value="house">🏠 집 구하기 & 쉐어하우스</option>
-              <option value="travel">📸 여행·맛집 소개</option>
-              <option value="hall">🏆 합격 명예의 전당</option>
-              <option value="sos">🚨 비자 119 SOS</option>
-              <option value="bamboo">🤫 대나무숲 완전 익명</option>
-              <option value="horror">👻 무서운 이야기 방</option>
-              <option value="talk">💬 출입국 참교육방</option>
-              <option value="info">📚 한국생활 정보</option>
-              <option value="jobs">💼 지역 일자리 구인&구직</option>
-            </select>
-          </div>
-
-          <div className="space-y-2 max-h-64 overflow-y-auto mb-3">
-            {(boardNoticesByCategory[selectedBoardForNotices] || []).map(notice => (
-              <div key={notice.id} className="flex justify-between items-start gap-2 bg-blue-50 border border-blue-200 p-2 rounded text-sm">
-                <div className="flex-1">
-                  <p className="font-bold text-gray-800">🔔 {notice.title}</p>
-                  <p className="text-xs text-gray-600">{notice.title_vi}</p>
-                </div>
-                <button onClick={()=>handleDeleteBoardNotice(notice.id)} className="text-red-500 font-bold text-xs flex-shrink-0 mt-0.5">삭제</button>
-              </div>
-            ))}
-          </div>
-
-          {!isAddingBoardNotice ? (
-            <button onClick={()=>setIsAddingBoardNotice(true)} className="w-full bg-blue-600 text-white py-2 rounded font-bold text-sm">+ 공지 추가</button>
-          ) : (
-            <div className="space-y-2">
-              <textarea
-                placeholder="한국어 공지"
-                value={boardNoticeForm.title}
-                onChange={(e)=>setBoardNoticeForm({...boardNoticeForm, title:e.target.value})}
-                className="w-full border-2 border-gray-300 rounded p-2 text-sm"
-                rows="2"
-              />
-              <textarea
-                placeholder="베트남어 공지"
-                value={boardNoticeForm.title_vi}
-                onChange={(e)=>setBoardNoticeForm({...boardNoticeForm, title_vi:e.target.value})}
-                className="w-full border-2 border-gray-300 rounded p-2 text-sm"
-                rows="2"
-              />
-              <div className="flex gap-2">
-                <button onClick={handleAddBoardNotice} className="flex-1 bg-green-600 text-white py-2 rounded font-bold text-sm">저장</button>
-                <button onClick={()=>setIsAddingBoardNotice(false)} className="flex-1 bg-gray-400 text-white py-2 rounded font-bold text-sm">취소</button>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* 게시글 관리 */}
-        <div className="bg-white rounded-lg p-4">
-          <p className="font-black text-gray-800 mb-3">📝 최근 글</p>
-
-          <div className="mb-3">
-            <select value={selectedBoardForPosts} onChange={(e)=>setSelectedBoardForPosts(e.target.value)} className="w-full border-2 border-gray-300 rounded p-2 text-sm">
-              <option value="market">🥕 당근마켓 꿀매물</option>
-              <option value="house">🏠 집 구하기 & 쉐어하우스</option>
-              <option value="travel">📸 여행·맛집 소개</option>
-              <option value="hall">🏆 합격 명예의 전당</option>
-              <option value="sos">🚨 비자 119 SOS</option>
-              <option value="bamboo">🤫 대나무숲 완전 익명</option>
-              <option value="horror">👻 무서운 이야기 방</option>
-              <option value="talk">💬 출입국 참교육방</option>
-              <option value="info">📚 한국생활 정보</option>
-              <option value="jobs">💼 지역 일자리 구인&구직</option>
-            </select>
-          </div>
-
-          <div className="space-y-2 max-h-96 overflow-y-auto">
-            {posts.filter(p => p.cat === selectedBoardForPosts && p.isPublic !== false).slice(0, 10).map(post => (
-              <div key={post.id} className="flex justify-between items-start bg-gray-50 border border-gray-200 p-2 rounded text-sm">
-                <div className="flex-1 min-w-0">
-                  <p className="font-bold text-gray-800 truncate">{post.title}</p>
-                  <p className="text-xs text-gray-500">{post.author || '익명'}</p>
-                </div>
-                <button onClick={()=>onDeletePost && onDeletePost(post.id)} className="text-red-500 font-bold text-xs ml-2 flex-shrink-0">삭제</button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function App() {
-  /* 초기 route를 해시에서 파싱 */
-  const [route,    setRoute]    = useState(() => {
-    const hash = window.location.hash.slice(1);
-    if (hash.startsWith('/postDetail/')) {
-      const parts = hash.split('/');
-      if (parts[2] && parts[3]) {
-        return { page:'postDetail', boardKey:parts[2], postId:parts[3] };
-      }
-    } else if (hash.startsWith('/')) {
-      const parts = hash.slice(1).split('/');
-      if (parts[0]) {
-        return { page:parts[0], param:parts[1] || null };
-      }
-    }
-    return { page:'home', param:null };
-  });
-  const [prevRoute, setPrevRoute] = useState({ page:'home', param:null });
-  const [lang,     setLang]     = useState('vi');
-  const { posts, setPosts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId, refreshPosts } = usePosts();
-
-  /* route 변경 시 browser history에 저장 */
-  useEffect(() => {
-    let url = '/';
-    if (route.page === 'postDetail') {
-      url = `#/postDetail/${route.boardKey}/${route.postId}`;
-    } else if (route.page !== 'home') {
-      url = `#/${route.page}/${route.param || ''}`.replace(/\/$/, '');
-    }
-    window.history.pushState(route, '', url);
-  }, [route]);
-
-  /* 페이지 로드 시 해시에서 route 파싱 */
-  useEffect(() => {
-    const hash = window.location.hash.slice(1); // '#' 제거
-    if (!hash) return; // 해시 없으면 기본 페이지로
-
-    if (hash.startsWith('/postDetail/')) {
-      const parts = hash.split('/');
-      if (parts[2] && parts[3]) {
-        setRoute({ page:'postDetail', boardKey:parts[2], postId:parts[3] });
-      }
-    } else if (hash.startsWith('/')) {
-      const parts = hash.slice(1).split('/');
-      if (parts[0]) {
-        setRoute({ page:parts[0], param:parts[1] || null });
-      }
-    }
-  }, []);
-
-  /* 모바일 뒤로가기 처리 */
-  useEffect(() => {
-    const handlePopState = (e) => {
-      if (e.state && e.state.page) {
-        setRoute(e.state);
-      } else {
-        setRoute({ page:'home', param:null });
-      }
-    };
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-
-  function nav(r) {
-    setPrevRoute(route);
-    window.__currentRoute = r; // 최신 route를 window에 저장
-    console.log('🟣 [App nav] 현재 route 저장:', r, '이전 route:', route);
-    setRoute(r);
-
-    // scrollTarget이 지정되면, 해당 요소로 스크롤
-    if (r.scrollTarget) {
-      setTimeout(() => {
-        const target = document.querySelector(`[data-section="${r.scrollTarget}"]`);
-        if (target) {
-          console.log(`✅ ${r.scrollTarget} 섹션으로 스크롤`);
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 200);
-    } else {
-      window.scrollTo({ top:0, behavior:'instant' });
-    }
-  }
-  function goBack() {
-    nav(prevRoute);
-  }
-  function toggleLang() { setLang(l => l === 'vi' ? 'ko' : 'vi'); }
-
-  // App 레벨의 닉네임 변경 함수
-  const handleNicknameSaveApp = async (nickname) => {
-    if (!nickname?.trim()) return;
-
-    try {
-      const deviceId = getDeviceId();
-
-      console.log('🔵 [App] 닉네임 저장 시작:', nickname);
-
-      // 1단계: 새 닉네임 설정
-      window.userNickname = nickname;
-      localStorage.setItem('vb_nickname', nickname);
-      const saved = await NicknameDB.save(deviceId, nickname);
-      console.log('🔵 [App] NicknameDB.save() 완료:', saved);
-
-      // 2단계: 과거 글/댓글 업데이트
-      let updateCount = 0;
-      const updatedPostsList = posts.map(p => {
-        if (p.deviceId === deviceId) {
-          updateCount++;
-          console.log(`✅ 글 업데이트: "${p.title}" → ${nickname}`);
-          const updatedComments = (p.commentsData || []).map(c => c.deviceId === deviceId ? { ...c, author: nickname } : c);
-          return { ...p, author: nickname, commentsData: updatedComments, comments: updatedComments.length };
-        } else {
-          const hasOwnComment = p.commentsData?.some(c => c.deviceId === deviceId);
-          if (hasOwnComment) {
-            console.log(`✅ 댓글 업데이트: "${p.title}"`);
-            const updatedComments = p.commentsData.map(c => c.deviceId === deviceId ? { ...c, author: nickname } : c);
-            return { ...p, commentsData: updatedComments, comments: updatedComments.length };
-          }
-        }
-        return p;
-      });
-
-      console.log('🔵 [App] 총 업데이트:', updateCount);
-
-      // 3단계: React state 업데이트
-      setPosts(updatedPostsList);
-
-      // 4단계: Firebase 저장
-      if (updateCount > 0) {
-        try {
-          const response = await fetch(FIREBASE_POSTS_URL, {
-            method: 'PUT',
-            body: JSON.stringify(updatedPostsList),
-            headers: { 'Content-Type': 'application/json' }
-          });
-          console.log('🔵 [App] Firebase 저장 완료:', response.status);
-        } catch (err) {
-          console.error('❌ Firebase 저장 실패:', err.message);
-        }
-      }
-
-      console.log('✅ [App] 닉네임 변경 완료!');
-      return true;
-    } catch (err) {
-      console.error('❌ [App] 오류:', err);
-      return false;
-    }
-  };
-
-  const shared = { nav, posts, lang, onAddPost:addPost, onDeletePost:deletePost, onUpdatePost:updatePost, onAddComment:addComment, onDeleteComment:deleteComment, onUpdateComment:updateComment, deviceId, onNicknameSave:handleNicknameSaveApp, refreshPosts };
-
-
-  switch (route.page) {
-    case 'checklist':
-      if (route.param==='score_e74') return <ScorePage type='e74' onBack={goBack} lang={lang} />;
-      if (route.param==='score_f27') return <ScorePage type='f27' onBack={goBack} lang={lang} />;
-      if (route.param==='score_f5') return <ScorePage type='f5' onBack={goBack} lang={lang} />;
-      if (route.param==='score') return <ScorePage type='e74' onBack={goBack} lang={lang} />;
-      return null;
-    case 'docs':         return <DocsPage         onBack={goBack} lang={lang} />;
-    case 'docsChecklist': return <DocsChecklistPage visaStep={route.param} onBack={goBack} lang={lang} />;
-    case 'office':       return <OfficePage       onBack={goBack} lang={lang} />;
-    case 'eligibility':  return <EligibilityPage  visaStep={route.param} onBack={goBack} lang={lang} />;
-    case 'assessment':   return <AssessmentCriteriaPage assessmentParam={route.param} onBack={goBack} lang={lang} />;
-    case 'classicBoard': return <ClassicBoardPage boardKey={route.param} {...shared} />;
-    case 'postDetail':   return <PostDetailPage   boardKey={route.boardKey} postId={route.postId} {...shared} />;
-    case 'visaHub':      return <VisaHubPage      nav={nav} lang={lang} posts={posts} />;
-    case 'write':        return <WritePage        initCat={route.param}  editPost={route.editPost} route={route} {...shared} />;
-    case 'admin':        return <AdminPage        nav={nav} posts={posts} {...shared} />;
-    default:             return <HomePage         {...shared} toggleLang={toggleLang} />;
-  }
-}
-
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-</script>
-</body>
-</html>
-<!-- Cache bust 1781790474 -->
-
-
-// Force rebuild Tue Jul 14 00:28:29     2026
-// Force rebuild at Fri Jul 17 00:05:18     2026
