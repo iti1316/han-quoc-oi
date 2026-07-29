@@ -1915,8 +1915,6 @@ const SEARCH_BOARD_INFO = {
 /* ================================================================
    D-day + 목표비자 위젯
 ================================================================ */
-const DDAY_STORE = 'vb_dday_info';
-const DDAY_APPLY_MONTHS = { d9: 4, e74: 2 }; // 신청 가능일 = 만료일 - N개월
 
 function loadDdayInfo() {
   try { return JSON.parse(localStorage.getItem(DDAY_STORE)) || null; }
@@ -1944,16 +1942,6 @@ function getTodoMessage(dday, lang) {
   return L.todoTopik;
 }
 
-const TARGET_VISA_OPTIONS = [
-  { code:'E-7-4',   key:'e74',           route:'worker',   subRoute:null,            ko:'E-7-4 숙련기능인력', vi:'E-7-4 Kỹ năng đặc định' },
-  { code:'F-2-7',   key:'f27_e71',       route:'worker',   subRoute:null,            ko:'F-2-7 거주(점수제)', vi:'F-2-7 Cư trú (điểm)' },
-  { code:'F-5',     key:'f5_veteran',    route:'worker',   subRoute:null,            ko:'F-5 영주권',         vi:'F-5 Thường trú' },
-  { code:'E-7-1',   key:'e71',           route:'student',  subRoute:'student_e71',  ko:'E-7-1 전문기술인력', vi:'E-7-1 Chuyên môn' },
-  { code:'F-6',     key:'f6',            route:'marriage', subRoute:'marriage_pass',ko:'F-6 결혼이민',       vi:'F-6 Kết hôn' },
-  { code:'국적취득', key:'naturalization',route:'marriage', subRoute:'marriage_pass',ko:'국적취득',           vi:'Nhập tịch' },
-  { code:'D-8',     key:'d8',            route:'d8route',  subRoute:null,            ko:'D-8 기업투자',       vi:'D-8 Đầu tư' },
-  { code:'D-9',     key:'d9',            route:'d9route',  subRoute:null,            ko:'D-9 무역경영',       vi:'D-9 Thương mại' },
-];
 
 
 /* ================================================================

@@ -355,7 +355,6 @@ function saveBoardNoticesByCat(obj) {
   localStorage.setItem(BOARD_NOTICE_STORE, JSON.stringify(obj));
 }
 
-const DDAY_STORE = 'vb_dday_info';
 
 function loadDdayInfo() {
   try { return JSON.parse(localStorage.getItem(DDAY_STORE)) || null; }
