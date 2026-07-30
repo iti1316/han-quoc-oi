@@ -83,22 +83,13 @@ function usePosts() {
       const validData = dataArray.filter(p => p && p.id != null && p.author);
       console.log(`✅ [실시간] Firebase 업데이트: ${dataArray.length}개 중 ${validData.length}개 유효`);
 
-      setPosts(prev => {
-        // id를 string으로 정규화해서 비교 (안전성 향상)
-        const localOnly = prev.filter(p =>
-          !validData.some(fb => String(fb.id) === String(p.id))
-        );
-
-        const merged = [...localOnly, ...validData];
-
-        // localStorage 업데이트 시도 (실패해도 괜찮음)
+      setPosts(() => {
         try {
-          localStorage.setItem(BOARD_STORE, JSON.stringify(merged));
+          localStorage.setItem(BOARD_STORE, JSON.stringify(validData));
         } catch (e) {
-          console.warn('⚠️ 실시간 업데이트 후 localStorage 업데이트 실패');
+          console.warn('⚠️ localStorage 업데이트 실패');
         }
-
-        return merged;
+        return validData;
       });
     };
 
@@ -154,21 +145,13 @@ function usePosts() {
       const validData = data.filter(p => p && p.id != null && p.author);
       console.log(`✅ [refreshPosts] Firebase load: ${data.length}개 중 ${validData.length}개 유효`);
 
-      setPosts(prev => {
-        const localOnly = prev.filter(p =>
-          !validData.some(fb => String(fb.id) === String(p.id))
-        );
-
-        const merged = [...localOnly, ...validData];
-        console.log('✅ [refreshPosts] 최신 데이터 병합 완료 - 지역 글:', localOnly.length, '개');
-
+      setPosts(() => {
         try {
-          localStorage.setItem(BOARD_STORE, JSON.stringify(merged));
+          localStorage.setItem(BOARD_STORE, JSON.stringify(validData));
         } catch (e) {
-          console.warn('⚠️ 새로고침 후 localStorage 업데이트 실패');
+          console.warn('⚠️ localStorage 업데이트 실패');
         }
-
-        return merged;
+        return validData;
       });
     } catch (e) {
       console.error('❌ [refreshPosts] Firebase load error:', e.message);
