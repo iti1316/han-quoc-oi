@@ -1,7 +1,10 @@
 /* ── 관리자 페이지 ── */
 function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [loginErr, setLoginErr] = useState('');
   const [notices, setNotices] = useState(() => loadNotices());
   const [hotline, setHotline] = useState(localStorage.getItem('hotline') || '🔥 최신 공지를 확인하세요!');
   const [boardNoticesByCategory, setBoardNoticesByCategory] = useState(() => loadBoardNoticesByCat());
@@ -12,14 +15,30 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
   const [boardNoticeForm, setBoardNoticeForm] = useState({ title:'', title_vi:'' });
   const [isAddingBoardNotice, setIsAddingBoardNotice] = useState(false);
 
-  const handleLogin = () => {
-    if (password === '88888888') {
-      setIsAuthenticated(true);
-      setPassword('');
-    } else {
-      alert('비밀번호가 틀렸습니다!');
-      setPassword('');
+  const handleLogin = async () => {
+    if (!email || !password) {
+      setLoginErr(lang === 'vi' ? 'Vui lòng nhập email và mật khẩu' : '이메일과 비밀번호를 입력하세요');
+      return;
     }
+    setLoginLoading(true);
+    setLoginErr('');
+    try {
+      await window.auth.signInWithEmailAndPassword(email, password);
+      setIsAuthenticated(true);
+      setEmail('');
+      setPassword('');
+    } catch (e) {
+      setLoginErr(lang === 'vi' ? 'Email hoặc mật khẩu không đúng' : '이메일 또는 비밀번호가 올바르지 않습니다');
+      setPassword('');
+    } finally {
+      setLoginLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    await window.auth.signOut();
+    setIsAuthenticated(false);
+    nav('home', lang);
   };
 
   const handleHotlineUpdate = () => {
@@ -32,17 +51,31 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
       <div style={{background:'#F5F6F8', minHeight:'100vh'}} className="flex items-center justify-center">
         <div className="bg-white rounded-lg p-8 w-full max-w-sm mx-4 text-center">
           <p className="text-2xl mb-4">🔐</p>
-          <p className="font-black text-gray-800 mb-6">관리자 인증</p>
+          <p className="font-black text-gray-800 mb-6">{lang === 'vi' ? 'Xác thực quản trị viên' : '관리자 인증'}</p>
+          <input
+            type="email"
+            placeholder={lang === 'vi' ? 'Email' : '이메일'}
+            value={email}
+            onChange={(e)=>{ setEmail(e.target.value); setLoginErr(''); }}
+            onKeyPress={(e)=>e.key==='Enter' && !loginLoading && handleLogin()}
+            className="w-full border-2 border-gray-300 rounded p-3 mb-3 text-center font-bold"
+            autoFocus
+            disabled={loginLoading}
+          />
           <input
             type="password"
-            placeholder="비밀번호"
+            placeholder={lang === 'vi' ? 'Mật khẩu' : '비밀번호'}
             value={password}
-            onChange={(e)=>setPassword(e.target.value)}
-            onKeyPress={(e)=>e.key==='Enter' && handleLogin()}
+            onChange={(e)=>{ setPassword(e.target.value); setLoginErr(''); }}
+            onKeyPress={(e)=>e.key==='Enter' && !loginLoading && handleLogin()}
             className="w-full border-2 border-gray-300 rounded p-3 mb-4 text-center font-bold"
-            autoFocus
+            disabled={loginLoading}
           />
-          <button onClick={handleLogin} className="w-full bg-blue-600 text-white py-3 rounded font-bold">입장</button>
+          {loginErr && <p className="text-red-500 text-sm mb-4 font-bold">{loginErr}</p>}
+          {loginLoading && <p className="text-blue-500 text-sm mb-4 font-bold">{lang === 'vi' ? 'Đang đăng nhập...' : '로그인 중...'}</p>}
+          <button onClick={handleLogin} className="w-full bg-blue-600 text-white py-3 rounded font-bold" disabled={loginLoading}>
+            {lang === 'vi' ? 'Đăng nhập' : '입장'}
+          </button>
         </div>
       </div>
     );
@@ -98,9 +131,14 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
   return (
     <div style={{background:'#F5F6F8', minHeight:'100vh'}}>
       <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="max-w-4xl mx-auto px-4 h-12 flex items-center">
-          <button onClick={()=>nav({page:'home'})} className="text-gray-500 mr-4">‹</button>
-          <p className="text-sm font-black text-gray-800">📋 관리자</p>
+        <div className="max-w-4xl mx-auto px-4 h-12 flex items-center justify-between">
+          <div className="flex items-center">
+            <button onClick={()=>nav({page:'home'})} className="text-gray-500 mr-4">‹</button>
+            <p className="text-sm font-black text-gray-800">📋 관리자</p>
+          </div>
+          <button onClick={handleLogout} className="text-sm font-bold text-red-600 hover:bg-red-50 px-3 py-1 rounded">
+            {lang === 'vi' ? 'Đăng xuất' : '로그아웃'}
+          </button>
         </div>
       </header>
 

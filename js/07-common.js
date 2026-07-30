@@ -324,35 +324,63 @@ function NoticeAdminModal({ notices, lang, onSave, onClose }) {
   );
 }
 
-/* ── 관리자 비밀번호 입력 모달 ── */
-function AdminPwModal({ onSuccess, onClose }) {
+/* ── 관리자 Firebase Auth 로그인 모달 ── */
+function AdminPwModal({ onSuccess, onClose, lang = 'ko' }) {
+  const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
   const [err, setErr] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  function check() {
-    if (pw === ADMIN_PW) { onSuccess(); }
-    else { setErr(true); setPw(''); }
+  async function check() {
+    if (!email || !pw) {
+      setErr(true);
+      return;
+    }
+    setLoading(true);
+    try {
+      await window.auth.signInWithEmailAndPassword(email, pw);
+      onSuccess();
+    } catch (e) {
+      setErr(true);
+      setEmail('');
+      setPw('');
+    } finally {
+      setLoading(false);
+    }
   }
+
+  const errMsg = lang === 'vi' ? 'Email hoặc mật khẩu không đúng' : '이메일 또는 비밀번호가 올바르지 않습니다';
+  const loadingMsg = lang === 'vi' ? 'Đang đăng nhập...' : '로그인 중...';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-6" onClick={onClose}>
       <div className="absolute inset-0 bg-black/50" />
       <div className="relative bg-white rounded-2xl p-6 w-full max-w-xs fade-in" onClick={e => e.stopPropagation()}>
         <h3 className="text-base font-black text-gray-800 mb-1 text-center">관리자 확인</h3>
-        <p className="text-xs text-gray-400 text-center mb-4">비밀번호를 입력하세요</p>
+        <p className="text-xs text-gray-400 text-center mb-4">{lang === 'vi' ? 'Nhập email và mật khẩu' : '이메일과 비밀번호를 입력하세요'}</p>
+        <input
+          type="email"
+          value={email}
+          onChange={e => { setEmail(e.target.value); setErr(false); }}
+          placeholder={lang === 'vi' ? 'Email' : '이메일'}
+          className={`w-full border-2 rounded-xl px-3 py-2.5 text-sm text-center mb-2 outline-none ${err ? 'border-red-400' : 'border-gray-300 focus:border-blue-500'}`}
+          autoFocus
+          disabled={loading}
+        />
         <input
           type="password"
           value={pw}
           onChange={e => { setPw(e.target.value); setErr(false); }}
-          onKeyDown={e => e.key === 'Enter' && check()}
-          placeholder="비밀번호"
+          onKeyDown={e => e.key === 'Enter' && !loading && check()}
+          placeholder={lang === 'vi' ? 'Mật khẩu' : '비밀번호'}
           className={`w-full border-2 rounded-xl px-3 py-2.5 text-sm text-center mb-1 outline-none ${err ? 'border-red-400' : 'border-gray-300 focus:border-blue-500'}`}
-          autoFocus
+          disabled={loading}
         />
-        {err && <p className="text-xs text-red-500 text-center mb-2">비밀번호가 틀렸습니다.</p>}
+        {err && <p className="text-xs text-red-500 text-center mb-2">{errMsg}</p>}
+        {loading && <p className="text-xs text-blue-500 text-center mb-2">{loadingMsg}</p>}
         <div className="flex gap-2 mt-3">
-          <button onClick={onClose} className="flex-1 border border-gray-300 text-gray-600 font-bold py-2.5 rounded-xl text-sm tap">취소</button>
-          <button onClick={check} className="flex-1 bg-blue-700 text-white font-bold py-2.5 rounded-xl text-sm tap">확인</button>
+          <button onClick={onClose} className="flex-1 border border-gray-300 text-gray-600 font-bold py-2.5 rounded-xl text-sm tap" disabled={loading}>{lang === 'vi' ? 'Hủy' : '취소'}</button>
+          <button onClick={check} className="flex-1 bg-blue-700 text-white font-bold py-2.5 rounded-xl text-sm tap" disabled={loading}>{lang === 'vi' ? 'Xác nhận' : '확인'}</button>
         </div>
       </div>
     </div>
@@ -406,9 +434,10 @@ function TickingAnnouncementBar({ lang }) {
         </p>
       </div>
 
-      {/* 비밀번호 모달 */}
+      {/* Firebase Auth 로그인 모달 */}
       {showPw && (
         <AdminPwModal
+          lang={lang}
           onSuccess={() => { setShowPw(false); setShowAdmin(true); }}
           onClose={() => setShowPw(false)}
         />

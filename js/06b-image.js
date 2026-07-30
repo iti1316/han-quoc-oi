@@ -22,3 +22,14 @@ function compressImage(file) {
     reader.readAsDataURL(file);
   });
 }
+
+/* ── Firebase Storage 업로드 (압축 후 업로드, URL 반환) ── */
+async function uploadImageToStorage(file, deviceId) {
+  const dataUrl = await compressImage(file);
+  const res = await fetch(dataUrl);
+  const blob = await res.blob();
+  const name = `posts/${deviceId || 'anon'}_${Date.now()}_${Math.random().toString(36).slice(2,8)}.jpg`;
+  const ref = window.storage.ref(name);
+  await ref.put(blob, { contentType: 'image/jpeg' });
+  return await ref.getDownloadURL();
+}

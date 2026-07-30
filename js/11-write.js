@@ -37,8 +37,8 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
     if (images.length >= 10) { setToast(lang==='vi'?'Tối đa 10 ảnh ⚠️':'사진은 최대 10장까지 첨부할 수 있어요 ⚠️'); return; }
     setImgLoading(true);
     try {
-      const compressed = await Promise.all(files.map(f => compressImage(f)));
-      setImages(prev => [...prev, ...compressed].slice(0, 10));
+      const uploadedUrls = await Promise.all(files.map(f => uploadImageToStorage(f, deviceId)));
+      setImages(prev => [...prev, ...uploadedUrls].slice(0, 10));
     } catch(err) {
       setToast(lang==='vi'?'이미지 처리 오류 ⚠️':'이미지 처리 중 오류가 발생했어요 ⚠️');
     }

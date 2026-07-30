@@ -6,7 +6,6 @@ const FIREBASE_PROFILES_URL = `${FIREBASE_BASE}/userProfiles`;
 
 /* ── 공지사항 ── */
 const NOTICE_STORE = 'vb_notices';
-const ADMIN_PW = '88888888';
 
 const DEFAULT_NOTICES = [
   {
