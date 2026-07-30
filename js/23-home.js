@@ -216,6 +216,9 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
 
       {/* 전체 채널 서랍 */}
       {showMore && <MoreDrawer nav={nav} lang={lang} onClose={()=>setShowMore(false)} />}
+
+      {/* 푸터 */}
+      <SiteFooter lang={lang} nav={nav} />
     </div>
   );
 }

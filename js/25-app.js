@@ -167,6 +167,7 @@ function App() {
     case 'office':       return <OfficePage       onBack={goBack} lang={lang} />;
     case 'eligibility':  return <EligibilityPage  visaStep={route.param} onBack={goBack} lang={lang} />;
     case 'assessment':   return <AssessmentCriteriaPage assessmentParam={route.param} onBack={goBack} lang={lang} />;
+    case 'legal':        return <LegalPage type={route.param} onBack={goBack} lang={lang} />;
     case 'classicBoard': return <ClassicBoardPage boardKey={route.param} {...shared} />;
     case 'postDetail':   return <PostDetailPage   boardKey={route.boardKey} postId={route.postId} {...shared} />;
     case 'visaHub':      return <VisaHubPage      nav={nav} lang={lang} posts={posts} />;
