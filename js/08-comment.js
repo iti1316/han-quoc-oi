@@ -11,6 +11,7 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
   const [editModal, setEditModal] = useState(null);
   const [editBody, setEditBody] = useState('');
   const [showAllComments, setShowAllComments] = useState(false);
+  const [reportModal, setReportModal] = useState(null);
 
   // post.commentsData 변경 시 동기화
   useEffect(() => {
@@ -18,6 +19,12 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
   }, [post.id, post.commentsData?.length]);
 
   function submit() {
+    const wait = checkRateLimit('comment');
+    if (wait > 0) {
+      alert(L.rateLimitComment.replace('{n}', wait));
+      return;
+    }
+
     if (!body.trim()) return;
     const newComment = {
       id:     Date.now(),
@@ -29,6 +36,7 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
     setComments([...comments, newComment]);
     setBody('');
     onAddComment(post.id, newComment);
+    markRateLimit('comment');
   }
 
   function handleDelete(c) {
@@ -75,18 +83,32 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
                   <div className="flex items-center gap-2 mb-0.5">
                     <p className="text-[11px] font-bold text-gray-700">{post.cat === 'bamboo' ? getBambooLabel(post, c.deviceId || c.author, lang) : c.author}</p>
                     <p className="text-[10px] text-gray-400">{c.date}</p>
-                    {c.deviceId === deviceId && (
-                      <div className="ml-auto flex gap-1">
-                        <button onClick={() => handleEditStart(c)}
-                          className="text-[10px] text-blue-400 hover:text-blue-600 border border-blue-100 hover:border-blue-300 px-1.5 py-0.5 rounded tap transition">
-                          {lang==='vi'?'Sửa':'수정'}
+                    <div className="ml-auto flex gap-1 items-center">
+                      {c.deviceId !== deviceId && (
+                        <button
+                          onClick={() => setReportModal(c.id)}
+                          disabled={hasReported(c.id)}
+                          className={`text-[9px] font-bold tap transition ${
+                            hasReported(c.id)
+                              ? 'text-gray-200 cursor-not-allowed'
+                              : 'text-gray-300 hover:text-red-400'
+                          }`}>
+                          🚩
                         </button>
-                        <button onClick={() => handleDelete(c)}
-                          className="text-[10px] text-red-400 hover:text-red-600 border border-red-100 hover:border-red-300 px-1.5 py-0.5 rounded tap transition">
-                          {L.cmtDelete}
-                        </button>
-                      </div>
-                    )}
+                      )}
+                      {c.deviceId === deviceId && (
+                        <>
+                          <button onClick={() => handleEditStart(c)}
+                            className="text-[10px] text-blue-400 hover:text-blue-600 border border-blue-100 hover:border-blue-300 px-1.5 py-0.5 rounded tap transition">
+                            {lang==='vi'?'Sửa':'수정'}
+                          </button>
+                          <button onClick={() => handleDelete(c)}
+                            className="text-[10px] text-red-400 hover:text-red-600 border border-red-100 hover:border-red-300 px-1.5 py-0.5 rounded tap transition">
+                            {L.cmtDelete}
+                          </button>
+                        </>
+                      )}
+                    </div>
                   </div>
                   <p className="text-xs text-gray-600 word-keep leading-relaxed">{c.body}</p>
                 </div>
@@ -148,6 +170,18 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
             </div>
           </div>
         </div>
+      )}
+
+      {/* 댓글 신고 모달 */}
+      {reportModal && (
+        <ReportModal
+          targetType="comment"
+          targetId={reportModal}
+          postId={post.id}
+          deviceId={deviceId}
+          lang={lang}
+          onClose={() => setReportModal(null)}
+        />
       )}
 
     </div>

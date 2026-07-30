@@ -14,6 +14,8 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
   const [isAddingNotice, setIsAddingNotice] = useState(false);
   const [boardNoticeForm, setBoardNoticeForm] = useState({ title:'', title_vi:'' });
   const [isAddingBoardNotice, setIsAddingBoardNotice] = useState(false);
+  const [reports, setReports] = useState([]);
+  const [reportsLoading, setReportsLoading] = useState(false);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -45,6 +47,49 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
     localStorage.setItem('hotline', hotline);
     alert('✅ 실시간 핫라인이 업데이트되었습니다!');
   };
+
+  const loadReports = async () => {
+    setReportsLoading(true);
+    try {
+      const data = await fetchReports();
+      setReports(data);
+    } catch (e) {
+      console.error('신고 목록 로드 실패:', e);
+    } finally {
+      setReportsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadReports();
+    }
+  }, [isAuthenticated]);
+
+  const handleResolveReport = async (key) => {
+    if (!confirm('이 신고를 처리완료 상태로 변경하시겠어요?')) return;
+    try {
+      const success = await updateReportStatus(key, 'resolved');
+      if (success) {
+        setReports(prev => prev.map(r => r._key === key ? { ...r, status: 'resolved' } : r));
+        alert('✅ 처리되었습니다!');
+      }
+    } catch (e) {
+      alert('❌ 처리 실패');
+      console.error(e);
+    }
+  };
+
+  const reasonMap = {
+    spam: '광고 · 도배',
+    abuse: '욕설 · 혐오 표현',
+    privacy: '개인정보 노출',
+    sexual: '음란물 · 선정성',
+    fraud: '사기 · 불법 알선',
+    other: '기타'
+  };
+
+  const pendingCount = reports.filter(r => r.status === 'pending').length;
 
   if (!isAuthenticated) {
     return (
@@ -269,6 +314,73 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
                 <button onClick={handleAddBoardNotice} className="flex-1 bg-green-600 text-white py-2 rounded font-bold text-sm">저장</button>
                 <button onClick={()=>setIsAddingBoardNotice(false)} className="flex-1 bg-gray-400 text-white py-2 rounded font-bold text-sm">취소</button>
               </div>
+            </div>
+          )}
+        </div>
+
+        {/* 🚩 신고 관리 */}
+        <div className="bg-white rounded-lg p-4 mb-4">
+          <div className="flex items-center gap-2 mb-3">
+            <p className="font-black text-gray-800">🚩 신고 관리</p>
+            {pendingCount > 0 && (
+              <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">{pendingCount}건</span>
+            )}
+          </div>
+
+          {reportsLoading ? (
+            <p className="text-center text-gray-500 text-sm py-4">로딩 중...</p>
+          ) : reports.length === 0 ? (
+            <p className="text-center text-gray-400 text-sm py-4">신고 내역이 없습니다</p>
+          ) : (
+            <div className="space-y-2 max-h-96 overflow-y-auto">
+              {reports.map(report => (
+                <div key={report._key} className={`border-l-4 p-3 rounded text-sm ${
+                  report.status === 'pending' ? 'border-red-500 bg-red-50' : 'border-gray-300 bg-gray-50'
+                }`}>
+                  <div className="flex items-start justify-between gap-2 mb-1.5">
+                    <div className="flex-1">
+                      <p className="font-bold text-gray-800">
+                        {reasonMap[report.reason] || report.reason}
+                      </p>
+                      <p className="text-xs text-gray-600 mt-0.5">
+                        {report.targetType === 'post' ? '게시글' : '댓글'}
+                        {report.createdAt && ` · ${new Date(report.createdAt).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}`}
+                      </p>
+                    </div>
+                    <span className={`text-xs font-bold px-2 py-1 rounded whitespace-nowrap ${
+                      report.status === 'pending' ? 'bg-red-200 text-red-700' : 'bg-gray-200 text-gray-700'
+                    }`}>
+                      {report.status === 'pending' ? '미처리' : '처리완료'}
+                    </span>
+                  </div>
+
+                  {report.content && (
+                    <p className="text-xs text-gray-600 bg-white p-2 rounded mb-2 italic">"{report.content}"</p>
+                  )}
+
+                  <div className="flex gap-1">
+                    {report.postId && (
+                      <button
+                        onClick={() => {
+                          const target = posts.find(p => String(p.id) === String(report.postId));
+                          if (!target) { alert('해당 글을 찾을 수 없습니다. 삭제된 글일 수 있습니다.'); return; }
+                          const bk = CAT_BOARD_MAP[target.cat] || target.cat;
+                          nav({ page:'postDetail', boardKey: bk, postId: target.id });
+                        }}
+                        className="flex-1 text-blue-600 font-bold text-xs border border-blue-300 rounded py-1.5 hover:bg-blue-50">
+                        해당 글 보기
+                      </button>
+                    )}
+                    {report.status === 'pending' && (
+                      <button
+                        onClick={() => handleResolveReport(report._key)}
+                        className="flex-1 text-green-600 font-bold text-xs border border-green-300 rounded py-1.5 hover:bg-green-50">
+                        처리완료
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>

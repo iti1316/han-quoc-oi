@@ -8,6 +8,7 @@ function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDe
   const [lightbox, setLightbox] = useState(null);
   const [shareModal, setShareModal] = useState(false);
   const [shareMsg, setShareMsg] = useState('');
+  const [reportModal, setReportModal] = useState(false);
   const lbTouchX = useRef(null);
 
   // post 변경 시 반응수 동기화
@@ -181,6 +182,23 @@ useEffect(() => {
             </button>
           </div>
 
+          {/* 신고 버튼 */}
+          {post.deviceId !== deviceId && (
+            <div className="px-5 py-2 border-b border-gray-100">
+              <button
+                onClick={() => setReportModal(true)}
+                disabled={hasReported(post.id)}
+                className={`flex items-center gap-1 text-[10px] font-bold tap transition ${
+                  hasReported(post.id)
+                    ? 'text-gray-300 cursor-not-allowed'
+                    : 'text-gray-400 hover:text-red-500'
+                }`}>
+                <span>🚩</span>
+                <span>{hasReported(post.id) ? lang==='vi'?'Đã báo cáo':'신고함' : LANG[lang].reportBtn}</span>
+              </button>
+            </div>
+          )}
+
           {/* 댓글 */}
           <CommentSection post={post} lang={lang}
             onAddComment={onAddComment} onDeleteComment={onDeleteComment} onUpdateComment={onUpdateComment} deviceId={deviceId} />
@@ -307,6 +325,18 @@ useEffect(() => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* 신고 모달 */}
+      {reportModal && (
+        <ReportModal
+          targetType="post"
+          targetId={post.id}
+          postId={post.id}
+          deviceId={deviceId}
+          lang={lang}
+          onClose={() => setReportModal(false)}
+        />
       )}
     </div>
   );

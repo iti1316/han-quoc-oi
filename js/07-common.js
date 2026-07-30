@@ -454,3 +454,102 @@ function TickingAnnouncementBar({ lang }) {
     </>
   );
 }
+
+/* ── 신고 모달 ── */
+function ReportModal({ targetType, targetId, postId, deviceId, lang, onClose }) {
+  const L = LANG[lang];
+  const [reason, setReason] = useState('spam');
+  const [details, setDetails] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const reasons = [
+    { key: 'spam', label: L.reportReasonSpam },
+    { key: 'abuse', label: L.reportReasonAbuse },
+    { key: 'privacy', label: L.reportReasonPrivacy },
+    { key: 'sexual', label: L.reportReasonSexual },
+    { key: 'fraud', label: L.reportReasonFraud },
+    { key: 'other', label: L.reportReasonOther },
+  ];
+
+  async function handleSubmit() {
+    if (hasReported(targetId)) {
+      alert(L.reportAlready);
+      onClose();
+      return;
+    }
+
+    setError('');
+    setLoading(true);
+
+    try {
+      await submitReport({
+        targetType,
+        targetId,
+        postId,
+        reason,
+        content: details,
+        deviceId,
+      });
+      alert(L.reportDone);
+      onClose();
+    } catch (e) {
+      setError(L.reportFail);
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/60 z-50 flex items-end justify-center fade-in" onClick={onClose}>
+      <div className="bg-white rounded-t-3xl w-full max-w-lg px-6 pt-6 pb-10 shadow-2xl overflow-y-auto max-h-[85vh]" onClick={e=>e.stopPropagation()}>
+        <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5"></div>
+        <p className="text-sm font-black text-gray-800 mb-1 text-center">{L.reportTitle}</p>
+
+        <div className="mb-4 space-y-2">
+          {reasons.map(r => (
+            <label key={r.key} className="flex items-center gap-3 p-2.5 border-2 border-gray-200 rounded-xl cursor-pointer hover:bg-blue-50 transition" style={{ borderColor: reason === r.key ? '#3b82f6' : '#e5e7eb', backgroundColor: reason === r.key ? '#eff6ff' : 'white' }}>
+              <input
+                type="radio"
+                name="reason"
+                value={r.key}
+                checked={reason === r.key}
+                onChange={e => { setReason(e.target.value); setError(''); }}
+                className="w-4 h-4"
+                disabled={loading}
+              />
+              <span className="text-sm font-semibold text-gray-700">{r.label}</span>
+            </label>
+          ))}
+        </div>
+
+        <textarea
+          value={details}
+          onChange={e => { setDetails(e.target.value.slice(0, 200)); setError(''); }}
+          placeholder={L.reportDetailPlaceholder}
+          maxLength={200}
+          rows={3}
+          disabled={loading}
+          className="w-full border-2 border-gray-200 rounded-2xl px-3 py-2.5 text-sm mb-1 focus:outline-none focus:border-blue-500 resize-none"
+        />
+        <p className="text-xs text-gray-400 text-right mb-2">{details.length}/200</p>
+
+        {error && <p className="text-xs text-red-500 text-center mb-2">{error}</p>}
+
+        <div className="grid grid-cols-2 gap-2 mt-3">
+          <button
+            onClick={onClose}
+            disabled={loading}
+            className="py-3.5 border border-gray-200 rounded-2xl text-sm font-bold text-gray-500 bg-white tap transition disabled:opacity-50">
+            {L.reportCancel}
+          </button>
+          <button
+            onClick={handleSubmit}
+            disabled={loading}
+            className="py-3.5 bg-blue-700 text-white rounded-2xl text-sm font-black tap transition disabled:opacity-50">
+            {loading ? (lang === 'vi' ? 'Đang gửi...' : '전송 중...') : L.reportSubmit}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

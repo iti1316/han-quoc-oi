@@ -75,6 +75,12 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
   }
 
   function submit() {
+    const wait = checkRateLimit('post');
+    if (wait > 0) {
+      setToast(L.rateLimitPost.replace('{n}', wait));
+      return;
+    }
+
     if (!title.trim() || !body.trim()) { setToast(L.emptyAlert); return; }
     if (needLocation && (!sido || !sigungu)) {
       setToast(lang==='vi' ? '지역(시/도, 구/군)을 선택해주세요 ⚠️' : '지역(시/도, 구/군)을 선택해주세요 ⚠️');
@@ -112,6 +118,7 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
 
       onAddPost(postData);
       console.log('🟡 [WritePage Submit] onAddPost 호출 완료');
+      markRateLimit('post');
 
       // fromPage 체크하여 올바른 페이지로 이동
       if (fromPage === 'visaHub') {

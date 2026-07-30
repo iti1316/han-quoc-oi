@@ -432,3 +432,86 @@ function fmtLocation(loc) {
     console.warn('⚠️ Firebase 닉네임 로드 중 오류:', e.message);
   }
 })();
+
+/* ── 도배 방지: 마지막 작성 시각 기록 및 검사 ── */
+const RATE_LIMIT_STORE = 'vb_last_write';
+const RATE_LIMIT_POST = 30 * 1000;      // 글: 30초
+const RATE_LIMIT_COMMENT = 10 * 1000;   // 댓글: 10초
+
+function checkRateLimit(kind) {
+  try {
+    const raw = localStorage.getItem(RATE_LIMIT_STORE);
+    const data = raw ? JSON.parse(raw) : {};
+    const last = data[kind] || 0;
+    const gap = kind === 'post' ? RATE_LIMIT_POST : RATE_LIMIT_COMMENT;
+    const remain = gap - (Date.now() - last);
+    return remain > 0 ? Math.ceil(remain / 1000) : 0;
+  } catch (e) { return 0; }
+}
+
+function markRateLimit(kind) {
+  try {
+    const raw = localStorage.getItem(RATE_LIMIT_STORE);
+    const data = raw ? JSON.parse(raw) : {};
+    data[kind] = Date.now();
+    localStorage.setItem(RATE_LIMIT_STORE, JSON.stringify(data));
+  } catch (e) {}
+}
+
+/* ── 신고 기능 ── */
+const REPORT_STORE = 'vb_my_reports';
+const FIREBASE_REPORTS_URL = `${FIREBASE_BASE}/reports.json`;
+
+function loadMyReports() {
+  try { return JSON.parse(localStorage.getItem(REPORT_STORE) || '{}'); }
+  catch (e) { return {}; }
+}
+
+function hasReported(targetId) {
+  return !!loadMyReports()[targetId];
+}
+
+async function submitReport({ targetType, targetId, postId, reason, content, deviceId }) {
+  const report = {
+    id: Date.now(),
+    targetType,
+    targetId,
+    postId: postId || null,
+    reason,
+    content: (content || '').slice(0, 200),
+    reporterDeviceId: deviceId,
+    createdAt: new Date().toISOString(),
+    status: 'pending'
+  };
+  const res = await fetch(FIREBASE_REPORTS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(report)
+  });
+  if (!res.ok) throw new Error('report failed');
+  try {
+    const mine = loadMyReports();
+    mine[targetId] = true;
+    localStorage.setItem(REPORT_STORE, JSON.stringify(mine));
+  } catch (e) {}
+  return true;
+}
+
+/* ── 신고 관리 (관리자용) ── */
+async function fetchReports() {
+  const res = await fetch(FIREBASE_REPORTS_URL);
+  if (!res.ok) throw new Error('fetch reports failed');
+  const data = await res.json();
+  if (!data) return [];
+  return Object.entries(data).map(([key, v]) => ({ ...v, _key: key }))
+    .sort((a, b) => (b.id || 0) - (a.id || 0));
+}
+
+async function updateReportStatus(key, status) {
+  const res = await fetch(`${FIREBASE_BASE}/reports/${key}.json`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status })
+  });
+  return res.ok;
+}
