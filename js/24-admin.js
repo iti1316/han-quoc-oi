@@ -6,7 +6,8 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginErr, setLoginErr] = useState('');
   const [notices, setNotices] = useState(() => loadNotices());
-  const [hotline, setHotline] = useState(localStorage.getItem('hotline') || '🔥 최신 공지를 확인하세요!');
+  const [hotline, setHotline] = useState('🔥 최신 공지를 확인하세요!');
+  const [hotlineLoading, setHotlineLoading] = useState(true);
   const [boardNoticesByCategory, setBoardNoticesByCategory] = useState(() => loadBoardNoticesByCat());
   const [selectedBoardForNotices, setSelectedBoardForNotices] = useState('market');
   const [selectedBoardForPosts, setSelectedBoardForPosts] = useState('market');
@@ -43,9 +44,20 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
     nav('home', lang);
   };
 
-  const handleHotlineUpdate = () => {
-    localStorage.setItem('hotline', hotline);
-    alert('✅ 실시간 핫라인이 업데이트되었습니다!');
+  const handleHotlineUpdate = async () => {
+    try {
+      const res = await fetch(`${FIREBASE_BASE}/notices/hotline.json`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(hotline)
+      });
+      if (!res.ok) throw new Error('Failed to update hotline');
+      localStorage.setItem('hotline', hotline);
+      alert('✅ 실시간 핫라인이 업데이트되었습니다!');
+    } catch (e) {
+      console.error('❌ 핫라인 업데이트 실패:', e.message);
+      alert('❌ 핫라인 업데이트 실패했습니다.');
+    }
   };
 
   const loadReports = async () => {
@@ -59,6 +71,30 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
       setReportsLoading(false);
     }
   };
+
+  useEffect(() => {
+    const loadHotlineFromFirebase = async () => {
+      try {
+        const res = await fetch(`${FIREBASE_BASE}/notices/hotline.json`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data !== null && data !== undefined) {
+            setHotline(data);
+          } else {
+            setHotline(localStorage.getItem('hotline') || '🔥 최신 공지를 확인하세요!');
+          }
+        } else {
+          setHotline(localStorage.getItem('hotline') || '🔥 최신 공지를 확인하세요!');
+        }
+      } catch (e) {
+        console.warn('Firebase 핫라인 로드 실패:', e.message);
+        setHotline(localStorage.getItem('hotline') || '🔥 최신 공지를 확인하세요!');
+      } finally {
+        setHotlineLoading(false);
+      }
+    };
+    loadHotlineFromFirebase();
+  }, []);
 
   useEffect(() => {
     if (isAuthenticated) {

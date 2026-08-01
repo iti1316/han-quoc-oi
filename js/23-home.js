@@ -10,6 +10,8 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
   const [nicknameInput, setNicknameInput] = useState('');
   const [nicknameLoading, setNicknameLoading] = useState(false);
   const [adminClickCount, setAdminClickCount] = useState(0);
+  const [hotline, setHotline] = useState('');
+  const [hotlineLoading, setHotlineLoading] = useState(true);
   const unreadCount   = getUnreadCount(posts, deviceId);
   const myUnreadPosts = getMyUnreadPosts(posts, deviceId);
   const adminClickTimer = useRef(null);
@@ -70,6 +72,31 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
     }
   };
 
+  useEffect(() => {
+    const hotlineRef = window.database.ref('notices/hotline');
+
+    const handleValue = (snapshot) => {
+      const data = snapshot.val();
+      if (data !== null && data !== undefined && data !== '') {
+        setHotline(data);
+      } else {
+        setHotline('');
+      }
+      setHotlineLoading(false);
+    };
+
+    const handleError = (error) => {
+      console.warn('❌ Firebase 핫라인 리스너 오류:', error.message);
+      setHotlineLoading(false);
+    };
+
+    hotlineRef.on('value', handleValue, handleError);
+
+    return () => {
+      hotlineRef.off('value', handleValue);
+    };
+  }, []);
+
   return (
     <div style={{ background:'#F0F2F5', minHeight:'100vh' }}>
       {/* ── 헤더 ── */}
@@ -105,9 +132,9 @@ function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onA
       </header>
 
       {/* 🔥 실시간 핫라인 */}
-      {localStorage.getItem('hotline') && (
+      {hotline && (
         <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-4 py-2 text-center text-sm font-bold overflow-hidden">
-          <div className="animate-pulse">{localStorage.getItem('hotline')}</div>
+          <div className="animate-pulse">{hotline}</div>
         </div>
       )}
 
