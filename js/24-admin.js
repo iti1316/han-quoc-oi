@@ -1,6 +1,7 @@
 /* ── 관리자 페이지 ── */
 function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authChecking, setAuthChecking] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
@@ -102,6 +103,14 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
     }
   }, [isAuthenticated]);
 
+  useEffect(() => {
+    const unsub = window.auth.onAuthStateChanged(user => {
+      setIsAuthenticated(!!user);
+      setAuthChecking(false);
+    });
+    return () => unsub();
+  }, []);
+
   const handleResolveReport = async (key) => {
     if (!confirm('이 신고를 처리완료 상태로 변경하시겠어요?')) return;
     try {
@@ -126,6 +135,17 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
   };
 
   const pendingCount = reports.filter(r => r.status === 'pending').length;
+
+  if (authChecking) {
+    return (
+      <div style={{background:'#F5F6F8', minHeight:'100vh'}} className="flex items-center justify-center">
+        <div className="bg-white rounded-lg p-8 w-full max-w-sm mx-4 text-center">
+          <p className="text-2xl mb-4">⏳</p>
+          <p className="font-black text-gray-800 mb-6">{lang === 'vi' ? 'Đang tải...' : '확인 중...'}</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (

@@ -403,7 +403,7 @@ function TickingAnnouncementBar({ lang }) {
           setTapCount(c => {
             const next = c + 1;
             clearTimeout(tapTimer.current);
-            if (next >= 5) { setShowPw(true); return 0; }
+            if (next >= 5) { window.auth.currentUser ? setShowAdmin(true) : setShowPw(true); return 0; }
             tapTimer.current = setTimeout(() => setTapCount(0), 2000);
             return next;
           });
