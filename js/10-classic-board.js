@@ -198,8 +198,7 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
                       {p.isNew && <span className="text-[8px] font-black text-white bg-red-500 px-1.5 py-0.5 rounded-full flex-shrink-0">N</span>}
                     </div>
                   </div>
-                  <span className="text-[10px] text-gray-500 text-center self-center truncate px-1">{safeAuthor(p).replace(/ #\d+$/,'')}</span>
-                  <AdminBadge post={p} />
+                  <span className="text-[10px] text-gray-500 text-center self-center truncate px-1">{safeAuthor(p).replace(/ #\d+$/,'')}<AdminBadge post={p} /></span>
                   <span className="text-[10px] text-gray-400 text-center self-center">{fmtDate(p.date)}</span>
                   <span className="text-[10px] text-gray-500 text-center self-center">{views}</span>
                   <span className={`text-[10px] text-center self-center font-bold ${total>0?'text-blue-600':'text-gray-300'}`}>{total||0}</span>
@@ -219,8 +218,7 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
                     </div>
                     <span className="text-[9px] text-gray-400">{fmtDate(p.date)}</span>
                   </div>
-                  <span className="text-[9px] text-gray-500 text-center self-center truncate px-0.5">{safeAuthor(p).replace(/ #\d+$/,'')}</span>
-                  <AdminBadge post={p} />
+                  <span className="text-[9px] text-gray-500 text-center self-center truncate px-0.5">{safeAuthor(p).replace(/ #\d+$/,'')}<AdminBadge post={p} /></span>
                   <span className="text-[9px] text-gray-500 text-center self-center">{views}</span>
                 </div>
               </React.Fragment>

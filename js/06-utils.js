@@ -179,7 +179,6 @@ function safeAuthor(post) {
 /** 아바타 문자: author 첫 글자 대신 post.id 기반으로 고정 */
 function safeAvatarChar(post) {
   if (post && post.cat === 'bamboo') return '🎋';
-  if (post && post.isAdmin) return '✓';
   const author = safeAuthor(post);
   const seed = Math.abs((author.charCodeAt(0) || 0) + (author.charCodeAt(1) || 0));
   return ['익','D','V','하','H','버','A','B'][seed % 8];
