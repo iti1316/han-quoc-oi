@@ -32,6 +32,7 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
       date:   new Date().toLocaleDateString('ko-KR'),
       body:   body.trim(),
       deviceId: deviceId,
+      isAdmin: !!(window.auth && window.auth.currentUser),
     };
     setComments([...comments, newComment]);
     setBody('');
@@ -81,7 +82,7 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <p className="text-[11px] font-bold text-gray-700">{post.cat === 'bamboo' ? getBambooLabel(post, c.deviceId || c.author, lang) : c.author}</p>
+                    <p className="text-[11px] font-bold text-gray-700">{post.cat === 'bamboo' ? getBambooLabel(post, c.deviceId || c.author, lang) : (c.isAdmin ? 'Hàn Quốc Ơi' : c.author)}{post.cat !== 'bamboo' && c.isAdmin && <AdminBadge post={{isAdmin:true, cat:post.cat}} />}</p>
                     <p className="text-[10px] text-gray-400">{c.date}</p>
                     <div className="ml-auto flex gap-1 items-center">
                       {c.deviceId !== deviceId && (

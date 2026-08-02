@@ -73,7 +73,7 @@ function HotFeed({ posts, nav, lang }) {
                 </div>
                 <p className="text-[12px] font-black text-gray-800 word-keep leading-snug line-clamp-2">{p.title}</p>
                 <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                  <span className="text-[10px] text-gray-400 truncate max-w-[80px]">{safeAuthor(p).replace(/ #\d+$/,'')}</span>
+                  <span className="text-[10px] text-gray-400 truncate max-w-[80px]">{safeAuthor(p).replace(/ #\d+$/,'')}<AdminBadge post={p} /></span>
                   <span className="text-[10px] text-red-400 font-bold">❤️ {total}</span>
                   <span className="text-[10px] text-blue-400 font-bold">💬 {cmts}</span>
                 </div>
@@ -233,7 +233,7 @@ function SearchResults({ posts, query, nav, lang }) {
                 <p className="text-[10px] text-gray-400 mt-0.5 line-clamp-1 word-keep">{p.body}</p>
                 {/* 메타 */}
                 <div className="flex items-center gap-2 mt-1 flex-wrap">
-                  <span className="text-[10px] text-gray-400">{safeAuthor(p).replace(/ #\d+$/,'')}</span>
+                  <span className="text-[10px] text-gray-400">{safeAuthor(p).replace(/ #\d+$/,'')}<AdminBadge post={p} /></span>
                   <span className="text-[10px] text-gray-300">{p.date}</span>
                   {total > 0 && <span className="text-[10px] text-red-400 font-bold">❤️{total}</span>}
                   {cmts  > 0 && <span className="text-[10px] text-blue-400 font-bold">💬{cmts}</span>}
