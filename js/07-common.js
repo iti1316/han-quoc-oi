@@ -536,3 +536,11 @@ function ReportModal({ targetType, targetId, postId, deviceId, lang, onClose }) 
     </div>
   );
 }
+
+/* ── 관리자 인증 배지 ── */
+function AdminBadge({ post }) {
+  if (!post || !post.isAdmin || post.cat === 'bamboo') return null;
+  return (
+    <span className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-blue-500 text-white text-[8px] font-black flex-shrink-0 ml-1">✓</span>
+  );
+}

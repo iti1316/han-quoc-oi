@@ -161,6 +161,7 @@ function safeAuthor(post) {
   if (post && post.cat === 'bamboo') {
     return (window.__lang === 'vi') ? 'Ẩn danh' : '익명';
   }
+  if (post && post.isAdmin) return 'Hàn Quốc Ơi';
   // 커스텀 닉네임인 경우: ANON_PATTERN 패턴이 없으면 그대로 반환
   if (!ANON_PATTERN.test(post.author)) {
     // 숫자로만 이루어진 경우(post.id 기반) → 재생성
@@ -178,6 +179,7 @@ function safeAuthor(post) {
 /** 아바타 문자: author 첫 글자 대신 post.id 기반으로 고정 */
 function safeAvatarChar(post) {
   if (post && post.cat === 'bamboo') return '🎋';
+  if (post && post.isAdmin) return '✓';
   const author = safeAuthor(post);
   const seed = Math.abs((author.charCodeAt(0) || 0) + (author.charCodeAt(1) || 0));
   return ['익','D','V','하','H','버','A','B'][seed % 8];

@@ -114,7 +114,7 @@ useEffect(() => {
                 {safeAvatarChar(post)}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-bold text-gray-700">{safeAuthor(post)}</p>
+                <p className="text-xs font-bold text-gray-700">{safeAuthor(post)}<AdminBadge post={post} /></p>
                 <p className="text-[10px] text-gray-400">{post.date}</p>
               </div>
               {post.deviceId === deviceId && (

@@ -102,6 +102,7 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
 
       const postData = {
         id: Date.now(), cat, author: finalAuthor, deviceId,
+        isAdmin: !!(window.auth && window.auth.currentUser),
         date: new Date().toLocaleDateString('ko-KR'),
         title: title.trim(), body: body.trim(),
         likes:0, hearts:0, wows:0, comments:0, isNew:true,
