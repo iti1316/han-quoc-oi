@@ -376,7 +376,10 @@ function loadBoardNoticesByCat() {
 function saveBoardNoticesByCat(obj) {
   localStorage.setItem(BOARD_NOTICE_STORE, JSON.stringify(obj));
 }
-
+function loadBoardNotices(cat = 'market') {
+  const allNotices = loadBoardNoticesByCat();
+  return allNotices[cat] || [];
+}
 
 function loadDdayInfo() {
   try { return JSON.parse(localStorage.getItem(DDAY_STORE)) || null; }
