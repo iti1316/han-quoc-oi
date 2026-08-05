@@ -225,7 +225,7 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
       <div className="max-w-lg mx-auto px-4 py-4 pb-12">
 
         {/* D-10, E-7-1, E-7-4, F-2-7, F-5, F-6 특별 처리: 변경/연장 섹션 */}
-        {(visaStep === 'd10' || visaStep === 'e71' || visaStep === 'e74' || visaStep === 'f27' || visaStep === 'f27_e71' || visaStep === 'f5' || visaStep === 'f5_veteran' || visaStep === 'f5_marriage' || visaStep === 'f6') && VISA_GUIDE_DATA[visaStep]?.docs && (
+        {(visaStep === 'd10' || visaStep === 'e71' || visaStep === 'e74' || visaStep === 'f27' || visaStep === 'f27_e71' || visaStep === 'f5' || visaStep === 'f5_veteran' || visaStep === 'f5_marriage' || visaStep === 'f6' || visaStep === 'f299') && VISA_GUIDE_DATA[visaStep]?.docs && (
           <>
             {/* F-6, F-5-2: 섹션 기반 문서 */}
             {(visaStep === 'f6' || visaStep === 'f5_marriage') && VISA_GUIDE_DATA[visaStep].docs.change_sections && (
@@ -295,7 +295,7 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
         )}
 
         {/* 다른 비자: 기존 방식 */}
-        {visaStep !== 'd10' && visaStep !== 'e71' && visaStep !== 'e74' && visaStep !== 'f27' && visaStep !== 'f27_e71' && visaStep !== 'f5' && visaStep !== 'f5_veteran' && visaStep !== 'f5_marriage' && visaStep !== 'e9' && (
+        {visaStep !== 'd10' && visaStep !== 'e71' && visaStep !== 'e74' && visaStep !== 'f27' && visaStep !== 'f27_e71' && visaStep !== 'f5' && visaStep !== 'f5_veteran' && visaStep !== 'f5_marriage' && visaStep !== 'e9' && visaStep !== 'f299' && (
           <>
             {/* ── 필수 서류 섹션 ── */}
             {requiredDocs.length > 0 && (
