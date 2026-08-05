@@ -183,15 +183,6 @@ const VISA_GUIDE_DATA = {
         { ko:'현재 고용계약서, 회사 사업자등록증', vi:'Hợp đồng lao động hiện tại, Giấy chứng nhận đăng ký kinh doanh của công ty đang làm việc.' },
         { ko:'직원 확인서 (재직증명서)', vi:'Giấy xác nhận đang làm việc (재직증명서).' },
         { ko:'주택 임차계약서 또는 부동산 소유증서', vi:'Hợp đồng thuê nhà hoặc giấy tờ sở hữu bất động sản để chứng minh nơi ở ổn định.' },
-      ],
-      extension: [
-        { ko:'[신청자] 통합신청서 (\'체류기간 연장\' 항목 체크)', vi:'[ ] Đơn tổng hợp (통합신청서): Tích chọn mục Gia hạn thời gian lưu trú (Extension of Stay).' },
-        { ko:'[신청자] 여권 & 외국인등록증(ARC) 원본', vi:'[ ] Hộ chiếu & Thẻ ARC gốc.' },
-        { ko:'[신청자] 점수표 (최신 기준으로 재계산)', vi:'[ ] Bảng tự chấm điểm (점수표): Điền theo mẫu cập nhật mới nhất.' },
-        { ko:'[신청자] 소득금액증명원 (최근 연도 - 가장 중요!)', vi:'[ ] Giấy chứng nhận thu nhập (소득금액증명원): Do Cục Thuế cấp cho năm gần nhất (Đây là giấy tờ quan trọng nhất để chứng minh bạn vẫn duy trì đủ điểm thu nhập).' },
-        { ko:'[신청자] 현재 고용계약서 (계약 유효 기간 확인)', vi:'[ ] Hợp đồng lao động hiện tại (để chứng minh bạn vẫn đang có công việc hợp pháp).' },
-        { ko:'[신청자] 거주지 임차계약서', vi:'[ ] Hợp đồng thuê nhà (Chứng minh nơi cư trú).' },
-        { ko:'[신청자] 연장 수수료: 60,000 KRW', vi:'[ ] Lệ phí gia hạn: 60.000 KRW.' },
       ]
     },
   },
