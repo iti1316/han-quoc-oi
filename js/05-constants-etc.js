@@ -45,5 +45,5 @@ const CAT_LABELS_VI = {
   hall:   { vi:'Bảng Vàng',           desc_vi:'Chia sẻ kết quả đậu' },
   sos:    { vi:'Cứu Trợ Khẩn Cấp',   desc_vi:'Câu hỏi khẩn về hồ sơ/thủ tục' },
   talk:   { vi:'Kinh nghiệm Thực tế', desc_vi:'Trải nghiệm bị từ chối' },
-  bamboo: { vi:'Rừng Tre Ẩn Danh',   desc_vi:'Nói chuyện ẩn danh tự do' },
+  bamboo: { vi:'Góc tám chuyện ẩn danh',   desc_vi:'Nói bất cứ điều gì bạn muốn, ẩn danh hoàn toàn' },
 };

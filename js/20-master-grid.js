@@ -1,7 +1,7 @@
 const MASTER_BTNS = [
   { e:'📘', ko:'비자 변경\n및 연장',       vi:'Đổi và gia hạn\nVisa',       sub_ko:'모든 비자 가이드',    sub_vi:'Hướng dẫn tất cả visa', bg:'bg-blue-600',   act:()=>({page:'visaHub'}) },
   { e:'📸', ko:'여행 및\n맛집 소개',      vi:'Du lịch và ẩm\nthực',  sub_ko:'주말 감성 핫플',       sub_vi:'Địa điểm hot, quán ăn ngon',     bg:'bg-pink-500',   act:()=>({page:'classicBoard', param:'travel'}) },
-  { e:'🤫', ko:'대나무숲\n완전 익명',     vi:'Góc tám\nchuyện',           sub_ko:'대나무숲 익명',        sub_vi:'Nói bất cứ điều gì\nbạn muốn',      bg:'bg-orange-500', act:()=>({page:'classicBoard', param:'bamboo'}) },
+  { e:'🤫', ko:'대나무숲\n완전 익명',     vi:'Góc tám chuyện ẩn danh',           sub_ko:'대나무숲 익명',        sub_vi:'Nói bất cứ điều gì bạn muốn, ẩn danh hoàn toàn',      bg:'bg-orange-500', act:()=>({page:'classicBoard', param:'bamboo'}) },
   { e:'🥕', ko:'당근마켓\n꿀매물',        vi:'Góc mua\nbán',              sub_ko:'당근마켓 꿀매물',      sub_vi:'Mua bán sản phẩm mới cũ',           bg:'bg-orange-400', act:()=>({page:'classicBoard', param:'market'}) },
   { e:'🏠', ko:'집 구하기 및\n쉐어하우스',vi:'Thuê nhà và\nshare nhà ở', sub_ko:'집구하기',             sub_vi:'Thông tin bất động sản',       bg:'bg-teal-600',   act:()=>({page:'classicBoard', param:'house'}) },
   { e:'🏥', ko:'병원 찾기 및\n추천',      vi:'Tìm & giới thiệu\nbệnh viện', sub_ko:'병원찾기',              sub_vi:'Thông tin bệnh viện',          bg:'bg-rose-600',   act:()=>({page:'classicBoard', param:'hospital'}) },
