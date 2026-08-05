@@ -247,7 +247,7 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
             {visaStep !== 'f6' && VISA_GUIDE_DATA[visaStep].docs.change && (
               <div className="mb-6">
                 <div className="px-3 py-2 bg-green-50 border-l-4 border-green-600 mb-3 rounded-sm">
-                  <p className="text-sm font-black text-green-700">🔄 {lang==='vi' ? (visaStep === 'd10' ? 'Đổi visa (D-2 → D-10)' : visaStep === 'e71' ? 'Đổi visa (D-10 → E-7-1)' : visaStep === 'e74' ? 'Đổi visa (E-9 → E-7-4)' : visaStep.startsWith('f5') ? 'Cấp thẻ vĩnh trú (F-5)' : 'Đổi visa sang F-2-7') : (visaStep === 'd10' ? '비자 변경 (D-2 → D-10)' : visaStep === 'e71' ? '비자 변경 (D-10 → E-7-1)' : visaStep === 'e74' ? 'E-7-4 비자 변경' : visaStep.startsWith('f5') ? 'F-5 영주권 신청' : 'F-2-7 비자 변경')} ({VISA_GUIDE_DATA[visaStep].docs.change.length})</p>
+                  <p className="text-sm font-black text-green-700">🔄 {lang==='vi' ? (visaStep === 'd10' ? 'Đổi visa (D-2 → D-10)' : visaStep === 'e71' ? 'Đổi visa (D-10 → E-7-1)' : visaStep === 'e74' ? 'Đổi visa (E-9 → E-7-4)' : visaStep.startsWith('f5') ? 'Cấp thẻ vĩnh trú (F-5)' : visaStep === 'f299' ? 'Đổi visa sang F-2-99' : 'Đổi visa sang F-2-7') : (visaStep === 'd10' ? '비자 변경 (D-2 → D-10)' : visaStep === 'e71' ? '비자 변경 (D-10 → E-7-1)' : visaStep === 'e74' ? 'E-7-4 비자 변경' : visaStep.startsWith('f5') ? 'F-5 영주권 신청' : visaStep === 'f299' ? 'F-2-99 비자 변경' : 'F-2-7 비자 변경')} ({VISA_GUIDE_DATA[visaStep].docs.change.length})</p>
                 </div>
                 <div className="space-y-2">
                   {VISA_GUIDE_DATA[visaStep].docs.change.map((doc, idx) => (
@@ -268,7 +268,7 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
             {VISA_GUIDE_DATA[visaStep].docs.extension && (
               <div className="mb-6">
                 <div className="px-3 py-2 bg-blue-50 border-l-4 border-blue-600 mb-3 rounded-sm">
-                  <p className="text-sm font-black text-blue-700">🔁 {lang==='vi' ? (visaStep === 'd10' ? 'Gia hạn visa (D-10)' : visaStep === 'e71' ? 'Gia hạn visa (E-7-1)' : visaStep === 'e74' ? 'Gia hạn visa (E-7-4)' : visaStep.startsWith('f5') ? 'Gia hạn thẻ vĩnh trú (F-5)' : 'Gia hạn visa F-2-7') : (visaStep === 'd10' ? '비자 연장 (D-10)' : visaStep === 'e71' ? '비자 연장 (E-7-1)' : visaStep === 'e74' ? 'E-7-4 비자 연장' : visaStep.startsWith('f5') ? 'F-5 영주증 갱신' : 'F-2-7 비자 연장')} ({VISA_GUIDE_DATA[visaStep].docs.extension.length})</p>
+                  <p className="text-sm font-black text-blue-700">🔁 {lang==='vi' ? (visaStep === 'd10' ? 'Gia hạn visa (D-10)' : visaStep === 'e71' ? 'Gia hạn visa (E-7-1)' : visaStep === 'e74' ? 'Gia hạn visa (E-7-4)' : visaStep.startsWith('f5') ? 'Gia hạn thẻ vĩnh trú (F-5)' : visaStep === 'f299' ? 'Gia hạn visa F-2-99' : 'Gia hạn visa F-2-7') : (visaStep === 'd10' ? '비자 연장 (D-10)' : visaStep === 'e71' ? '비자 연장 (E-7-1)' : visaStep === 'e74' ? 'E-7-4 비자 연장' : visaStep.startsWith('f5') ? 'F-5 영주증 갱신' : visaStep === 'f299' ? 'F-2-99 비자 연장' : 'F-2-7 비자 연장')} ({VISA_GUIDE_DATA[visaStep].docs.extension.length})</p>
                 </div>
                 <div className="space-y-2">
                   {VISA_GUIDE_DATA[visaStep].docs.extension.map((doc, idx) => (
