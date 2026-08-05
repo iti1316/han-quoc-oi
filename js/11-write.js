@@ -209,7 +209,6 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
           <div className="bg-white rounded-2xl shadow-sm px-4 py-4 mb-3 fade-in">
             <div className="flex items-center gap-2 mb-1">
               <p className="text-xs font-black text-gray-700">📍 {lang==='vi'?'Chọn khu vực':'지역 선택'}</p>
-              <span className="text-[9px] font-black text-white bg-red-500 px-1.5 py-0.5 rounded-full">필수</span>
             </div>
             <p className="text-[10px] text-gray-400 mb-3">
               {lang==='vi'
@@ -223,7 +222,7 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
               onChange={e=>{ setSido(e.target.value); setSigungu(''); setDong(''); }}
               className={`w-full border-2 rounded-xl px-3 py-2.5 text-sm mb-2 focus:outline-none transition
                 ${sido ? 'border-blue-400 bg-blue-50 text-blue-800 font-bold' : 'border-gray-200 text-gray-500'}`}>
-              <option value="">📍 시/도 선택 *</option>
+              <option value="">📍 시/도 선택</option>
               {Object.keys(KOREA_REGIONS).map(r=>(
                 <option key={r} value={r}>{r}</option>
               ))}
@@ -236,7 +235,7 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
               disabled={!sido}
               className={`w-full border-2 rounded-xl px-3 py-2.5 text-sm mb-2 focus:outline-none transition
                 ${!sido ? 'border-gray-100 bg-gray-50 text-gray-300' : sigungu ? 'border-blue-400 bg-blue-50 text-blue-800 font-bold' : 'border-gray-200 text-gray-500'}`}>
-              <option value="">🏙️ 구/군 선택 *</option>
+              <option value="">🏙️ 구/군 선택</option>
               {sido && KOREA_REGIONS[sido]?.map(g=>(
                 <option key={g} value={g}>{g}</option>
               ))}
