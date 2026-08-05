@@ -82,8 +82,8 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
     }
 
     if (!title.trim() || !body.trim()) { setToast(L.emptyAlert); return; }
-    if (needLocation && (!sido || !sigungu)) {
-      setToast(lang==='vi' ? '지역(시/도, 구/군)을 선택해주세요 ⚠️' : '지역(시/도, 구/군)을 선택해주세요 ⚠️');
+    if (body.trim().length > 3000) {
+      setToast(lang==='vi' ? 'Nội dung quá dài (tối đa 3000 ký tự)' : '내용이 너무 깁니다 (최대 3000자)');
       return;
     }
     const loc = needLocation && sido ? { sido, sigungu, dong: dong.trim() } : null;
@@ -275,9 +275,10 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
 
         {/* 본문 */}
         <div className="bg-white rounded-2xl shadow-sm px-4 py-3 mb-3 fade-in">
-          <textarea value={body} onChange={e=>setBody(e.target.value)} rows={6}
+          <textarea value={body} onChange={e=>setBody(e.target.value)} maxLength={3000} rows={6}
             placeholder={L.bodyPlaceholder}
             className="w-full text-sm text-gray-700 focus:outline-none placeholder-gray-300 resize-none leading-relaxed" />
+          <div className="text-right text-[10px] text-gray-300 mt-1">{body.length}/3000</div>
         </div>
 
         {/* 사진 첨부 */}
