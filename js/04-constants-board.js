@@ -69,7 +69,7 @@ const SEARCH_BOARD_INFO = {
   hall:   { key:'d9',     emoji:'📘', ko:'비자 정보',   vi:'Visa',        bg:'bg-blue-600' },
   sos:    { key:'d9',     emoji:'📘', ko:'비자 정보',   vi:'Visa',        bg:'bg-blue-600' },
   bamboo: { key:'bamboo', emoji:'🤫', ko:'대나무숲',    vi:'Góc tám chuyện ẩn danh',    bg:'bg-orange-500' },
-  talk:   { key:'bamboo', emoji:'🤫', ko:'대나무숲',    vi:'Góc tám chuyện ẩn danh',    bg:'bg-orange-500' },
+  talk:   { key:'d9',     emoji:'📘', ko:'비자 정보',   vi:'Visa',        bg:'bg-blue-600' },
   travel: { key:'travel', emoji:'📸', ko:'여행·맛집',   vi:'Du lịch',     bg:'bg-pink-500' },
   market: { key:'market', emoji:'🥕', ko:'당근마켓',    vi:'Chợ',         bg:'bg-orange-400' },
   house:  { key:'house',  emoji:'🏠', ko:'집구하기',    vi:'Tìm nhà',     bg:'bg-teal-600' },
