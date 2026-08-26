@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const b=require\\('@babel/core'\\); const fs=require\\('fs'\\); try{ b.transformSync\\(fs.readFileSync\\('js/06-utils.js','utf8'\\),{presets:[['@babel/preset-react']],filename:'x.jsx'}\\); console.log\\('OK'\\); }catch\\(e\\){ console.log\\('ERROR:', e.message\\); }\")"
+    ]
+  }
+}
