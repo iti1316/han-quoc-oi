@@ -12,6 +12,7 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
   const [editBody, setEditBody] = useState('');
   const [showAllComments, setShowAllComments] = useState(false);
   const [reportModal, setReportModal] = useState(null);
+  const bodyInputRef = useRef(null);
 
   // post.commentsData 변경 시 동기화
   useEffect(() => {
@@ -75,14 +76,16 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
       ) : (
         <>
           <ul className="divide-y divide-gray-100">
-            {displayComments.map(c => (
+            {displayComments.map(c => {
+              const authorName = post.cat === 'bamboo' ? getBambooLabel(post, c.deviceId || c.author, lang) : (c.isAdmin ? 'Hàn Quốc Ơi' : c.author);
+              return (
               <li key={c.id} className="flex items-start gap-2.5 px-4 py-3">
                 <div className={`w-7 h-7 rounded-full ${post.cat === 'bamboo' ? 'bg-green-600' : safeAvatarColor(c)} flex items-center justify-center text-white text-xs font-black flex-shrink-0`}>
                   {post.cat === 'bamboo' ? '🎋' : safeAvatarChar(c)}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <p className="text-[11px] font-bold text-gray-700">{post.cat === 'bamboo' ? getBambooLabel(post, c.deviceId || c.author, lang) : (c.isAdmin ? 'Hàn Quốc Ơi' : c.author)}{post.cat !== 'bamboo' && c.isAdmin && <AdminBadge post={{isAdmin:true, cat:post.cat}} />}</p>
+                    <p className="text-[11px] font-bold text-gray-700">{authorName}{post.cat !== 'bamboo' && c.isAdmin && <AdminBadge post={{isAdmin:true, cat:post.cat}} />}</p>
                     <p className="text-[10px] text-gray-400">{c.date}</p>
                     <div className="ml-auto flex gap-1 items-center">
                       {c.deviceId !== deviceId && (
@@ -109,12 +112,26 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
                           </button>
                         </>
                       )}
+                      <button
+                        onClick={() => {
+                          const prefix = `@${authorName} `;
+                          if (!body.startsWith(prefix)) {
+                            setBody(prefix + body);
+                            setTimeout(() => bodyInputRef.current?.focus(), 0);
+                          } else {
+                            bodyInputRef.current?.focus();
+                          }
+                        }}
+                        className="text-[10px] text-green-400 hover:text-green-600 border border-green-100 hover:border-green-300 px-1.5 py-0.5 rounded tap transition">
+                        {lang==='vi'?'Trả lời':'답글'}
+                      </button>
                     </div>
                   </div>
                   <p className="text-xs text-gray-600 word-keep leading-relaxed">{c.body}</p>
                 </div>
               </li>
-            ))}
+              );
+            })}
           </ul>
 
           {/* 더보기 버튼 */}
@@ -130,6 +147,7 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
       {/* 댓글 작성 폼 */}
       <div className="px-4 pb-4 pt-2">
         <textarea
+          ref={bodyInputRef}
           value={body}
           onChange={e => setBody(e.target.value)}
           placeholder={L.cmtPlaceholder}
