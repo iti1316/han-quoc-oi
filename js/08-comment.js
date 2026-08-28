@@ -127,7 +127,7 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
                       </button>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-600 word-keep leading-relaxed">{c.body}</p>
+                  <p className="text-xs text-gray-600 word-keep leading-relaxed whitespace-pre-wrap">{c.body}</p>
                 </div>
               </li>
               );
