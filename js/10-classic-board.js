@@ -172,7 +172,7 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
             </div>
           ) : pagePosts.map((p, i) => {
             const num   = filtered.length - ((page-1)*PER_PAGE) - i;
-            const cmts  = p.commentsData?.length || p.comments || 0;
+            const cmts  = p.comments || 0;
             const views = fakeViews(p);
             const total = (p.likes||0)+(p.hearts||0)+(p.wows||0);
             const isHot = total >= 10 || cmts >= 10;

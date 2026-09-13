@@ -110,7 +110,7 @@ function getUnreadCount(posts, deviceId) {
   let total = 0;
   posts.forEach(p => {
     if (p.deviceId === deviceId) {
-      const current = p.commentsData?.length || p.comments || 0;
+      const current = p.comments || 0;
       const lastSeen = seen[p.id] || 0;
       if (current > lastSeen) total += (current - lastSeen);
     }
@@ -122,7 +122,7 @@ function getMyUnreadPosts(posts, deviceId) {
   return posts
     .filter(p => p.deviceId === deviceId)
     .map(p => {
-      const current = p.commentsData?.length || p.comments || 0;
+      const current = p.comments || 0;
       const lastSeen = seen[p.id] || 0;
       return { post: p, unread: Math.max(0, current - lastSeen) };
     })

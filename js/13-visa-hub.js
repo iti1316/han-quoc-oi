@@ -285,7 +285,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
                 ) : pageBoardPosts.map((p, i) => {
                   const num  = boardPosts.length - ((boardPage-1)*BOARD_PER) - i;
                   const badge = CAT_BADGE[p.cat] || CAT_BADGE.bamboo;
-                  const cmts  = p.commentsData?.length || p.comments || 0;
+                  const cmts  = p.comments || 0;
                   return (
                     <div key={p.id}
                       onClick={()=>nav({page:'postDetail', boardKey:'d9', postId:p.id})}

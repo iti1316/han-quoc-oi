@@ -24,7 +24,7 @@ function HotFeed({ posts, nav, lang }) {
     .filter(p => p.isPublic !== false && p.title && p.id && p.cat)
     .map(p => {
       const d   = ageDays(p);
-      const eng = (p.likes||0)+(p.hearts||0)+(p.wows||0) + (p.commentsData?.length||p.comments||0)*2;
+      const eng = (p.likes||0)+(p.hearts||0)+(p.wows||0) + (p.comments||0)*2;
       const mult = d <= 1 ? 3.0 : d <= 7 ? 1.8 : d <= 30 ? 1.2 : 1.0;
       return { ...p, _sc: eng * mult, _age: d };
     })
@@ -51,7 +51,7 @@ function HotFeed({ posts, nav, lang }) {
         ) : hotItems.map((item, i) => {
           const p     = item.post;
           const total = (p.likes||0)+(p.hearts||0)+(p.wows||0);
-          const cmts  = p.commentsData?.length || p.comments || 0;
+          const cmts  = p.comments || 0;
           const isNew24 = p._age <= 1;
           return (
             <div key={p.id}
@@ -116,7 +116,7 @@ function LatestFeed({ posts, nav, lang }) {
         ) : latestPosts.map(p => {
           const brd   = CAT_BOARD_MAP[p.cat] || CAT_BOARD_MAP.bamboo;
           const total = (p.likes||0)+(p.hearts||0)+(p.wows||0);
-          const cmts  = p.commentsData?.length || p.comments || 0;
+          const cmts  = p.comments || 0;
           return (
             <div key={p.id}
               onClick={() => nav({ page:'postDetail', boardKey:brd.key, postId:p.id })}
@@ -205,7 +205,7 @@ function SearchResults({ posts, query, nav, lang }) {
         ) : results.map(p => {
           const b     = SEARCH_BOARD_INFO[p.cat] || SEARCH_BOARD_INFO.bamboo;
           const total = (p.likes||0)+(p.hearts||0)+(p.wows||0);
-          const cmts  = p.commentsData?.length || p.comments || 0;
+          const cmts  = p.comments || 0;
           return (
             <div key={p.id}
               onClick={() => nav({ page:'postDetail', boardKey:b.key, postId:p.id })}

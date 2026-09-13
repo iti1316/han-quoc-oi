@@ -6,7 +6,8 @@ function usePosts() {
     try {
       const stored = JSON.parse(localStorage.getItem(BOARD_STORE));
       if (!stored) return defaultPosts().map(p => ({ ...p, deviceId: 'system_default' }));
-      return stored.map(p => ({
+      const arr = Array.isArray(stored) ? stored : Object.values(stored);
+      return arr.map(p => ({
         ...p,
         isPublic: p.isPublic !== undefined ? p.isPublic : true,
         deviceId: p.deviceId || 'system_default'  // 기존 데이터에 deviceId 없으면 추가
@@ -140,12 +141,9 @@ function usePosts() {
         return;
       }
 
-      if (!Array.isArray(data)) {
-        console.warn('⚠️ Firebase 데이터가 배열이 아님:', typeof data);
-        return;
-      }
+      const arr = Array.isArray(data) ? data : Object.values(data);
 
-      const validData = data.filter(p => p && p.id != null && p.author);
+      const validData = arr.filter(p => p && p.id != null && p.author);
       console.log(`✅ [refreshPosts] Firebase load: ${data.length}개 중 ${validData.length}개 유효`);
 
       setPosts(() => {
