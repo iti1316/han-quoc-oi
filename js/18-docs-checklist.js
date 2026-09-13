@@ -287,6 +287,12 @@ function DocsChecklistPage({ visaStep, onBack, lang }) {
           </>
         )}
 
+        {['d10','e71','e74','f27','f27_e71','f5','f5_veteran','f5_marriage','f6','f299'].includes(visaStep) && !VISA_GUIDE_DATA[visaStep]?.docs && (
+          <div className="bg-white rounded-2xl shadow-sm p-8 text-center text-gray-400">
+            {lang==='vi' ? 'Đang cập nhật' : '업데이트 중'}
+          </div>
+        )}
+
         {/* E-9 특별 설명 */}
         {visaStep === 'e9' && VISA_GUIDE_DATA['e9']?.docs?.description && (
           <div className="mb-6 px-6 py-6 bg-yellow-50 border-l-4 border-yellow-600 rounded-lg">
