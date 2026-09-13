@@ -175,8 +175,8 @@ function SearchResults({ posts, query, nav, lang }) {
   const results = posts
     .filter(p => p.isPublic !== false)
     .map(p => {
-      const inTitle = p.title.toLowerCase().includes(q);
-      const inBody  = p.body.toLowerCase().includes(q);
+      const inTitle = (p.title || '').toLowerCase().includes(q);
+      const inBody  = (p.body || '').toLowerCase().includes(q);
       if (!inTitle && !inBody) return null;
       return { ...p, _sc: inTitle ? 2 : 1 };
     })

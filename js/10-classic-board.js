@@ -1,5 +1,5 @@
 /* ── 클래식 테이블 게시판 ── */
-function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteComment, onUpdateComment, onDeletePost, deviceId }) {
+function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteComment, onUpdateComment, onDeletePost, deviceId, refreshAllPosts }) {
   const cfg = CLASSIC_BOARD_CFG[boardKey];
   if (!cfg) { nav({page:'home'}); return null; }
 
@@ -10,6 +10,7 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
   const [page,         setPage]         = useState(1);
   const [filterSido,   setFilterSido]   = useState('');
   const [filterSigungu,setFilterSigungu]= useState('');
+  const [fullLoaded,   setFullLoaded]   = useState(false);
   const PER_PAGE = 10;
   const hasLocFilter = ['market','house','travel','info','jobs'].includes(boardKey);
 
@@ -21,12 +22,19 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
   });
   const filtered = search.trim()
     ? boardPosts.filter(p =>
-        p.title.toLowerCase().includes(search.toLowerCase()) ||
-        p.body.toLowerCase().includes(search.toLowerCase()))
+        (p.title || '').toLowerCase().includes(search.toLowerCase()) ||
+        (p.body || '').toLowerCase().includes(search.toLowerCase()))
     : boardPosts;
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const pagePosts  = filtered.slice((page-1)*PER_PAGE, page*PER_PAGE);
+
+  React.useEffect(() => {
+    if (search.trim() && !fullLoaded && refreshAllPosts) {
+      setFullLoaded(true);
+      refreshAllPosts();
+    }
+  }, [search]);
 
   function fakeViews(p) {
     const s = typeof p.id === 'number' ? p.id : parseInt(p.id)||1;

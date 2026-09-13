@@ -151,7 +151,7 @@ function App() {
     }
   };
 
-  const shared = { nav, posts, lang, onAddPost:addPost, onDeletePost:deletePost, onUpdatePost:updatePost, onAddComment:addComment, onDeleteComment:deleteComment, onUpdateComment:updateComment, deviceId, onNicknameSave:handleNicknameSaveApp, refreshPosts, loadPostDetail };
+  const shared = { nav, posts, lang, onAddPost:addPost, onDeletePost:deletePost, onUpdatePost:updatePost, onAddComment:addComment, onDeleteComment:deleteComment, onUpdateComment:updateComment, deviceId, onNicknameSave:handleNicknameSaveApp, refreshPosts, refreshAllPosts, loadPostDetail };
 
 
   switch (route.page) {
