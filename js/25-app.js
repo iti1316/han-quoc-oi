@@ -17,7 +17,7 @@ function App() {
   });
   const [prevRoute, setPrevRoute] = useState({ page:'home', param:null });
   const [lang,     setLang]     = useState('vi');
-  const { posts, setPosts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId, refreshPosts, refreshAllPosts, loadPostDetail } = usePosts();
+  const { posts, setPosts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId, refreshPosts, refreshAllPosts, loadPostDetail, saveReaction, loadMyReaction } = usePosts();
 
   /* route 변경 시 browser history에 저장 */
   useEffect(() => {
@@ -151,7 +151,7 @@ function App() {
     }
   };
 
-  const shared = { nav, posts, lang, onAddPost:addPost, onDeletePost:deletePost, onUpdatePost:updatePost, onAddComment:addComment, onDeleteComment:deleteComment, onUpdateComment:updateComment, deviceId, onNicknameSave:handleNicknameSaveApp, refreshPosts, refreshAllPosts, loadPostDetail };
+  const shared = { nav, posts, lang, onAddPost:addPost, onDeletePost:deletePost, onUpdatePost:updatePost, onAddComment:addComment, onDeleteComment:deleteComment, onUpdateComment:updateComment, deviceId, onNicknameSave:handleNicknameSaveApp, refreshPosts, refreshAllPosts, loadPostDetail, saveReaction, loadMyReaction };
 
 
   switch (route.page) {

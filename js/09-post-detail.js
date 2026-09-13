@@ -1,5 +1,5 @@
 /* ── 게시글 상세 페이지 ── */
-function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDeleteComment, onUpdateComment, onDeletePost, onEditPost, deviceId, loadPostDetail }) {
+function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDeleteComment, onUpdateComment, onDeletePost, onEditPost, deviceId, loadPostDetail, saveReaction, loadMyReaction }) {
   const post = posts.find(p => p.id === postId || p.id === Number(postId));
   const cfg  = CLASSIC_BOARD_CFG[boardKey];
 
@@ -8,6 +8,12 @@ function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDe
     if (post && post.body === undefined && loadPostDetail) {
       setBodyLoading(true);
       loadPostDetail(post.id).finally(() => setBodyLoading(false));
+    }
+  }, [post?.id]);
+
+  useEffect(() => {
+    if (post && loadMyReaction) {
+      loadMyReaction(post.id).then(v => setAct(v || null));
     }
   }, [post?.id]);
 
@@ -82,9 +88,7 @@ useEffect(() => {
   );
 
   function react(type) {
-    const same = act === type;
-    setR(p=>{ const n={...p}; if(same) n[type]=Math.max(0,n[type]-1); else{ if(act) n[act]=Math.max(0,n[act]-1); n[type]++; } return n; });
-    setAct(same?null:type);
+    if (saveReaction) saveReaction(post, type).then(next => setAct(next));
   }
 
   const BTNS = [

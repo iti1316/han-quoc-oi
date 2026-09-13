@@ -271,12 +271,65 @@ function usePosts() {
     }
   };
 
+  // [반응] 서버 저장 — deviceId 기준 1인 1반응
+  const saveReaction = async (post, type) => {
+    if (!post) return;
+    const pid = post.id;
+    const cat = post.cat || 'etc';
+    try {
+      const prevRes = await fetch(`${FIREBASE_REACTIONS_URL}/${pid}/${deviceId}.json`);
+      const prev = await prevRes.json();
+      const next = (prev === type) ? null : type;
+
+      const counts = {
+        likes: post.likes || 0,
+        hearts: post.hearts || 0,
+        wows: post.wows || 0
+      };
+      if (prev && counts[prev] !== undefined) counts[prev] = Math.max(0, counts[prev] - 1);
+      if (next && counts[next] !== undefined) counts[next] = counts[next] + 1;
+
+      setPosts(p => p.map(x => x.id === pid ? { ...x, ...counts } : x));
+
+      await fetch(`${FIREBASE_REACTIONS_URL}/${pid}/${deviceId}.json`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(next)
+      });
+      await fetch(`${FIREBASE_BASE}/posts/${pid}.json`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(counts)
+      });
+      const idxPayload = {};
+      Object.keys(counts).forEach(k => { idxPayload[`${cat}/${pid}/${k}`] = counts[k]; });
+      await fetch(FIREBASE_INDEX_URL, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(idxPayload)
+      });
+      console.log('✅ 반응 저장:', type, next ? '적용' : '취소');
+      return next;
+    } catch (e) {
+      console.error('❌ 반응 저장 실패:', e.message);
+      return null;
+    }
+  };
+
+  // [반응] 내가 이 글에 누른 반응 조회
+  const loadMyReaction = async (postId) => {
+    try {
+      const res = await fetch(`${FIREBASE_REACTIONS_URL}/${postId}/${deviceId}.json`);
+      return await res.json();
+    } catch (e) { return null; }
+  };
+
   // [3-1 보완] 앱 시작 시 서버에서 1회 로드 — 실시간 구독 아님
   useEffect(() => {
     refreshPosts();
   }, []);
 
-  return { posts, setPosts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId, refreshPosts, refreshAllPosts, loadPostDetail };
+  return { posts, setPosts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId, refreshPosts, refreshAllPosts, loadPostDetail, saveReaction, loadMyReaction };
 }
 
 /* ================================================================
