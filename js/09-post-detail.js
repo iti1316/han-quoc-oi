@@ -117,14 +117,16 @@ useEffect(() => {
                 <p className="text-xs font-bold text-gray-700">{safeAuthor(post)}<AdminBadge post={post} /></p>
                 <p className="text-[10px] text-gray-400">{post.date}</p>
               </div>
-              {post.deviceId === deviceId && (
+              {(post.deviceId === deviceId || isAdminUser()) && (
                 <div className="flex gap-1 ml-2 flex-shrink-0">
                   <button onClick={() => nav({ page:'write', param:post.cat, editPost:post })}
                     className="text-[10px] text-blue-400 hover:text-blue-600 border border-blue-100 hover:border-blue-300 px-2 py-0.5 rounded tap transition">
                     {lang==='vi'?'Sửa':'수정'}
                   </button>
                   <button onClick={() => {
-                    if (confirm(lang==='vi'?'Xóa bài viết?':'글을 삭제하시겠어요?')) {
+                    if (confirm(isAdminUser() && post.deviceId !== deviceId
+                      ? (lang==='vi'?'[Quản trị] Xóa bài viết của người khác?':'[관리자] 다른 사람의 글을 삭제합니다. 계속하시겠습니까?')
+                      : (lang==='vi'?'Xóa bài viết?':'글을 삭제하시겠어요?'))) {
                       onDeletePost(post.id);
                       nav({page:'classicBoard', param:boardKey});
                     }

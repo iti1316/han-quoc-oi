@@ -42,7 +42,10 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
   }
 
   function handleDelete(c) {
-    if (c.deviceId !== deviceId) { alert(lang==='vi'?'Chỉ có thể xóa bình luận của chính bạn':'자신의 댓글만 삭제할 수 있습니다'); return; }
+    if (c.deviceId !== deviceId && !isAdminUser()) { alert(lang==='vi'?'Chỉ có thể xóa bình luận của chính bạn':'자신의 댓글만 삭제할 수 있습니다'); return; }
+    if (c.deviceId !== deviceId && isAdminUser()) {
+      if (!confirm(lang==='vi'?'[Quản trị] Xóa bình luận của người khác?':'[관리자] 다른 사람의 댓글을 삭제합니다. 계속하시겠습니까?')) return;
+    }
     const newComments = comments.filter(cmt => cmt.id !== c.id);
     setComments(newComments);
     onDeleteComment(post.id, c.id);
@@ -100,12 +103,14 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
                           🚩
                         </button>
                       )}
-                      {c.deviceId === deviceId && (
+                      {(c.deviceId === deviceId || isAdminUser()) && (
                         <>
-                          <button onClick={() => handleEditStart(c)}
-                            className="text-[10px] text-blue-400 hover:text-blue-600 border border-blue-100 hover:border-blue-300 px-1.5 py-0.5 rounded tap transition">
-                            {lang==='vi'?'Sửa':'수정'}
-                          </button>
+                          {c.deviceId === deviceId && (
+                            <button onClick={() => handleEditStart(c)}
+                              className="text-[10px] text-blue-400 hover:text-blue-600 border border-blue-100 hover:border-blue-300 px-1.5 py-0.5 rounded tap transition">
+                              {lang==='vi'?'Sửa':'수정'}
+                            </button>
+                          )}
                           <button onClick={() => handleDelete(c)}
                             className="text-[10px] text-red-400 hover:text-red-600 border border-red-100 hover:border-red-300 px-1.5 py-0.5 rounded tap transition">
                             {L.cmtDelete}
