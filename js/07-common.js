@@ -194,6 +194,11 @@ function usePosts() {
     }
   };
 
+  // [3-1 보완] 앱 시작 시 서버에서 1회 로드 — 실시간 구독 아님
+  useEffect(() => {
+    refreshPosts();
+  }, []);
+
   return { posts, setPosts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId, refreshPosts };
 }
 
