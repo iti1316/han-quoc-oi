@@ -136,6 +136,43 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
 
   const pendingCount = reports.filter(r => r.status === 'pending').length;
 
+  // [대시보드] 통계 집계 — posts(인덱스)로 계산, 추가 조회 없음
+  const stats = React.useMemo(() => {
+    const list = (posts || []).filter(p => p && p.id);
+    const today = new Date().toLocaleDateString('ko-KR');
+    const weekAgo = Date.now() - 7 * 86400000;
+    const parseD = (d) => { try { return new Date(String(d).replace(/\./g, '-')).getTime(); } catch { return 0; } };
+
+    const byCat = {};
+    let comments = 0, reactions = 0, withComment = 0, noReaction = 0;
+    let todayCount = 0, weekCount = 0;
+
+    list.forEach(p => {
+      const c = p.cat || 'etc';
+      byCat[c] = (byCat[c] || 0) + 1;
+      const cm = p.comments || 0;
+      const rc = (p.likes || 0) + (p.hearts || 0) + (p.wows || 0);
+      comments += cm;
+      reactions += rc;
+      if (cm > 0) withComment++;
+      if (rc === 0 && cm === 0) noReaction++;
+      if (p.date === today) todayCount++;
+      if (parseD(p.date) >= weekAgo) weekCount++;
+    });
+
+    const recent = [...list].sort((a, b) => (b.id || 0) - (a.id || 0)).slice(0, 20);
+    const quiet = list.filter(p => (p.comments || 0) === 0 &&
+      ((p.likes || 0) + (p.hearts || 0) + (p.wows || 0)) === 0)
+      .sort((a, b) => (b.id || 0) - (a.id || 0)).slice(0, 15);
+
+    return {
+      total: list.length, comments, reactions, todayCount, weekCount,
+      byCat: Object.entries(byCat).sort((a, b) => b[1] - a[1]),
+      engageRate: list.length ? Math.round(withComment / list.length * 100) : 0,
+      noReaction, recent, quiet
+    };
+  }, [posts]);
+
   if (authChecking) {
     return (
       <div style={{background:'#F5F6F8', minHeight:'100vh'}} className="flex items-center justify-center">
@@ -244,6 +281,62 @@ function AdminPage({ nav, posts, lang = 'vi', onDeletePost }) {
       </header>
 
       <div className="max-w-4xl mx-auto px-3 pt-4 pb-6">
+        {/* [대시보드] 사이트 현황 */}
+        <div className="bg-white rounded-lg p-4 mb-4">
+          <p className="font-black text-gray-800 mb-3">📊 사이트 현황</p>
+          <div className="flex flex-wrap gap-3 mb-4">
+            <div className="flex-1 min-w-[80px] text-center">
+              <p className="text-2xl font-black text-blue-600">{stats.total}</p>
+              <p className="text-[11px] text-gray-500">전체 글</p>
+            </div>
+            <div className="flex-1 min-w-[80px] text-center">
+              <p className="text-2xl font-black text-green-600">{stats.todayCount}</p>
+              <p className="text-[11px] text-gray-500">오늘 새 글</p>
+            </div>
+            <div className="flex-1 min-w-[80px] text-center">
+              <p className="text-2xl font-black text-green-600">{stats.weekCount}</p>
+              <p className="text-[11px] text-gray-500">최근 7일</p>
+            </div>
+            <div className="flex-1 min-w-[80px] text-center">
+              <p className="text-2xl font-black text-purple-600">{stats.comments}</p>
+              <p className="text-[11px] text-gray-500">총 댓글</p>
+            </div>
+            <div className="flex-1 min-w-[80px] text-center">
+              <p className="text-2xl font-black text-pink-600">{stats.reactions}</p>
+              <p className="text-[11px] text-gray-500">총 반응</p>
+            </div>
+            <div className="flex-1 min-w-[80px] text-center">
+              <p className="text-2xl font-black text-gray-700">{stats.engageRate}%</p>
+              <p className="text-[11px] text-gray-500">댓글 달린 글</p>
+            </div>
+          </div>
+
+          <p className="font-black text-gray-700 text-sm mb-2">게시판별 글 수</p>
+          <div className="mb-4">
+            {stats.byCat.map(([cat, n]) => (
+              <div key={cat} className="flex items-center gap-2 mb-1">
+                <span className="text-xs text-gray-600 w-20 flex-shrink-0">{cat}</span>
+                <div className="flex-1 bg-gray-100 rounded h-4 overflow-hidden">
+                  <div className="bg-blue-500 h-4" style={{width: `${Math.round(n / stats.total * 100)}%`}}></div>
+                </div>
+                <span className="text-xs font-bold text-gray-700 w-8 text-right">{n}</span>
+              </div>
+            ))}
+          </div>
+
+          <p className="font-black text-gray-700 text-sm mb-2">
+            반응 없는 글 <span className="text-gray-400 font-normal">({stats.noReaction}개)</span>
+          </p>
+          <div className="mb-2">
+            {stats.quiet.map(p => (
+              <p key={p.id} className="text-xs text-gray-500 mb-1 truncate">
+                [{p.cat}] {p.title}
+              </p>
+            ))}
+            {stats.quiet.length === 0 && <p className="text-xs text-gray-400">없음</p>}
+          </div>
+        </div>
+
         {/* 통계 */}
         <div className="grid grid-cols-3 gap-2 mb-4">
           <div className="bg-blue-500 text-white p-3 rounded-lg text-center">
