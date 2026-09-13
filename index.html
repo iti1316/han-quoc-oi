@@ -98,6 +98,17 @@
     window.database = database;
     window.storage = storage;
     window.auth = auth;
+
+    // [Analytics] 초기화 — 실패해도 앱이 죽지 않도록 방어
+    try {
+      window.fbAnalytics = firebase.analytics();
+      window.logEv = function (name, params) {
+        try { if (window.fbAnalytics) window.fbAnalytics.logEvent(name, params || {}); } catch (e) {}
+      };
+    } catch (e) {
+      console.warn('Analytics 초기화 실패:', e.message);
+      window.logEv = function () {};
+    }
   </script>
 </head>
 <body>

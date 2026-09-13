@@ -28,6 +28,12 @@ function App() {
       url = `#/${route.page}/${route.param || ''}`.replace(/\/$/, '');
     }
     window.history.pushState(route, '', url);
+    if (window.logEv) {
+      const name = route.page === 'classicBoard' ? `board_${route.param || 'unknown'}`
+                 : route.page === 'postDetail'   ? `post_${route.boardKey || 'unknown'}`
+                 : route.page;
+      window.logEv('screen_view', { screen_name: name, page: route.page, param: String(route.param || '') });
+    }
   }, [route]);
 
   /* 페이지 로드 시 해시에서 route 파싱 */

@@ -14,6 +14,14 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
   const PER_PAGE = 10;
   const hasLocFilter = ['market','house','travel','info','jobs'].includes(boardKey);
 
+  React.useEffect(() => {
+    if (!search.trim()) return;
+    const t = setTimeout(() => {
+      if (window.logEv) window.logEv('search', { search_term: search.trim(), board: boardKey });
+    }, 1200);
+    return () => clearTimeout(t);
+  }, [search]);
+
   const boardPosts = posts.filter(p => {
     if (!cfg.cats.includes(p.cat) || p.isPublic === false) return false;
     if (hasLocFilter && filterSido    && p.location?.sido    !== filterSido)    return false;
