@@ -203,8 +203,8 @@ function usePosts() {
   }
 
   // Firebase에서 최신 데이터 다시 불러오기 (다른 기기의 변경사항 반영용)
-  const refreshPosts = async () => {
-    console.log('🔄 [refreshPosts] Firebase에서 최신 데이터 불러오는 중...');
+  const refreshAllPosts = async () => {
+    console.log('🔄 [refreshAllPosts] Firebase에서 최신 데이터 불러오는 중...');
     try {
       const res = await fetch(FIREBASE_POSTS_URL, { timeout: 10000 });
       const data = await res.json();
@@ -217,7 +217,7 @@ function usePosts() {
       const arr = Array.isArray(data) ? data : Object.values(data);
 
       const validData = arr.filter(p => p && p.id != null && p.author);
-      console.log(`✅ [refreshPosts] Firebase load: ${data.length}개 중 ${validData.length}개 유효`);
+      console.log(`✅ [refreshAllPosts] Firebase load: ${data.length}개 중 ${validData.length}개 유효`);
 
       setPosts(() => {
         try {
@@ -228,7 +228,31 @@ function usePosts() {
         return validData;
       });
     } catch (e) {
-      console.error('❌ [refreshPosts] Firebase load error:', e.message);
+      console.error('❌ [refreshAllPosts] Firebase load error:', e.message);
+    }
+  };
+
+  // [3-2C] 목록용 — 요약만 조회 (약 28KB, 전체 조회 대비 85% 절감)
+  const refreshPosts = async () => {
+    console.log('🔄 [refreshPosts] 인덱스 불러오는 중...');
+    try {
+      const res = await fetch(FIREBASE_INDEX_URL);
+      const data = await res.json();
+      if (!data) { console.log('인덱스 없음'); return; }
+      const flat = [];
+      Object.values(data).forEach(board => {
+        if (board) Object.values(board).forEach(p => { if (p && p.id != null) flat.push(p); });
+      });
+      console.log(`✅ [refreshPosts] 인덱스 로드: ${flat.length}개`);
+      setPosts(prev => {
+        const bodyMap = {};
+        prev.forEach(p => { if (p && p.body !== undefined) bodyMap[p.id] = p; });
+        const merged = flat.map(p => bodyMap[p.id] ? { ...bodyMap[p.id], ...p } : p);
+        try { localStorage.setItem(BOARD_STORE, JSON.stringify(merged)); } catch (e) {}
+        return merged;
+      });
+    } catch (e) {
+      console.error('❌ [refreshPosts] 인덱스 로드 실패:', e.message);
     }
   };
 
@@ -237,7 +261,7 @@ function usePosts() {
     refreshPosts();
   }, []);
 
-  return { posts, setPosts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId, refreshPosts };
+  return { posts, setPosts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId, refreshPosts, refreshAllPosts };
 }
 
 /* ================================================================
