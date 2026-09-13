@@ -102,7 +102,7 @@ function LegalPage({ type, onBack, lang }) {
                     <p className="text-sm leading-relaxed">Mọi thắc mắc về Điều khoản này, vui lòng liên hệ:</p>
                     <ul className="list-disc list-inside space-y-1 ml-2 text-sm mt-2">
                       <li>Ban quản trị: Hàn Quốc Ơi</li>
-                      <li>Email: iti1316@gmail.com</li>
+                      <li>Email: lienhe@hanquocoivn.com</li>
                     </ul>
                   </div>
                 </div>
@@ -192,7 +192,7 @@ function LegalPage({ type, onBack, lang }) {
                     <p className="text-sm leading-relaxed">본 약관에 관한 문의는 아래로 연락하시기 바랍니다.</p>
                     <ul className="list-disc list-inside space-y-1 ml-2 text-sm mt-2">
                       <li>운영자: Hàn Quốc Ơi 운영팀</li>
-                      <li>이메일: iti1316@gmail.com</li>
+                      <li>이메일: lienhe@hanquocoivn.com</li>
                     </ul>
                   </div>
                 </div>
@@ -302,7 +302,7 @@ function LegalPage({ type, onBack, lang }) {
                     <p className="text-sm leading-relaxed mb-2">Mọi thắc mắc, yêu cầu xóa thông tin hoặc khiếu nại về thông tin cá nhân, vui lòng liên hệ:</p>
                     <ul className="list-disc list-inside space-y-1 ml-2 text-sm">
                       <li>Phụ trách: Ban quản trị Hàn Quốc Ơi</li>
-                      <li>Email: iti1316@gmail.com</li>
+                      <li>Email: lienhe@hanquocoivn.com</li>
                     </ul>
                   </div>
                 </div>
@@ -411,7 +411,7 @@ function LegalPage({ type, onBack, lang }) {
                     <p className="text-sm leading-relaxed mb-2">개인정보 관련 문의, 삭제 요청, 불만 사항은 아래로 연락하시기 바랍니다.</p>
                     <ul className="list-disc list-inside space-y-1 ml-2 text-sm">
                       <li>담당: Hàn Quốc Ơi 운영팀</li>
-                      <li>이메일: iti1316@gmail.com</li>
+                      <li>이메일: lienhe@hanquocoivn.com</li>
                     </ul>
                   </div>
                 </div>
@@ -452,8 +452,8 @@ function SiteFooter({ lang, nav }) {
         <div className="text-center text-[11px] text-gray-400">
           {lang === 'vi' ? 'Hợp tác · Quảng cáo · Liên hệ' : '제휴 · 광고 · 문의'}{' '}
           <span className="text-gray-500">—</span>{' '}
-          <a href="mailto:iti1316@gmail.com" className="text-gray-400 hover:text-white underline tap transition">
-            iti1316@gmail.com
+          <a href="mailto:lienhe@hanquocoivn.com" className="text-gray-400 hover:text-white underline tap transition">
+            lienhe@hanquocoivn.com
           </a>
         </div>
 
