@@ -42,6 +42,44 @@ function usePosts() {
         else { throw new Error(`Firebase error: ${res.statusText}`); }
       })
       .catch(e => console.error('❌ PATCH 저장 실패:', e.message));
+
+    // [3-2C] postsIndex 동시 갱신 — 목록 화면용 요약
+    const idxPayload = {};
+    if (deletedId != null) {
+      const gone = posts.find(x => x.id === deletedId);
+      if (gone) idxPayload[`${gone.cat || 'etc'}/${deletedId}`] = null;
+    } else if (changedPost) {
+      const c = changedPost.cat || 'etc';
+      idxPayload[`${c}/${changedPost.id}`] = {
+        id: changedPost.id,
+        cat: c,
+        title: changedPost.title || '',
+        author: changedPost.author || '',
+        date: changedPost.date || '',
+        deviceId: changedPost.deviceId || '',
+        isAdmin: !!changedPost.isAdmin,
+        isPublic: changedPost.isPublic !== false,
+        isNew: !!changedPost.isNew,
+        likes: changedPost.likes || 0,
+        hearts: changedPost.hearts || 0,
+        wows: changedPost.wows || 0,
+        comments: changedPost.comments || (changedPost.commentsData ? changedPost.commentsData.length : 0),
+        hasImages: !!(changedPost.images && changedPost.images.length),
+        location: changedPost.location || null
+      };
+    }
+    if (Object.keys(idxPayload).length > 0) {
+      fetch(FIREBASE_INDEX_URL, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(idxPayload)
+      })
+        .then(res => {
+          if (res.ok) { console.log('✅ 인덱스 갱신 성공'); }
+          else { throw new Error(`인덱스 오류: ${res.statusText}`); }
+        })
+        .catch(e => console.error('⚠️ 인덱스 갱신 실패 (목록과 실제 글이 어긋날 수 있음):', e.message));
+    }
   };
 
   const save = (next) => {

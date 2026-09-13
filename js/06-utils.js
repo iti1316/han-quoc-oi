@@ -10,6 +10,7 @@ function isAdminUser() {
 }
 
 const FIREBASE_POSTS_URL = `${FIREBASE_BASE}/posts.json`;
+const FIREBASE_INDEX_URL = `${FIREBASE_BASE}/postsIndex.json`;
 const FIREBASE_PROFILES_URL = `${FIREBASE_BASE}/userProfiles`;
 
 /* ── 공지사항 ── */
