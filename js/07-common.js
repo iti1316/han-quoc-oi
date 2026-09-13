@@ -59,6 +59,8 @@ function usePosts() {
   const deletePost = (id)        => save(posts.filter(p => p.id !== id));
   const updatePost = (id, edits) => save(posts.map(p => p.id === id ? { ...p, ...edits } : p));
 
+  // [3-1] 실시간 구독 제거 — 트래픽 절감. 갱신은 refreshPosts() 로 수동 처리
+  /*
   // Firebase 실시간 리스너 — 누구든 글/댓글/반응을 바꾸는 즉시 모든 사용자 화면에 자동 반영
   useEffect(() => {
     const postsRef = window.database.ref('posts');
@@ -102,6 +104,7 @@ function usePosts() {
       postsRef.off('value', handleValue);
     };
   }, []);
+  */
 
   function addComment(postId, comment) {
     save(posts.map(p => {
