@@ -152,8 +152,10 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
           onChange={e => setBody(e.target.value)}
           placeholder={L.cmtPlaceholder}
           rows={2}
+          maxLength={1000}
           className="w-full text-xs text-gray-700 border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:border-blue-400 placeholder-gray-300 resize-none leading-relaxed"
         />
+        <div className={`text-right text-[10px] mt-1 ${body.length > 900 ? 'text-orange-500' : 'text-gray-300'}`}>{body.length}/1000</div>
         <button
           onClick={submit}
           disabled={!body.trim()}
@@ -174,6 +176,7 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
               onChange={e => setEditBody(e.target.value)}
               placeholder={L.cmtPlaceholder}
               rows={3}
+              maxLength={1000}
               className="w-full text-xs text-gray-700 border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:border-blue-400 placeholder-gray-300 resize-none leading-relaxed mb-3"
             />
             <div className="grid grid-cols-2 gap-2">
