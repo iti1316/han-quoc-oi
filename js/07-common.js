@@ -256,12 +256,27 @@ function usePosts() {
     }
   };
 
+  // [3-2D] 상세용 — 글 하나의 본문·댓글만 조회
+  const loadPostDetail = async (postId) => {
+    try {
+      const res = await fetch(`${FIREBASE_BASE}/posts/${postId}.json`);
+      const full = await res.json();
+      if (!full || full.id == null) { console.warn('글 없음:', postId); return null; }
+      setPosts(prev => prev.map(p => p.id === full.id ? { ...p, ...full } : p));
+      console.log('✅ 본문 로드:', postId);
+      return full;
+    } catch (e) {
+      console.error('❌ 본문 로드 실패:', e.message);
+      return null;
+    }
+  };
+
   // [3-1 보완] 앱 시작 시 서버에서 1회 로드 — 실시간 구독 아님
   useEffect(() => {
     refreshPosts();
   }, []);
 
-  return { posts, setPosts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId, refreshPosts, refreshAllPosts };
+  return { posts, setPosts, addPost, deletePost, updatePost, addComment, deleteComment, updateComment, deviceId, refreshPosts, refreshAllPosts, loadPostDetail };
 }
 
 /* ================================================================

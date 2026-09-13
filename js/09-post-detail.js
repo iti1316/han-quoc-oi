@@ -1,7 +1,15 @@
 /* ── 게시글 상세 페이지 ── */
-function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDeleteComment, onUpdateComment, onDeletePost, onEditPost, deviceId }) {
+function PostDetailPage({ boardKey, postId, nav, posts, lang, onAddComment, onDeleteComment, onUpdateComment, onDeletePost, onEditPost, deviceId, loadPostDetail }) {
   const post = posts.find(p => p.id === postId || p.id === Number(postId));
   const cfg  = CLASSIC_BOARD_CFG[boardKey];
+
+  const [bodyLoading, setBodyLoading] = useState(false);
+  useEffect(() => {
+    if (post && post.body === undefined && loadPostDetail) {
+      setBodyLoading(true);
+      loadPostDetail(post.id).finally(() => setBodyLoading(false));
+    }
+  }, [post?.id]);
 
   const [r,        setR]        = useState({ likes:post?.likes||0, hearts:post?.hearts||0, wows:post?.wows||0 });
   const [act,      setAct]      = useState(null);
@@ -141,7 +149,9 @@ useEffect(() => {
 
           {/* 본문 */}
           <div className="px-5 py-5 border-b border-gray-100">
-            <p className="text-sm text-gray-700 leading-relaxed word-keep whitespace-pre-wrap">{post.body}</p>
+            {bodyLoading && post.body === undefined
+              ? <p className="text-sm text-gray-400">{lang==='vi'?'Đang tải...':'불러오는 중...'}</p>
+              : <p className="text-sm text-gray-700 leading-relaxed word-keep whitespace-pre-wrap">{post.body}</p>}
           </div>
 
           {/* 첨부 이미지 */}
