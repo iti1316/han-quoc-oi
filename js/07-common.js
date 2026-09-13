@@ -15,6 +15,35 @@ function usePosts() {
     }
     catch { return defaultPosts().map(p => ({ ...p, deviceId: 'system_default' })); }
   });
+
+  // [3-2B] 글 하나만 부분 저장 — 동시 편집 시 서로 덮어쓰지 않도록
+  const savePatch = (nextPosts, changedPost, deletedId) => {
+    setPosts(nextPosts);
+    try {
+      localStorage.setItem(BOARD_STORE, JSON.stringify(nextPosts));
+    } catch (e) {
+      console.warn('⚠️ LocalStorage 사용 불가:', e.message);
+    }
+    const payload = {};
+    if (deletedId != null) {
+      payload[String(deletedId)] = null;
+    } else if (changedPost) {
+      payload[String(changedPost.id)] = changedPost;
+    } else {
+      return;
+    }
+    fetch(FIREBASE_POSTS_URL, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(res => {
+        if (res.ok) { console.log('✅ PATCH 저장 성공'); }
+        else { throw new Error(`Firebase error: ${res.statusText}`); }
+      })
+      .catch(e => console.error('❌ PATCH 저장 실패:', e.message));
+  };
+
   const save = (next) => {
 
     setPosts(next);
@@ -55,10 +84,13 @@ function usePosts() {
     console.log('🟢 [addPost] 현재 posts 배열 길이:', posts.length);
     const newPostsArray = [p, ...posts];
     console.log('🟢 [addPost] 새 배열의 첫 번째 글:', newPostsArray[0]);
-    save(newPostsArray);
+    savePatch(newPostsArray, p, null);
   };
-  const deletePost = (id)        => save(posts.filter(p => p.id !== id));
-  const updatePost = (id, edits) => save(posts.map(p => p.id === id ? { ...p, ...edits } : p));
+  const deletePost = (id)        => savePatch(posts.filter(x => x.id !== id), null, id);
+  const updatePost = (id, edits) => {
+    const updated = posts.map(x => x.id === id ? { ...x, ...edits } : x);
+    savePatch(updated, updated.find(x => x.id === id), null);
+  };
 
   // [3-1] 실시간 구독 제거 — 트래픽 절감. 갱신은 refreshPosts() 로 수동 처리
   /*
@@ -108,25 +140,28 @@ function usePosts() {
   */
 
   function addComment(postId, comment) {
-    save(posts.map(p => {
+    const next = posts.map(p => {
       if (p.id !== postId) return p;
       const list = [...(p.commentsData || []), { ...comment, deviceId }];
       return { ...p, commentsData: list, comments: list.length };
-    }));
+    });
+    savePatch(next, next.find(x => x.id === postId), null);
   }
   function deleteComment(postId, commentId) {
-    save(posts.map(p => {
+    const next = posts.map(p => {
       if (p.id !== postId) return p;
       const list = (p.commentsData || []).filter(c => c.id !== commentId);
       return { ...p, commentsData: list, comments: list.length };
-    }));
+    });
+    savePatch(next, next.find(x => x.id === postId), null);
   }
   function updateComment(postId, commentId, edits) {
-    save(posts.map(p => {
+    const next = posts.map(p => {
       if (p.id !== postId) return p;
       const list = (p.commentsData || []).map(c => c.id === commentId ? { ...c, ...edits } : c);
       return { ...p, commentsData: list, comments: list.length };
-    }));
+    });
+    savePatch(next, next.find(x => x.id === postId), null);
   }
 
   // Firebase에서 최신 데이터 다시 불러오기 (다른 기기의 변경사항 반영용)
