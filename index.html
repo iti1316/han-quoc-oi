@@ -39,6 +39,9 @@
     * { font-family: 'Noto Sans KR', sans-serif; }
     body { background: #F0F2F5; }
     .word-keep  { word-break: keep-all; overflow-wrap: anywhere; }
+    #boot-loading { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px; background:#fff; z-index:9999; font-size:13px; color:#9ca3af; }
+    #boot-spin { width:28px; height:28px; border:3px solid #e5e7eb; border-top-color:#3b82f6; border-radius:50%; animation:boot-rot .8s linear infinite; }
+    @keyframes boot-rot { to { transform: rotate(360deg); } }
     .pre-wrap   { white-space: pre-wrap; }
     .line-clamp-2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
     .tap { transition: transform .12s; } .tap:active { transform: scale(.95); }
@@ -99,6 +102,7 @@
 </head>
 <body>
 <div id="root"></div>
+<div id="boot-loading"><div id="boot-spin"></div><span>Đang tải...</span></div>
 
   <script type="text/babel" src="js/00-react-init.js"></script>
   <script type="text/babel" src="js/01-constants-lang.js"></script>
@@ -133,5 +137,19 @@
 ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 </script>
   <script defer src="/_vercel/insights/script.js"></script>
+  <script>
+    (function(){
+      var t = setInterval(function(){
+        var r = document.getElementById('root');
+        var l = document.getElementById('boot-loading');
+        if (r && r.children.length > 0 && l) { l.remove(); clearInterval(t); }
+      }, 100);
+      setTimeout(function(){
+        var l = document.getElementById('boot-loading');
+        if (l) l.remove();
+        clearInterval(t);
+      }, 15000);
+    })();
+  </script>
 </body>
 </html>
