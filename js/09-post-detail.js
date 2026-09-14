@@ -112,7 +112,7 @@ useEffect(() => {
       <div className="max-w-2xl mx-auto px-3 pt-4 pb-24">
         <div className="bg-white border border-gray-200 rounded overflow-hidden">
           {/* 제목 + 작성자 */}
-          <div className="px-5 pt-5 pb-4 border-b border-gray-100">
+          <div className="px-4 pt-5 pb-4 border-b border-gray-100">
             {post.location?.sido && (
               <div className="mb-2">
                 <span className="text-[10px] font-black text-blue-600 bg-blue-50 border border-blue-200 px-2.5 py-1 rounded-full">
@@ -149,7 +149,7 @@ useEffect(() => {
           </div>
 
           {/* 본문 */}
-          <div className="px-5 py-5 border-b border-gray-100">
+          <div className="px-4 py-5 border-b border-gray-100">
             {bodyLoading && post.body === undefined
               ? <p className="text-sm text-gray-400">{lang==='vi'?'Đang tải...':'불러오는 중...'}</p>
               : <p className="text-sm text-gray-700 leading-relaxed word-keep whitespace-pre-wrap">{post.body}</p>}
@@ -157,7 +157,7 @@ useEffect(() => {
 
           {/* 첨부 이미지 */}
           {post.images && post.images.length > 0 && (
-            <div className="px-5 py-4 border-b border-gray-100">
+            <div className="px-4 py-4 border-b border-gray-100">
               <p className="text-[10px] font-black text-gray-400 mb-2">📷 {lang==='vi'?`${post.images.length}장의 사진`:`첨부 사진 ${post.images.length}장`}</p>
               <div className={`grid gap-2 ${post.images.length === 1 ? 'grid-cols-1' : post.images.length <= 4 ? 'grid-cols-2' : 'grid-cols-3'}`}>
                 {post.images.map((src, i) => (
@@ -177,7 +177,7 @@ useEffect(() => {
           )}
 
           {/* 리액션 + 공유 */}
-          <div className="px-5 py-3 border-b border-gray-100 flex items-center gap-2 flex-wrap">
+          <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2 flex-wrap">
             {BTNS.map(b=>(
               <button key={b.t} onClick={()=>react(b.t)}
                 className={`flex items-center gap-1 px-3 py-1.5 rounded-full border text-xs font-bold tap transition
@@ -197,7 +197,7 @@ useEffect(() => {
 
           {/* 신고 버튼 */}
           {post.deviceId !== deviceId && (
-            <div className="px-5 py-2 border-b border-gray-100">
+            <div className="px-4 py-2 border-b border-gray-100">
               <button
                 onClick={() => setReportModal(true)}
                 disabled={hasReported(post.id)}
