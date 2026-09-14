@@ -2,6 +2,7 @@
   "name": "Hàn Quốc Ơi",
   "short_name": "Hàn Quốc Ơi",
   "description": "Cộng đồng người Việt tại Hàn Quốc",
+    "id": "/",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
