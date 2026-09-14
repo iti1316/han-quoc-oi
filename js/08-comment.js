@@ -83,9 +83,6 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
               const authorName = isAnonCat(post) ? getBambooLabel(post, c.deviceId || c.author, lang) : (c.isAdmin ? 'Hàn Quốc Ơi' : c.author);
               return (
               <li key={c.id} className="flex items-start gap-2.5 px-4 py-3">
-                <div className={`w-7 h-7 rounded-full ${isAnonCat(post) ? 'bg-green-600' : safeAvatarColor(c)} flex items-center justify-center text-white text-xs font-black flex-shrink-0`}>
-                  {isAnonCat(post) ? '🎋' : safeAvatarChar(c)}
-                </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
                     <p className="text-[11px] font-bold text-gray-700">{authorName}{!isAnonCat(post) && c.isAdmin && <AdminBadge post={{isAdmin:true, cat:post.cat}} />}</p>

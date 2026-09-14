@@ -122,9 +122,6 @@ useEffect(() => {
             )}
             <h1 className="text-[15px] font-black text-gray-900 word-keep leading-snug mb-4">{post.title}</h1>
             <div className="flex items-center gap-3">
-              <div className={`w-9 h-9 rounded-full ${safeAvatarColor(post)} flex items-center justify-center text-white text-sm font-black flex-shrink-0`}>
-                {safeAvatarChar(post)}
-              </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-bold text-gray-700">{safeAuthor(post)}<AdminBadge post={post} /></p>
                 <p className="text-[10px] text-gray-400">{post.date}</p>
