@@ -150,7 +150,7 @@ const ANON_PATTERN = new RegExp(`^(${ANONS.join('|')}) #\\d{3}$`);
 
 /** bamboo 게시판 댓글 익명 레이블 (익명1, 익명2, ...) */
 function getBambooLabel(post, deviceIdOfWriter, lang) {
-  if (!post || post.cat !== 'bamboo') return null;
+  if (!post || !isAnonCat(post)) return null;
   const authorDev = post.deviceId;
   if (deviceIdOfWriter && authorDev && deviceIdOfWriter === authorDev) {
     return lang === 'vi' ? 'Tác giả' : '글쓴이';
@@ -168,7 +168,7 @@ function getBambooLabel(post, deviceIdOfWriter, lang) {
 
 /** author 필드를 안전한 익명 닉네임으로 보장 */
 function safeAuthor(post) {
-  if (post && post.cat === 'bamboo') {
+  if (isAnonCat(post)) {
     return (window.__lang === 'vi') ? 'Ẩn danh' : '익명';
   }
   if (post && post.isAdmin) return 'Hàn Quốc Ơi';
@@ -188,7 +188,7 @@ function safeAuthor(post) {
 
 /** 아바타 문자: author 첫 글자 대신 post.id 기반으로 고정 */
 function safeAvatarChar(post) {
-  if (post && post.cat === 'bamboo') return '🎋';
+  if (isAnonCat(post)) return '🎋';
   const author = safeAuthor(post);
   const seed = Math.abs((author.charCodeAt(0) || 0) + (author.charCodeAt(1) || 0));
   return ['익','D','V','하','H','버','A','B'][seed % 8];
