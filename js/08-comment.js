@@ -10,6 +10,7 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
   const [delModal, setDelModal] = useState(null);
   const [editModal, setEditModal] = useState(null);
   const [editBody, setEditBody] = useState('');
+  const [editNick, setEditNick] = useState('');
   const [showAllComments, setShowAllComments] = useState(false);
   const [reportModal, setReportModal] = useState(null);
   const [adminNick, setAdminNick] = useState(isAdminUser() ? 'Hàn Quốc Ơi' : '');
@@ -58,15 +59,17 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
     if (c.deviceId !== deviceId) { alert(lang==='vi'?'Chỉ có thể sửa bình luận của chính bạn':'자신의 댓글만 수정할 수 있습니다'); return; }
     setEditModal(c);
     setEditBody(c.body);
+    setEditNick(isAdminUser() ? (c.author || 'Hàn Quốc Ơi') : '');
   }
 
   function handleEditSave() {
     if (!editModal || !editBody.trim()) return;
+    const editNickTrim = (isAdminUser() && editNick.trim()) ? editNick.trim() : '';
     const newComments = comments.map(c =>
-      c.id === editModal.id ? { ...c, body: editBody.trim() } : c
+      c.id === editModal.id ? { ...c, body: editBody.trim(), ...(editNickTrim ? { author: editNickTrim, fixedAuthor: true } : {}) } : c
     );
     setComments(newComments);
-    onUpdateComment(post.id, editModal.id, { body: editBody.trim() });
+    onUpdateComment(post.id, editModal.id, { body: editBody.trim(), ...(editNickTrim ? { author: editNickTrim, fixedAuthor: true } : {}) });
     setEditModal(null);
     setEditBody('');
   }
@@ -186,6 +189,12 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
           <div className="bg-white rounded-t-3xl w-full max-w-lg px-6 pt-6 pb-10 shadow-2xl" onClick={e=>e.stopPropagation()}>
             <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5"></div>
             <p className="text-sm font-black text-gray-800 mb-3">{lang==='vi'?'Sửa bình luận':'댓글 수정'}</p>
+            {isAdminUser() && (
+              <input value={editNick} onChange={e=>setEditNick(e.target.value)}
+                maxLength={20}
+                placeholder="[관리자] 이 댓글의 닉네임"
+                className="w-full text-xs text-gray-700 border border-gray-200 rounded-xl px-3 py-2 mb-2 focus:outline-none placeholder-gray-300" />
+            )}
             <textarea
               value={editBody}
               onChange={e => setEditBody(e.target.value)}

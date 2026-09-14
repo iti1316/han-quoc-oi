@@ -27,7 +27,9 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
   /* 사진 첨부 */
   const [images,  setImages]  = useState(editPost?.images || []);
   const [imgLoading, setImgLoading] = useState(false);
-  const [adminNick, setAdminNick] = useState(isAdminUser() ? 'Hàn Quốc Ơi' : '');
+  const [adminNick, setAdminNick] = useState(
+    !isAdminUser() ? '' : (editPost ? (editPost.author || 'Hàn Quốc Ơi') : 'Hàn Quốc Ơi')
+  );
   const fileInputRef = useRef(null);
   const L = LANG[lang];
   const needLocation = LOCATION_CATS.includes(cat);
@@ -90,8 +92,10 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
     const loc = needLocation && sido ? { sido, sigungu, dong: dong.trim() } : null;
     const imgs = images.length > 0 ? images : undefined;
     if (isEdit) {
+      const editNick = (isAdminUser() && adminNick.trim()) ? adminNick.trim() : '';
       onUpdatePost(editPost.id, {
         cat, title: title.trim(), body: body.trim(), isPublic: true,
+        ...(editNick ? { author: editNick, fixedAuthor: true } : {}),
         ...(loc  ? { location: loc } : {}),
         ...(imgs ? { images: imgs }  : {}),
       });
