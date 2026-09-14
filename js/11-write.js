@@ -27,6 +27,7 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
   /* 사진 첨부 */
   const [images,  setImages]  = useState(editPost?.images || []);
   const [imgLoading, setImgLoading] = useState(false);
+  const [adminNick, setAdminNick] = useState(isAdminUser() ? 'Hàn Quốc Ơi' : '');
   const fileInputRef = useRef(null);
   const L = LANG[lang];
   const needLocation = LOCATION_CATS.includes(cat);
@@ -96,12 +97,14 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
       });
     } else {
       console.log('🟡 [WritePage Submit] window.userNickname 확인:', window.userNickname);
-      const finalAuthor = genAuthor();
+      const adminNickTrim = (isAdminUser() && adminNick.trim()) ? adminNick.trim() : '';
+      const finalAuthor = adminNickTrim || genAuthor();
       console.log('🟡 [WritePage Submit] genAuthor() 결과:', finalAuthor);
       console.log('🟡 [WritePage Submit] onAddPost 타입:', typeof onAddPost);
 
       const postData = {
         id: Date.now(), cat, author: finalAuthor, deviceId,
+        ...(adminNickTrim ? { fixedAuthor: true } : {}),
         isAdmin: !!(window.auth && window.auth.currentUser),
         date: new Date().toLocaleDateString('ko-KR'),
         title: title.trim(), body: body.trim(),
@@ -271,6 +274,16 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
             className="w-full text-sm font-bold text-gray-800 focus:outline-none placeholder-gray-300" />
           <div className="text-right text-[10px] text-gray-300 mt-1">{title.length}/60</div>
         </div>
+
+        {/* 관리자 닉네임 입력 */}
+        {isAdminUser() && (
+          <div className="bg-blue-50 rounded-2xl border border-blue-200 px-4 py-2 mb-3 fade-in">
+            <input value={adminNick} onChange={e=>setAdminNick(e.target.value)}
+              maxLength={20}
+              placeholder="[관리자] 이 글의 닉네임"
+              className="w-full text-sm text-gray-700 focus:outline-none placeholder-gray-400 bg-transparent" />
+          </div>
+        )}
 
         {/* 본문 */}
         <div className="bg-white rounded-2xl shadow-sm px-4 py-3 mb-3 fade-in">

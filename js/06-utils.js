@@ -171,7 +171,7 @@ function safeAuthor(post) {
   if (isAnonCat(post)) {
     return (window.__lang === 'vi') ? 'Ẩn danh' : '익명';
   }
-  if (post && post.isAdmin) return 'Hàn Quốc Ơi';
+  if (post && post.isAdmin && !(post.fixedAuthor && post.author !== 'Hàn Quốc Ơi')) return 'Hàn Quốc Ơi';
   // 커스텀 닉네임인 경우: ANON_PATTERN 패턴이 없으면 그대로 반환
   if (!ANON_PATTERN.test(post.author)) {
     // 숫자로만 이루어진 경우(post.id 기반) → 재생성

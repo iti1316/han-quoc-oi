@@ -114,16 +114,16 @@ function App() {
       // 2단계: 과거 글/댓글 업데이트
       let updateCount = 0;
       const updatedPostsList = posts.map(p => {
-        if (p.deviceId === deviceId) {
+        if (p.deviceId === deviceId && !p.fixedAuthor) {
           updateCount++;
           console.log(`✅ 글 업데이트: "${p.title}" → ${nickname}`);
-          const updatedComments = (p.commentsData || []).map(c => c.deviceId === deviceId ? { ...c, author: nickname } : c);
+          const updatedComments = (p.commentsData || []).map(c => (c.deviceId === deviceId && !c.fixedAuthor) ? { ...c, author: nickname } : c);
           return { ...p, author: nickname, commentsData: updatedComments, comments: updatedComments.length };
         } else {
-          const hasOwnComment = p.commentsData?.some(c => c.deviceId === deviceId);
+          const hasOwnComment = p.commentsData?.some(c => c.deviceId === deviceId && !c.fixedAuthor);
           if (hasOwnComment) {
             console.log(`✅ 댓글 업데이트: "${p.title}"`);
-            const updatedComments = p.commentsData.map(c => c.deviceId === deviceId ? { ...c, author: nickname } : c);
+            const updatedComments = p.commentsData.map(c => (c.deviceId === deviceId && !c.fixedAuthor) ? { ...c, author: nickname } : c);
             return { ...p, commentsData: updatedComments, comments: updatedComments.length };
           }
         }

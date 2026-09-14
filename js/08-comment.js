@@ -12,6 +12,7 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
   const [editBody, setEditBody] = useState('');
   const [showAllComments, setShowAllComments] = useState(false);
   const [reportModal, setReportModal] = useState(null);
+  const [adminNick, setAdminNick] = useState(isAdminUser() ? 'Hàn Quốc Ơi' : '');
   const bodyInputRef = useRef(null);
 
   // post.commentsData 변경 시 동기화
@@ -27,13 +28,15 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
     }
 
     if (!body.trim()) return;
+    const adminNickTrim = (isAdminUser() && adminNick.trim()) ? adminNick.trim() : '';
     const newComment = {
       id:     Date.now(),
-      author: genAuthor(),
+      author: adminNickTrim || genAuthor(),
       date:   new Date().toLocaleDateString('ko-KR'),
       body:   body.trim(),
       deviceId: deviceId,
       isAdmin: !!(window.auth && window.auth.currentUser),
+      ...(adminNickTrim ? { fixedAuthor: true } : {}),
     };
     setComments([...comments, newComment]);
     setBody('');
@@ -80,12 +83,12 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
         <>
           <ul className="divide-y divide-gray-100">
             {displayComments.map(c => {
-              const authorName = isAnonCat(post) ? getBambooLabel(post, c.deviceId || c.author, lang) : (c.isAdmin ? 'Hàn Quốc Ơi' : c.author);
+              const authorName = isAnonCat(post) ? getBambooLabel(post, c.deviceId || c.author, lang) : ((c.isAdmin && !(c.fixedAuthor && c.author !== 'Hàn Quốc Ơi')) ? 'Hàn Quốc Ơi' : c.author);
               return (
               <li key={c.id} className="px-4 py-3">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <p className="text-[11px] font-bold text-gray-700">{authorName}{!isAnonCat(post) && c.isAdmin && <AdminBadge post={{isAdmin:true, cat:post.cat}} />}</p>
+                    <p className="text-[11px] font-bold text-gray-700">{authorName}{!isAnonCat(post) && c.isAdmin && !(c.fixedAuthor && c.author !== 'Hàn Quốc Ơi') && <AdminBadge post={{isAdmin:true, cat:post.cat}} />}</p>
                     <p className="text-[10px] text-gray-400">{c.date}</p>
                     <div className="ml-auto flex gap-1 items-center">
                       {c.deviceId !== deviceId && (
@@ -144,6 +147,16 @@ function CommentSection({ post, lang, onAddComment, onDeleteComment, onUpdateCom
             </button>
           )}
         </>
+      )}
+
+      {/* 관리자 닉네임 입력 */}
+      {isAdminUser() && (
+        <div className="px-4 pt-2 pb-1">
+          <input value={adminNick} onChange={e=>setAdminNick(e.target.value)}
+            maxLength={20}
+            placeholder="[관리자] 이 댓글의 닉네임"
+            className="w-full text-xs text-gray-700 border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400 placeholder-gray-300" />
+        </div>
       )}
 
       {/* 댓글 작성 폼 */}
