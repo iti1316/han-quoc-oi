@@ -110,6 +110,13 @@
       window.logEv = function () {};
     }
   </script>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#DA251D">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Hàn Quốc Ơi">
 </head>
 <body>
 <div id="root"></div>
@@ -161,6 +168,15 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);
         clearInterval(t);
       }, 15000);
     })();
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').catch(function (e) {
+          console.warn('SW 등록 실패:', e.message);
+        });
+      });
+    }
   </script>
 </body>
 </html>
