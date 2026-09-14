@@ -44,10 +44,6 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
     }
   }, [search]);
 
-  function fakeViews(p) {
-    const s = typeof p.id === 'number' ? p.id : parseInt(p.id)||1;
-    return ((s * 23 + 7) % 180) + 15;
-  }
   function fmtDate(d) {
     return (d||'').replace(/^20(\d\d)\.(\d\d)\.(\d\d)$/, '$1-$2-$3');
   }
@@ -136,21 +132,19 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
         <div className="bg-white border border-gray-200 rounded overflow-hidden">
           {/* 헤더 행 */}
           <div className="hidden sm:grid bg-gray-50 border-b-2 border-gray-300 text-[11px] font-black text-gray-500 px-3 py-2.5"
-            style={{gridTemplateColumns:'3.5rem 1fr 5rem 4.5rem 3.5rem 3rem'}}>
+            style={{gridTemplateColumns:'3.5rem 1fr 5rem 4.5rem 3rem'}}>
             <span className="text-center">{lang==='vi'?'STT':'번호'}</span>
             <span className="pl-2">{lang==='vi'?'Tiêu đề':'제목'}</span>
             <span className="text-center">{lang==='vi'?'Tác giả':'작성자'}</span>
             <span className="text-center">{lang==='vi'?'Ngày':'날짜'}</span>
-            <span className="text-center">{lang==='vi'?'Xem':'조회'}</span>
             <span className="text-center">{lang==='vi'?'Thích':'추천'}</span>
           </div>
           {/* 모바일 헤더 */}
           <div className="sm:hidden grid bg-gray-50 border-b-2 border-gray-300 text-[11px] font-black text-gray-500 px-3 py-2"
-            style={{gridTemplateColumns:'3rem 1fr 4rem 3.5rem'}}>
+            style={{gridTemplateColumns:'3rem 1fr 4rem'}}>
             <span className="text-center">{lang==='vi'?'STT':'번호'}</span>
             <span className="pl-1">{lang==='vi'?'Tiêu đề':'제목'}</span>
             <span className="text-center">{lang==='vi'?'Tác giả':'작성자'}</span>
-            <span className="text-center">{lang==='vi'?'Xem':'조회'}</span>
           </div>
 
           {/* 공지 */}
@@ -158,25 +152,23 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
             <React.Fragment key={n.id}>
               {/* 데스크탑 공지 */}
               <div className="hidden sm:grid border-b border-gray-100 px-3 py-2.5 hover:bg-gray-50 cursor-pointer transition"
-                style={{gridTemplateColumns:'3.5rem 1fr 5rem 4.5rem 3.5rem 3rem'}}>
+                style={{gridTemplateColumns:'3.5rem 1fr 5rem 4.5rem 3rem'}}>
                 <span className="text-[10px] font-black text-gray-500 text-center self-center">공지</span>
                 <p className="text-[12px] font-black text-gray-800 self-center pl-2 word-keep truncate">
                   {lang==='vi' ? n.title_vi : n.title}
                 </p>
                 <span className="text-[10px] font-bold text-gray-600 text-center self-center">관리자</span>
                 <span className="text-[10px] text-gray-400 text-center self-center">{n.date}</span>
-                <span className="text-[10px] text-gray-500 text-center self-center">{n.views.toLocaleString()}</span>
                 <span className="text-[10px] font-bold text-gray-500 text-center self-center">{n.likes}</span>
               </div>
               {/* 모바일 공지 */}
               <div className="sm:hidden grid border-b border-gray-100 px-3 py-2.5 hover:bg-gray-50 cursor-pointer transition"
-                style={{gridTemplateColumns:'3rem 1fr 4rem 3.5rem'}}>
+                style={{gridTemplateColumns:'3rem 1fr 4rem'}}>
                 <span className="text-[9px] font-black text-gray-500 text-center self-center">공지</span>
                 <p className="text-[11px] font-black text-gray-800 self-center pl-1 word-keep truncate">
                   {lang==='vi' ? n.title_vi : n.title}
                 </p>
                 <span className="text-[10px] text-gray-500 text-center self-center">관리자</span>
-                <span className="text-[10px] text-gray-500 text-center self-center">{n.views.toLocaleString()}</span>
               </div>
             </React.Fragment>
           ))}
@@ -189,7 +181,6 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
           ) : pagePosts.map((p, i) => {
             const num   = filtered.length - ((page-1)*PER_PAGE) - i;
             const cmts  = p.comments || 0;
-            const views = fakeViews(p);
             const total = (p.likes||0)+(p.hearts||0)+(p.wows||0);
             const isHot = total >= 10 || cmts >= 10;
             return (
@@ -199,7 +190,7 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
                   onClick={()=>nav({page:'postDetail', boardKey, postId:p.id})}
                   className={`hidden sm:grid border-b border-gray-100 last:border-0 px-3 py-2.5 cursor-pointer transition
                     ${isHot ? 'hover:bg-blue-50 bg-blue-50/20' : 'hover:bg-gray-50 bg-white'}`}
-                  style={{gridTemplateColumns:'3.5rem 1fr 5rem 4.5rem 3.5rem 3rem'}}>
+                  style={{gridTemplateColumns:'3.5rem 1fr 5rem 4.5rem 3rem'}}>
                   <span className="text-[11px] text-gray-400 text-center self-center">{num}</span>
                   <div className="pl-2 min-w-0 self-center">
                     <div className="flex items-center gap-1.5">
@@ -216,7 +207,6 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
                   </div>
                   <span className="text-[10px] text-gray-500 text-center self-center truncate px-1">{safeAuthor(p).replace(/ #\d+$/,'')}<AdminBadge post={p} /></span>
                   <span className="text-[10px] text-gray-400 text-center self-center">{fmtDate(p.date)}</span>
-                  <span className="text-[10px] text-gray-500 text-center self-center">{views}</span>
                   <span className={`text-[10px] text-center self-center font-bold ${total>0?'text-blue-600':'text-gray-300'}`}>{total||0}</span>
                 </div>
                 {/* 모바일 행 */}
@@ -224,7 +214,7 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
                   onClick={()=>nav({page:'postDetail', boardKey, postId:p.id})}
                   className={`sm:hidden grid border-b border-gray-100 last:border-0 px-3 py-2.5 cursor-pointer transition
                     ${isHot ? 'hover:bg-blue-50 bg-blue-50/20' : 'hover:bg-gray-50 bg-white'}`}
-                  style={{gridTemplateColumns:'3rem 1fr 4rem 3.5rem'}}>
+                  style={{gridTemplateColumns:'3rem 1fr 4rem'}}>
                   <span className="text-[10px] text-gray-400 text-center self-center">{num}</span>
                   <div className="pl-1 min-w-0 self-center">
                     <div className="flex items-center gap-1">
@@ -235,7 +225,6 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
                     <span className="text-[9px] text-gray-400">{fmtDate(p.date)}</span>
                   </div>
                   <span className="text-[9px] text-gray-500 text-center self-center truncate px-0.5">{safeAuthor(p).replace(/ #\d+$/,'')}<AdminBadge post={p} /></span>
-                  <span className="text-[9px] text-gray-500 text-center self-center">{views}</span>
                 </div>
               </React.Fragment>
             );
