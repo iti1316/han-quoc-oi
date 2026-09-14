@@ -183,10 +183,12 @@ function WritePage({ initCat, editPost, nav, lang = 'vi', onAddPost, onUpdatePos
             <p className="text-xs font-black text-gray-500 mb-3">{L.selectBoard}</p>
             <div className="flex flex-col gap-2">
               {CAT_OPTS.filter(o => {
-                // 비자 커뮤니티(hall/sos)에서는 bamboo 제외
-                if (['hall', 'sos'].includes(activeCat) && o.v === 'bamboo') return false;
+                // 비자 커뮤니티(hall/sos)에서는 bamboo, love 제외
+                if (['hall', 'sos'].includes(activeCat) && ['bamboo', 'love'].includes(o.v)) return false;
                 // 대나무숲(bamboo)에서는 bamboo만 표시
                 if (activeCat === 'bamboo') return o.v === 'bamboo';
+                // 썸·연애·부부(love)에서는 love만 표시
+                if (activeCat === 'love') return o.v === 'love';
                 return true;
               }).map(o => {
                 const cl = CAT_LABELS_VI[o.v];
