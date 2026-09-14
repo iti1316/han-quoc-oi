@@ -16,11 +16,18 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
 
   React.useEffect(() => {
     if (!search.trim()) return;
+    if (!fullLoaded) {
+      console.log('🔍 [검색] 전체 조회 시도. refreshAllPosts 있음?', typeof refreshAllPosts);
+      if (refreshAllPosts) {
+        setFullLoaded(true);
+        refreshAllPosts();
+      }
+    }
     const t = setTimeout(() => {
       if (window.logEv) window.logEv('search', { search_term: search.trim(), board: boardKey });
     }, 1200);
     return () => clearTimeout(t);
-  }, [search]);
+  }, [search, fullLoaded, refreshAllPosts]);
 
   const boardPosts = posts.filter(p => {
     if (!cfg.cats.includes(p.cat) || p.isPublic === false) return false;
@@ -36,13 +43,6 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const pagePosts  = filtered.slice((page-1)*PER_PAGE, page*PER_PAGE);
-
-  React.useEffect(() => {
-    if (search.trim() && !fullLoaded && refreshAllPosts) {
-      setFullLoaded(true);
-      refreshAllPosts();
-    }
-  }, [search]);
 
   function fmtDate(d) {
     return (d||'').replace(/^20(\d\d)\.(\d\d)\.(\d\d)$/, '$1-$2-$3');
