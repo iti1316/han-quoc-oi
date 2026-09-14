@@ -3,9 +3,16 @@
 /* ================================================================
    페이지: 메인(Home) — 새 디자인
 ================================================================ */
-function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onAddComment, onDeleteComment, toggleLang, onNicknameSave, deviceId, refreshPosts }) {
+function HomePage({ nav, posts, lang, onAddPost, onDeletePost, onUpdatePost, onAddComment, onDeleteComment, toggleLang, onNicknameSave, deviceId, refreshPosts, refreshAllPosts }) {
   const [showMore,    setShowMore]    = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [fullLoaded, setFullLoaded] = React.useState(false);
+  React.useEffect(() => {
+    if (searchQuery.trim() && !fullLoaded && refreshAllPosts) {
+      setFullLoaded(true);
+      refreshAllPosts();
+    }
+  }, [searchQuery, fullLoaded, refreshAllPosts]);
   const [showNicknameModal, setShowNicknameModal] = useState(false);
   const [nicknameInput, setNicknameInput] = useState('');
   const [nicknameLoading, setNicknameLoading] = useState(false);
