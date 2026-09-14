@@ -296,7 +296,7 @@ function VisaHubPage({ nav, lang, posts = [] }) {
                       <div className="pl-1 min-w-0 self-center flex items-center gap-1">
                         <p className="text-[11px] text-gray-800 truncate flex-1">{p.title}</p>
                         {cmts > 0 && <span className="text-[9px] text-blue-400 font-bold flex-shrink-0">💬{cmts}</span>}
-                        {p.isNew  && <span className="text-[7px] font-black text-white bg-red-500 px-1 rounded-full flex-shrink-0">N</span>}
+                        {isRecentPost(p) && <span className="text-[7px] font-black text-white bg-red-500 px-1 rounded-full flex-shrink-0">N</span>}
                       </div>
                       <span className="text-[9px] text-gray-500 text-center self-center truncate">{safeAuthor(p).replace(/ #\d+$/,'')}</span>
                       <span className="text-[9px] text-gray-400 text-center self-center">{fmtDate(p.date)}</span>

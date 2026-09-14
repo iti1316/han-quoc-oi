@@ -135,7 +135,7 @@ function LatestFeed({ posts, nav, lang }) {
                   <span className={`text-[8px] font-black text-white ${brd.bg} px-1.5 py-0.5 rounded-full`}>
                     {lang==='vi' ? brd.vi : brd.ko}
                   </span>
-                  {p.isNew && <span className="text-[7px] font-black text-white bg-red-500 px-1 py-0.5 rounded-full">N</span>}
+                  {isRecentPost(p) && <span className="text-[7px] font-black text-white bg-red-500 px-1 py-0.5 rounded-full">N</span>}
                 </div>
                 <p className="text-[11px] font-bold text-gray-800 word-keep truncate">{p.title}</p>
               </div>

@@ -186,6 +186,20 @@ function safeAuthor(post) {
   return post.author;
 }
 
+/** 작성일로부터 4일 이내면 N 배지 표시 */
+function isRecentPost(p) {
+  if (!p) return false;
+  const idTime = Number(p.id);
+  if (idTime > 1000000000000) {
+    return (Date.now() - idTime) <= 4 * 86400000;
+  }
+  try {
+    const t = new Date(String(p.date || '').replace(/\./g, '-').trim()).getTime();
+    if (!t) return false;
+    return (Date.now() - t) <= 4 * 86400000;
+  } catch (e) { return false; }
+}
+
 /** 아바타 문자: author 첫 글자 대신 post.id 기반으로 고정 */
 function safeAvatarChar(post) {
   if (isAnonCat(post)) return '🎋';
