@@ -1,6 +1,6 @@
 const ANONS = ['하노이 출신','호치민 출신','다낭 출신','제조업 종사자','비자 도전 중','서류 준비 중','D-9 유저','출입국 단골','익명의 버디','베트남 멤버','비자 준비 중','출입국 도전자'];
 /* 익명 게시판 목록 — 새 익명 게시판을 만들면 여기에만 추가하면 된다 */
-const ANON_CATS = ['bamboo'];
+const ANON_CATS = ['bamboo', 'love'];
 function isAnonCat(post) { return !!(post && ANON_CATS.includes(post.cat)); }
 const AVATAR_COLORS = ['bg-blue-500','bg-green-500','bg-purple-500','bg-orange-500','bg-teal-500','bg-pink-500','bg-red-500','bg-indigo-500'];
 const LANG = {

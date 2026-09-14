@@ -1,6 +1,7 @@
 function MoreDrawer({ nav, lang, onClose }) {
   const ALL_CHANNELS = [
     { e:'👻', ko:'무서운 이야기 방',       vi:'Phòng Chuyện Ma',        act:()=>({page:'classicBoard', param:'horror'}) },
+    { e:'💕', ko:'썸, 연애, 부부',        vi:'Chuyện đôi lứa',         act:()=>({page:'classicBoard', param:'love'}) },
   ];
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center fade-in" onClick={onClose}>

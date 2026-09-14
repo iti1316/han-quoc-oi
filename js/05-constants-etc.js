@@ -39,6 +39,7 @@ const CAT_OPTS = [
   { v:'sos',    e:'🚨', label:'비자 119 SOS',     desc:'긴급 서류·절차 질문',        sel:'border-red-300 bg-red-50',       t:'text-red-700',    d:'text-red-500' },
   { v:'talk',   e:'💬', label:'출입국 참교육방',  desc:'반려·실패담, 출입국 썰',      sel:'border-orange-300 bg-orange-50', t:'text-orange-700', d:'text-orange-500' },
   { v:'bamboo', e:'🤫', label:'대나무숲 완전 익명', desc:'익명으로 자유롭게 대화',    sel:'border-orange-300 bg-orange-50', t:'text-orange-700', d:'text-orange-500' },
+  { v:'love',   e:'💕', label:'썸, 연애, 부부', desc:'연애·결혼 이야기를 익명으로', sel:'border-rose-300 bg-rose-50', t:'text-rose-700', d:'text-rose-500' },
 ];
 
 const CAT_LABELS_VI = {
@@ -46,4 +47,5 @@ const CAT_LABELS_VI = {
   sos:    { vi:'Cứu Trợ Khẩn Cấp',   desc_vi:'Câu hỏi khẩn về hồ sơ/thủ tục' },
   talk:   { vi:'Kinh nghiệm Thực tế', desc_vi:'Trải nghiệm bị từ chối' },
   bamboo: { vi:'Góc tám chuyện ẩn danh',   desc_vi:'Nói bất cứ điều gì bạn muốn, ẩn danh hoàn toàn' },
+  love:   { vi:'Chuyện đôi lứa',   desc_vi:'Chia sẻ chuyện tình yêu, ẩn danh hoàn toàn' },
 };
