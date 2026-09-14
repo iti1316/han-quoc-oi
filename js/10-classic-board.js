@@ -220,6 +220,7 @@ function ClassicBoardPage({ boardKey, nav, posts, lang, onAddComment, onDeleteCo
                     <div className="flex items-center gap-1">
                       <p className={`text-[11px] truncate word-keep flex-1 ${isHot?'font-bold text-blue-700':'text-gray-700'}`}>{p.title}</p>
                       {cmts > 0 && <span className="text-[9px] text-blue-400 font-bold flex-shrink-0">💬{cmts}</span>}
+                      {total > 0 && <span className="text-[9px] text-pink-400 font-bold flex-shrink-0">❤️{total}</span>}
                       {isRecentPost(p) && <span className="text-[7px] font-black text-white bg-red-500 px-1 py-0.5 rounded-full flex-shrink-0">N</span>}
                     </div>
                     <span className="text-[9px] text-gray-400">{fmtDate(p.date)}</span>
