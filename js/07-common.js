@@ -217,6 +217,7 @@ function usePosts() {
       const arr = Array.isArray(data) ? data : Object.values(data);
 
       const validData = arr.filter(p => p && p.id != null && p.author);
+      validData.sort((a, b) => (Number(b.id) || 0) - (Number(a.id) || 0));
       console.log(`✅ [refreshAllPosts] Firebase load: ${data.length}개 중 ${validData.length}개 유효`);
 
       setPosts(() => {
@@ -243,6 +244,7 @@ function usePosts() {
       Object.values(data).forEach(board => {
         if (board) Object.values(board).forEach(p => { if (p && p.id != null) flat.push(p); });
       });
+      flat.sort((a, b) => (Number(b.id) || 0) - (Number(a.id) || 0));
       console.log(`✅ [refreshPosts] 인덱스 로드: ${flat.length}개`);
       setPosts(prev => {
         const bodyMap = {};
