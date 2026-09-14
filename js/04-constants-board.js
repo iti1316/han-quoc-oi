@@ -12,9 +12,7 @@ const CLASSIC_BOARD_CFG = {
 };
 
 const DEFAULT_BOARD_NOTICES_BY_CAT = {
-  market: [
-    { id:'n1', title:'[공지] 개인정보 절대 입력 금지 — 닉네임은 자동 익명 생성됩니다.', title_vi:'[Thông báo] Tuyệt đối không nhập thông tin cá nhân — Biệt danh ẩn danh tự động.', date:'25-01-10', views:8820, likes:45 },
-  ],
+  market: [],
   house: [],
   hospital: [],
   travel: [],
