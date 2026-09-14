@@ -28,6 +28,10 @@ function usePosts() {
     if (deletedId != null) {
       payload[String(deletedId)] = null;
     } else if (changedPost) {
+      if (changedPost.body === undefined) {
+        console.error('⛔ 본문 없는 글 저장 차단:', changedPost.id, changedPost.title);
+        return;
+      }
       payload[String(changedPost.id)] = changedPost;
     } else {
       return;
@@ -249,7 +253,7 @@ function usePosts() {
       setPosts(prev => {
         const bodyMap = {};
         prev.forEach(p => { if (p && p.body !== undefined) bodyMap[p.id] = p; });
-        const merged = flat.map(p => bodyMap[p.id] ? { ...bodyMap[p.id], ...p } : p);
+        const merged = flat.map(p => bodyMap[p.id] ? { ...p, ...bodyMap[p.id] } : p);
         try { localStorage.setItem(BOARD_STORE, JSON.stringify(merged)); } catch (e) {}
         return merged;
       });
