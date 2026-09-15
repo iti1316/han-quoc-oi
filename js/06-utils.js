@@ -3,7 +3,7 @@ const BOARD_STORE = 'vb_posts_v2';
 const FIREBASE_BASE = 'https://han-quoc-oi-default-rtdb.asia-southeast1.firebasedatabase.app';
 
 // [13] 관리자 이메일 화이트리스트 — 여기 없는 계정은 관리자 권한 없음
-const ADMIN_EMAILS = ['ssu2686@gmail.com', 'iti13161@naver.com'];
+const ADMIN_EMAILS = ['ssu2686@gmail.com', 'iti13161@naver.com', 'nguyetmoonjp0802@gmail.com'];
 function isAdminUser() {
   const u = window.auth && window.auth.currentUser;
   return !!(u && u.email && ADMIN_EMAILS.includes(u.email.toLowerCase()));
